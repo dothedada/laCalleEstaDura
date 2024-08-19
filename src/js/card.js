@@ -25,6 +25,22 @@ export class Contact {
         this.email = email;
         this.phone = phone;
     }
+
+    update(property, newValue) {
+        if (!(property in this)) {
+            return;
+        }
+        this[property] = newValue;
+        const lang = property.slice(-3);
+        if (lang === 'Esp' || lang === 'Eng') {
+            const currentProperty = property.slice(0, -3);
+            console.log(this[`${currentProperty}Eng`]);
+            this.translated = checkTranslation(
+                this[`${currentProperty}Esp`],
+                this[`${currentProperty}Eng`],
+            );
+        }
+    }
 }
 
 export class Profile extends Contact {
