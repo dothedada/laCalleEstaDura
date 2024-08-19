@@ -20,8 +20,20 @@ const checkTranslation = (parameter, object) => {
 
 export class Card {
     constructor({ reference }) {
-        this.id = createId();
+        this.id = this.#createId();
         this.reference = reference ?? `Referencia_${this.id.slice(-4)}`;
+    }
+
+    #createId() {
+        const base = 16;
+        const randomRange = 1000000;
+
+        const time = Number(new Date().getTime()).toString(base);
+        const random = Math.round(Math.random() * randomRange)
+            .toString(base)
+            .padStart(4, '0');
+
+        return `${time}_${random}`;
     }
 
     update(property, newValue) {
@@ -31,7 +43,6 @@ export class Card {
         this[property] = newValue;
 
         const lang = property.slice(-3);
-
         if (lang === 'Esp' || lang === 'Eng') {
             const updatedProperty = property.slice(0, -3);
             this[`${updatedProperty}Translated`] = checkTranslation(
