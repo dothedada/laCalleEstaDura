@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, vitest } from 'vitest';
-import { createId, Card, Contact, Profile } from '../card';
+import { Card, Contact, Profile } from '../card';
 
 describe('Propiedades de la clase Card', () => {
     test('En un ciclo puede crear 1000 ids aleatorios', () => {
@@ -24,9 +24,13 @@ describe('Propiedades de la clase Card', () => {
             .toString(16)
             .padStart(4, '0');
 
-		console.log(card, expectedId)
         expect(card.id.endsWith(expectedId)).toBe(true);
         vitest.restoreAllMocks;
+    });
+
+    test('Su type debe ser indefinido', () => {
+        const card = new Card({});
+        expect(card.type).toBeUndefined();
     });
 });
 
@@ -47,6 +51,10 @@ describe('Propiedades de la tarjeta Contact', () => {
         expect(typeof contact).toBe('object');
     });
 
+    test('El type del objeto debe ser "contact"', () => {
+        expect(contact.type).toBe('contact');
+    });
+
     test('El objeto tiene id, referencia, cargo en español, cargo en inglés, correo y teléfono', () => {
         expect(contact.id).not.toBeUndefined();
         expect(contact.reference).not.toBeUndefined();
@@ -54,11 +62,11 @@ describe('Propiedades de la tarjeta Contact', () => {
         expect(contact.email).not.toBeUndefined();
     });
 
-    test('Translated retorna falso si falta alguna versiond e title', () => {
+    test('Translated retorna falso si falta alguna version de title', () => {
         expect(contact.titleTranslated).toBe(false);
     });
 
-    test('Translated retorna true si falta alguna versiond e title', () => {
+    test('Translated retorna true existen ambas versiones de title', () => {
         const contact2 = new Contact({
             titleEng: 'person',
             titleEsp: 'persona',
@@ -91,4 +99,26 @@ describe('Propiedades de la tarjeta Contact', () => {
         contact.reset('titleEsp');
         expect(contact.titleEsp).toBeUndefined();
     });
+});
+
+describe('Propiedades de la tarjeta Profile', () => {
+    const profile = new Profile({
+        reference: 'Test de la tarjeta de perfil',
+        name: 'Miguel Mejía',
+        titleEsp: 'Comunicador audiovisual y desarrollador frontEnd',
+        email: 'info@mmejia.com',
+        link1: 'https://mmejia.com',
+        phone: '(+57) 304 383 9127',
+        location: 'Bogotá, Colombia',
+    });
+
+    test('El type de la tarjeta es "profile"', () => {
+        expect(profile.type).toBe('profile');
+    });
+
+	test('Contiene los atributos location, link1 y link2', () => {
+		expect('location' in profile).toBe(true)
+		expect('link1' in profile).toBe(true)
+		expect('link2' in profile).toBe(true)
+	})
 });
