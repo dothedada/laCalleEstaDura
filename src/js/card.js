@@ -10,20 +10,18 @@ export const createId = () => {
     return `${time}_${random}`;
 };
 
-const checkTranslation = (spanish, english) => {
-    return !!(spanish && english);
+const checkTranslation = (parameter, object) => {
+    if (!(`${parameter}Esp` in object) || !(`${parameter}Eng` in object)) {
+        return;
+    }
+
+    return !!(object[`${parameter}Esp`] && object[`${parameter}Eng`]);
 };
 
-export class Contact {
-    constructor({ reference, name, titleEsp, titleEng, email, phone }) {
+export class Card {
+    constructor({ reference }) {
         this.id = createId();
         this.reference = reference ?? `Referencia_${this.id.slice(-4)}`;
-        this.name = name;
-        this.titleEsp = titleEsp;
-        this.titleEng = titleEng;
-        this.titleTranslated = checkTranslation(this.titleEsp, this.titleEng);
-        this.email = email;
-        this.phone = phone;
     }
 
     update(property, newValue) {
@@ -33,11 +31,12 @@ export class Contact {
         this[property] = newValue;
 
         const lang = property.slice(-3);
+
         if (lang === 'Esp' || lang === 'Eng') {
-            const currentProperty = property.slice(0, -3);
-            this.titleTranslated = checkTranslation(
-                this[`${currentProperty}Esp`],
-                this[`${currentProperty}Eng`],
+            const updatedProperty = property.slice(0, -3);
+            this[`${updatedProperty}Translated`] = checkTranslation(
+                updatedProperty,
+                this,
             );
         }
     }
@@ -51,9 +50,22 @@ export class Contact {
     }
 }
 
+export class Contact extends Card {
+    constructor({ name, titleEsp, titleEng, email, phone, ...cardInfo }) {
+        super(cardInfo);
+        this.name = name;
+        this.titleEsp = titleEsp;
+        this.titleEng = titleEng;
+        this.titleTranslated = checkTranslation('title', this);
+        this.email = email;
+        this.phone = phone;
+    }
+}
+
 export class Profile extends Contact {
     constructor({ location, link1, link2, ...contactInfo }) {
         super(contactInfo);
+
         this.location = location;
         this.link1 = link1;
         this.link2 = link2;
