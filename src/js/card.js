@@ -21,7 +21,7 @@ export class Contact {
         this.name = name;
         this.titleEsp = titleEsp;
         this.titleEng = titleEng;
-        this.translated = checkTranslation(this.titleEsp, this.titleEng);
+        this.titleTranslated = checkTranslation(this.titleEsp, this.titleEng);
         this.email = email;
         this.phone = phone;
     }
@@ -31,15 +31,23 @@ export class Contact {
             return;
         }
         this[property] = newValue;
+
         const lang = property.slice(-3);
         if (lang === 'Esp' || lang === 'Eng') {
             const currentProperty = property.slice(0, -3);
-            console.log(this[`${currentProperty}Eng`]);
-            this.translated = checkTranslation(
+            this.titleTranslated = checkTranslation(
                 this[`${currentProperty}Esp`],
                 this[`${currentProperty}Eng`],
             );
         }
+    }
+
+    reset(property) {
+        if (!(property in this)) {
+            return;
+        }
+
+        this[property] = undefined;
     }
 }
 
