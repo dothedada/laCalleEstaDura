@@ -1,68 +1,76 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, beforeEach } from 'vitest';
 import { createId, Contact, Profile } from '../card';
 
+test('la función createId genera 100 id aleatorios en un solo ciclo', () => {
+    const ids = new Set();
+
+    for (let i = 0; i < 100; i++) {
+        const randomID = createId();
+        ids.add(randomID);
+    }
+
+    expect(ids.size).toBe(100);
+});
+
 describe('Propiedades de la tarjeta Contact', () => {
-    test('createId genera 100 identidficadores aleatorios en un ciclo', () => {
-        const ids = new Set();
+    test('createId genera 100 identidficadores aleatorios en un ciclo', () => {});
+    let contact;
 
-        for (let i = 0; i < 100; i++) {
-            const randomID = createId();
-            ids.add(randomID);
-        }
-
-        expect(ids.size).toBe(100);
+    beforeEach(() => {
+        contact = new Contact({
+            reference: 'Persona Contacto',
+            name: 'Jane Doe',
+            titleEsp: 'Persona',
+            email: 'info@mmejia.com',
+        });
     });
 
-    const testContact = {
-        reference: 'Persona Contacto',
-        name: 'Jane Doe',
-        titleEsp: 'Persona',
-        email: 'info@mmejia.com',
-    };
-
     test('La clase Contact crea un objeto', () => {
-        const contacto = new Contact(testContact);
-        expect(typeof contacto).toBe('object');
+        expect(typeof contact).toBe('object');
     });
 
     test('El objeto tiene id, referencia, cargo en español, cargo en inglés, correo y teléfono', () => {
-        const tarjeta = new Contact(testContact);
-        expect(tarjeta.id).not.toBeUndefined();
-        expect(tarjeta.reference).not.toBeUndefined();
-        expect(tarjeta.titleEsp).not.toBeUndefined();
-        expect(tarjeta.email).not.toBeUndefined();
+        expect(contact.id).not.toBeUndefined();
+        expect(contact.reference).not.toBeUndefined();
+        expect(contact.titleEsp).not.toBeUndefined();
+        expect(contact.email).not.toBeUndefined();
     });
 
     test('Translated retorna falso si falta alguna versiond e title', () => {
-        const contacto = new Contact(testContact);
-        expect(contacto.translated).toBe(false);
+        expect(contact.titleTranslated).toBe(false);
     });
 
     test('Translated retorna true si falta alguna versiond e title', () => {
-        const contacto = new Contact({ ...testContact, titleEng: 'person' });
-        expect(contacto.translated).toBe(true);
+        const contact2 = new Contact({
+            titleEng: 'person',
+            titleEsp: 'persona',
+        });
+        expect(contact2.titleTranslated).toBe(true);
     });
 
     test('Contiene el método update que actualiza la info y el estado de traducción', () => {
-        const contacto = new Contact(testContact);
-        expect(contacto.titleEng).toBeUndefined();
-        contacto.update('titleEng', 'Person');
-        expect(contacto.titleEng).toBe('Person');
+        expect(contact.titleEng).toBeUndefined();
+        contact.update('titleEng', 'Person');
+        expect(contact.titleEng).toBe('Person');
     });
 
     test('El método update no crea nuevos parámetros', () => {
-        const contacto = new Contact(testContact);
-        expect('nonExistingParameter' in contacto).toBe(false);
-        contacto.update('nonExistingParameter', 'something');
-        expect('nonExistingParameter' in contacto).toBe(false);
+        expect('nonExistingParameter' in contact).toBe(false);
+        contact.update('nonExistingParameter', 'something');
+        expect('nonExistingParameter' in contact).toBe(false);
     });
 
     test('Si la propiedad es traducible, actualiza el estado de traducción', () => {
-        const contacto = new Contact(testContact);
-        expect(contacto.titleEng).toBeUndefined();
-        expect(contacto.translated).toBe(false);
-        contacto.update('titleEng', 'person');
-        expect(contacto.titleEng).toBeTruthy();
-        expect(contacto.translated).toBe(true);
+        expect(contact.titleEng).toBeUndefined();
+        expect(contact.titleTranslated).toBe(false);
+        contact.update('titleEng', 'person');
+        expect(contact.titleEng).toBeTruthy();
+        expect(contact.titleTranslated).toBe(true);
+    });
+
+    test('Tiene el método reset, que devuelve el parámetro a undefined', () => {
+        expect(contact.titleEsp).toBeTruthy();
+        contact.reset('titleEsp');
+        expect(contact.titleEsp).toBeUndefined();
     });
 });
