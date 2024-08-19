@@ -1,15 +1,33 @@
-import { describe, test, expect, beforeEach } from 'vitest';
-import { createId, Contact, Profile } from '../card';
+import { describe, test, expect, beforeEach, vitest } from 'vitest';
+import { createId, Card, Contact, Profile } from '../card';
 
-test('la función createId genera 100 id aleatorios en un solo ciclo', () => {
-    const ids = new Set();
+describe('Propiedades de la clase Card', () => {
+    test('En un ciclo puede crear 1000 ids aleatorios', () => {
+        const ids = new Set();
 
-    for (let i = 0; i < 100; i++) {
-        const randomID = createId();
-        ids.add(randomID);
-    }
+        for (let i = 0; i < 100; i++) {
+            const testCard = new Card(i);
+            ids.add(testCard.id);
+        }
 
-    expect(ids.size).toBe(100);
+        expect(ids.size).toBe(100);
+    });
+
+    test('Debe llamar el método random', () => {
+        const randomSpy = vitest.spyOn(Math, 'random').mockReturnValue(0.5);
+
+        const card = new Card({});
+
+        expect(randomSpy).toBeCalled();
+
+        const expectedId = Math.round(0.5 * 1000000)
+            .toString(16)
+            .padStart(4, '0');
+
+		console.log(card, expectedId)
+        expect(card.id.endsWith(expectedId)).toBe(true);
+        vitest.restoreAllMocks;
+    });
 });
 
 describe('Propiedades de la tarjeta Contact', () => {
