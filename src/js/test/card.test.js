@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, vitest } from 'vitest';
-import { Card, Contact, Profile } from '../card';
+import { Card, Contact, Profile, Experience, Education } from '../card';
 
 describe('Propiedades de la clase Card', () => {
     test('En un ciclo puede crear 1000 ids aleatorios', () => {
@@ -116,9 +116,50 @@ describe('Propiedades de la tarjeta Profile', () => {
         expect(profile.type).toBe('profile');
     });
 
-	test('Contiene los atributos location, link1 y link2', () => {
-		expect('location' in profile).toBe(true)
-		expect('link1' in profile).toBe(true)
-		expect('link2' in profile).toBe(true)
-	})
+    test('Contiene los atributos location, link1 y link2', () => {
+        expect('location' in profile).toBe(true);
+        expect('link1' in profile).toBe(true);
+        expect('link2' in profile).toBe(true);
+    });
+});
+
+describe('Propiedades de la tarjeta Education', () => {
+    const education = new Education({
+        reference: 'la nachjo',
+        place: 'Universidad Nacional',
+        titleEsp: 'Diseñador Gráfico',
+        timeStart: '10 2020',
+        timeEnd: '13|2023',
+    });
+    test('hereda de la clase Card y el type de los objetos es "experience"', () => {
+        expect(education instanceof Card).toBe(true);
+        expect(education instanceof Education).toBe(true);
+        expect(education.type).toBe('education');
+    });
+
+    test('sanitiza las fechas al momento de crearse el objeto', () => {
+        expect(education.timeStart instanceof Date).toBe(true);
+    });
+
+    test('Mantiene y actualiza el estado de traducción', () => {
+        expect(education.titleTranslated).toBe(false);
+        education.update('titleEng', 'Graphic Designer');
+        expect(education.titleTranslated).toBe(true);
+    });
+});
+
+describe('Propiedades de la tarjeta Experience', () => {
+    const experience = new Experience({
+        reference: 'JuanFer',
+        place: 'Abstraer Estrategias',
+        titleEsp: 'Director de diseño',
+        timeStart: '10 de enero de 2020',
+        timeEnd: '13 de octubre de 2023',
+        description: 'Descripción del cargo',
+    });
+    test('hereda de la clase Card y el type de los objetos es "experience"', () => {
+        expect(experience instanceof Card).toBe(true);
+        expect(experience instanceof Experience).toBe(true);
+        expect(experience.type).toBe('experience');
+    });
 });
