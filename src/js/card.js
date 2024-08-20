@@ -154,9 +154,9 @@ export class ListBlock extends Card {
     swapElements(fromIndex, toIndex) {
         if (
             fromIndex < 0 ||
-            fromIndex > this.list.length - 1 ||
+            fromIndex >= this.list.length ||
             toIndex < 0 ||
-            toIndex > this.list.length - 1 ||
+            toIndex >= this.list.length ||
             fromIndex === toIndex
         ) {
             return;
@@ -169,18 +169,35 @@ export class ListBlock extends Card {
     }
 
     removeElement(index) {
+        if (index < 0 || index >= this.list.length) return;
+
         this.list[index] = null;
         this.list = this.list.filter((e) => e);
     }
 
     insertElement(element, index) {
+        if (index < 0 || index >= this.list.length) return;
+
         const previousElements = this.list.slice(0, index);
         const followingElements = this.list.slice(index);
-
         this.list = [...previousElements, element, ...followingElements];
     }
+
+    editElement(newValue, index) {
+        if (index < 0 || index >= this.list.length) return;
+
+        this.list[index] = newValue;
+    }
+
+    filterLang(lang) {
+        const langIndex = /esp/i.test(lang) ? 0 : 1
+
+        return this.list.map(element => {
+            if (Array.isArray(element)) {
+                return element[langIndex]
+            } else {
+                return element
+            }
+        })
+    }
 }
-// skills
-// (reference, text*, list*)
-// perfil
-// (reference, text*)
