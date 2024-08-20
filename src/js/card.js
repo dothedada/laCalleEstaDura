@@ -34,6 +34,7 @@ export class Card {
 
     reset(property) {
         if (!(property in this)) return;
+
         this[property] = undefined;
     }
 }
@@ -85,9 +86,8 @@ export class Education extends Card {
     }
 
     #setDate(date) {
-        if (!date) {
-            return 'active';
-        }
+        if (!date) return 'active';
+
         const formatedDate = date.replace(/[^0-9]/g, '/').split('/');
         const month = formatedDate.length < 2 ? 1 : formatedDate[0];
         const year = formatedDate[formatedDate.length - 1];
@@ -101,13 +101,7 @@ export class Education extends Card {
     }
 
     #calculateTimeGap() {
-        let timeEnd;
-
-        if (this.timeEnd === 'active') {
-            timeEnd = new Date();
-        } else {
-            timeEnd = this.timeEnd;
-        }
+        const timeEnd = this.timeEnd === 'active' ? new Date() : this.timeEnd;
 
         let years = timeEnd.getFullYear() - this.timeStart.getFullYear();
         let months = timeEnd.getMonth() - this.timeStart.getMonth();
@@ -168,13 +162,6 @@ export class ListBlock extends Card {
         ];
     }
 
-    removeElement(index) {
-        if (index < 0 || index >= this.list.length) return;
-
-        this.list[index] = null;
-        this.list = this.list.filter((e) => e);
-    }
-
     insertElement(element, index) {
         if (index < 0 || index >= this.list.length) return;
 
@@ -189,15 +176,18 @@ export class ListBlock extends Card {
         this.list[index] = newValue;
     }
 
-    filterLang(lang) {
-        const langIndex = /esp/i.test(lang) ? 0 : 1
+    removeElement(index) {
+        if (index < 0 || index >= this.list.length) return;
 
-        return this.list.map(element => {
-            if (Array.isArray(element)) {
-                return element[langIndex]
-            } else {
-                return element
-            }
-        })
+        this.list[index] = null;
+        this.list = this.list.filter((e) => e);
+    }
+
+    filterLang(lang) {
+        const langIndex = /esp/i.test(lang) ? 0 : 1;
+
+        return this.list.map((element) =>
+            Array.isArray(element) ? element[langIndex] : element,
+        );
     }
 }
