@@ -69,7 +69,7 @@ export class Education extends Card {
         titleEsp,
         titleEng,
         timeStart,
-        timeEnd,
+        timeEnd = undefined,
         ...cardInfo
     }) {
         super(cardInfo);
@@ -84,6 +84,9 @@ export class Education extends Card {
     }
 
     setDate(date) {
+        if (!date) {
+            return 'active';
+        }
         const formatedDate = date.replace(/[^0-9]/g, '/');
         const [month, year] = formatedDate.split('/');
         const newDate = new Date();
@@ -99,17 +102,14 @@ export class Experience extends Education {
     constructor({ descriptionEsp, descriptionEng, ...educationCard }) {
         super(educationCard);
 
-		this.type = 'experience'
+        this.type = 'experience';
         this.descriptionEsp = descriptionEsp;
         this.descriptionEng = descriptionEng;
         this.checkIfTranslated('description');
     }
-}
 
-// education
-// (reference, place, title*, time start, time end)
-// experience
-// (reference, place, title*, time start, time end, description*)
+    timeGap() {}
+}
 
 // skills
 // (reference, text*, list*)
