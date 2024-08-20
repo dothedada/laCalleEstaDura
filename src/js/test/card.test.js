@@ -1,5 +1,13 @@
 import { describe, test, expect, beforeEach, vitest } from 'vitest';
-import { Card, Contact, Profile, Experience, Education } from '../card';
+import {
+    Card,
+    Contact,
+    Profile,
+    Experience,
+    Education,
+    TextBlock,
+    ListBlock,
+} from '../card';
 
 describe('Propiedades de la clase Card', () => {
     test('En un ciclo puede crear 1000 ids aleatorios', () => {
@@ -124,13 +132,18 @@ describe('Propiedades de la tarjeta Profile', () => {
 });
 
 describe('Propiedades de la tarjeta Education', () => {
-    const education = new Education({
-        reference: 'la nachjo',
-        place: 'Universidad Nacional',
-        titleEsp: 'Diseñador Gráfico',
-        timeStart: '10 2020',
-        timeEnd: '13|2023',
+    let education;
+
+    beforeEach(() => {
+        education = new Education({
+            reference: 'la nachjo',
+            place: 'Universidad Nacional',
+            titleEsp: 'Diseñador Gráfico',
+            timeStart: '10 2020',
+            timeEnd: '1|2023',
+        });
     });
+
     test('hereda de la clase Card y el type de los objetos es "experience"', () => {
         expect(education instanceof Card).toBe(true);
         expect(education instanceof Education).toBe(true);
@@ -141,10 +154,40 @@ describe('Propiedades de la tarjeta Education', () => {
         expect(education.timeStart instanceof Date).toBe(true);
     });
 
-    test('Mantiene y actualiza el estado de traducción', () => {
-        expect(education.titleTranslated).toBe(false);
-        education.update('titleEng', 'Graphic Designer');
-        expect(education.titleTranslated).toBe(true);
+    test('Si no hay fecha de finalización, dateEnd es igual a "active"', () => {
+        const educationDateTest = new Education({
+            timeStart: '10 2020',
+        });
+        expect(educationDateTest.timeEnd).toBe('active');
+    });
+
+    test('Si las fechas no incluyen mes, por default se toma enero', () => {
+        const educationDateTest = new Education({
+            timeStart: '2022',
+            timeEnd: '2023',
+        });
+
+        expect(educationDateTest.timeStart.getMonth()).toBe(0);
+        expect(educationDateTest.timeEnd.getMonth()).toBe(0);
+    });
+
+    test('Calcula el tiempo entre dos fechas', () => {
+        const educationTimeGapTest = new Education({
+            timeStart: '01/2020',
+            timeEnd: '01/2024',
+        });
+
+        const educationTimeGapTest2 = new Education({
+            timeStart: '01/2020',
+            timeEnd: '04/2020',
+        });
+
+        expect(typeof education.timeGap).toBe('object');
+        expect(education.timeGap.years).toBe(2);
+        expect(education.timeGap.months).toBe(3);
+
+        expect(educationTimeGapTest.timeGap.years).toBe(4);
+        expect(educationTimeGapTest2.timeGap.months).toBe(3);
     });
 });
 
@@ -153,13 +196,98 @@ describe('Propiedades de la tarjeta Experience', () => {
         reference: 'JuanFer',
         place: 'Abstraer Estrategias',
         titleEsp: 'Director de diseño',
-        timeStart: '10 de enero de 2020',
-        timeEnd: '13 de octubre de 2023',
-        description: 'Descripción del cargo',
+        timeStart: '1 2020',
+        timeEnd: '10/2023',
+        descriptionEsp: 'Descripción del cargo',
     });
+
     test('hereda de la clase Card y el type de los objetos es "experience"', () => {
         expect(experience instanceof Card).toBe(true);
         expect(experience instanceof Experience).toBe(true);
         expect(experience.type).toBe('experience');
+    });
+});
+
+describe('Propiedades de la tarjeta TextBlock', () => {
+    const bio = new TextBlock({
+        type: 'bio',
+        descriptionEsp: 'descripcion de mi perfil',
+    });
+
+    const skillText = new TextBlock({
+        type: 'skill',
+        descriptionEsp: ' descripcion de alguna aptitud',
+    });
+
+    test('Hereda atributos de Card y el type corresponde al asignado en la creación del objeto', () => {
+        expect(bio instanceof Card).toBe(true);
+        expect(bio.type).toBe('bio');
+        expect(skillText instanceof Card).toBe(true);
+        expect(skillText.type).toBe('skill');
+    });
+});
+
+describe('Propiedades de la tarjeta ListBlock', () => {
+    let skillsList;
+
+    beforeEach(() => {
+        skillsList = new ListBlock({
+            list: ['a', 'b', ['c', 'd']],
+        });
+    });
+
+    test('hereda atributos de Card y type es skill', () => {
+        expect(skillsList instanceof Card).toBe(true);
+        expect(skillsList.type).toBe('skill');
+    });
+
+    test('el atributo list es un array', () => {
+        expect(Array.isArray(skillsList.list)).toBe(true);
+    });
+
+    test('Los valores del list tienen traduccion son un array', () => {
+        expect(Array.isArray(skillsList.list[0])).toBe(false);
+        expect(Array.isArray(skillsList.list[2])).toBe(true);
+    });
+
+    test('permite reubicar los elementos dentro del array', () => {
+        skillsList.swapElements(1, 0);
+        expect(skillsList.list[0]).toBe('b');
+        expect(skillsList.list[1]).toBe('a');
+        skillsList.swapElements(0, 2);
+        expect(skillsList.list[2]).toBe('b');
+    });
+
+    test('permite eliminar elementos de la lista usando el indice', () => {
+        expect(skillsList.list.length).toBe(3);
+        skillsList.removeElement(2);
+        expect(skillsList.list.length).toBe(2);
+    });
+
+    test('Permite crear un elemento y ubicarlo en el indice deseado', () => {
+        skillsList.insertElement('x', 1);
+        expect(skillsList.list.length).toBe(4);
+        expect(skillsList.list[1]).toBe('x');
+
+        skillsList.insertElement('y', 0);
+        expect(skillsList.list.length).toBe(5);
+        expect(skillsList.list[0]).toBe('y');
+
+        skillsList.insertElement(['m', 'n'], 0);
+        expect(skillsList.list.length).toBe(6);
+        expect(skillsList.list[0][0]).toBe('m');
+        expect(skillsList.list[0][1]).toBe('n');
+    });
+
+    test('Permite editar un elemento en el indice especificado', () => {
+        skillsList.editElement('x', 2);
+        expect(skillsList.list[2]).toBe('x');
+    });
+
+    test('filtra los elementos por idioma', () => {
+        const listSpanish = skillsList.filterLang('Esp');
+        expect(listSpanish).toEqual(['a', 'b', 'c']);
+        const listEnglish = skillsList.filterLang('Eng');
+        expect(listEnglish).toEqual(['a', 'b', 'd']);
     });
 });
