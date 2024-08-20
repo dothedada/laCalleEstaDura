@@ -1,5 +1,5 @@
 export class Card {
-    constructor({ reference }) {
+    constructor({ reference = undefined }) {
         this.id = this.#createId();
         this.reference = reference ?? `Referencia_${this.id.slice(-4)}`;
         this.type = undefined;
@@ -122,8 +122,8 @@ export class Education extends Card {
 }
 
 export class Experience extends Education {
-    constructor({ descriptionEsp, descriptionEng, ...educationCard }) {
-        super(educationCard);
+    constructor({ descriptionEsp, descriptionEng, ...educationInfo }) {
+        super(educationInfo);
 
         this.type = 'experience';
         this.descriptionEsp = descriptionEsp;
@@ -132,6 +132,16 @@ export class Experience extends Education {
     }
 }
 
+export class Bio extends Card {
+    constructor({descriptionEsp, descriptionEng, ...cardInfo}) {
+        super(cardInfo)
+
+        this.type = 'bio'
+        this.descriptionEsp = descriptionEsp
+        this.descriptionEng = descriptionEng
+        this.checkIfTranslated('description')
+    }
+}
 // skills
 // (reference, text*, list*)
 // perfil
