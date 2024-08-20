@@ -133,7 +133,7 @@ export class Experience extends Education {
 }
 
 export class TextBlock extends Card {
-    constructor({type, descriptionEsp, descriptionEng, ...cardInfo }) {
+    constructor({ type, descriptionEsp, descriptionEng, ...cardInfo }) {
         super(cardInfo);
 
         this.type = type;
@@ -144,13 +144,28 @@ export class TextBlock extends Card {
 }
 
 export class ListBlock extends Card {
-    constructor({ descriptionEsp, descriptionEng, ...cardInfo }) {
+    constructor({ list, ...cardInfo }) {
         super(cardInfo);
 
         this.type = 'skill';
-        this.descriptionEsp = descriptionEsp;
-        this.descriptionEng = descriptionEng;
-        this.checkIfTranslated('description');
+        this.list = [...list];
+    }
+
+    swapElements(fromIndex, toIndex) {
+        if (
+            fromIndex < 0 ||
+            fromIndex > this.list.length - 1 ||
+            toIndex < 0 ||
+            toIndex > this.list.length - 1 ||
+            fromIndex === toIndex
+        ) {
+            return;
+        }
+
+        [this.list[fromIndex], this.list[toIndex]] = [
+            this.list[toIndex],
+            this.list[fromIndex],
+        ];
     }
 }
 // skills
