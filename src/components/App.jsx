@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import '../styles/App.css';
 
-const carajo = 0;
 function App() {
     const [count, setCount] = useState(0);
 
