@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,300;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap');
 
 :root {
-    --text: #110425; /* Cambiar este valor segun proyecto */
-    --background: #7ebaa7; /* Cambiar este valor segun proyecto */
-    --active: #db8ea3; /* Cambiar este valor segun proyecto */
-    --warn: #f77e4f; /* Cambiar este valor segun proyecto */
+    --text: #7ebaa7;
+    --background: #110425;
+    --active: #db8ea3;
+    --warn: #f77e4f;
 
-    --font-parragraph: 'Fira Sans', sans-serif; /* Cambiar este valor segun proyecto */
-    --font-headings: 'JetBrains Mono', sans-serif; /* Cambiar este valor segun proyecto */
+    --font-parragraph: 'Fira Sans', sans-serif;
+    --font-headings: 'JetBrains Mono', sans-serif;
 }
 html {
     font-size: 100%;
@@ -27,11 +27,8 @@ html {
 }
 /* Tipografía */
 h1,
-h2,
-h3,
-h4 {
+h2 {
     font-family: var(--font-headings);
-    line-height: var(--line-height);
     text-wrap: balance;
 }
 p {
@@ -58,15 +55,7 @@ select {
     /* Corrige la asignación de fuente a los elementos de formulario */
     font: inherit;
 }
-/* Multimedia */
-img,
-picture,
-svg,
-video {
-    /* reseteo del comportamiento de imagenes y videos */
-    display: block;
-    max-width: 100%;
-}
+
 img {
     /* reseteo del comportamiento  específico de las imágenes */
     max-inline-size: 100%;
