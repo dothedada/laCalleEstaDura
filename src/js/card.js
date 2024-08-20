@@ -79,22 +79,43 @@ export class Education extends Card {
         this.titleEsp = titleEsp;
         this.titleEng = titleEng;
         this.checkIfTranslated('title');
-        this.timeStart = this.setDate(timeStart);
-        this.timeEnd = this.setDate(timeEnd);
+        this.timeStart = this.#setDate(timeStart);
+        this.timeEnd = this.#setDate(timeEnd);
+        this.#calculateTimeGap();
     }
 
-    setDate(date) {
+    #setDate(date) {
         if (!date) {
             return 'active';
         }
         const formatedDate = date.replace(/[^0-9]/g, '/');
         const [month, year] = formatedDate.split('/');
         const newDate = new Date();
-        newDate.setUTCDate(1);
+        newDate.setDate(1);
         newDate.setMonth(month - 1);
         newDate.setFullYear(year);
 
         return newDate;
+    }
+
+    #calculateTimeGap() {
+        let timeEnd;
+
+        if (this.timeEnd === 'active') {
+            timeEnd = new Date();
+        } else {
+            timeEnd = this.timeEnd;
+        }
+
+        let years = timeEnd.getFullYear() - this.timeStart.getFullYear();
+        let months = timeEnd.getMonth() - this.timeStart.getMonth();
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        this.timeGap = { years, months };
     }
 }
 
@@ -107,8 +128,6 @@ export class Experience extends Education {
         this.descriptionEng = descriptionEng;
         this.checkIfTranslated('description');
     }
-
-    timeGap() {}
 }
 
 // skills
