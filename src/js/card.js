@@ -88,9 +88,11 @@ export class Education extends Card {
         if (!date) {
             return 'active';
         }
-        const formatedDate = date.replace(/[^0-9]/g, '/');
-        const [month, year] = formatedDate.split('/');
+        const formatedDate = date.replace(/[^0-9]/g, '/').split('/');
+        const month = formatedDate.length < 2 ? 1 : formatedDate[0];
+        const year = formatedDate[formatedDate.length - 1];
         const newDate = new Date();
+
         newDate.setDate(1);
         newDate.setMonth(month - 1);
         newDate.setFullYear(year);
