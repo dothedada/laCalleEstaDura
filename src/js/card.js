@@ -132,14 +132,25 @@ export class Experience extends Education {
     }
 }
 
-export class Bio extends Card {
-    constructor({descriptionEsp, descriptionEng, ...cardInfo}) {
-        super(cardInfo)
+export class TextBlock extends Card {
+    constructor({type, descriptionEsp, descriptionEng, ...cardInfo }) {
+        super(cardInfo);
 
-        this.type = 'bio'
-        this.descriptionEsp = descriptionEsp
-        this.descriptionEng = descriptionEng
-        this.checkIfTranslated('description')
+        this.type = type;
+        this.descriptionEsp = descriptionEsp;
+        this.descriptionEng = descriptionEng;
+        this.checkIfTranslated('description');
+    }
+}
+
+export class ListBlock extends Card {
+    constructor({ descriptionEsp, descriptionEng, ...cardInfo }) {
+        super(cardInfo);
+
+        this.type = 'skill';
+        this.descriptionEsp = descriptionEsp;
+        this.descriptionEng = descriptionEng;
+        this.checkIfTranslated('description');
     }
 }
 // skills
