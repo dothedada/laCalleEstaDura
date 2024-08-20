@@ -167,6 +167,18 @@ export class ListBlock extends Card {
             this.list[fromIndex],
         ];
     }
+
+    removeElement(index) {
+        this.list[index] = null;
+        this.list = this.list.filter((e) => e);
+    }
+
+    insertElement(element, index) {
+        const previousElements = this.list.slice(0, index);
+        const followingElements = this.list.slice(index);
+
+        this.list = [...previousElements, element, ...followingElements];
+    }
 }
 // skills
 // (reference, text*, list*)
