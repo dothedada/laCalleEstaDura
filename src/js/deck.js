@@ -1,11 +1,11 @@
 export class Deck {
+    #cards = new Set();
+
     constructor({ name, cards }) {
         this.name = name;
         this.id = this.#generateId(name);
         if (cards) this.addCards(cards);
     }
-
-    #cards = new Set();
 
     #generateId(name) {
         const sanitizedName = `${name}`.replace(/[^a-z0-9_]/gi, '');
@@ -15,13 +15,18 @@ export class Deck {
         return `${sanitizedName}_${randomHex}_${timeSignature}`;
     }
 
-    get cards() {
+    get getCards() {
         return this.#cards;
     }
 
     addCards(cards) {
         const cardsArray = !Array.isArray(cards) ? [cards] : cards;
         cardsArray.forEach((card) => this.#cards.add(card));
+    }
+
+    removeCards(cards) {
+        const cardsArray = !Array.isArray(cards) ? [cards] : cards;
+        cardsArray.forEach((card) => this.#cards.delete(card));
     }
 
     //
