@@ -105,13 +105,13 @@ describe('Propiedades de Deck', () => {
             deck.addCards(['card1', 'card2', 'card3']);
             deck.updateCards(['card2', 'cardA', 'cardB']);
 
-            expect(deck.getCards.has('card1')).toBe(false)
-            expect(deck.getCards.has('cardA')).toBe(true)
-            expect(deck.getCards.has('card2')).toBe(true)
+            expect(deck.getCards.has('card1')).toBe(false);
+            expect(deck.getCards.has('cardA')).toBe(true);
+            expect(deck.getCards.has('card2')).toBe(true);
 
-            deck.updateCards('cardX')
-            expect(deck.getCards.has('cardA')).toBe(false)
-            expect(deck.getCards.has('cardX')).toBe(true)
+            deck.updateCards('cardX');
+            expect(deck.getCards.has('cardA')).toBe(false);
+            expect(deck.getCards.has('cardX')).toBe(true);
         });
     });
 });
