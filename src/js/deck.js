@@ -33,6 +33,4 @@ export class Deck {
         const cardsArray = !Array.isArray(cards) ? [cards] : cards;
         this.#cards = new Set(cardsArray);
     }
-
-    //
 }
