@@ -19,11 +19,10 @@ export class Deck {
         return this.#cards;
     }
 
-    addCards(...cards) {
-        for (const card of cards) {
-            if (this.#cards.has(card)) continue;
-            this.#cards.add(card);
-        }
+    addCards(cards) {
+        const cardsArray = !Array.isArray(cards) ? [cards] : cards;
+        cardsArray.forEach((card) => this.#cards.add(card));
     }
+
     //
 }
