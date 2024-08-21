@@ -2,8 +2,10 @@ export class Deck {
     constructor({ name, cards }) {
         this.name = name;
         this.id = this.#generateId(name);
-        this.cards = new Set(cards)
+        if (cards) this.addCards(cards);
     }
+
+    #cards = new Set();
 
     #generateId(name) {
         const sanitizedName = `${name}`.replace(/[^a-z0-9_]/gi, '');
@@ -11,6 +13,17 @@ export class Deck {
         const timeSignature = Number(new Date().getTime()).toString(16);
 
         return `${sanitizedName}_${randomHex}_${timeSignature}`;
+    }
+
+    get cards() {
+        return this.#cards;
+    }
+
+    addCards(...cards) {
+        for (const card of cards) {
+            if (this.#cards.has(card)) continue;
+            this.#cards.add(card);
+        }
     }
     //
 }
