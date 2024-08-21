@@ -29,5 +29,10 @@ export class Deck {
         cardsArray.forEach((card) => this.#cards.delete(card));
     }
 
+    updateCards(cards) {
+        const cardsArray = !Array.isArray(cards) ? [cards] : cards;
+        this.#cards = new Set(cardsArray);
+    }
+
     //
 }
