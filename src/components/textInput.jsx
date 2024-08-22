@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const TextInput = ({ label, initialState = '' }) => {
+const TextInput = ({ label, placeholder, initialState = '' }) => {
     const [inputValue, setInputValue] = useState(initialState);
 
     const handleChange = (event) => {
@@ -10,13 +10,18 @@ const TextInput = ({ label, initialState = '' }) => {
     return (
         <label>
             {label}
-            <input type="text" value={inputValue} onChange={handleChange} />
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={inputValue}
+                onChange={handleChange}
+            />
             <p>{inputValue}</p>
         </label>
     );
 };
 
-const TextArea = ({ labelText, initialState = '' }) => {
+const TextArea = ({ label, placeholder, initialState = '', height = '5' }) => {
     const [inputValue, setInputValue] = useState(initialState);
 
     const handleChange = (event) => {
@@ -25,8 +30,14 @@ const TextArea = ({ labelText, initialState = '' }) => {
 
     return (
         <label>
-            {labelText}
-            <input type="text" value={inputValue} onChange={handleChange} />
+            {label}
+            <textarea
+                type="text"
+                rows={height}
+                placeholder={placeholder}
+                value={inputValue}
+                onChange={handleChange}
+            ></textarea>
             <p>{inputValue}</p>
         </label>
     );
@@ -42,7 +53,12 @@ const RenderCard = ({ label, initialState = false }) => {
     return (
         <label>
             {label} {visible ? 'Visible' : 'Hidden'}
-            <input type="checkbox" checked={visible} onChange={handleChange} hidden/>
+            <input
+                type="checkbox"
+                checked={visible}
+                onChange={handleChange}
+                className="hidden"
+            />
         </label>
     );
 };
