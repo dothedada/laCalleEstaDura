@@ -24,6 +24,7 @@ html {
 *::before {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 /* Tipografía */
 h1,
@@ -55,7 +56,10 @@ select {
     /* Corrige la asignación de fuente a los elementos de formulario */
     font: inherit;
 }
-
+hr {
+    border: none;
+    border-bottom: 1px dashed var(--text);
+}
 img {
     /* reseteo del comportamiento  específico de las imágenes */
     max-inline-size: 100%;

@@ -19,9 +19,6 @@ h3 .date {
 .title {
     font-weight: 800;
 }
-* {
-    box-sizing: border-box;
-}
 
 .card__config {
     margin: 0.5rem 1ch;
@@ -47,7 +44,6 @@ h3 .date {
 .card__buttons {
     display: flex;
     gap: 1rem;
-
 }
 
 form {

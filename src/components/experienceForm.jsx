@@ -2,6 +2,15 @@ import { useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, TextArea, Button, DataContainer } from './formComponents';
 
+// NOTE: solucionar lo del textarea y el reset de la info 
+
+// TODO: 
+// 1. vista previa de la tarjeta
+// 2. manejo de fechas 
+// 3. validación del formulario 
+// 4. incorporación con los módulos de información 
+// 5. implementación en otros tipos de tarjetas 
+
 function ExperienceForm({ data }) {
     const [dataToInject, setDataToInject] = useState(data ? data : {});
 
@@ -98,8 +107,8 @@ function ExperienceForm({ data }) {
                     label="en inglés"
                     placeholder="Describe your achievements or tasks performed "
                     height="5"
-                    dataField={dataToInject.descriptionEsp}
-                    callback={updateData('descriptionEsp')}
+                    dataField={dataToInject.descriptionEng}
+                    callback={updateData('descriptionEng')}
                 />
             </fieldset>
 
