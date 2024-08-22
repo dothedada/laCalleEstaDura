@@ -1,7 +1,23 @@
 import { useState } from 'react';
 
-const TextInput = ({ labelText, initialValue = '' }) => {
-    const [inputValue, setInputValue] = useState(initialValue);
+const TextInput = ({ label, initialState = '' }) => {
+    const [inputValue, setInputValue] = useState(initialState);
+
+    const handleChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    return (
+        <label>
+            {label}
+            <input type="text" value={inputValue} onChange={handleChange} />
+            <p>{inputValue}</p>
+        </label>
+    );
+};
+
+const TextArea = ({ labelText, initialState = '' }) => {
+    const [inputValue, setInputValue] = useState(initialState);
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
@@ -11,25 +27,24 @@ const TextInput = ({ labelText, initialValue = '' }) => {
         <label>
             {labelText}
             <input type="text" value={inputValue} onChange={handleChange} />
-            {inputValue}
+            <p>{inputValue}</p>
         </label>
     );
 };
 
-const CheckBox = ({ labelText, initialValue = false }) => {
-    const [check, setCheck] = useState(initialValue);
+const RenderCard = ({ label, initialState = false }) => {
+    const [visible, setVisible] = useState(initialState);
 
     const handleChange = () => {
-        setCheck(!check);
+        setVisible(!visible);
     };
 
     return (
         <label>
-            {labelText}
-            <input type="checkbox" checked={check} onChange={handleChange} />
-            {`${check}`}
+            {label} {visible ? 'Visible' : 'Hidden'}
+            <input type="checkbox" checked={visible} onChange={handleChange} hidden/>
         </label>
     );
 };
 
-export { TextInput, CheckBox };
+export { TextInput, TextArea, RenderCard };
