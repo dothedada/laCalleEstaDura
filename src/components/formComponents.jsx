@@ -1,5 +1,28 @@
 import { useState } from 'react';
 
+const IconEdit = ({ open }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+    >
+        <path
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            aria-hidden="true"
+            d={
+                open
+                    ? 'm16 16l-4-4m0 0L8 8m4 4l4-4m-4 4l-4 4'
+                    : 'M4 21h16M5.666 13.187A2.28 2.28 0 0 0 5 14.797V18h3.223c.604 0 1.183-.24 1.61-.668l9.5-9.505a2.28 2.28 0 0 0 0-3.22l-.938-.94a2.277 2.277 0 0 0-3.222.001z'
+            }
+        ></path>
+    </svg>
+);
+
 const IconEye = ({ open }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -33,21 +56,19 @@ const TextInput = ({ label, placeholder = '', dataField = '', callback }) => {
                 value={dataField}
                 onChange={handleChange}
             />
-            <p>{dataField}</p>
         </label>
     );
 };
 
 const TextArea = ({
     label,
-    placeholder = '',
-    initialState = '',
+    placeholder,
+    dataField,
     height = '5',
+    callback,
 }) => {
-    const [inputValue, setInputValue] = useState(initialState);
-
     const handleChange = (event) => {
-        setInputValue(event.target.value);
+        callback(event.target.value);
     };
 
     return (
@@ -57,16 +78,43 @@ const TextArea = ({
                 type="text"
                 rows={height}
                 placeholder={placeholder}
-                value={inputValue}
+                value={dataField}
                 onChange={handleChange}
             ></textarea>
-            <p>{inputValue}</p>
         </label>
     );
 };
 
-const RenderCard = ({ initialState = false }) => {
-    const [visible, setVisible] = useState(initialState);
+const EditCard = ({ edit, callback }) => {
+    const handleChange = () => {
+        callback();
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key !== ' ' && event.key !== 'Enter') return;
+
+        event.preventDefault();
+        callback();
+    };
+
+    return (
+        <label tabIndex="0" onKeyDown={handleKeyDown}>
+            <span className="sr-only">
+                Este elemento {edit ? 'se' : 'no se'} encuentra en la hoja de
+                vida actual, haz clic para cambiar el estado.
+            </span>
+            <IconEdit open={edit} />
+            <input
+                type="checkbox"
+                className="hidden"
+                onChange={handleChange}
+                checked={edit}
+            />
+        </label>
+    );
+};
+const RenderCard = ({ renderInPdf = false }) => {
+    const [visible, setVisible] = useState(renderInPdf);
 
     const handleChange = () => {
         setVisible(!visible);
@@ -108,16 +156,24 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
-const DataContainer = ({ name, children }) => {
+const DataContainer = ({ name, renderInPdf, children }) => {
     const [open, setOpen] = useState(false);
 
+    const handleEdit = () => {
+        setOpen(!open);
+    };
+
     return (
-        <>
-            <form>
-                <h2>{name}</h2>
-                {children}
-            </form>
-        </>
+        <div className="card__config">
+            <div className="card__title">
+                <h2>
+                    {name} 
+                    <RenderCard renderInPdf={renderInPdf} />
+                </h2>
+                <EditCard edit={open} callback={handleEdit} />
+            </div>
+            {open && <form>{children}</form>}
+        </div>
     );
 };
 
