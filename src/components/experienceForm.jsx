@@ -2,17 +2,36 @@ import { useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, TextArea, Button, DataContainer } from './formComponents';
 
-// NOTE: solucionar lo del textarea y el reset de la info 
+// NOTE: solucionar lo del textarea y el reset de la info
 
-// TODO: 
+// TODO:
 // 1. vista previa de la tarjeta
-// 2. manejo de fechas 
-// 3. validación del formulario 
-// 4. incorporación con los módulos de información 
-// 5. implementación en otros tipos de tarjetas 
+// 2. manejo de fechas
+// 3. validación del formulario
+// 4. incorporación con los módulos de información
+// 5. implementación en otros tipos de tarjetas
 
-function ExperienceForm({ data }) {
+const ExperiencePreview = ({ data, lang }) => {
+    return (
+        <article>
+            <header>
+                <h3>
+                    {data.place}
+                    <span className="date">
+                        <time dateTime="2012-03">{data.timeStart}</time>-
+                        <time dateTime="2014-07">{data.timeEnd}</time>
+                    </span>
+                </h3>
+                <div className="title">{data[`title${lang}`]}</div>
+            </header>
+            <p>{data[`description${lang}`]}</p>
+        </article>
+    );
+};
+
+const ExperienceForm = ({ data }) => {
     const [dataToInject, setDataToInject] = useState(data ? data : {});
+    const [previewLang, setPreviewLang] = useState('Esp');
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -31,6 +50,10 @@ function ExperienceForm({ data }) {
 
     const handleSave = () => {
         console.log(dataToInject);
+    };
+
+    const handleLang = () => {
+        setPreviewLang(previewLang === 'Esp' ? 'Eng' : 'Esp');
     };
 
     return (
@@ -131,8 +154,22 @@ function ExperienceForm({ data }) {
                     callback={handleSave}
                 />
             </div>
+
+            <hr />
+
+            <fieldset style={{ flexDirection: 'column' }}>
+                <legend>
+                    Vista previa en{' '}
+                    {previewLang === 'Esp' ? 'español' : 'inglés'}
+                </legend>
+                <ExperiencePreview data={dataToInject} lang={previewLang} />
+                <button type="button" onPointerDown={handleLang}>
+                    Cambiar idioma de la vista previa a{' '}
+                    {previewLang !== 'Esp' ? 'español' : 'inglés'}
+                </button>
+            </fieldset>
         </DataContainer>
     );
-}
+};
 
 export default ExperienceForm;
