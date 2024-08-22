@@ -1,15 +1,8 @@
 import { useState } from 'react';
 // import { Experience } from '../js/card';
-import {
-    TextInput,
-    TextArea,
-    RenderCard,
-    Button,
-    DataContainer,
-} from './formComponents';
+import { TextInput, TextArea, Button, DataContainer } from './formComponents';
 
 function ExperienceForm({ data }) {
-    // const [unfold, setUnfold] = useState(false);
     const [dataToInject, setDataToInject] = useState(data ? data : {});
 
     const updateData = (key) => (value) => {
@@ -41,7 +34,7 @@ function ExperienceForm({ data }) {
             renderInPdf={true}
         >
             <TextInput
-                label="Referencia para guardar la tarjeta"
+                label="Nombre de la tarjeta"
                 placeholder="Donde o qué hiciste"
                 dataField={dataToInject.reference}
                 callback={updateData('reference')}
@@ -110,24 +103,25 @@ function ExperienceForm({ data }) {
                 />
             </fieldset>
 
-            <Button
-                text="Eliminar tarjeta"
-                type="warn"
-                callback={handleDelete}
-            />
+            <div className="card__buttons">
+                <Button
+                    text="Eliminar tarjeta"
+                    type="warn"
+                    callback={handleDelete}
+                />
 
-            <Button
-                text="Deshacer cambios"
-                text={!data ? 'Reiniciar' : 'Deshacer cambios'}
-                type="reset"
-                callback={handleReset}
-            />
+                <Button
+                    text={!data ? 'Reiniciar' : 'Deshacer cambios'}
+                    type="reset"
+                    callback={handleReset}
+                />
 
-            <Button
-                text={!data ? 'Guardar' : 'Actualizar'}
-                type="normal"
-                callback={handleSave}
-            />
+                <Button
+                    text={!data ? 'Guardar' : 'Actualizar'}
+                    type="normal"
+                    callback={handleSave}
+                />
+            </div>
         </DataContainer>
     );
 }

@@ -44,6 +44,12 @@ h3 .date {
         margin: 0 0 0 1ch;
     }
 }
+.card__buttons {
+    display: flex;
+    gap: 1rem;
+
+}
+
 form {
     display: flex;
     padding: 1rem 2ch;
@@ -80,7 +86,6 @@ button {
     --bkg-color: var(--_bkg-color, var(--text));
 
     padding: 0.25rem 1rem;
-    margin: 0.5rem 0;
 
     color: var(--txt-color);
     background-color: var(--bkg-color);
@@ -106,6 +111,8 @@ button:active {
     --_txt-color: var(--warn);
     --_bkg-color: var(--background);
     --_brd-color: var(--warn);
+
+    margin: 0 auto 0 0;
 }
 .button__reset {
     --_txt-color: var(--background);
