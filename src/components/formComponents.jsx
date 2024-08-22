@@ -5,19 +5,14 @@ const IconEdit = ({ open }) => (
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
         height="1em"
-        viewBox="0 0 24 24"
+        viewBox="0 0 256 256"
     >
         <path
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            aria-hidden="true"
+            fill="currentColor"
             d={
                 open
-                    ? 'm16 16l-4-4m0 0L8 8m4 4l4-4m-4 4l-4 4'
-                    : 'M4 21h16M5.666 13.187A2.28 2.28 0 0 0 5 14.797V18h3.223c.604 0 1.183-.24 1.61-.668l9.5-9.505a2.28 2.28 0 0 0 0-3.22l-.938-.94a2.277 2.277 0 0 0-3.222.001z'
+                    ? 'M165.66 101.66L139.31 128l26.35 26.34a8 8 0 0 1-11.32 11.32L128 139.31l-26.34 26.35a8 8 0 0 1-11.32-11.32L116.69 128l-26.35-26.34a8 8 0 0 1 11.32-11.32L128 116.69l26.34-26.35a8 8 0 0 1 11.32 11.32M232 128A104 104 0 1 1 128 24a104.11 104.11 0 0 1 104 104m-16 0a88 88 0 1 0-88 88a88.1 88.1 0 0 0 88-88'
+                    : 'm227.32 73.37l-44.69-44.68a16 16 0 0 0-22.63 0L36.69 152A15.86 15.86 0 0 0 32 163.31V208a16 16 0 0 0 16 16h168a8 8 0 0 0 0-16H115.32l112-112a16 16 0 0 0 0-22.63M92.69 208H48v-44.69l88-88L180.69 120ZM192 108.69L147.32 64l24-24L216 84.69Z'
             }
         ></path>
     </svg>
@@ -100,8 +95,7 @@ const EditCard = ({ edit, callback }) => {
     return (
         <label tabIndex="0" onKeyDown={handleKeyDown}>
             <span className="sr-only">
-                Este elemento {edit ? 'se' : 'no se'} encuentra en la hoja de
-                vida actual, haz clic para cambiar el estado.
+                Haz clic para {edit ? 'abrir' : 'cerrar'} el panel de edición
             </span>
             <IconEdit open={edit} />
             <input
@@ -166,10 +160,8 @@ const DataContainer = ({ name, renderInPdf, children }) => {
     return (
         <div className="card__config">
             <div className="card__title">
-                <h2>
-                    {name} 
-                    <RenderCard renderInPdf={renderInPdf} />
-                </h2>
+                <h2>{name}</h2>
+                <RenderCard renderInPdf={renderInPdf} />
                 <EditCard edit={open} callback={handleEdit} />
             </div>
             {open && <form>{children}</form>}

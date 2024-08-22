@@ -22,22 +22,45 @@ h3 .date {
 * {
     box-sizing: border-box;
 }
-form {
+
+.card__config {
     margin: 0.5rem 1ch;
-    padding: 1rem 2ch;
     border: 1px solid var(--text);
+}
+.card__title {
+    background-color: var(--text);
+    color: var(--background);
+    padding: 0.5ch 2ch;
     display: flex;
+    align-items: center;
+
+    & h2 {
+        margin: 0 auto 0 0;
+    }
+
+    & svg {
+        width: 24px;
+        height: 24px;
+        margin: 0 0 0 1ch;
+    }
+}
+form {
+    display: flex;
+    padding: 1rem 2ch;
     flex-direction: column;
-    gap: 0.5rem
+    gap: 1rem;
 }
 fieldset {
     border: 1px solid var(--text);
     display: flex;
-    padding: 0.5rem 1ch;
+    padding: 0.25rem 1ch;
     gap: 1ch;
 }
 fieldset > * {
     flex: 1;
+}
+legend {
+    padding: 0 1ch;
 }
 
 input[type='text'],
@@ -57,7 +80,7 @@ button {
     --bkg-color: var(--_bkg-color, var(--text));
 
     padding: 0.25rem 1rem;
-    margin: 0.5rem 0 ;
+    margin: 0.5rem 0;
 
     color: var(--txt-color);
     background-color: var(--bkg-color);

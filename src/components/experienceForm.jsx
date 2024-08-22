@@ -38,9 +38,8 @@ function ExperienceForm({ data }) {
                     ? 'Nueva experiencia laboral'
                     : dataToInject.reference
             }
+            renderInPdf={true}
         >
-            <RenderCard label="check" initialState={true} />
-
             <TextInput
                 label="Referencia para guardar la tarjeta"
                 placeholder="Donde o qué hiciste"
