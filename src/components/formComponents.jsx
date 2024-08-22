@@ -19,11 +19,9 @@ const IconEye = ({ open }) => (
     </svg>
 );
 
-const TextInput = ({ label, placeholder = '', initialState = '' }) => {
-    const [inputValue, setInputValue] = useState(initialState);
-
+const TextInput = ({ label, placeholder = '', dataField = '', callback }) => {
     const handleChange = (event) => {
-        setInputValue(event.target.value);
+        callback(event.target.value);
     };
 
     return (
@@ -32,10 +30,10 @@ const TextInput = ({ label, placeholder = '', initialState = '' }) => {
             <input
                 type="text"
                 placeholder={placeholder}
-                value={inputValue}
+                value={dataField}
                 onChange={handleChange}
             />
-            <p>{inputValue}</p>
+            <p>{dataField}</p>
         </label>
     );
 };
@@ -110,17 +108,17 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
-const DataContainer = ({name, children}) => {
-    const [open, setOpen] = useState(false)
+const DataContainer = ({ name, children }) => {
+    const [open, setOpen] = useState(false);
 
     return (
-    <>
+        <>
             <form>
                 <h2>{name}</h2>
                 {children}
             </form>
         </>
-    )
-}
+    );
+};
 
-export { TextInput, TextArea, RenderCard, Button };
+export { TextInput, TextArea, RenderCard, Button, DataContainer };
