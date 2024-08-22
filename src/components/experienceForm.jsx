@@ -56,49 +56,60 @@ function ExperienceForm({ data }) {
                 callback={updateData('place')}
             />
 
-            <TextInput
-                label="Fecha de inicio"
-                placeholder="02-2022 ó febrero 2022"
-                dataField={dataToInject.timeStart}
-                callback={updateData('timeStart')}
-            />
+            <fieldset>
+                <legend>Fecha</legend>
 
-            <TextInput
-                label="Fecha de finalización, deja vacío si todavía trabajas aquí"
-                placeholder="12-2024 ó diciembre 2024"
-                dataField={dataToInject.timeEnd}
-                callback={updateData('timeEnd')}
-            />
+                <TextInput
+                    label="de inicio"
+                    placeholder="02-2022 ó febrero 2022"
+                    dataField={dataToInject.timeStart}
+                    callback={updateData('timeStart')}
+                />
 
-            <TextInput
-                label="Nombre del cargo (ESPAÑOL)"
-                placeholder="Ingeniero de puentes y festivos"
-                dataField={dataToInject.titleEsp}
-                callback={updateData('titleEsp')}
-            />
+                <TextInput
+                    label="de finalización"
+                    placeholder="12-2024 ó diciembre 2024"
+                    dataField={dataToInject.timeEnd}
+                    callback={updateData('timeEnd')}
+                />
+            </fieldset>
 
-            <TextInput
-                label="Nombre del cargo (INGLÉS)"
-                placeholder="Holidays engineer"
-                dataField={dataToInject.titleEng}
-                callback={updateData('titleEng')}
-            />
+            <fieldset>
+                <legend>Nombre del cargo</legend>
+                <TextInput
+                    label="en español"
+                    placeholder="Ingeniero de puentes y festivos"
+                    dataField={dataToInject.titleEsp}
+                    callback={updateData('titleEsp')}
+                />
 
-            <TextArea
-                label="Descripción de tu cargo (ESPAÑOL)"
-                placeholder="Describe los logros o tareas que llevaste a cabo"
-                height="5"
-                dataField={dataToInject.descriptionEsp}
-                callback={updateData('descriptionEsp')}
-            />
+                <TextInput
+                    label="en inglés"
+                    placeholder="Holidays engineer"
+                    dataField={dataToInject.titleEng}
+                    callback={updateData('titleEng')}
+                />
+            </fieldset>
 
-            <TextArea
-                label="Descripción de tu cargo (INGLÉS)"
-                placeholder="Describe your achievements or tasks performed "
-                height="5"
-                dataField={dataToInject.descriptionEsp}
-                callback={updateData('descriptionEsp')}
-            />
+            <fieldset>
+                <legend>Cuáles son tus logros o tareas en este cargo</legend>
+
+                <TextArea
+                    label="en español"
+                    placeholder="Describe los logros o tareas que llevaste a cabo"
+                    height="5"
+                    dataField={dataToInject.descriptionEsp}
+                    callback={updateData('descriptionEsp')}
+                />
+
+                <TextArea
+                    label="en inglés"
+                    placeholder="Describe your achievements or tasks performed "
+                    height="5"
+                    dataField={dataToInject.descriptionEsp}
+                    callback={updateData('descriptionEsp')}
+                />
+            </fieldset>
 
             <Button
                 text="Eliminar tarjeta"
@@ -108,15 +119,16 @@ function ExperienceForm({ data }) {
 
             <Button
                 text="Deshacer cambios"
+                text={!data ? 'Reiniciar' : 'Deshacer cambios'}
                 type="reset"
                 callback={handleReset}
             />
 
-            <Button text="Guardar" type="normal" callback={handleSave} />
-
-            <div>
-                <h4>vista previa</h4>
-            </div>
+            <Button
+                text={!data ? 'Guardar' : 'Actualizar'}
+                type="normal"
+                callback={handleSave}
+            />
         </DataContainer>
     );
 }
