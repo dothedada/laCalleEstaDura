@@ -23,26 +23,41 @@ h3 .date {
     box-sizing: border-box;
 }
 form {
+    margin: 0.5rem 1ch;
     padding: 1rem 2ch;
     border: 1px solid var(--text);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem
 }
+fieldset {
+    border: 1px solid var(--text);
+    display: flex;
+    padding: 0.5rem 1ch;
+    gap: 1ch;
+}
+fieldset > * {
+    flex: 1;
+}
+
 input[type='text'],
 textarea {
     display: block;
     width: 100%;
-    margin: 0.5rem 0 1rem;
+    margin: 0.25rem 0;
     padding: 0.5rem;
     background: var(--text);
     color: var(--background);
     border: none;
     border-radius: 0;
+    resize: vertical;
 }
 button {
     --txt-color: var(--_txt-color, var(--background));
     --bkg-color: var(--_bkg-color, var(--text));
 
     padding: 0.25rem 1rem;
-    margin: 0.5rem 1rem 1rem;
+    margin: 0.5rem 0 ;
 
     color: var(--txt-color);
     background-color: var(--bkg-color);
