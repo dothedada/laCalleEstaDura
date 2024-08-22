@@ -7,6 +7,7 @@ const IconEye = ({ open }) => {
             width="1em"
             height="1em"
             viewBox="0 0 256 256"
+            aria-hidden="true"
         >
             <path
                 fill="currentColor"
@@ -76,14 +77,18 @@ const RenderCard = ({ label, initialState = false }) => {
     };
 
     const handleKeyDown = (event) => {
-        if (event.key !== ' ' && event.key !== 'Enter') return
+        if (event.key !== ' ' && event.key !== 'Enter') return;
         event.preventDefault();
-        setVisible(!visible)
+        setVisible(!visible);
     };
 
     return (
         <label tabIndex="0" onKeyDown={handleKeyDown}>
-            {label} {visible ? 'Visible' : 'Hidden'}
+            {label} {visible ? 'visible' : 'escondido'}
+            <span className="sr-only">
+                Este elemento {visible ? 'se' : 'no se'} encuentra en la hoja de
+                vida actual, haz clic para cambiar el estado.
+            </span>
             <IconEye open={visible} />
             <input
                 type="checkbox"
