@@ -10,21 +10,7 @@ import {
 
 function ExperienceForm({ data }) {
     // const [unfold, setUnfold] = useState(false);
-    const [dataToInject, setDataToInject] = useState(
-        !data
-            ? {
-                  reference: '123',
-                  name: '',
-                  place: '',
-                  titleEsp: '',
-                  titleEng: '',
-                  timeStart: '',
-                  timeEnd: '',
-                  descriptionEsp: '',
-                  descriptionEng: '',
-              }
-            : data,
-    );
+    const [dataToInject, setDataToInject] = useState(data ? data : {});
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -33,30 +19,104 @@ function ExperienceForm({ data }) {
         }));
     };
 
-    // const handleReset = () => {
-    //     for (let field in dataToInject) {
-    //         dataToInject[field] = '';
-    //     }
-    // };
-    const handleClick = () => {
+    const handleDelete = () => {
         console.log(dataToInject);
     };
 
-    // <Button text="reset" type="reset" callback={handleReset} />
+    const handleReset = () => {
+        setDataToInject(data ? data : {});
+    };
+
+    const handleSave = () => {
+        console.log(dataToInject);
+    };
+
     return (
-        <DataContainer name="test">
-            <p>Ingresa la información sobre esta experiencia laboral</p>
+        <DataContainer
+            name={
+                !dataToInject.reference
+                    ? 'Nueva experiencia laboral'
+                    : dataToInject.reference
+            }
+        >
+            <RenderCard label="check" initialState={true} />
+
             <TextInput
                 label="Referencia para guardar la tarjeta"
+                placeholder="Donde o qué hiciste"
                 dataField={dataToInject.reference}
                 callback={updateData('reference')}
-                placeholder='Donde o qué hiciste'
             />
             <hr />
-            <RenderCard label="check" initialState={true} />
-            <Button text="delete" type="warn" callback={handleClick} />
-            <Button text="carajo" type="normal" callback={handleClick} />
-            <TextArea label="area" initialState="nanai" height="10" />
+
+            <TextInput
+                label="Lugar de trabajo"
+                placeholder="Acme Inc."
+                dataField={dataToInject.place}
+                callback={updateData('place')}
+            />
+
+            <TextInput
+                label="Fecha de inicio"
+                placeholder="02-2022 ó febrero 2022"
+                dataField={dataToInject.timeStart}
+                callback={updateData('timeStart')}
+            />
+
+            <TextInput
+                label="Fecha de finalización, deja vacío si todavía trabajas aquí"
+                placeholder="12-2024 ó diciembre 2024"
+                dataField={dataToInject.timeEnd}
+                callback={updateData('timeEnd')}
+            />
+
+            <TextInput
+                label="Nombre del cargo (ESPAÑOL)"
+                placeholder="Ingeniero de puentes y festivos"
+                dataField={dataToInject.titleEsp}
+                callback={updateData('titleEsp')}
+            />
+
+            <TextInput
+                label="Nombre del cargo (INGLÉS)"
+                placeholder="Holidays engineer"
+                dataField={dataToInject.titleEng}
+                callback={updateData('titleEng')}
+            />
+
+            <TextArea
+                label="Descripción de tu cargo (ESPAÑOL)"
+                placeholder="Describe los logros o tareas que llevaste a cabo"
+                height="5"
+                dataField={dataToInject.descriptionEsp}
+                callback={updateData('descriptionEsp')}
+            />
+
+            <TextArea
+                label="Descripción de tu cargo (INGLÉS)"
+                placeholder="Describe your achievements or tasks performed "
+                height="5"
+                dataField={dataToInject.descriptionEsp}
+                callback={updateData('descriptionEsp')}
+            />
+
+            <Button
+                text="Eliminar tarjeta"
+                type="warn"
+                callback={handleDelete}
+            />
+
+            <Button
+                text="Deshacer cambios"
+                type="reset"
+                callback={handleReset}
+            />
+
+            <Button text="Guardar" type="normal" callback={handleSave} />
+
+            <div>
+                <h4>vista previa</h4>
+            </div>
         </DataContainer>
     );
 }
