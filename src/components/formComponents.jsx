@@ -107,32 +107,30 @@ const EditCard = ({ edit, callback }) => {
         </label>
     );
 };
-const RenderCard = ({ renderInPdf = false }) => {
-    const [visible, setVisible] = useState(renderInPdf);
-
+const RenderCard = ({ renderInPdf, callback }) => {
     const handleChange = () => {
-        setVisible(!visible);
+        callback();
     };
 
     const handleKeyDown = (event) => {
         if (event.key !== ' ' && event.key !== 'Enter') return;
 
         event.preventDefault();
-        setVisible(!visible);
+        callback();
     };
 
     return (
         <label tabIndex="0" onKeyDown={handleKeyDown}>
             <span className="sr-only">
-                Este elemento {visible ? 'se' : 'no se'} encuentra en la hoja de
-                vida actual, haz clic para cambiar el estado.
+                Este elemento {renderInPdf ? 'se' : 'no se'} encuentra en la
+                hoja de vida actual, haz clic para cambiar el estado.
             </span>
-            <IconEye open={visible} />
+            <IconEye open={renderInPdf} />
             <input
                 type="checkbox"
                 className="hidden"
                 onChange={handleChange}
-                checked={visible}
+                checked={renderInPdf}
             />
         </label>
     );
@@ -150,21 +148,30 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
-const DataContainer = ({ name, renderInPdf, children }) => {
+const DataContainer = ({ name, children, preview }) => {
     const [open, setOpen] = useState(false);
+    const [renderInPdf, setRenderInPdf] = useState(false);
 
     const handleEdit = () => {
         setOpen(!open);
+    };
+
+    const handleRender = () => {
+        setRenderInPdf(!renderInPdf);
     };
 
     return (
         <div className="card__config">
             <div className="card__title">
                 <h2>{name}</h2>
-                <RenderCard renderInPdf={renderInPdf} />
                 <EditCard edit={open} callback={handleEdit} />
+                <RenderCard renderInPdf={renderInPdf} callback={handleRender} />
             </div>
-            {open && <form>{children}</form>}
+            {open ? (
+                <form>{children}</form>
+            ) : (
+                renderInPdf && <form>{preview}</form>
+            )}
         </div>
     );
 };

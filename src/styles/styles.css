@@ -56,10 +56,15 @@ fieldset {
     border: 1px solid var(--text);
     display: flex;
     padding: 0.25rem 1ch;
-    gap: 1ch;
+    gap: 2ch;
 }
 fieldset > * {
     flex: 1;
+}
+fieldset.preview {
+    padding: 2rem 2ch 1rem;
+    flex-direction: column;
+    gap:0;
 }
 legend {
     padding: 0 1ch;

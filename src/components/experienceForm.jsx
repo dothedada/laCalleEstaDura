@@ -63,7 +63,7 @@ const ExperienceForm = ({ data }) => {
                     ? 'Nueva experiencia laboral'
                     : dataToInject.reference
             }
-            renderInPdf={true}
+            preview={<ExperiencePreview data={dataToInject} lang="Esp" />}
         >
             <TextInput
                 label="Nombre de la tarjeta"
@@ -157,7 +157,7 @@ const ExperienceForm = ({ data }) => {
 
             <hr />
 
-            <fieldset style={{ flexDirection: 'column' }}>
+            <fieldset className="preview">
                 <legend>
                     Vista previa en{' '}
                     {previewLang === 'Esp' ? 'español' : 'inglés'}
