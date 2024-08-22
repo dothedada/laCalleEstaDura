@@ -101,7 +101,7 @@ const RenderCard = ({ initialState = false }) => {
 const Button = ({ text, type, callback }) => {
     return (
         <button
-            type={type === 'reset' ? 'reset' : 'button' }
+            type={type === 'reset' ? 'reset' : 'button'}
             onPointerDown={callback}
             className={`button__${type}`}
         >
@@ -109,5 +109,18 @@ const Button = ({ text, type, callback }) => {
         </button>
     );
 };
+
+const DataContainer = ({name, children}) => {
+    const [open, setOpen] = useState(false)
+
+    return (
+    <>
+            <form>
+                <h2>{name}</h2>
+                {children}
+            </form>
+        </>
+    )
+}
 
 export { TextInput, TextArea, RenderCard, Button };
