@@ -69,7 +69,7 @@ const TextArea = ({
     );
 };
 
-const RenderCard = ({ label, initialState = false }) => {
+const RenderCard = ({ initialState = false }) => {
     const [visible, setVisible] = useState(initialState);
 
     const handleChange = () => {
@@ -78,13 +78,13 @@ const RenderCard = ({ label, initialState = false }) => {
 
     const handleKeyDown = (event) => {
         if (event.key !== ' ' && event.key !== 'Enter') return;
+
         event.preventDefault();
         setVisible(!visible);
     };
 
     return (
         <label tabIndex="0" onKeyDown={handleKeyDown}>
-            {label} {visible ? 'visible' : 'escondido'}
             <span className="sr-only">
                 Este elemento {visible ? 'se' : 'no se'} encuentra en la hoja de
                 vida actual, haz clic para cambiar el estado.
@@ -92,9 +92,9 @@ const RenderCard = ({ label, initialState = false }) => {
             <IconEye open={visible} />
             <input
                 type="checkbox"
-                checked={visible}
+                className='hidden'
                 onChange={handleChange}
-                className="hidden"
+                checked={visible}
             />
         </label>
     );
