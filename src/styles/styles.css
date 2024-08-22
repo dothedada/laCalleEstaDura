@@ -15,27 +15,66 @@ h3 .date {
     font-style: italic;
     font-weight: 300;
 }
+
 .title {
     font-weight: 800;
 }
 * {
-box-sizing: border-box;
+    box-sizing: border-box;
 }
 form {
-  padding: 1rem 2ch;
-  border: 1px solid var(--text);
+    padding: 1rem 2ch;
+    border: 1px solid var(--text);
 }
-input, textarea, button {
-  display: block;
-  width: 100%;
-  margin: 0.5rem 0 1rem;
-  padding: 0.5rem;
-  background: var(--text);
-  color: var(--background);
-  border: none;
-  border-radius: 0;
+input[type='text'],
+textarea {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0 1rem;
+    padding: 0.5rem;
+    background: var(--text);
+    color: var(--background);
+    border: none;
+    border-radius: 0;
 }
+button {
+    --txt-color: var(--_txt-color, var(--background));
+    --bkg-color: var(--_bkg-color, var(--text));
+
+    padding: 0.25rem 1rem;
+    margin: 0.5rem 1rem 1rem;
+
+    color: var(--txt-color);
+    background-color: var(--bkg-color);
+    border: 1px solid var(--_brd-color, var(--bkg-color));
+
+    transition:
+        background-color 0.2s,
+        color 0.5s;
+    transition-timing-function: ease-in-out;
+}
+button:hover {
+    color: var(--bkg-color);
+    background-color: var(--txt-color);
+}
+button:active {
+    transform: scale(0.9);
+}
+.button__normal {
+    --_txt-color: var(--background);
+    --_bkg-color: var(--text);
+}
+.button__warn {
+    --_txt-color: var(--warn);
+    --_bkg-color: var(--background);
+    --_brd-color: var(--warn);
+}
+.button__reset {
+    --_txt-color: var(--background);
+    --_bkg-color: var(--warn);
+}
+
 :focus-visible {
-  outline: 1px solid var(--text);
-  outline-offset: 3px;
+    outline: 1px solid var(--text);
+    outline-offset: 3px;
 }
