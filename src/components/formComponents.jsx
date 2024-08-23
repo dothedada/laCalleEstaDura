@@ -38,6 +38,27 @@ const IconEye = ({ open }) => (
     </svg>
 );
 
+const validateField = (validations, field) => {
+    if (!validations.length) return [];
+    const errorList = [];
+
+    validations.forEach((validation) => {
+        const regex = new RegExp(validation.pattern);
+
+        if (!regex.test(field.value)) {
+            errorList.push(validation.message);
+        }
+    });
+
+    if (errorList.length) {
+        field.setCustomValidity(errorList[0]);
+    } else {
+        field.setCustomValidity('');
+    }
+
+    return errorList;
+};
+
 const TextInput = ({
     label,
     placeholder = '',
@@ -51,26 +72,8 @@ const TextInput = ({
         callback(event.target.value);
     };
 
-    const validateField = (event) => {
-        if (!validations.length) return;
-        const data = event.target.value;
-        const errorsList = [];
-
-        validations.forEach((validate) => {
-            const regex = new RegExp(validate.pattern);
-
-            if (!regex.test(data)) {
-                errorsList.push(validate.message);
-            }
-        });
-
-        setErrors(errorsList);
-
-        if (errorsList.length) {
-            event.target.setCustomValidity(errorsList[0]);
-        } else {
-            event.target.setCustomValidity('');
-        }
+    const handleOnBlur = (event) => {
+        setErrors(validateField(validations, event.target));
     };
 
     return (
@@ -86,7 +89,7 @@ const TextInput = ({
                 placeholder={placeholder}
                 value={dataField}
                 onChange={handleChange}
-                onBlur={validateField}
+                onBlur={handleOnBlur}
             />
         </label>
     );
@@ -106,19 +109,8 @@ const TextArea = ({
         callback(event.target.value);
     };
 
-    const validateField = (event) => {
-        if (!validations.length) return;
-        const data = event.target.value;
-        const errorsList = [];
-
-        validations.forEach((validate) => {
-            const regex = new RegExp(validate.pattern);
-
-            if (!regex.test(data)) {
-                errorsList.push(validate.message);
-            }
-        });
-        setErrors(errorsList);
+    const handleOnBlur = (event) => {
+        setErrors(validateField(validations, event.target));
     };
 
     const dataLenght = !dataField ? '0' : dataField.replace(/\s+/g, ' ').length;
@@ -137,7 +129,7 @@ const TextArea = ({
                 placeholder={placeholder}
                 value={dataField}
                 onChange={handleChange}
-                onBlur={validateField}
+                onBlur={handleOnBlur}
             ></textarea>
         </label>
     );
