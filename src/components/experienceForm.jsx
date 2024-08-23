@@ -5,10 +5,9 @@ import { inputValidation } from './formValidations';
 // NOTE: solucionar lo del textarea y el reset de la info
 
 // TODO:
-// 1. marcación focus iconos de edición y render
-// 2. manejo de fechas
+// 1.a hacer los regex de los campos
 // 3. marcar campos complementarios
-// 4. creación de hoja de documento
+// 4. Manbejo de la exportación de la info validada como objeto de js
 // 5. implementación en otros tipos de tarjetas
 
 const ExperiencePreview = ({ data, lang }) => {
@@ -89,6 +88,10 @@ const ExperienceForm = ({ data }) => {
                     placeholder="02-2022 ó febrero 2022"
                     dataField={dataToInject.timeStart}
                     callback={updateData('timeStart')}
+                    validations={[
+                        inputValidation.notEmpty,
+                        inputValidation.isDate,
+                    ]}
                 />
 
                 <TextInput
@@ -96,6 +99,7 @@ const ExperienceForm = ({ data }) => {
                     placeholder="12-2024 ó diciembre 2024"
                     dataField={dataToInject.timeEnd}
                     callback={updateData('timeEnd')}
+                    validations={[inputValidation.isDate]}
                 />
             </fieldset>
 
@@ -106,6 +110,7 @@ const ExperienceForm = ({ data }) => {
                     placeholder="Ingeniero de puentes y festivos"
                     dataField={dataToInject.titleEsp}
                     callback={updateData('titleEsp')}
+                    validations={[inputValidation.notEmpty]}
                 />
 
                 <TextInput
@@ -125,6 +130,10 @@ const ExperienceForm = ({ data }) => {
                     height="5"
                     dataField={dataToInject.descriptionEsp}
                     callback={updateData('descriptionEsp')}
+                    validations={[
+                        inputValidation.notEmpty,
+                        inputValidation.maxLength(350),
+                    ]}
                 />
 
                 <TextArea
@@ -133,6 +142,7 @@ const ExperienceForm = ({ data }) => {
                     height="5"
                     dataField={dataToInject.descriptionEng}
                     callback={updateData('descriptionEng')}
+                    validations={[inputValidation.maxLength(350)]}
                 />
             </fieldset>
 

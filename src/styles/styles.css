@@ -113,11 +113,14 @@ textarea:invalid {
     background: var(--error);
 }
 .error {
-    margin: 0.25rem 1ch;
+    position: relative;
+    margin: 0.25rem 2ch;
     color: var(--error);
 }
 .error::before {
-    content: '> ';
+    position: absolute;
+    content: '>';
+    transform: translateX(-2ch);
 }
 button {
     --txt-color: var(--_txt-color, var(--background));
@@ -142,23 +145,16 @@ button:active {
     transform: scale(0.9);
 }
 
-.button {
-    &__normal {
-        --_txt-color: var(--background);
-        --_bkg-color: var(--text);
-
-    }
-
-    &__warn {
-        --_txt-color: var(--warn);
-        --_bkg-color: var(--background);
-        --_brd-color: var(--warn);
-
-        margin: 0 auto 0 0;
-    }
-}
-
 .button__normal {
+    --_txt-color: var(--background);
+    --_bkg-color: var(--text);
+}
+.button__warn {
+    --_txt-color: var(--warn);
+    --_bkg-color: var(--background);
+    --_brd-color: var(--warn);
+
+    margin: 0 auto 0 0;
 }
 .button__reset {
     --_txt-color: var(--text);
