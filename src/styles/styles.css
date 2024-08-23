@@ -112,6 +112,11 @@ input[type='text']:invalid,
 textarea:invalid {
     background: var(--error);
 }
+.warn-background,
+input[type='text'].warn-background {
+    background: var(--warn);
+}
+
 .error {
     position: relative;
     margin: 0.25rem 2ch;
@@ -159,7 +164,7 @@ button:active {
 .button__reset {
     --_txt-color: var(--text);
     --_bkg-color: var(--background);
-    --_brd-color: var(--text)
+    --_brd-color: var(--text);
 }
 
 :focus-visible {

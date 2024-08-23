@@ -5,8 +5,6 @@ import { inputValidation } from './formValidations';
 // NOTE: solucionar lo del textarea y el reset de la info
 
 // TODO:
-// 1.a hacer los regex de los campos
-// 3. marcar campos complementarios
 // 4. Manbejo de la exportación de la info validada como objeto de js
 // 5. implementación en otros tipos de tarjetas
 
@@ -118,6 +116,9 @@ const ExperienceForm = ({ data }) => {
                     placeholder="Holidays engineer"
                     dataField={dataToInject.titleEng}
                     callback={updateData('titleEng')}
+                    sugestTranslation={
+                        dataToInject.titleEsp && !dataToInject.titleEng
+                    }
                 />
             </fieldset>
 
@@ -143,6 +144,10 @@ const ExperienceForm = ({ data }) => {
                     dataField={dataToInject.descriptionEng}
                     callback={updateData('descriptionEng')}
                     validations={[inputValidation.maxLength(350)]}
+                    sugestTranslation={
+                        dataToInject.descriptionEsp &&
+                        !dataToInject.descriptionEng
+                    }
                 />
             </fieldset>
 

@@ -65,6 +65,7 @@ const TextInput = ({
     dataField = '',
     callback,
     validations = [],
+    sugestTranslation = false,
 }) => {
     const [errors, setErrors] = useState([]);
 
@@ -90,6 +91,7 @@ const TextInput = ({
                 value={dataField}
                 onChange={handleChange}
                 onBlur={handleOnBlur}
+                className={sugestTranslation ? 'warn-background' : ''}
             />
         </label>
     );
@@ -102,6 +104,7 @@ const TextArea = ({
     height = '5',
     callback,
     validations = [],
+    sugestTranslation = false,
 }) => {
     const [errors, setErrors] = useState([]);
 
@@ -130,6 +133,7 @@ const TextArea = ({
                 value={dataField}
                 onChange={handleChange}
                 onBlur={handleOnBlur}
+                className={sugestTranslation ? 'warn-background' : ''}
             ></textarea>
         </label>
     );
