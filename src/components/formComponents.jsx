@@ -45,10 +45,62 @@ const TextInput = ({
     placeholder = '',
     dataField = '',
     callback,
-    validations = [
-        { pattern: /[a]/g, message: 'debe haber una a' },
-        { pattern: `^(?!\s*$).+`, message: 'Este campo no puede estar vacío' },
-    ],
+    validations = [],
+}) => {
+    const [errors, setErrors] = useState([]);
+
+    const handleChange = (event) => {
+        callback(event.target.value);
+    };
+
+    const validateField = (event) => {
+        if (!validations.length) return;
+        const data = event.target.value;
+        const errorsList = [];
+
+        validations.forEach((validate) => {
+            const regex = new RegExp(validate.pattern);
+
+            if (!regex.test(data)) {
+                errorsList.push(validate.message);
+            }
+        });
+
+        setErrors(errorsList);
+
+        if (errorsList.length) {
+            event.target.setCustomValidity(errorsList[0]);
+        } else {
+            event.target.setCustomValidity('');
+        }
+    };
+
+    return (
+        <label>
+            {label}
+            {errors.map((error, indx) => (
+                <div className="error" key={indx}>
+                    {error}
+                </div>
+            ))}
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={dataField}
+                onChange={handleChange}
+                onBlur={validateField}
+            />
+        </label>
+    );
+};
+
+const TextArea = ({
+    label,
+    placeholder,
+    dataField,
+    height = '5',
+    callback,
+    validations = [],
 }) => {
     const [errors, setErrors] = useState([]);
 
@@ -75,39 +127,17 @@ const TextInput = ({
         <label>
             {label}
             {errors.map((error, indx) => (
-                <div className="error" key={indx}>{error}</div>
+                <div className="error" key={indx}>
+                    {error}
+                </div>
             ))}
-            <input
-                type="text"
-                placeholder={placeholder}
-                value={dataField}
-                onChange={handleChange}
-                onBlur={validateField}
-            />
-        </label>
-    );
-};
-
-const TextArea = ({
-    label,
-    placeholder,
-    dataField,
-    height = '5',
-    callback,
-}) => {
-    const handleChange = (event) => {
-        callback(event.target.value);
-    };
-
-    return (
-        <label>
-            {label}
             <textarea
                 type="text"
                 rows={height}
                 placeholder={placeholder}
                 value={dataField}
                 onChange={handleChange}
+                onBlur={validateField}
             ></textarea>
         </label>
     );

@@ -4,8 +4,8 @@
 :root {
     --text: #7ebaa7;
     --background: #110425;
-    --active: #db8ea3;
-    --warn: #f77e4f;
+    --warn: #db8ea3;
+    --error: #f77e4f;
 
     --font-parragraph: 'Fira Sans', sans-serif;
     --font-headings: 'JetBrains Mono', sans-serif;

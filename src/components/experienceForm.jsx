@@ -1,14 +1,14 @@
 import { useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, TextArea, Button, DataContainer } from './formComponents';
-
+import { inputValidation } from './formValidations';
 // NOTE: solucionar lo del textarea y el reset de la info
 
 // TODO:
-// 1. vista previa de la tarjeta
+// 1. marcación focus iconos de edición y render
 // 2. manejo de fechas
-// 3. validación del formulario
-// 4. incorporación con los módulos de información
+// 3. marcar campos complementarios
+// 4. creación de hoja de documento
 // 5. implementación en otros tipos de tarjetas
 
 const ExperiencePreview = ({ data, lang }) => {
@@ -78,6 +78,7 @@ const ExperienceForm = ({ data }) => {
                 placeholder="Acme Inc."
                 dataField={dataToInject.place}
                 callback={updateData('place')}
+                validations={[inputValidation.notEmpty]}
             />
 
             <fieldset>
