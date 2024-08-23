@@ -35,10 +35,36 @@ h3 .date {
         margin: 0 auto 0 0;
     }
 
-    & svg {
+    & button,
+    & label {
+        padding: 0;
+        margin: 0;
         width: 24px;
         height: 24px;
         margin: 0 0 0 1ch;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: color 0.3s ease;
+
+        &:hover {
+            background: unset;
+            color: var(--error);
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+
+        & svg {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    & button:focus-within,
+    & label:focus-within {
+        outline-color: var(--background);
     }
 }
 .card__buttons {
@@ -115,16 +141,24 @@ button:hover {
 button:active {
     transform: scale(0.9);
 }
-.button__normal {
-    --_txt-color: var(--background);
-    --_bkg-color: var(--text);
-}
-.button__warn {
-    --_txt-color: var(--warn);
-    --_bkg-color: var(--background);
-    --_brd-color: var(--warn);
 
-    margin: 0 auto 0 0;
+.button {
+    &__normal {
+        --_txt-color: var(--background);
+        --_bkg-color: var(--text);
+
+    }
+
+    &__warn {
+        --_txt-color: var(--warn);
+        --_bkg-color: var(--background);
+        --_brd-color: var(--warn);
+
+        margin: 0 auto 0 0;
+    }
+}
+
+.button__normal {
 }
 .button__reset {
     --_txt-color: var(--text);

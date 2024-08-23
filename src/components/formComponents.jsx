@@ -38,8 +38,6 @@ const IconEye = ({ open }) => (
     </svg>
 );
 
-// validation [{pattern: 'pattern', message: 'console'}, ...]
-
 const TextInput = ({
     label,
     placeholder = '',
@@ -156,18 +154,18 @@ const EditCard = ({ edit, callback }) => {
     };
 
     return (
-        <label tabIndex="0" onKeyDown={handleKeyDown}>
+        <button
+            type="button"
+            onPointerDown={handleChange}
+            onKeyDown={handleKeyDown}
+        >
             <span className="sr-only">
-                Haz clic para {edit ? 'abrir' : 'cerrar'} el panel de edición
+                {edit
+                    ? 'Haz clic para abrir el cuadro de edición'
+                    : 'Haz clic para guardar los cambios y cerrar'}
             </span>
             <IconEdit open={edit} />
-            <input
-                type="checkbox"
-                className="hidden"
-                onChange={handleChange}
-                checked={edit}
-            />
-        </label>
+        </button>
     );
 };
 const RenderCard = ({ renderInPdf, callback }) => {
