@@ -121,9 +121,11 @@ const TextArea = ({
         setErrors(errorsList);
     };
 
+    const dataLenght = !dataField ? '0' : dataField.replace(/\s+/g, ' ').length;
+
     return (
         <label>
-            {label}
+            {label} ({`${dataLenght} de 350 caracteres`})
             {errors.map((error, indx) => (
                 <div className="error" key={indx}>
                     {error}
