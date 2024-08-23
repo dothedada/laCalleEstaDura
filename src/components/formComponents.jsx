@@ -6,6 +6,7 @@ const IconEdit = ({ open }) => (
         width="1em"
         height="1em"
         viewBox="0 0 256 256"
+        aria-hidden="true"
     >
         <path
             fill="currentColor"
@@ -37,19 +38,51 @@ const IconEye = ({ open }) => (
     </svg>
 );
 
-const TextInput = ({ label, placeholder = '', dataField = '', callback }) => {
+// validation [{pattern: 'pattern', message: 'console'}, ...]
+
+const TextInput = ({
+    label,
+    placeholder = '',
+    dataField = '',
+    callback,
+    validations = [
+        { pattern: /[a]/g, message: 'debe haber una a' },
+        { pattern: `^(?!\s*$).+`, message: 'Este campo no puede estar vacío' },
+    ],
+}) => {
+    const [errors, setErrors] = useState([]);
+
     const handleChange = (event) => {
         callback(event.target.value);
+    };
+
+    const validateField = (event) => {
+        if (!validations.length) return;
+        const data = event.target.value;
+        const errorsList = [];
+
+        validations.forEach((validate) => {
+            const regex = new RegExp(validate.pattern);
+
+            if (!regex.test(data)) {
+                errorsList.push(validate.message);
+            }
+        });
+        setErrors(errorsList);
     };
 
     return (
         <label>
             {label}
+            {errors.map((error, indx) => (
+                <div className="error" key={indx}>{error}</div>
+            ))}
             <input
                 type="text"
                 placeholder={placeholder}
                 value={dataField}
                 onChange={handleChange}
+                onBlur={validateField}
             />
         </label>
     );
