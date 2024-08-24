@@ -19,7 +19,7 @@ const IconEdit = ({ open }) => (
     </svg>
 );
 
-const IconEye = ({ open }) => (
+const IconRender = ({ open }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
@@ -184,7 +184,7 @@ const RenderCard = ({ renderInPdf, callback }) => {
                 Este elemento {renderInPdf ? 'se' : 'no se'} encuentra en la
                 hoja de vida actual, haz clic para cambiar el estado.
             </span>
-            <IconEye open={renderInPdf} />
+            <IconRender open={renderInPdf} />
             <input
                 type="checkbox"
                 className="hidden"
@@ -198,7 +198,7 @@ const RenderCard = ({ renderInPdf, callback }) => {
 const Button = ({ text, type, callback }) => {
     return (
         <button
-            type={type === 'reset' ? 'reset' : 'button'}
+            type={type === 'warn' ? 'button' : type}
             onPointerDown={callback}
             className={`button__${type}`}
         >

@@ -2,11 +2,11 @@ import { useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, TextArea, Button, DataContainer } from './formComponents';
 import { inputValidation } from './formValidations';
-// NOTE: solucionar lo del textarea y el reset de la info
 
 // TODO:
 // 4. Manbejo de la exportación de la info validada como objeto de js
-// 5. implementación en otros tipos de tarjetas
+// 5. que no se vea el ojito si no hay info
+// 6. implementación en otros tipos de tarjetas
 
 const ExperiencePreview = ({ data, lang }) => {
     return (
@@ -43,9 +43,21 @@ const ExperienceForm = ({ data }) => {
 
     const handleReset = () => {
         setDataToInject(data ? data : {});
+        document.querySelectorAll('textarea').forEach((textarea) => {
+            textarea.textContent = '';
+        });
     };
 
     const handleSave = () => {
+        if (
+            !dataToInject.place ||
+            !dataToInject.timeStart ||
+            !dataToInject.titleEsp ||
+            !dataToInject.descriptionEsp
+        ) {
+            alert('pailas');
+        }
+        console.log(document.querySelectorAll(':invalid'));
         console.log(dataToInject);
     };
 
@@ -71,7 +83,7 @@ const ExperienceForm = ({ data }) => {
             <hr />
 
             <TextInput
-                label="Lugar de trabajo"
+                label="¿Cómo se llamaba el lugar donde trabajaste?"
                 placeholder="Acme Inc."
                 dataField={dataToInject.place}
                 callback={updateData('place')}
@@ -79,11 +91,11 @@ const ExperienceForm = ({ data }) => {
             />
 
             <fieldset>
-                <legend>Fecha</legend>
+                <legend>¿Cuánto tiempo trabajaste allí?</legend>
 
                 <TextInput
-                    label="de inicio"
-                    placeholder="02-2022 ó febrero 2022"
+                    label="mes de inicio"
+                    placeholder="enero 2023"
                     dataField={dataToInject.timeStart}
                     callback={updateData('timeStart')}
                     validations={[
@@ -93,8 +105,8 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
-                    label="de finalización"
-                    placeholder="12-2024 ó diciembre 2024"
+                    label="mes de terminación"
+                    placeholder="enero 2024"
                     dataField={dataToInject.timeEnd}
                     callback={updateData('timeEnd')}
                     validations={[inputValidation.isDate]}
@@ -102,7 +114,7 @@ const ExperienceForm = ({ data }) => {
             </fieldset>
 
             <fieldset>
-                <legend>Nombre del cargo</legend>
+                <legend>¿Cuál fue tu cargo?</legend>
                 <TextInput
                     label="en español"
                     placeholder="Ingeniero de puentes y festivos"
@@ -123,7 +135,10 @@ const ExperienceForm = ({ data }) => {
             </fieldset>
 
             <fieldset>
-                <legend>Cuáles son tus logros o tareas en este cargo</legend>
+                <legend>
+                    ¿Cuáles fueron tus logros o qué tareas realizaste en este
+                    cargo?
+                </legend>
 
                 <TextArea
                     label="en español"
@@ -166,7 +181,7 @@ const ExperienceForm = ({ data }) => {
 
                 <Button
                     text={!data ? 'Guardar' : 'Actualizar'}
-                    type="normal"
+                    type="submit"
                     callback={handleSave}
                 />
             </div>
@@ -175,13 +190,13 @@ const ExperienceForm = ({ data }) => {
 
             <fieldset className="preview">
                 <legend>
-                    Vista previa en{' '}
-                    {previewLang === 'Esp' ? 'español' : 'inglés'}
+                    Vista previa en
+                    {previewLang === 'Esp' ? ' español' : ' inglés'}
                 </legend>
                 <ExperiencePreview data={dataToInject} lang={previewLang} />
                 <button type="button" onPointerDown={handleLang}>
-                    Cambiar idioma de la vista previa a{' '}
-                    {previewLang !== 'Esp' ? 'español' : 'inglés'}
+                    Cambiar el idioma de la vista previa a
+                    {previewLang !== 'Esp' ? ' español' : ' inglés'}
                 </button>
             </fieldset>
         </DataContainer>
