@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useState } from 'react';
 
 const IconEdit = ({ open }) => (
@@ -68,13 +69,17 @@ const TextInput = ({
     sugestTranslation = false,
 }) => {
     const [errors, setErrors] = useState([]);
+    const field = useRef();
 
-    const handleChange = (event) => {
-        callback(event.target.value);
+    const handleChange = () => {
+        callback(field.current.value);
+        if (errors.length) {
+            setErrors(validateField(validations, field.current));
+        }
     };
 
-    const handleOnBlur = (event) => {
-        setErrors(validateField(validations, event.target));
+    const handleOnBlur = () => {
+        setErrors(validateField(validations, field.current));
     };
 
     return (
@@ -86,6 +91,7 @@ const TextInput = ({
                 </div>
             ))}
             <input
+                ref={field}
                 type="text"
                 placeholder={placeholder}
                 value={dataField}
@@ -107,26 +113,31 @@ const TextArea = ({
     sugestTranslation = false,
 }) => {
     const [errors, setErrors] = useState([]);
+    const field = useRef();
 
-    const handleChange = (event) => {
-        callback(event.target.value);
+    const handleChange = () => {
+        callback(field.current.value);
+        if (errors.length) {
+            setErrors(validateField(validations, field.current));
+        }
     };
 
-    const handleOnBlur = (event) => {
-        setErrors(validateField(validations, event.target));
+    const handleOnBlur = () => {
+        setErrors(validateField(validations, field.current));
     };
 
     const dataLenght = !dataField ? '0' : dataField.replace(/\s+/g, ' ').length;
 
     return (
         <label>
-            {label} ({`${dataLenght} de 350 caracteres`})
+            {label}, te quedan {350 - dataLenght} caracteres.
             {errors.map((error, indx) => (
                 <div className="error" key={indx}>
                     {error}
                 </div>
             ))}
             <textarea
+                ref={field}
                 type="text"
                 rows={height}
                 placeholder={placeholder}
@@ -166,6 +177,7 @@ const EditCard = ({ edit, callback }) => {
         </button>
     );
 };
+
 const RenderCard = ({ renderInPdf, callback }) => {
     const handleChange = () => {
         callback();
@@ -207,7 +219,7 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
-const DataContainer = ({ name, children, preview }) => {
+const DataContainer = ({ name, children, preview, render }) => {
     const [open, setOpen] = useState(false);
     const [renderInPdf, setRenderInPdf] = useState(false);
 
@@ -224,7 +236,12 @@ const DataContainer = ({ name, children, preview }) => {
             <div className="card__title">
                 <h2>{name}</h2>
                 <EditCard edit={open} callback={handleEdit} />
-                <RenderCard renderInPdf={renderInPdf} callback={handleRender} />
+                {render && (
+                    <RenderCard
+                        renderInPdf={renderInPdf}
+                        callback={handleRender}
+                    />
+                )}
             </div>
             {open ? (
                 <form>{children}</form>

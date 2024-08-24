@@ -5,7 +5,6 @@ import { inputValidation } from './formValidations';
 
 // TODO:
 // 4. Manbejo de la exportación de la info validada como objeto de js
-// 5. que no se vea el ojito si no hay info
 // 6. implementación en otros tipos de tarjetas
 
 const ExperiencePreview = ({ data, lang }) => {
@@ -72,6 +71,7 @@ const ExperienceForm = ({ data }) => {
                     ? 'Nueva experiencia laboral'
                     : dataToInject.reference
             }
+            render={!!data}
             preview={<ExperiencePreview data={dataToInject} lang="Esp" />}
         >
             <TextInput
