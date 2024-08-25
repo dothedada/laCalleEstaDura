@@ -38,7 +38,7 @@ const IconRender = ({ open }) => (
     </svg>
 );
 
-const validateField = (validations, field) => {
+const makeValidations = (validations, field) => {
     if (!validations.length) return [];
     const errorList = [];
 
@@ -60,13 +60,13 @@ const validateField = (validations, field) => {
 };
 
 const TextInput = ({
+    type = 'string',
     label,
     placeholder = '',
     dataField = '',
     callback,
     validations = [],
     sugestTranslation = false,
-    type = 'string',
     height = '1',
 }) => {
     const [errors, setErrors] = useState([]);
@@ -75,22 +75,27 @@ const TextInput = ({
     const handleChange = () => {
         callback(field.current.value);
         if (errors.length) {
-            setErrors(validateField(validations, field.current));
+            setErrors(makeValidations(validations, field.current));
         }
     };
 
     const handleOnBlur = () => {
-        setErrors(validateField(validations, field.current));
+        setErrors(makeValidations(validations, field.current));
     };
 
-    const dataLenght = !dataField ? '0' : dataField.replace(/\s+/g, ' ').length;
+    const maxLength = validations
+        .filter((val) => /caracteres/.test(val.message))[0]
+        ?.message.match(/\d+/);
+    const currentLength = !dataField
+        ? '0'
+        : dataField.replace(/\s+/g, ' ').length;
 
     return (
         <label>
             {label}
             {type === 'string'
                 ? ''
-                : `, te quedan ${350 - dataLenght} caracteres.`}
+                : `, te quedan ${maxLength - currentLength} caracteres.`}
             {errors.map((error, indx) => (
                 <div className="error" key={indx}>
                     {error}
