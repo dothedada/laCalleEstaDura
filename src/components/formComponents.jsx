@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const IconEdit = ({ open }) => (
     <svg
@@ -67,50 +66,8 @@ const TextInput = ({
     callback,
     validations = [],
     sugestTranslation = false,
-}) => {
-    const [errors, setErrors] = useState([]);
-    const field = useRef();
-
-    const handleChange = () => {
-        callback(field.current.value);
-        if (errors.length) {
-            setErrors(validateField(validations, field.current));
-        }
-    };
-
-    const handleOnBlur = () => {
-        setErrors(validateField(validations, field.current));
-    };
-
-    return (
-        <label>
-            {label}
-            {errors.map((error, indx) => (
-                <div className="error" key={indx}>
-                    {error}
-                </div>
-            ))}
-            <input
-                ref={field}
-                type="text"
-                placeholder={placeholder}
-                value={dataField}
-                onChange={handleChange}
-                onBlur={handleOnBlur}
-                className={sugestTranslation ? 'warn-background' : ''}
-            />
-        </label>
-    );
-};
-
-const TextArea = ({
-    label,
-    placeholder,
-    dataField,
-    height = '5',
-    callback,
-    validations = [],
-    sugestTranslation = false,
+    type = 'string',
+    height = '1',
 }) => {
     const [errors, setErrors] = useState([]);
     const field = useRef();
@@ -130,22 +87,36 @@ const TextArea = ({
 
     return (
         <label>
-            {label}, te quedan {350 - dataLenght} caracteres.
+            {label}
+            {type === 'string'
+                ? ''
+                : `, te quedan ${350 - dataLenght} caracteres.`}
             {errors.map((error, indx) => (
                 <div className="error" key={indx}>
                     {error}
                 </div>
             ))}
-            <textarea
-                ref={field}
-                type="text"
-                rows={height}
-                placeholder={placeholder}
-                value={dataField}
-                onChange={handleChange}
-                onBlur={handleOnBlur}
-                className={sugestTranslation ? 'warn-background' : ''}
-            ></textarea>
+            {type === 'string' ? (
+                <input
+                    ref={field}
+                    type="text"
+                    placeholder={placeholder}
+                    value={dataField}
+                    onChange={handleChange}
+                    onBlur={handleOnBlur}
+                    className={sugestTranslation ? 'warn-background' : ''}
+                />
+            ) : (
+                <textarea
+                    ref={field}
+                    rows={height}
+                    placeholder={placeholder}
+                    value={dataField}
+                    onChange={handleChange}
+                    onBlur={handleOnBlur}
+                    className={sugestTranslation ? 'warn-background' : ''}
+                ></textarea>
+            )}
         </label>
     );
 };
@@ -252,4 +223,4 @@ const DataContainer = ({ name, children, preview, render }) => {
     );
 };
 
-export { TextInput, TextArea, RenderCard, Button, DataContainer };
+export { TextInput, RenderCard, Button, DataContainer };

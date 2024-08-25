@@ -1,6 +1,6 @@
 import { useState } from 'react';
 // import { Experience } from '../js/card';
-import { TextInput, TextArea, Button, DataContainer } from './formComponents';
+import { TextInput, Button, DataContainer } from './formComponents';
 import { inputValidation } from './formValidations';
 
 // TODO:
@@ -140,7 +140,8 @@ const ExperienceForm = ({ data }) => {
                     cargo?
                 </legend>
 
-                <TextArea
+                <TextInput
+                    type="area"
                     label="en español"
                     placeholder="Describe los logros o tareas que llevaste a cabo"
                     height="5"
@@ -152,7 +153,8 @@ const ExperienceForm = ({ data }) => {
                     ]}
                 />
 
-                <TextArea
+                <TextInput
+                    type="area"
                     label="en inglés"
                     placeholder="Describe your achievements or tasks performed "
                     height="5"
