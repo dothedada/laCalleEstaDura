@@ -65,13 +65,10 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
-        dataToInject.reference = dataToInject.reverence || undefined
-        const newExperience = new  Experience(dataToInject)
+        dataToInject.reference = dataToInject.reference ?? undefined;
+        const newExperience = new Experience(dataToInject);
 
-        localStorage.setItem(newExperience.id, JSON.stringify(newExperience))
-
-        console.log(dataToInject);
-        console.log(newExperience);
+        localStorage.setItem(newExperience.id, JSON.stringify(newExperience));
     };
 
     return (
