@@ -116,19 +116,19 @@ const TextInput = forwardRef(function TextInput(
     );
 });
 
+const handleKeyDown = (callback) => (event) => {
+    if (event.key !== ' ' && event.key !== 'Enter') return;
+
+    event.preventDefault();
+    callback();
+};
+
 const EditCard = ({ edit, callback }) => {
-    const handleKeyDown = (event) => {
-        if (event.key !== ' ' && event.key !== 'Enter') return;
-
-        event.preventDefault();
-        callback();
-    };
-
     return (
         <button
             type="button"
             onPointerDown={callback}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleKeyDown(callback)}
         >
             <span className="sr-only">
                 {edit
@@ -141,15 +141,8 @@ const EditCard = ({ edit, callback }) => {
 };
 
 const RenderCard = ({ renderInPdf, callback }) => {
-    const handleKeyDown = (event) => {
-        if (event.key !== ' ' && event.key !== 'Enter') return;
-
-        event.preventDefault();
-        callback();
-    };
-
     return (
-        <label tabIndex="0" onKeyDown={handleKeyDown}>
+        <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
             <span className="sr-only">
                 Este elemento {renderInPdf ? 'se' : 'no se'} encuentra en la
                 hoja de vida actual, haz clic para cambiar el estado.
@@ -166,18 +159,11 @@ const RenderCard = ({ renderInPdf, callback }) => {
 };
 
 const Button = ({ text, type, callback }) => {
-    const handleKeyDown = (event) => {
-        if (event.key !== ' ' && event.key !== 'Enter') return;
-
-        // event.preventDefault();
-        callback();
-    };
-
     return (
         <button
             type={type === 'warn' ? 'button' : type}
             onPointerDown={callback}
-            onKeyDown={handleKeyDown}
+            onKeyDown={handleKeyDown(callback)}
             className={`button__${type}`}
         >
             {text}
