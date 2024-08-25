@@ -4,10 +4,13 @@ import { TextInput, Button, DataContainer } from './formComponents';
 import { inputValidation } from './formValidations';
 
 // TODO:
+// Hacer de la barra inferior de botones un componente, integrar teclado
+// revisar cómo pasa data, pues está siendo un objeto, lo que mata todas las bifurcaiones
 // 4. revisar que la validación no se haga sobre el estado previo sino sobre el nuevo
 // 5. creación del objedo de datos en memoria
+// 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
-// 7. creacion del modelo base 
+// 7. creacion del modelo base
 // 8. creación del pdf
 
 const ExperiencePreview = ({ data, lang }) => {
@@ -48,7 +51,7 @@ const ExperienceForm = ({ data }) => {
     };
 
     const refs = {
-        placeOfWork: useRef(),
+        place: useRef(),
         timeStart: useRef(),
         timeEnd: useRef(),
         titleEsp: useRef(),
@@ -60,6 +63,7 @@ const ExperienceForm = ({ data }) => {
     const handleSave = (event) => {
         event.preventDefault();
 
+        // Validate data
         const wrongInputs = Object.values(refs).reduce((errors, ref) => {
             const inputWithError = ref.current.validate();
             if (inputWithError) errors.push(inputWithError);
@@ -71,11 +75,21 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
+        // Save data
+
         console.log(dataToInject);
     };
 
     const handleLang = () => {
         setPreviewLang(previewLang === 'Esp' ? 'Eng' : 'Esp');
+    };
+
+    const inputReferenciation = (name) => {
+        return {
+            ref: refs[name],
+            dataField: dataToInject[name],
+            callback: updateData(name),
+        };
     };
 
     return (
@@ -97,11 +111,9 @@ const ExperienceForm = ({ data }) => {
             <hr />
 
             <TextInput
-                ref={refs.placeOfWork}
+                {...inputReferenciation('place')}
                 label="¿Cómo se llamaba el lugar donde trabajaste?"
                 placeholder="Acme Inc."
-                dataField={dataToInject.place}
-                callback={updateData('place')}
                 validations={[inputValidation.notEmpty]}
             />
 
@@ -109,11 +121,9 @@ const ExperienceForm = ({ data }) => {
                 <legend>¿Cuánto tiempo trabajaste allí?</legend>
 
                 <TextInput
-                    ref={refs.timeStart}
+                    {...inputReferenciation('timeStart')}
                     label="mes de inicio"
                     placeholder="enero 2023"
-                    dataField={dataToInject.timeStart}
-                    callback={updateData('timeStart')}
                     validations={[
                         inputValidation.notEmpty,
                         inputValidation.isDate,
@@ -121,11 +131,9 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
-                    ref={refs.timeEnd}
+                    {...inputReferenciation('timeEnd')}
                     label="mes de terminación"
                     placeholder="enero 2024"
-                    dataField={dataToInject.timeEnd}
-                    callback={updateData('timeEnd')}
                     validations={[inputValidation.isDate]}
                 />
             </fieldset>
@@ -133,20 +141,16 @@ const ExperienceForm = ({ data }) => {
             <fieldset>
                 <legend>¿Cuál fue tu cargo?</legend>
                 <TextInput
-                    ref={refs.titleEsp}
+                    {...inputReferenciation('titleEsp')}
                     label="en español"
                     placeholder="Ingeniero de puentes y festivos"
-                    dataField={dataToInject.titleEsp}
-                    callback={updateData('titleEsp')}
                     validations={[inputValidation.notEmpty]}
                 />
 
                 <TextInput
-                    ref={refs.titleEng}
+                    {...inputReferenciation('titleEng')}
                     label="en inglés"
                     placeholder="Holidays engineer"
-                    dataField={dataToInject.titleEng}
-                    callback={updateData('titleEng')}
                     sugestTranslation={
                         dataToInject.titleEsp && !dataToInject.titleEng
                     }
@@ -160,13 +164,11 @@ const ExperienceForm = ({ data }) => {
                 </legend>
 
                 <TextInput
-                    ref={refs.descriptionEsp}
+                    {...inputReferenciation('descriptionEsp')}
                     oneLine={false}
                     label="en español"
                     placeholder="Describe los logros o tareas que llevaste a cabo"
                     height="5"
-                    dataField={dataToInject.descriptionEsp}
-                    callback={updateData('descriptionEsp')}
                     validations={[
                         inputValidation.notEmpty,
                         inputValidation.maxLength(350),
@@ -174,13 +176,11 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
-                    ref={refs.descriptionEng}
+                    {...inputReferenciation('descriptionEng')}
                     oneLine={false}
                     label="en inglés"
                     placeholder="Describe your achievements or tasks performed "
                     height="5"
-                    dataField={dataToInject.descriptionEng}
-                    callback={updateData('descriptionEng')}
                     validations={[inputValidation.maxLength(350)]}
                     sugestTranslation={
                         dataToInject.descriptionEsp &&
@@ -209,19 +209,6 @@ const ExperienceForm = ({ data }) => {
                 />
             </div>
 
-            <hr />
-
-            <fieldset className="preview">
-                <legend>
-                    Vista previa en
-                    {previewLang === 'Esp' ? ' español' : ' inglés'}
-                </legend>
-                <ExperiencePreview data={dataToInject} lang={previewLang} />
-                <button type="button" onPointerDown={handleLang}>
-                    Cambiar el idioma de la vista previa a
-                    {previewLang !== 'Esp' ? ' español' : ' inglés'}
-                </button>
-            </fieldset>
         </DataContainer>
     );
 };
