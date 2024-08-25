@@ -32,22 +32,14 @@ const ExperiencePreview = ({ data, lang }) => {
 };
 
 const ExperienceForm = ({ data }) => {
-    const [startingData] = useState(data || undefined)
-    const [dataToInject, setDataToInject] = useState(startingData ?? {})
+    const [startingData] = useState(data || undefined);
+    const [dataToInject, setDataToInject] = useState(startingData ?? {});
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
             ...previousData,
             [key]: value,
         }));
-    };
-
-    const handleDelete = () => {
-        console.log(dataToInject);
-    };
-
-    const handleReset = () => {
-        setDataToInject(startingData || {});
     };
 
     const refs = {
@@ -58,6 +50,24 @@ const ExperienceForm = ({ data }) => {
         titleEng: useRef(),
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
+    };
+
+    const propGenerator = (name) => {
+        return {
+            ref: refs[name],
+            dataField: dataToInject[name],
+            callback: updateData(name),
+            label: inputUiText.experience.label[name],
+            placeholder: inputUiText.experience.placeholder[name],
+        };
+    };
+
+    const handleDelete = () => {
+        console.log(dataToInject);
+    };
+
+    const handleReset = () => {
+        setDataToInject(startingData || {});
     };
 
     const handleSave = (event) => {
@@ -80,16 +90,6 @@ const ExperienceForm = ({ data }) => {
         console.log(dataToInject);
     };
 
-    const inputReferenciation = (name) => {
-        return {
-            ref: refs[name],
-            dataField: dataToInject[name],
-            callback: updateData(name),
-            label: inputUiText.experience.label[name],
-            placeholder: inputUiText.experience.placeholder[name],
-        };
-    };
-
     return (
         <DataContainer
             name={
@@ -100,11 +100,11 @@ const ExperienceForm = ({ data }) => {
             render={!!startingData}
             preview={<ExperiencePreview data={dataToInject} lang="Esp" />}
         >
-            <TextInput {...inputReferenciation('reference')} ref={null} />
+            <TextInput {...propGenerator('reference')} ref={null} />
             <hr />
 
             <TextInput
-                {...inputReferenciation('place')}
+                {...propGenerator('place')}
                 validations={[inputValidation.notEmpty]}
             />
 
@@ -112,7 +112,7 @@ const ExperienceForm = ({ data }) => {
                 <legend>{inputUiText.experience.legend.date}</legend>
 
                 <TextInput
-                    {...inputReferenciation('timeStart')}
+                    {...propGenerator('timeStart')}
                     validations={[
                         inputValidation.notEmpty,
                         inputValidation.isDate,
@@ -120,7 +120,7 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
-                    {...inputReferenciation('timeEnd')}
+                    {...propGenerator('timeEnd')}
                     validations={[inputValidation.isDate]}
                 />
             </fieldset>
@@ -128,12 +128,12 @@ const ExperienceForm = ({ data }) => {
             <fieldset>
                 <legend>{inputUiText.experience.legend.title}</legend>
                 <TextInput
-                    {...inputReferenciation('titleEsp')}
+                    {...propGenerator('titleEsp')}
                     validations={[inputValidation.notEmpty]}
                 />
 
                 <TextInput
-                    {...inputReferenciation('titleEng')}
+                    {...propGenerator('titleEng')}
                     sugestTranslation={
                         dataToInject.titleEsp && !dataToInject.titleEng
                     }
@@ -144,7 +144,7 @@ const ExperienceForm = ({ data }) => {
                 <legend>{inputUiText.experience.legend.description}</legend>
 
                 <TextInput
-                    {...inputReferenciation('descriptionEsp')}
+                    {...propGenerator('descriptionEsp')}
                     oneLine={false}
                     height="5"
                     validations={[
@@ -154,7 +154,7 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
-                    {...inputReferenciation('descriptionEng')}
+                    {...propGenerator('descriptionEng')}
                     oneLine={false}
                     height="5"
                     validations={[inputValidation.maxLength(350)]}
@@ -165,31 +165,11 @@ const ExperienceForm = ({ data }) => {
                 />
             </fieldset>
 
-            <div className="card__buttons">
-                <Button
-                    text="Eliminar tarjeta asd"
-                    type="warn"
-                    callback={handleDelete}
-                />
-
-                <Button
-                    text={startingData ? 'Reiniciar' : 'Deshacer cambios'}
-                    type="reset"
-                    callback={handleReset}
-                />
-
-                <Button
-                    text={startingData ? 'Guardar' : 'Actualizar'}
-                    type="button"
-                    callback={handleSave}
-                />
-            </div>
-
-            <hr />
             <ButtonsSet
                 previousData={startingData}
-                currentData={dataToInject}
-                dataUpdater={setDataToInject}
+                deleteCallback={handleDelete}
+                resetCallback={handleReset}
+                saveCallback={handleSave}
             />
         </DataContainer>
     );

@@ -176,33 +176,30 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
-const ButtonsSet = ({ previousData, currentData, dataUpdater }) => {
-    const handleDelete = () => {};
-    const handleReset = () => {
-        dataUpdater(previousData || {});
-    };
-    const handleSave = () => {
-        console.log(currentData)
-    };
-
+const ButtonsSet = ({
+    previousData,
+    deleteCallback,
+    resetCallback,
+    saveCallback,
+}) => {
     return (
         <div className="card__buttons">
             <Button
                 text="Eliminar tarjeta"
                 type="warn"
-                callback={handleDelete}
+                callback={deleteCallback}
             />
 
             <Button
                 text={previousData ? 'Reiniciar' : 'Deshacer cambios'}
                 type="reset"
-                callback={handleReset}
+                callback={resetCallback}
             />
 
             <Button
                 text={previousData ? 'Guardar' : 'Actualizar'}
                 type="button"
-                callback={handleSave}
+                callback={saveCallback}
             />
         </div>
     );
