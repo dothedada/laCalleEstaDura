@@ -123,53 +123,47 @@ const handleKeyDown = (callback) => (event) => {
     callback();
 };
 
-const EditCard = ({ edit, callback }) => {
-    return (
-        <button
-            type="button"
-            onPointerDown={callback}
-            onKeyDown={handleKeyDown(callback)}
-        >
-            <span className="sr-only">
-                {edit
-                    ? 'Haz clic para abrir el cuadro de edición'
-                    : 'Haz clic para guardar los cambios y cerrar'}
-            </span>
-            <IconEdit open={edit} />
-        </button>
-    );
-};
+const EditCard = ({ edit, callback }) => (
+    <button
+        type="button"
+        onPointerDown={callback}
+        onKeyDown={handleKeyDown(callback)}
+    >
+        <span className="sr-only">
+            {edit
+                ? 'Haz clic para abrir el cuadro de edición'
+                : 'Haz clic para guardar los cambios y cerrar'}
+        </span>
+        <IconEdit open={edit} />
+    </button>
+);
 
-const RenderCard = ({ renderInPdf, callback }) => {
-    return (
-        <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
-            <span className="sr-only">
-                Este elemento {renderInPdf ? 'se' : 'no se'} encuentra en la
-                hoja de vida actual, haz clic para cambiar el estado.
-            </span>
-            <IconRender open={renderInPdf} />
-            <input
-                type="checkbox"
-                className="hidden"
-                onChange={callback}
-                checked={renderInPdf}
-            />
-        </label>
-    );
-};
+const RenderCard = ({ renderInPdf, callback }) => (
+    <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
+        <span className="sr-only">
+            Este elemento {renderInPdf ? 'se' : 'no se'} encuentra en la hoja de
+            vida actual, haz clic para cambiar el estado.
+        </span>
+        <IconRender open={renderInPdf} />
+        <input
+            type="checkbox"
+            className="hidden"
+            onChange={callback}
+            checked={renderInPdf}
+        />
+    </label>
+);
 
-const Button = ({ text, type, callback }) => {
-    return (
-        <button
-            type={type === 'warn' ? 'button' : type}
-            onPointerDown={callback}
-            onKeyDown={handleKeyDown(callback)}
-            className={`button__${type}`}
-        >
-            {text}
-        </button>
-    );
-};
+const Button = ({ text, type, callback }) => (
+    <button
+        type={type === 'warn' ? 'button' : type}
+        onPointerDown={callback}
+        onKeyDown={handleKeyDown(callback)}
+        className={`button__${type}`}
+    >
+        {text}
+    </button>
+);
 
 const FormButtons = ({
     previousData,
