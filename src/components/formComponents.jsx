@@ -8,12 +8,52 @@ const IconWrapper = ({ icon, open }) => (
         height="1em"
         viewBox="0 0 256 256"
         aria-hidden="true"
+        style={{fontSize: '1.5rem'}}
     >
         <path
             fill="currentColor"
-            d={open ? iconsPaths[icon].open : iconsPaths[icon].close}
+            d={open !== undefined ? iconsPaths[icon][open] : iconsPaths[icon]}
         ></path>
     </svg>
+);
+
+const handleKeyDown = (callback) => (event) => {
+    if (event.key !== ' ' && event.key !== 'Enter') return;
+
+    event.preventDefault();
+    callback();
+};
+
+const EditCard = ({ edit, callback }) => (
+    <button
+        type="button"
+        onPointerDown={callback}
+        onKeyDown={handleKeyDown(callback)}
+    >
+        <span className="sr-only">
+            {edit
+                ? inputUiText.global.reader.editCard.open
+                : inputUiText.global.reader.editCard.closed}
+        </span>
+        <IconWrapper icon={'edit'} open={edit} />
+    </button>
+);
+
+const RenderCard = ({ renderInPdf, callback }) => (
+    <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
+        <span className="sr-only">
+            {renderInPdf
+                ? inputUiText.global.reader.renderInPdf.open
+                : inputUiText.global.reader.renderInPdf.closed}
+        </span>
+        <IconWrapper icon={'renderInPdf'} open={renderInPdf} />
+        <input
+            type="checkbox"
+            className="hidden"
+            onChange={callback}
+            checked={renderInPdf}
+        />
+    </label>
 );
 
 const makeValidations = (validations, field) => {
@@ -82,7 +122,11 @@ const TextInput = forwardRef(function TextInput(
     return (
         <label>
             {label}
-            {maxLength && `, quedan ${maxLength - currentLength} caracteres.`}
+            {maxLength &&
+                inputUiText.global.inputs.lengthStatus(
+                    maxLength,
+                    currentLength,
+                )}
             {errors.map((error, index) => (
                 <div className="error" key={index}>
                     {error}
@@ -92,44 +136,6 @@ const TextInput = forwardRef(function TextInput(
         </label>
     );
 });
-
-const handleKeyDown = (callback) => (event) => {
-    if (event.key !== ' ' && event.key !== 'Enter') return;
-
-    event.preventDefault();
-    callback();
-};
-
-const EditCard = ({ edit, callback }) => (
-    <button
-        type="button"
-        onPointerDown={callback}
-        onKeyDown={handleKeyDown(callback)}
-    >
-        <span className="sr-only">
-            {edit
-                ? 'Haz clic para abrir el cuadro de edición'
-                : 'Haz clic para guardar los cambios y cerrar'}
-        </span>
-        <IconWrapper icon={'edit'} open={edit} />
-    </button>
-);
-
-const RenderCard = ({ renderInPdf, callback }) => (
-    <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
-        <span className="sr-only">
-            Este elemento {renderInPdf ? 'se' : 'no se'} encuentra en la hoja de
-            vida actual, haz clic para cambiar el estado.
-        </span>
-        <IconWrapper icon={'renderInPdf'} open={renderInPdf} />
-        <input
-            type="checkbox"
-            className="hidden"
-            onChange={callback}
-            checked={renderInPdf}
-        />
-    </label>
-);
 
 const Button = ({ text, type, callback }) => (
     <button
