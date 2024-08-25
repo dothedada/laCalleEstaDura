@@ -19,6 +19,13 @@ export const inputValidation = {
 };
 
 export const inputUiText = {
+    global: {
+        buttons: {
+            delete: 'Eliminar tarjeta',
+            reset: (previousData) => (previousData ? 'Deshacer' : 'Reiniciar'),
+            save: (previousData) => (previousData ? 'Actualizar' : 'Guardar'),
+        },
+    },
     experience: {
         reference: 'Nueva experiencia laboral',
         legend: {

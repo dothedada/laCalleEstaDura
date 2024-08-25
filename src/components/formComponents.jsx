@@ -1,4 +1,5 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import { inputUiText } from './formValidations';
 
 const IconEdit = ({ open }) => (
     <svg
@@ -168,7 +169,7 @@ const Button = ({ text, type, callback }) => {
     const handleKeyDown = (event) => {
         if (event.key !== ' ' && event.key !== 'Enter') return;
 
-        event.preventDefault();
+        // event.preventDefault();
         callback();
     };
 
@@ -193,19 +194,19 @@ const FormButtons = ({
     return (
         <div className="card__buttons">
             <Button
-                text="Eliminar tarjeta"
+                text={inputUiText.global.buttons.delete}
                 type="warn"
                 callback={deleteCallback}
             />
 
             <Button
-                text={previousData ? 'Deshacer cambios' : 'Reiniciar'}
+                text={inputUiText.global.buttons.reset(previousData)}
                 type="reset"
                 callback={resetCallback}
             />
 
             <Button
-                text={previousData ? 'Actualizar' : 'Guardar'}
+                text={inputUiText.global.buttons.save(previousData)}
                 type="button"
                 callback={saveCallback}
             />
