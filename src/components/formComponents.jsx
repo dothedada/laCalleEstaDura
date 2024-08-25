@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 
 const IconEdit = ({ open }) => (
     <svg
@@ -52,18 +52,28 @@ const makeValidations = (validations, field) => {
     return errorList;
 };
 
-const TextInput = ({
-    oneLine = true,
-    label,
-    placeholder = '',
-    dataField = '',
-    callback,
-    validations = [],
-    sugestTranslation = false,
-    height = '1',
-}) => {
+const TextInput = forwardRef(function TextInput(
+    {
+        oneLine = true,
+        label,
+        placeholder = '',
+        dataField = '',
+        callback,
+        validations = [],
+        sugestTranslation = false,
+        height = '1',
+    },
+    ref,
+) {
     const [errors, setErrors] = useState([]);
     const field = useRef();
+
+    useImperativeHandle(ref, () => ({
+        validate: () => {
+            setErrors(makeValidations(validations, field.current));
+            if (errors.length) return field.current;
+        },
+    }));
 
     const handleChange = () => {
         callback(field.current.value);
@@ -103,7 +113,7 @@ const TextInput = ({
             {oneLine ? <input {...props} /> : <textarea {...props}></textarea>}
         </label>
     );
-};
+});
 
 const EditCard = ({ edit, callback }) => {
     const handleKeyDown = (event) => {
@@ -193,7 +203,7 @@ const DataContainer = ({ name, children, preview, render }) => {
             {open ? (
                 <form>{children}</form>
             ) : (
-                renderInPdf && <div>{preview}</div>
+                renderInPdf && <div className="preview">{preview}</div>
             )}
         </div>
     );

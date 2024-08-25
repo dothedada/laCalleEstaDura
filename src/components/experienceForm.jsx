@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, Button, DataContainer } from './formComponents';
 import { inputValidation } from './formValidations';
 
 // TODO:
-// 4. Manbejo de la exportación de la info validada como objeto de js
+// 4. revisar que la validación no se haga sobre el estado previo sino sobre el nuevo
+// 5. creación del objedo de datos en memoria
 // 6. implementación en otros tipos de tarjetas
+// 7. creacion del modelo base 
+// 8. creación del pdf
 
 const ExperiencePreview = ({ data, lang }) => {
     return (
@@ -41,22 +44,33 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleReset = () => {
-        setDataToInject(data ? data : {});
-        document.querySelectorAll('textarea').forEach((textarea) => {
-            textarea.textContent = '';
-        });
+        setDataToInject(data || {});
     };
 
-    const handleSave = () => {
-        if (
-            !dataToInject.place ||
-            !dataToInject.timeStart ||
-            !dataToInject.titleEsp ||
-            !dataToInject.descriptionEsp
-        ) {
-            alert('pailas');
+    const refs = {
+        placeOfWork: useRef(),
+        timeStart: useRef(),
+        timeEnd: useRef(),
+        titleEsp: useRef(),
+        titleEng: useRef(),
+        descriptionEsp: useRef(),
+        descriptionEng: useRef(),
+    };
+
+    const handleSave = (event) => {
+        event.preventDefault();
+
+        const wrongInputs = Object.values(refs).reduce((errors, ref) => {
+            const inputWithError = ref.current.validate();
+            if (inputWithError) errors.push(inputWithError);
+            return errors;
+        }, []);
+
+        if (wrongInputs.length) {
+            wrongInputs[0].focus();
+            return;
         }
-        console.log(document.querySelectorAll(':invalid'));
+
         console.log(dataToInject);
     };
 
@@ -83,6 +97,7 @@ const ExperienceForm = ({ data }) => {
             <hr />
 
             <TextInput
+                ref={refs.placeOfWork}
                 label="¿Cómo se llamaba el lugar donde trabajaste?"
                 placeholder="Acme Inc."
                 dataField={dataToInject.place}
@@ -94,6 +109,7 @@ const ExperienceForm = ({ data }) => {
                 <legend>¿Cuánto tiempo trabajaste allí?</legend>
 
                 <TextInput
+                    ref={refs.timeStart}
                     label="mes de inicio"
                     placeholder="enero 2023"
                     dataField={dataToInject.timeStart}
@@ -105,6 +121,7 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
+                    ref={refs.timeEnd}
                     label="mes de terminación"
                     placeholder="enero 2024"
                     dataField={dataToInject.timeEnd}
@@ -116,6 +133,7 @@ const ExperienceForm = ({ data }) => {
             <fieldset>
                 <legend>¿Cuál fue tu cargo?</legend>
                 <TextInput
+                    ref={refs.titleEsp}
                     label="en español"
                     placeholder="Ingeniero de puentes y festivos"
                     dataField={dataToInject.titleEsp}
@@ -124,6 +142,7 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
+                    ref={refs.titleEng}
                     label="en inglés"
                     placeholder="Holidays engineer"
                     dataField={dataToInject.titleEng}
@@ -141,6 +160,7 @@ const ExperienceForm = ({ data }) => {
                 </legend>
 
                 <TextInput
+                    ref={refs.descriptionEsp}
                     oneLine={false}
                     label="en español"
                     placeholder="Describe los logros o tareas que llevaste a cabo"
@@ -154,6 +174,7 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
+                    ref={refs.descriptionEng}
                     oneLine={false}
                     label="en inglés"
                     placeholder="Describe your achievements or tasks performed "
@@ -183,7 +204,7 @@ const ExperienceForm = ({ data }) => {
 
                 <Button
                     text={!data ? 'Guardar' : 'Actualizar'}
-                    type="submit"
+                    type="button"
                     callback={handleSave}
                 />
             </div>
