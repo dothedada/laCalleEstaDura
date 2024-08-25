@@ -40,27 +40,20 @@ const IconRender = ({ open }) => (
 
 const makeValidations = (validations, field) => {
     if (!validations.length) return [];
-    const errorList = [];
 
-    validations.forEach((validation) => {
+    const errorList = validations.reduce((errors, validation) => {
         const regex = new RegExp(validation.pattern);
+        if (!regex.test(field.value)) errors.push(validation.message);
 
-        if (!regex.test(field.value)) {
-            errorList.push(validation.message);
-        }
-    });
-
-    if (errorList.length) {
-        field.setCustomValidity(errorList[0]);
-    } else {
-        field.setCustomValidity('');
-    }
+        return errors;
+    }, []);
+    field.setCustomValidity(errorList[0] || '');
 
     return errorList;
 };
 
 const TextInput = ({
-    type = 'string',
+    oneLine = true,
     label,
     placeholder = '',
     dataField = '',
@@ -84,44 +77,30 @@ const TextInput = ({
     };
 
     const maxLength = validations
-        .filter((val) => /caracteres/.test(val.message))[0]
+        .find((val) => /caracteres/.test(val.message))
         ?.message.match(/\d+/);
-    const currentLength = !dataField
-        ? '0'
-        : dataField.replace(/\s+/g, ' ').length;
+    const currentLength = dataField.replace(/\s+/g, ' ').length;
+
+    const props = {
+        ref: field,
+        placeholder: placeholder,
+        value: dataField,
+        onChange: handleChange,
+        onBlur: handleOnBlur,
+        className: sugestTranslation ? 'warn-background' : '',
+        ...(oneLine ? { type: 'text' } : { rows: height }),
+    };
 
     return (
         <label>
             {label}
-            {!maxLength
-                ? ''
-                : `, te quedan ${maxLength - currentLength} caracteres.`}
-            {errors.map((error, indx) => (
-                <div className="error" key={indx}>
+            {maxLength && `, quedan ${maxLength - currentLength} caracteres.`}
+            {errors.map((error, index) => (
+                <div className="error" key={index}>
                     {error}
                 </div>
             ))}
-            {type === 'string' ? (
-                <input
-                    ref={field}
-                    type="text"
-                    placeholder={placeholder}
-                    value={dataField}
-                    onChange={handleChange}
-                    onBlur={handleOnBlur}
-                    className={sugestTranslation ? 'warn-background' : ''}
-                />
-            ) : (
-                <textarea
-                    ref={field}
-                    rows={height}
-                    placeholder={placeholder}
-                    value={dataField}
-                    onChange={handleChange}
-                    onBlur={handleOnBlur}
-                    className={sugestTranslation ? 'warn-background' : ''}
-                ></textarea>
-            )}
+            {oneLine ? <input {...props} /> : <textarea {...props}></textarea>}
         </label>
     );
 };

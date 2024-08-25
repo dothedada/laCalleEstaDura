@@ -141,7 +141,7 @@ const ExperienceForm = ({ data }) => {
                 </legend>
 
                 <TextInput
-                    type="area"
+                    oneLine={false}
                     label="en español"
                     placeholder="Describe los logros o tareas que llevaste a cabo"
                     height="5"
@@ -154,7 +154,7 @@ const ExperienceForm = ({ data }) => {
                 />
 
                 <TextInput
-                    type="area"
+                    oneLine={false}
                     label="en inglés"
                     placeholder="Describe your achievements or tasks performed "
                     height="5"
