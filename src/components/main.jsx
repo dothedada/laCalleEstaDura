@@ -6,7 +6,7 @@ import ExperienceForm from './experienceForm';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <ExperienceForm />
+        <ExperienceForm data={{}}/>
         <ExperienceForm />
     </StrictMode>,
 );

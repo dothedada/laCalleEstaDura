@@ -106,10 +106,6 @@ const TextInput = ({
 };
 
 const EditCard = ({ edit, callback }) => {
-    const handleChange = () => {
-        callback();
-    };
-
     const handleKeyDown = (event) => {
         if (event.key !== ' ' && event.key !== 'Enter') return;
 
@@ -120,7 +116,7 @@ const EditCard = ({ edit, callback }) => {
     return (
         <button
             type="button"
-            onPointerDown={handleChange}
+            onPointerDown={callback}
             onKeyDown={handleKeyDown}
         >
             <span className="sr-only">
@@ -134,10 +130,6 @@ const EditCard = ({ edit, callback }) => {
 };
 
 const RenderCard = ({ renderInPdf, callback }) => {
-    const handleChange = () => {
-        callback();
-    };
-
     const handleKeyDown = (event) => {
         if (event.key !== ' ' && event.key !== 'Enter') return;
 
@@ -155,7 +147,7 @@ const RenderCard = ({ renderInPdf, callback }) => {
             <input
                 type="checkbox"
                 className="hidden"
-                onChange={handleChange}
+                onChange={callback}
                 checked={renderInPdf}
             />
         </label>
@@ -201,7 +193,7 @@ const DataContainer = ({ name, children, preview, render }) => {
             {open ? (
                 <form>{children}</form>
             ) : (
-                renderInPdf && <form>{preview}</form>
+                renderInPdf && <div>{preview}</div>
             )}
         </div>
     );
