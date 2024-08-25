@@ -1,17 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, FormButtons, DataContainer } from './formComponents';
-import { inputValidation, inputUiText } from './formValidations';
+import { inputValidation, uiText } from './txtAndValidations.js';
 
 // TODO:
-// Hacer de la barra inferior de botones un componente, integrar teclado
-// 4. revisar que la validación no se haga sobre el estado previo sino sobre el nuevo
 // 5. creación del objedo de datos en memoria
 // 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
 // 7. creacion del modelo base
 // 8. creación del pdf
-
 const ExperiencePreview = ({ data, lang }) => {
     return (
         <article>
@@ -56,8 +53,8 @@ const ExperienceForm = ({ data }) => {
             ref: refs[name],
             dataField: dataToInject[name],
             callback: updateData(name),
-            label: inputUiText.experience.label[name],
-            placeholder: inputUiText.experience.placeholder[name],
+            label: uiText.experience.label[name],
+            placeholder: uiText.experience.placeholder[name],
         };
     };
 
@@ -70,7 +67,6 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleSave = () => {
-
         // Validate data
         const wrongInputs = Object.values(refs).reduce((errors, ref) => {
             const inputWithError = ref.current.validate();
@@ -85,6 +81,7 @@ const ExperienceForm = ({ data }) => {
 
         // Save data
 
+        console.log(startingData);
         console.log(dataToInject);
     };
 
@@ -92,7 +89,7 @@ const ExperienceForm = ({ data }) => {
         <DataContainer
             name={
                 !dataToInject.reference
-                    ? inputUiText.experience.reference
+                    ? uiText.experience.reference
                     : dataToInject.reference
             }
             render={!!startingData}
@@ -107,7 +104,7 @@ const ExperienceForm = ({ data }) => {
             />
 
             <fieldset>
-                <legend>{inputUiText.experience.legend.date}</legend>
+                <legend>{uiText.experience.legend.date}</legend>
 
                 <TextInput
                     {...propGenerator('timeStart')}
@@ -124,7 +121,7 @@ const ExperienceForm = ({ data }) => {
             </fieldset>
 
             <fieldset>
-                <legend>{inputUiText.experience.legend.title}</legend>
+                <legend>{uiText.experience.legend.title}</legend>
                 <TextInput
                     {...propGenerator('titleEsp')}
                     validations={[inputValidation.notEmpty]}
@@ -139,7 +136,7 @@ const ExperienceForm = ({ data }) => {
             </fieldset>
 
             <fieldset>
-                <legend>{inputUiText.experience.legend.description}</legend>
+                <legend>{uiText.experience.legend.description}</legend>
 
                 <TextInput
                     {...propGenerator('descriptionEsp')}

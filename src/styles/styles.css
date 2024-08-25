@@ -56,16 +56,17 @@ h3 .date {
             transform: scale(0.9);
         }
 
-        & svg {
-            width: 32px;
-            height: 32px;
-        }
     }
 
     & button:focus-within,
     & label:focus-within {
         outline-color: var(--background);
     }
+}
+svg {
+    font: 1.5rem;
+    width: 32px;
+    height: 32px;
 }
 .card__buttons {
     display: flex;

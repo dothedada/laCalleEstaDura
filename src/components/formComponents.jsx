@@ -1,5 +1,5 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { inputUiText, iconsPaths } from './formValidations';
+import { uiText, iconsPaths } from './txtAndValidations';
 
 const IconWrapper = ({ icon, open }) => (
     <svg
@@ -8,7 +8,6 @@ const IconWrapper = ({ icon, open }) => (
         height="1em"
         viewBox="0 0 256 256"
         aria-hidden="true"
-        style={{fontSize: '1.5rem'}}
     >
         <path
             fill="currentColor"
@@ -32,8 +31,8 @@ const EditCard = ({ edit, callback }) => (
     >
         <span className="sr-only">
             {edit
-                ? inputUiText.global.reader.editCard.open
-                : inputUiText.global.reader.editCard.closed}
+                ? uiText.global.reader.editCard.open
+                : uiText.global.reader.editCard.closed}
         </span>
         <IconWrapper icon={'edit'} open={edit} />
     </button>
@@ -43,8 +42,8 @@ const RenderCard = ({ renderInPdf, callback }) => (
     <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
         <span className="sr-only">
             {renderInPdf
-                ? inputUiText.global.reader.renderInPdf.open
-                : inputUiText.global.reader.renderInPdf.closed}
+                ? uiText.global.reader.renderInPdf.open
+                : uiText.global.reader.renderInPdf.closed}
         </span>
         <IconWrapper icon={'renderInPdf'} open={renderInPdf} />
         <input
@@ -123,10 +122,7 @@ const TextInput = forwardRef(function TextInput(
         <label>
             {label}
             {maxLength &&
-                inputUiText.global.inputs.lengthStatus(
-                    maxLength,
-                    currentLength,
-                )}
+                uiText.global.inputs.lengthStatus(maxLength, currentLength)}
             {errors.map((error, index) => (
                 <div className="error" key={index}>
                     {error}
@@ -157,19 +153,19 @@ const FormButtons = ({
     return (
         <div className="card__buttons">
             <Button
-                text={inputUiText.global.buttons.delete}
+                text={uiText.global.buttons.delete}
                 type="warn"
                 callback={deleteCallback}
             />
 
             <Button
-                text={inputUiText.global.buttons.reset(previousData)}
+                text={uiText.global.buttons.reset(previousData)}
                 type="reset"
                 callback={resetCallback}
             />
 
             <Button
-                text={inputUiText.global.buttons.save(previousData)}
+                text={uiText.global.buttons.save(previousData)}
                 type="button"
                 callback={saveCallback}
             />
