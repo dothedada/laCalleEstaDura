@@ -104,13 +104,13 @@ const TextInput = forwardRef(function TextInput(
     return (
         <label>
             {label}
-            {maxLength && `, quedan ${maxLength - currentLength} caracteres.`}
             {errors.map((error, index) => (
                 <div className="error" key={index}>
                     {error}
                 </div>
             ))}
             {oneLine ? <input {...props} /> : <textarea {...props}></textarea>}
+                {maxLength && `, quedan ${maxLength - currentLength} caracteres.`}
         </label>
     );
 });

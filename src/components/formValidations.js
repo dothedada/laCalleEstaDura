@@ -17,3 +17,26 @@ export const inputValidation = {
         message: `Este campo no debe superar los ${char} caracteres`,
     }),
 };
+
+export const inputUiText = {
+    experience: {
+        label: {
+            place: '¿Cómo se llamaba el lugar donde trabajaste?',
+            timeStart: 'mes de inicio',
+            timeEnd: 'mes de terminación',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+            descriptionEsp: 'en español',
+            descriptionEng: 'en inglés',
+        },
+        placeholder: {
+            place: 'Acme Inc.',
+            timeStart: 'Octubre 2023',
+            timeEnd: 'Octubre 2024',
+            titleEsp: 'Ingeniero de puentes y festivos',
+            titleEng: 'Holidays engineer',
+            descriptionEsp: 'Describe tus logros o las tareas que llevaste a cabo',
+            descriptionEng: 'Describe your achievments or task performed',
+        },
+    },
+};

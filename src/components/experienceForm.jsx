@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 // import { Experience } from '../js/card';
 import { TextInput, Button, DataContainer } from './formComponents';
-import { inputValidation } from './formValidations';
+import { inputValidation, inputUiText } from './formValidations';
 
 // TODO:
 // Hacer de la barra inferior de botones un componente, integrar teclado
@@ -80,15 +80,13 @@ const ExperienceForm = ({ data }) => {
         console.log(dataToInject);
     };
 
-    const handleLang = () => {
-        setPreviewLang(previewLang === 'Esp' ? 'Eng' : 'Esp');
-    };
-
     const inputReferenciation = (name) => {
         return {
             ref: refs[name],
             dataField: dataToInject[name],
             callback: updateData(name),
+            label: inputUiText.experience.label[name],
+            placeholder: inputUiText.experience.placeholder[name],
         };
     };
 
@@ -112,8 +110,6 @@ const ExperienceForm = ({ data }) => {
 
             <TextInput
                 {...inputReferenciation('place')}
-                label="¿Cómo se llamaba el lugar donde trabajaste?"
-                placeholder="Acme Inc."
                 validations={[inputValidation.notEmpty]}
             />
 
@@ -122,8 +118,6 @@ const ExperienceForm = ({ data }) => {
 
                 <TextInput
                     {...inputReferenciation('timeStart')}
-                    label="mes de inicio"
-                    placeholder="enero 2023"
                     validations={[
                         inputValidation.notEmpty,
                         inputValidation.isDate,
@@ -132,8 +126,6 @@ const ExperienceForm = ({ data }) => {
 
                 <TextInput
                     {...inputReferenciation('timeEnd')}
-                    label="mes de terminación"
-                    placeholder="enero 2024"
                     validations={[inputValidation.isDate]}
                 />
             </fieldset>
@@ -142,15 +134,11 @@ const ExperienceForm = ({ data }) => {
                 <legend>¿Cuál fue tu cargo?</legend>
                 <TextInput
                     {...inputReferenciation('titleEsp')}
-                    label="en español"
-                    placeholder="Ingeniero de puentes y festivos"
                     validations={[inputValidation.notEmpty]}
                 />
 
                 <TextInput
                     {...inputReferenciation('titleEng')}
-                    label="en inglés"
-                    placeholder="Holidays engineer"
                     sugestTranslation={
                         dataToInject.titleEsp && !dataToInject.titleEng
                     }
@@ -166,8 +154,6 @@ const ExperienceForm = ({ data }) => {
                 <TextInput
                     {...inputReferenciation('descriptionEsp')}
                     oneLine={false}
-                    label="en español"
-                    placeholder="Describe los logros o tareas que llevaste a cabo"
                     height="5"
                     validations={[
                         inputValidation.notEmpty,
@@ -178,8 +164,6 @@ const ExperienceForm = ({ data }) => {
                 <TextInput
                     {...inputReferenciation('descriptionEng')}
                     oneLine={false}
-                    label="en inglés"
-                    placeholder="Describe your achievements or tasks performed "
                     height="5"
                     validations={[inputValidation.maxLength(350)]}
                     sugestTranslation={
@@ -208,7 +192,6 @@ const ExperienceForm = ({ data }) => {
                     callback={handleSave}
                 />
             </div>
-
         </DataContainer>
     );
 };
