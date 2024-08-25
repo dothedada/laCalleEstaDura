@@ -165,10 +165,18 @@ const RenderCard = ({ renderInPdf, callback }) => {
 };
 
 const Button = ({ text, type, callback }) => {
+    const handleKeyDown = (event) => {
+        if (event.key !== ' ' && event.key !== 'Enter') return;
+
+        event.preventDefault();
+        callback();
+    };
+
     return (
         <button
             type={type === 'warn' ? 'button' : type}
             onPointerDown={callback}
+            onKeyDown={handleKeyDown}
             className={`button__${type}`}
         >
             {text}
@@ -176,7 +184,7 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
-const ButtonsSet = ({
+const FormButtons = ({
     previousData,
     deleteCallback,
     resetCallback,
@@ -191,13 +199,13 @@ const ButtonsSet = ({
             />
 
             <Button
-                text={previousData ? 'Reiniciar' : 'Deshacer cambios'}
+                text={previousData ? 'Deshacer cambios' : 'Reiniciar'}
                 type="reset"
                 callback={resetCallback}
             />
 
             <Button
-                text={previousData ? 'Guardar' : 'Actualizar'}
+                text={previousData ? 'Actualizar' : 'Guardar'}
                 type="button"
                 callback={saveCallback}
             />
@@ -238,4 +246,4 @@ const DataContainer = ({ name, children, preview, render }) => {
     );
 };
 
-export { TextInput, RenderCard, Button, ButtonsSet, DataContainer };
+export { TextInput, RenderCard, Button, FormButtons, DataContainer };

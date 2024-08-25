@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 // import { Experience } from '../js/card';
-import { TextInput, Button, ButtonsSet, DataContainer } from './formComponents';
+import { TextInput, FormButtons, DataContainer } from './formComponents';
 import { inputValidation, inputUiText } from './formValidations';
 
 // TODO:
 // Hacer de la barra inferior de botones un componente, integrar teclado
-// revisar cómo pasa data, pues está siendo un objeto, lo que mata todas las bifurcaiones
 // 4. revisar que la validación no se haga sobre el estado previo sino sobre el nuevo
 // 5. creación del objedo de datos en memoria
 // 5. botón de editar de la barra tambien sirve para guardar
@@ -70,8 +69,7 @@ const ExperienceForm = ({ data }) => {
         setDataToInject(startingData || {});
     };
 
-    const handleSave = (event) => {
-        event.preventDefault();
+    const handleSave = () => {
 
         // Validate data
         const wrongInputs = Object.values(refs).reduce((errors, ref) => {
@@ -165,7 +163,7 @@ const ExperienceForm = ({ data }) => {
                 />
             </fieldset>
 
-            <ButtonsSet
+            <FormButtons
                 previousData={startingData}
                 deleteCallback={handleDelete}
                 resetCallback={handleReset}
