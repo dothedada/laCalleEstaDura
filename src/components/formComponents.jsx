@@ -104,13 +104,13 @@ const TextInput = forwardRef(function TextInput(
     return (
         <label>
             {label}
+            {maxLength && `, quedan ${maxLength - currentLength} caracteres.`}
             {errors.map((error, index) => (
                 <div className="error" key={index}>
                     {error}
                 </div>
             ))}
             {oneLine ? <input {...props} /> : <textarea {...props}></textarea>}
-                {maxLength && `, quedan ${maxLength - currentLength} caracteres.`}
         </label>
     );
 });
@@ -176,6 +176,38 @@ const Button = ({ text, type, callback }) => {
     );
 };
 
+const ButtonsSet = ({ previousData, currentData, dataUpdater }) => {
+    const handleDelete = () => {};
+    const handleReset = () => {
+        dataUpdater(previousData || {});
+    };
+    const handleSave = () => {
+        console.log(currentData)
+    };
+
+    return (
+        <div className="card__buttons">
+            <Button
+                text="Eliminar tarjeta"
+                type="warn"
+                callback={handleDelete}
+            />
+
+            <Button
+                text={previousData ? 'Reiniciar' : 'Deshacer cambios'}
+                type="reset"
+                callback={handleReset}
+            />
+
+            <Button
+                text={previousData ? 'Guardar' : 'Actualizar'}
+                type="button"
+                callback={handleSave}
+            />
+        </div>
+    );
+};
+
 const DataContainer = ({ name, children, preview, render }) => {
     const [open, setOpen] = useState(false);
     const [renderInPdf, setRenderInPdf] = useState(false);
@@ -209,4 +241,4 @@ const DataContainer = ({ name, children, preview, render }) => {
     );
 };
 
-export { TextInput, RenderCard, Button, DataContainer };
+export { TextInput, RenderCard, Button, ButtonsSet, DataContainer };

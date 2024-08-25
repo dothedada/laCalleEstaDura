@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // import { Experience } from '../js/card';
-import { TextInput, Button, DataContainer } from './formComponents';
+import { TextInput, Button, ButtonsSet, DataContainer } from './formComponents';
 import { inputValidation, inputUiText } from './formValidations';
 
 // TODO:
@@ -32,8 +32,8 @@ const ExperiencePreview = ({ data, lang }) => {
 };
 
 const ExperienceForm = ({ data }) => {
-    const [dataToInject, setDataToInject] = useState(data ? data : {});
-    const [previewLang, setPreviewLang] = useState('Esp');
+    const [startingData] = useState(data || undefined)
+    const [dataToInject, setDataToInject] = useState(startingData ?? {})
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -47,7 +47,7 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleReset = () => {
-        setDataToInject(data || {});
+        setDataToInject(startingData || {});
     };
 
     const refs = {
@@ -94,18 +94,13 @@ const ExperienceForm = ({ data }) => {
         <DataContainer
             name={
                 !dataToInject.reference
-                    ? 'Nueva experiencia laboral'
+                    ? inputUiText.experience.reference
                     : dataToInject.reference
             }
-            render={!!data}
+            render={!!startingData}
             preview={<ExperiencePreview data={dataToInject} lang="Esp" />}
         >
-            <TextInput
-                label="Nombre de la tarjeta"
-                placeholder="Donde o qué hiciste"
-                dataField={dataToInject.reference}
-                callback={updateData('reference')}
-            />
+            <TextInput {...inputReferenciation('reference')} ref={null} />
             <hr />
 
             <TextInput
@@ -114,7 +109,7 @@ const ExperienceForm = ({ data }) => {
             />
 
             <fieldset>
-                <legend>¿Cuánto tiempo trabajaste allí?</legend>
+                <legend>{inputUiText.experience.legend.date}</legend>
 
                 <TextInput
                     {...inputReferenciation('timeStart')}
@@ -131,7 +126,7 @@ const ExperienceForm = ({ data }) => {
             </fieldset>
 
             <fieldset>
-                <legend>¿Cuál fue tu cargo?</legend>
+                <legend>{inputUiText.experience.legend.title}</legend>
                 <TextInput
                     {...inputReferenciation('titleEsp')}
                     validations={[inputValidation.notEmpty]}
@@ -146,10 +141,7 @@ const ExperienceForm = ({ data }) => {
             </fieldset>
 
             <fieldset>
-                <legend>
-                    ¿Cuáles fueron tus logros o qué tareas realizaste en este
-                    cargo?
-                </legend>
+                <legend>{inputUiText.experience.legend.description}</legend>
 
                 <TextInput
                     {...inputReferenciation('descriptionEsp')}
@@ -175,23 +167,30 @@ const ExperienceForm = ({ data }) => {
 
             <div className="card__buttons">
                 <Button
-                    text="Eliminar tarjeta"
+                    text="Eliminar tarjeta asd"
                     type="warn"
                     callback={handleDelete}
                 />
 
                 <Button
-                    text={!data ? 'Reiniciar' : 'Deshacer cambios'}
+                    text={startingData ? 'Reiniciar' : 'Deshacer cambios'}
                     type="reset"
                     callback={handleReset}
                 />
 
                 <Button
-                    text={!data ? 'Guardar' : 'Actualizar'}
+                    text={startingData ? 'Guardar' : 'Actualizar'}
                     type="button"
                     callback={handleSave}
                 />
             </div>
+
+            <hr />
+            <ButtonsSet
+                previousData={startingData}
+                currentData={dataToInject}
+                dataUpdater={setDataToInject}
+            />
         </DataContainer>
     );
 };
