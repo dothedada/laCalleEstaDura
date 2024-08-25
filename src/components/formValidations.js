@@ -20,7 +20,14 @@ export const inputValidation = {
 
 export const inputUiText = {
     experience: {
+        reference: 'Nueva experiencia laboral',
+        legend: {
+            date: '¿Cuánto tiempo trabajaste allí?',
+            title: '¿Cuál fue tu cargo?',
+            description: '¿Cuáles fueron tus logros o qué tareas realizaste?',
+        },
         label: {
+            reference: '¿Cómo se llama esta tarjeta?',
             place: '¿Cómo se llamaba el lugar donde trabajaste?',
             timeStart: 'mes de inicio',
             timeEnd: 'mes de terminación',
@@ -30,13 +37,16 @@ export const inputUiText = {
             descriptionEng: 'en inglés',
         },
         placeholder: {
+            reference: 'El nombre del lugar o lo que hiciste',
             place: 'Acme Inc.',
             timeStart: 'Octubre 2023',
             timeEnd: 'Octubre 2024',
             titleEsp: 'Ingeniero de puentes y festivos',
             titleEng: 'Holidays engineer',
-            descriptionEsp: 'Describe tus logros o las tareas que llevaste a cabo',
-            descriptionEng: 'Describe your achievments or task performed',
+            descriptionEsp:
+                'Dirigir el equipo de sugerencias. Implementar la semana laboral de 4 días.',
+            descriptionEng:
+                'Lead the suggestion team. Implement the 4-day workweek.',
         },
     },
 };
