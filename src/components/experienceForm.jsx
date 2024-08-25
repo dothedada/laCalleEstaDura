@@ -1,31 +1,17 @@
 import { useRef, useState } from 'react';
-// import { Experience } from '../js/card';
+
+import { Experience } from '../js/card';
 import { TextInput, FormButtons, DataContainer } from './formComponents';
 import { inputValidation, uiText } from './txtAndValidations.js';
+import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
 // 5. creación del objedo de datos en memoria
 // 5. botón de editar de la barra tambien sirve para guardar
+// 5.a previews, manejo de fechas
 // 6. implementación en otros tipos de tarjetas
 // 7. creacion del modelo base
 // 8. creación del pdf
-const ExperiencePreview = ({ data, lang }) => {
-    return (
-        <article>
-            <header>
-                <h3>
-                    {data.place}
-                    <span className="date">
-                        <time dateTime="2012-03">{data.timeStart}</time>-
-                        <time dateTime="2014-07">{data.timeEnd}</time>
-                    </span>
-                </h3>
-                <div className="title">{data[`title${lang}`]}</div>
-            </header>
-            <p>{data[`description${lang}`]}</p>
-        </article>
-    );
-};
 
 const ExperienceForm = ({ data }) => {
     const [startingData] = useState(data || undefined);
@@ -79,10 +65,13 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
-        // Save data
+        dataToInject.reference = dataToInject.reverence || undefined
+        const newExperience = new  Experience(dataToInject)
 
-        console.log(startingData);
+        localStorage.setItem(newExperience.id, JSON.stringify(newExperience))
+
         console.log(dataToInject);
+        console.log(newExperience);
     };
 
     return (
