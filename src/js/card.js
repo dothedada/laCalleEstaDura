@@ -1,7 +1,7 @@
 export class Card {
     constructor({ reference = undefined }) {
         this.id = this.#createId();
-        this.reference = reference ?? `Referencia_${this.id.slice(-4)}`;
+        this.reference = reference ?? `Referencia_${this.id.slice(-5)}`;
         this.type = undefined;
     }
 
