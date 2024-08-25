@@ -93,7 +93,7 @@ const TextInput = ({
     return (
         <label>
             {label}
-            {type === 'string'
+            {!maxLength
                 ? ''
                 : `, te quedan ${maxLength - currentLength} caracteres.`}
             {errors.map((error, indx) => (
