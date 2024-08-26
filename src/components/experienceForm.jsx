@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Experience } from '../js/card';
 import { TextInput, FormButtons, DataContainer } from './formComponents';
@@ -7,15 +7,20 @@ import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
 // 5.a no permitir fecha de inicio mayor a finalizacion
-// 5. CRUD de tarjetas (Actualizar sin cambiar ID, feedback de acciones, actualización interfase, nuevo objeto)
+// 5. CRUD de tarjetas (
+//      feedback de acciones,
+//      actualización interfase,
+//      nuevo objeto)
 // 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
 // 7. creacion del modelo base
 // 8. creación del pdf
 
 const ExperienceForm = ({ data }) => {
+    const [open, setOpen] = useState(false);
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(startingData ?? {});
+    const renderData = useEffect(() => {dataToInject}, [dataToInject])
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -47,6 +52,10 @@ const ExperienceForm = ({ data }) => {
         };
     };
 
+    const handleEdit = () => {
+        setOpen(!open);
+    };
+
     const handleDelete = () => {
         if (!startingData) return;
         localStorage.removeItem(startingData.id);
@@ -73,20 +82,14 @@ const ExperienceForm = ({ data }) => {
             const newCard = new Experience(dataToInject);
             localStorage.setItem(newCard.id, JSON.stringify(newCard));
         } else {
-            console.table(startingData)
-            console.table(dataToInject)
-
-            Object.keys(dataToInject).forEach(field => {
+            Object.keys(dataToInject).forEach((field) => {
                 if (dataToInject[field] !== startingData[field]) {
-                    startingData.update(field, dataToInject[field])
-                } else {
-                    console.log(`${field} sigue siendo el mismo :).`)
+                    startingData.update(field, dataToInject[field]);
                 }
-            })
-            // TODO: solucionar el update de los elementos que han cambiado
-            // startingData.update('timeStart', dataToInject.timeStart);
+            });
             localStorage.setItem(startingData.id, JSON.stringify(startingData));
         }
+        setOpen(false);
     };
 
     return (
@@ -97,7 +100,9 @@ const ExperienceForm = ({ data }) => {
                     : dataToInject.reference
             }
             render={!!startingData}
-            preview={<ExperiencePreview data={dataToInject} lang="Esp" />}
+            preview={<ExperiencePreview data={startingData} lang="Esp" />}
+            open={open}
+            callback={handleEdit}
         >
             <TextInput {...propGenerator('reference')} ref={null} />
             <hr />
