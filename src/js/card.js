@@ -28,8 +28,9 @@ export class Card {
     }
 
     update(property, newValue) {
-        if (!(property in this)) return;
-
+        if (!(property in this) || property === 'type' || property === 'id') {
+            return;
+        }
         this[property] = newValue;
         this.checkIfTranslated(property.slice(0, -3));
     }
