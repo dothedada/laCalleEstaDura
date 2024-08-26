@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Experience } from '../js/card';
 import { TextInput, FormButtons, DataContainer } from './formComponents';
@@ -6,6 +6,8 @@ import { inputValidation, months, uiText } from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
+// PENSAR LA ESTRUCTURA DEL COMPONENTE, LIMITAR EL DRILL
+// update barra elemento nuevo
 // 5.a no permitir fecha de inicio mayor a finalizacion
 // 5. CRUD de tarjetas (
 //      feedback de acciones,
@@ -20,7 +22,6 @@ const ExperienceForm = ({ data }) => {
     const [open, setOpen] = useState(false);
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(startingData ?? {});
-    const renderData = useEffect(() => {dataToInject}, [dataToInject])
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -59,6 +60,7 @@ const ExperienceForm = ({ data }) => {
     const handleDelete = () => {
         if (!startingData) return;
         localStorage.removeItem(startingData.id);
+        console.log(this)
     };
 
     const handleReset = () => {
@@ -94,6 +96,7 @@ const ExperienceForm = ({ data }) => {
 
     return (
         <DataContainer
+            id={'test'}
             name={
                 !dataToInject.reference
                     ? uiText.experience.reference

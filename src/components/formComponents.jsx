@@ -173,7 +173,7 @@ const FormButtons = ({
     );
 };
 
-const DataContainer = ({ name, children, preview, render, open, callback }) => {
+const DataContainer = ({id, name, children, preview, render, open, callback }) => {
     const [renderInPdf, setRenderInPdf] = useState(false);
 
     const handleRender = () => {
@@ -181,7 +181,7 @@ const DataContainer = ({ name, children, preview, render, open, callback }) => {
     };
 
     return (
-        <div className="card__config">
+        <div className="card__config" id={id}>
             <div className="card__title">
                 <h2>{name}</h2>
                 <EditCard edit={open} callback={callback} />
