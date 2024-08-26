@@ -2,13 +2,14 @@ import { useRef, useState } from 'react';
 
 import { Experience } from '../js/card';
 import { TextInput, FormButtons, DataContainer } from './formComponents';
-import { inputValidation, uiText } from './txtAndValidations.js';
+import { inputValidation, months, uiText } from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
+// 5.a previews, manejo de fechas al cargar, no permitir fecha de inicio mayor a finalizacion
 // 5. creación del objedo de datos en memoria
+// 5. CRUD de tarjetas (Actualizar sin cambiar ID, feedback de acciones, actualización interfase, nuevo objeto)
 // 5. botón de editar de la barra tambien sirve para guardar
-// 5.a previews, manejo de fechas
 // 6. implementación en otros tipos de tarjetas
 // 7. creacion del modelo base
 // 8. creación del pdf
@@ -17,6 +18,7 @@ const ExperienceForm = ({ data }) => {
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(startingData ?? {});
 
+    console.log('info de la tarjeta:', data)
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
             ...previousData,
@@ -37,7 +39,10 @@ const ExperienceForm = ({ data }) => {
     const propGenerator = (name) => {
         return {
             ref: refs[name],
-            dataField: dataToInject[name],
+            dataField:
+                dataToInject[name] instanceof Date
+                    ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
+                    : dataToInject[name],
             callback: updateData(name),
             label: uiText.experience.label[name],
             placeholder: uiText.experience.placeholder[name],
@@ -45,7 +50,8 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleDelete = () => {
-        console.log(dataToInject);
+        if (!startingData) return;
+        localStorage.removeItem(startingData.id);
     };
 
     const handleReset = () => {
@@ -53,7 +59,6 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleSave = () => {
-        // Validate data
         const wrongInputs = Object.values(refs).reduce((errors, ref) => {
             const inputWithError = ref.current.validate();
             if (inputWithError) errors.push(inputWithError);
