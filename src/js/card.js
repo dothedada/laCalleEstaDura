@@ -94,6 +94,9 @@ export class Education extends Card {
     }
 
     update(property, newValue) {
+        // NOTE: Evaluar polimorfismo del método
+        // logica metodo hijo
+        // super.update(property, newValue) // llamado a método padre
         if (!(property in this)) return;
 
         this[property] = /^time/.test(property)

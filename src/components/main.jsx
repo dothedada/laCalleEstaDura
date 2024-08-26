@@ -8,9 +8,9 @@ import { Experience } from '../js/card';
 const storedCards = Object.keys(localStorage).map((cardId) =>
     JSON.parse(localStorage.getItem(cardId)),
 );
-const experienceCards = storedCards.filter(
-    (card) => card.type === 'experience',
-).map(card => new Experience(card));
+const experienceCards = storedCards
+    .filter((card) => card.type === 'experience')
+    .map((card) => new Experience(card));
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>

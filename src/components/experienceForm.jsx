@@ -73,8 +73,18 @@ const ExperienceForm = ({ data }) => {
             const newCard = new Experience(dataToInject);
             localStorage.setItem(newCard.id, JSON.stringify(newCard));
         } else {
+            console.table(startingData)
+            console.table(dataToInject)
+
+            Object.keys(dataToInject).forEach(field => {
+                if (dataToInject[field] !== startingData[field]) {
+                    startingData.update(field, dataToInject[field])
+                } else {
+                    console.log(`${field} sigue siendo el mismo :).`)
+                }
+            })
             // TODO: solucionar el update de los elementos que han cambiado
-            startingData.update('timeStart', dataToInject.timeStart);
+            // startingData.update('timeStart', dataToInject.timeStart);
             localStorage.setItem(startingData.id, JSON.stringify(startingData));
         }
     };
