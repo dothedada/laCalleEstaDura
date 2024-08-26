@@ -1,8 +1,4 @@
-import {
-    findInString,
-    inputValidation,
-    months,
-} from '../components/txtAndValidations';
+import { findInString, months } from '../components/txtAndValidations';
 
 export class Card {
     constructor({ reference = undefined, id = undefined, type = undefined }) {
@@ -94,17 +90,26 @@ export class Education extends Card {
     #parseMonth(month) {
         return /\d/.test(month)
             ? +month - 1
-            : months.findIndex((month) => month === month.toLowerCase());
+            : months.findIndex((m) => m === month.toLowerCase());
+    }
+
+    update(property, newValue) {
+        if (!(property in this)) return;
+
+        this[property] = /^time/.test(property)
+            ? this.#setDate(newValue)
+            : newValue;
+        this.checkIfTranslated(property.slice(0, -3));
     }
 
     #setDate(date) {
         if (!date) return new Date();
 
-        const year = date.match(findInString.year)[0];
-        const month = this.#parseMonth(date.match(findInString.month)[0]);
+        const cleanDate = date instanceof Date ? date.toDateString() : date;
+        const year = cleanDate.match(findInString.year)[0];
+        const month = this.#parseMonth(cleanDate.match(findInString.month)[0]);
 
         const newDate = new Date();
-
         newDate.setDate(1);
         newDate.setMonth(month);
         newDate.setFullYear(year);

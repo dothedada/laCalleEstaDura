@@ -6,8 +6,7 @@ import { inputValidation, months, uiText } from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
-// 5.a previews, manejo de fechas al cargar, no permitir fecha de inicio mayor a finalizacion
-// 5. creación del objedo de datos en memoria
+// 5.a no permitir fecha de inicio mayor a finalizacion
 // 5. CRUD de tarjetas (Actualizar sin cambiar ID, feedback de acciones, actualización interfase, nuevo objeto)
 // 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
@@ -18,7 +17,6 @@ const ExperienceForm = ({ data }) => {
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(startingData ?? {});
 
-    console.log('info de la tarjeta:', data)
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
             ...previousData,
@@ -70,10 +68,15 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
-        dataToInject.reference = dataToInject.reference ?? undefined;
-        const newExperience = new Experience(dataToInject);
-
-        localStorage.setItem(newExperience.id, JSON.stringify(newExperience));
+        if (!startingData) {
+            dataToInject.reference = dataToInject.reference ?? undefined;
+            const newCard = new Experience(dataToInject);
+            localStorage.setItem(newCard.id, JSON.stringify(newCard));
+        } else {
+            // TODO: solucionar el update de los elementos que han cambiado
+            startingData.update('timeStart', dataToInject.timeStart);
+            localStorage.setItem(startingData.id, JSON.stringify(startingData));
+        }
     };
 
     return (
