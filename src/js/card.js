@@ -1,8 +1,14 @@
+import {
+    findInString,
+    inputValidation,
+    months,
+} from '../components/txtAndValidations';
+
 export class Card {
-    constructor({ reference = undefined }) {
-        this.id = this.#createId();
+    constructor({ reference = undefined, id = undefined, type = undefined }) {
+        this.id = id || this.#createId();
         this.reference = reference ?? `Referencia_${this.id.slice(-5)}`;
-        this.type = undefined;
+        this.type = type;
     }
 
     #createId() {
@@ -85,16 +91,22 @@ export class Education extends Card {
         this.#calculateTimeGap();
     }
 
-    #setDate(date) {
-        if (!date) return 'active';
+    #parseMonth(month) {
+        return /\d/.test(month)
+            ? +month - 1
+            : months.findIndex((month) => month === month.toLowerCase());
+    }
 
-        const formatedDate = date.replace(/[^0-9]/g, '/').split('/');
-        const month = formatedDate.length < 2 ? 1 : formatedDate[0];
-        const year = formatedDate[formatedDate.length - 1];
+    #setDate(date) {
+        if (!date) return new Date();
+
+        const year = date.match(findInString.year)[0];
+        const month = this.#parseMonth(date.match(findInString.month)[0]);
+
         const newDate = new Date();
 
         newDate.setDate(1);
-        newDate.setMonth(month - 1);
+        newDate.setMonth(month);
         newDate.setFullYear(year);
 
         return newDate;
