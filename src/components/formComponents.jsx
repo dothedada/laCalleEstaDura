@@ -174,7 +174,7 @@ const FormButtons = ({
 };
 
 const CardBar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
-    const completed = data
+    const translated = data
         ? Object.keys(data)
               .filter((key) => /Translated$/.test(key))
               .every((key) => key === true)
@@ -182,11 +182,13 @@ const CardBar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
 
     return (
         <div
-            className={`card__title${!completed ? ' card__title--sugest' : ''}`}
+            className={`card__title${!translated ? ' card__title--sugest' : ''}`}
         >
-            <h2>{data?.reference ?? 'Nueva tarjeta'}</h2>
+            <h2>{data?.reference ?? uiText.experience.reference}</h2>
             <EditButon isOpen={open} editHandler={editHandler} />
-            {data && <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />}
+            {data && (
+                <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />
+            )}
         </div>
     );
 };

@@ -113,7 +113,7 @@ const ExperienceForm = ({ data }) => {
 
             <DataContainer
                 open={openToEdit}
-                preview={<ExperiencePreview data={startingData}/>}
+                preview={renderInPdf && <ExperiencePreview data={startingData} />}
             >
                 <TextInput {...propGenerator('reference')} ref={null} />
                 <hr />
