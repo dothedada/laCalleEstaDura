@@ -1,7 +1,12 @@
 import { useRef, useState } from 'react';
 
 import { Experience } from '../js/card';
-import { TextInput, FormButtons, DataContainer } from './formComponents';
+import {
+    TextInput,
+    FormButtons,
+    DataContainer,
+    CardBar,
+} from './formComponents';
 import { inputValidation, months, uiText } from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
@@ -19,7 +24,10 @@ import { ExperiencePreview } from './previewCards.jsx';
 // 8. creación del pdf
 
 const ExperienceForm = ({ data }) => {
-    const [open, setOpen] = useState(false);
+    // se va para arriba luego
+    const [renderInPdf, setRenderInPdf] = useState(false);
+
+    const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(startingData ?? {});
 
@@ -54,13 +62,13 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleEdit = () => {
-        setOpen(!open);
+        setOpenToEdit(!openToEdit);
     };
 
     const handleDelete = () => {
         if (!startingData) return;
         localStorage.removeItem(startingData.id);
-        console.log(this)
+        console.log(this);
     };
 
     const handleReset = () => {
@@ -91,23 +99,25 @@ const ExperienceForm = ({ data }) => {
             });
             localStorage.setItem(startingData.id, JSON.stringify(startingData));
         }
-        setOpen(false);
+        setOpenToEdit(false);
     };
 
     return (
-        <div id={"cardID"}>
-
-            <DataContainer
-                id={'test'}
+        <div className="card__config" id={'cardID'}>
+            <CardBar
                 name={
-                    !dataToInject.reference
+                    !startingData
                         ? uiText.experience.reference
                         : dataToInject.reference
                 }
-                render={!!startingData}
-                preview={<ExperiencePreview data={startingData} lang="Esp" />}
-                open={open}
-                callback={handleEdit}
+                open={openToEdit}
+                editHandler={() => setOpenToEdit(!openToEdit)}
+                inPdf={renderInPdf}
+                inPdfHandler={() => setRenderInPdf(!renderInPdf)}
+            />
+            <DataContainer
+                open={openToEdit}
+                preview={<ExperiencePreview data={startingData}/>}
             >
                 <TextInput {...propGenerator('reference')} ref={null} />
                 <hr />
@@ -169,7 +179,7 @@ const ExperienceForm = ({ data }) => {
                         validations={[inputValidation.maxLength(350)]}
                         sugestTranslation={
                             dataToInject.descriptionEsp &&
-                                !dataToInject.descriptionEng
+                            !dataToInject.descriptionEng
                         }
                     />
                 </fieldset>

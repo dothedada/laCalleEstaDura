@@ -173,52 +173,30 @@ const FormButtons = ({
     );
 };
 
-const CardBar = ({ data, openToEdit, editHandler, inPdf, inPdfHandler }) => {
-    const completed = Object.keys(data)
-        .filter((key) => /Translated$/.test(key))
-        .every((key) => key === true);
+const CardBar = ({ name, open, editHandler, inPdf, inPdfHandler }) => {
+    const completed = name
+        ? Object.keys(name)
+              .filter((key) => /Translated$/.test(key))
+              .every((key) => key === true)
+        : true;
 
     console.log(completed);
     return (
         <div className={`card__title ${!completed && 'card__title--sugest'}`}>
-            <h2>{data.reference ?? 'Nueva tarjeta'}</h2>
-            <EditButon isOpen={openToEdit} editHandler={editHandler} />
-            <InPdfCheckbox isInPdf={inPdf} renderHandler={inPdfHandler} />
+            <h2>{name ?? 'Nueva tarjeta'}</h2>
+            <EditButon isOpen={open} editHandler={editHandler} />
+            <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />
         </div>
     );
 };
 
-const DataContainer = ({
-    id,
-    name,
-    children,
-    preview,
-    render,
-    open,
-    callback,
-}) => {
-    const [renderInPdf, setRenderInPdf] = useState(false);
-
-    const handleRender = () => {
-        setRenderInPdf(!renderInPdf);
-    };
-
+const DataContainer = ({open, children, preview,  }) => {
     return (
-        <div className="card__config" id={id}>
-            <div className="card__title">
-                <h2>{name}</h2>
-                <EditButon edit={open} callback={callback} />
-                {render && (
-                    <InPdfCheckbox
-                        renderInPdf={renderInPdf}
-                        callback={handleRender}
-                    />
-                )}
-            </div>
+        <div>
             {open ? (
                 <form>{children}</form>
             ) : (
-                renderInPdf && <div className="preview">{preview}</div>
+                <div className="preview">{preview}</div>
             )}
         </div>
     );
