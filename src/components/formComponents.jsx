@@ -173,24 +173,25 @@ const FormButtons = ({
     );
 };
 
-const CardBar = ({ name, open, editHandler, inPdf, inPdfHandler }) => {
-    const completed = name
-        ? Object.keys(name)
+const CardBar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
+    const completed = data
+        ? Object.keys(data)
               .filter((key) => /Translated$/.test(key))
               .every((key) => key === true)
         : true;
 
-    console.log(completed);
     return (
-        <div className={`card__title ${!completed && 'card__title--sugest'}`}>
-            <h2>{name ?? 'Nueva tarjeta'}</h2>
+        <div
+            className={`card__title${!completed ? ' card__title--sugest' : ''}`}
+        >
+            <h2>{data?.reference ?? 'Nueva tarjeta'}</h2>
             <EditButon isOpen={open} editHandler={editHandler} />
-            <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />
+            {data && <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />}
         </div>
     );
 };
 
-const DataContainer = ({open, children, preview,  }) => {
+const DataContainer = ({ open, children, preview }) => {
     return (
         <div>
             {open ? (

@@ -11,7 +11,6 @@ import { inputValidation, months, uiText } from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
-// PENSAR LA ESTRUCTURA DEL COMPONENTE, LIMITAR EL DRILL
 // update barra elemento nuevo
 // 5.a no permitir fecha de inicio mayor a finalizacion
 // 5. CRUD de tarjetas (
@@ -105,16 +104,13 @@ const ExperienceForm = ({ data }) => {
     return (
         <div className="card__config" id={'cardID'}>
             <CardBar
-                name={
-                    !startingData
-                        ? uiText.experience.reference
-                        : dataToInject.reference
-                }
+                data={startingData ?? undefined}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
                 inPdf={renderInPdf}
                 inPdfHandler={() => setRenderInPdf(!renderInPdf)}
             />
+
             <DataContainer
                 open={openToEdit}
                 preview={<ExperiencePreview data={startingData}/>}
@@ -164,8 +160,8 @@ const ExperienceForm = ({ data }) => {
 
                     <TextInput
                         {...propGenerator('descriptionEsp')}
-                        oneLine={false}
                         height="5"
+                        oneLine={false}
                         validations={[
                             inputValidation.notEmpty,
                             inputValidation.maxLength(350),

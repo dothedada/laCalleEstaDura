@@ -13,25 +13,27 @@ const dateLabel = (date) => {
 
 const ExperiencePreview = ({ data, lang }) => {
     return (
-        <article>
-            <header>
-                <h3>
-                    {data.place}
-                    <span className="date">
-                        <time dateTime={dateLabel(data.timeStart)}>
-                            {formatDate(data.timeStart)}{' '}
-                        </time>
-                        -
-                        <time dateTime={dateLabel(data.timeEnd)}>
-                            {' '}
-                            {formatDate(data.timeEnd)}
-                        </time>
-                    </span>
-                </h3>
-                <div className="title">{data[`title${lang}`]}</div>
-            </header>
-            <p>{data[`description${lang}`]}</p>
-        </article>
+        data && (
+            <article>
+                <header>
+                    <h3>
+                        {data.place}
+                        <span className="date">
+                            <time dateTime={dateLabel(data.timeStart)}>
+                                {formatDate(data.timeStart)}{' '}
+                            </time>
+                            -
+                            <time dateTime={dateLabel(data.timeEnd)}>
+                                {' '}
+                                {formatDate(data.timeEnd)}
+                            </time>
+                        </span>
+                    </h3>
+                    <div className="title">{data[`title${lang}`]}</div>
+                </header>
+                <p>{data[`description${lang}`]}</p>
+            </article>
+        )
     );
 };
 
