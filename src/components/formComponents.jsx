@@ -23,11 +23,11 @@ const handleKeyDown = (callback) => (event) => {
     callback();
 };
 
-const EditCard = ({ edit, callback }) => (
+const EditCard = ({ edit, editHandler }) => (
     <button
         type="button"
-        onPointerDown={callback}
-        onKeyDown={handleKeyDown(callback)}
+        onPointerDown={editHandler}
+        onKeyDown={handleKeyDown(editHandler)}
     >
         <span className="sr-only">
             {edit
@@ -38,8 +38,8 @@ const EditCard = ({ edit, callback }) => (
     </button>
 );
 
-const RenderCard = ({ renderInPdf, callback }) => (
-    <label tabIndex="0" onKeyDown={handleKeyDown(callback)}>
+const RenderCard = ({ renderInPdf, renderHandler }) => (
+    <label tabIndex="0" onKeyDown={handleKeyDown(renderHandler)}>
         <span className="sr-only">
             {renderInPdf
                 ? uiText.global.reader.renderInPdf.open
@@ -49,7 +49,7 @@ const RenderCard = ({ renderInPdf, callback }) => (
         <input
             type="checkbox"
             className="hidden"
-            onChange={callback}
+            onChange={renderHandler}
             checked={renderInPdf}
         />
     </label>
@@ -173,7 +173,49 @@ const FormButtons = ({
     );
 };
 
-const DataContainer = ({id, name, children, preview, render, open, callback }) => {
+const CardBar = (
+    print,
+    edit,
+    complete,
+    name,
+    data,
+    editHandler,
+    renderHandler,
+) => {
+    const translateableData = (data) => {
+        if (!data) return true;
+        const translateable = Object.keys(data).filter((key) =>
+            /Translated$/.test(key),
+        );
+        for (i = 0; i < translateable.length; i++) {
+            if (!translateable) return false;
+        }
+        return true;
+    };
+    const isComplete = !data ? true : translateableData(data);
+    return (
+        <div
+            id={data ? data.id : 'newCard'}
+            className={`card__title ${!complete && 'card__title--sugest'}`}
+        >
+            <h2>{name}</h2>
+            <EditCard edit={edit} editHandler={editHandler} />
+            {!data && (
+                <RenderCard renderInPdf={print} renderHandler={renderHandler} />
+            )}
+        </div>
+    );
+};
+
+const DataContainer = ({
+    id,
+    name,
+    children,
+    preview,
+    render,
+    open,
+    callback,
+}) => {
     const [renderInPdf, setRenderInPdf] = useState(false);
 
     const handleRender = () => {
