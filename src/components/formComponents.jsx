@@ -23,34 +23,34 @@ const handleKeyDown = (callback) => (event) => {
     callback();
 };
 
-const EditCard = ({ edit, editHandler }) => (
+const EditButon = ({ isOpen, editHandler }) => (
     <button
         type="button"
         onPointerDown={editHandler}
         onKeyDown={handleKeyDown(editHandler)}
     >
         <span className="sr-only">
-            {edit
+            {isOpen
                 ? uiText.global.reader.editCard.open
                 : uiText.global.reader.editCard.closed}
         </span>
-        <IconWrapper icon={'edit'} open={edit} />
+        <IconWrapper icon={'edit'} open={isOpen} />
     </button>
 );
 
-const RenderCard = ({ renderInPdf, renderHandler }) => (
-    <label tabIndex="0" onKeyDown={handleKeyDown(renderHandler)}>
+const InPdfCheckbox = ({ isInPdf, inPdfHandler }) => (
+    <label tabIndex="0" onKeyDown={handleKeyDown(inPdfHandler)}>
         <span className="sr-only">
-            {renderInPdf
+            {isInPdf
                 ? uiText.global.reader.renderInPdf.open
                 : uiText.global.reader.renderInPdf.closed}
         </span>
-        <IconWrapper icon={'renderInPdf'} open={renderInPdf} />
+        <IconWrapper icon={'renderInPdf'} open={isInPdf} />
         <input
             type="checkbox"
             className="hidden"
-            onChange={renderHandler}
-            checked={renderInPdf}
+            onChange={inPdfHandler}
+            checked={isInPdf}
         />
     </label>
 );
@@ -173,36 +173,17 @@ const FormButtons = ({
     );
 };
 
-const CardBar = (
-    print,
-    edit,
-    complete,
-    name,
-    data,
-    editHandler,
-    renderHandler,
-) => {
-    const translateableData = (data) => {
-        if (!data) return true;
-        const translateable = Object.keys(data).filter((key) =>
-            /Translated$/.test(key),
-        );
-        for (i = 0; i < translateable.length; i++) {
-            if (!translateable) return false;
-        }
-        return true;
-    };
-    const isComplete = !data ? true : translateableData(data);
+const CardBar = ({ data, openToEdit, editHandler, inPdf, inPdfHandler }) => {
+    const completed = Object.keys(data)
+        .filter((key) => /Translated$/.test(key))
+        .every((key) => key === true);
+
+    console.log(completed);
     return (
-        <div
-            id={data ? data.id : 'newCard'}
-            className={`card__title ${!complete && 'card__title--sugest'}`}
-        >
-            <h2>{name}</h2>
-            <EditCard edit={edit} editHandler={editHandler} />
-            {!data && (
-                <RenderCard renderInPdf={print} renderHandler={renderHandler} />
-            )}
+        <div className={`card__title ${!completed && 'card__title--sugest'}`}>
+            <h2>{data.reference ?? 'Nueva tarjeta'}</h2>
+            <EditButon isOpen={openToEdit} editHandler={editHandler} />
+            <InPdfCheckbox isInPdf={inPdf} renderHandler={inPdfHandler} />
         </div>
     );
 };
@@ -226,9 +207,9 @@ const DataContainer = ({
         <div className="card__config" id={id}>
             <div className="card__title">
                 <h2>{name}</h2>
-                <EditCard edit={open} callback={callback} />
+                <EditButon edit={open} callback={callback} />
                 {render && (
-                    <RenderCard
+                    <InPdfCheckbox
                         renderInPdf={renderInPdf}
                         callback={handleRender}
                     />
@@ -243,4 +224,4 @@ const DataContainer = ({
     );
 };
 
-export { TextInput, RenderCard, Button, FormButtons, DataContainer };
+export { TextInput, Button, FormButtons, CardBar, DataContainer };
