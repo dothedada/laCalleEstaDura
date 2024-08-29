@@ -11,7 +11,7 @@ const dateLabel = (date) => {
     return `${date.getFullYear()}-${formatedMonth}`;
 };
 
-const ExperiencePreview = ({ data, lang }) => {
+const ExperiencePreview = ({ data, lang = 'Esp' }) => {
     return (
         data && (
             <article>
