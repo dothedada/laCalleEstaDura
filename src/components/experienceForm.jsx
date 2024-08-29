@@ -7,7 +7,12 @@ import {
     DataContainer,
     CardBar,
 } from './formComponents';
-import { inputValidation, months, uiText } from './txtAndValidations.js';
+import {
+    inputValidation,
+    months,
+    uiText,
+    parseDate,
+} from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
@@ -21,6 +26,16 @@ import { ExperiencePreview } from './previewCards.jsx';
 // 6. implementación en otros tipos de tarjetas
 // 7. creacion del modelo base
 // 8. creación del pdf
+
+const dateComparison = ({ timeStart, timeEnd }) => {
+    const dateStart = parseDate(timeStart);
+    const dateEnd = parseDate(timeEnd);
+
+    if (dateStart.getTime() >= dateEnd.getTime()) {
+        return 'la fecha de inicio es posterior a la de terminación'
+    }
+    return 'todo ok con las fechas'
+};
 
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
@@ -60,10 +75,6 @@ const ExperienceForm = ({ data }) => {
         };
     };
 
-    const handleEdit = () => {
-        setOpenToEdit(!openToEdit);
-    };
-
     const handleDelete = () => {
         if (!startingData) return;
         localStorage.removeItem(startingData.id);
@@ -86,6 +97,9 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
+        // comparación de fechas
+        console.log(dateComparison(dataToInject));
+
         if (!startingData) {
             dataToInject.reference = dataToInject.reference ?? undefined;
             const newCard = new Experience(dataToInject);
@@ -98,6 +112,8 @@ const ExperienceForm = ({ data }) => {
             });
             localStorage.setItem(startingData.id, JSON.stringify(startingData));
         }
+
+        setRenderInPdf(true);
         setOpenToEdit(false);
     };
 
@@ -113,7 +129,9 @@ const ExperienceForm = ({ data }) => {
 
             <DataContainer
                 open={openToEdit}
-                preview={renderInPdf && <ExperiencePreview data={startingData} />}
+                preview={
+                    renderInPdf && <ExperiencePreview data={startingData} />
+                }
             >
                 <TextInput {...propGenerator('reference')} ref={null} />
                 <hr />
