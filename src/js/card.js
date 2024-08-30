@@ -101,7 +101,9 @@ export class Education extends Card {
     }
 
     #calculateTimeGap() {
-        const timeEnd = this.timeEnd === 'active' ? new Date() : this.timeEnd;
+        const timeEnd = /^$|current|actual(idad)?/gi.test(this.timeEnd)
+            ? new Date()
+            : this.timeEnd;
 
         let years = timeEnd.getFullYear() - this.timeStart.getFullYear();
         let months = timeEnd.getMonth() - this.timeStart.getMonth();
