@@ -55,7 +55,7 @@ const InPdfCheckbox = ({ isInPdf, inPdfHandler }) => (
     </label>
 );
 
-const makeValidations = (validations, field) => {
+const validateInput = (validations, field) => {
     if (!validations.length) return [];
 
     const errorList = validations.reduce((errors, validation) => {
@@ -87,20 +87,21 @@ const TextInput = forwardRef(function TextInput(
 
     useImperativeHandle(ref, () => ({
         validate: () => {
-            setErrors(makeValidations(validations, field.current));
-            if (errors.length) return field.current;
+            const validationResult = validateInput(validations, field.current);
+            setErrors(validationResult);
+            if (validationResult.length) return field.current;
         },
     }));
 
     const handleChange = () => {
         callback(field.current.value);
         if (errors.length) {
-            setErrors(makeValidations(validations, field.current));
+            setErrors(validateInput(validations, field.current));
         }
     };
 
     const handleOnBlur = () => {
-        setErrors(makeValidations(validations, field.current));
+        setErrors(validateInput(validations, field.current));
     };
 
     const maxLength = validations
