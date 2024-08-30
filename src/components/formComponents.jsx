@@ -174,7 +174,7 @@ const FormButtons = ({
     );
 };
 
-const CardBar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
+const Bar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
     const translated = data
         ? Object.keys(data)
               .filter((key) => /Translated$/.test(key))
@@ -206,4 +206,4 @@ const DataContainer = ({ open, children, preview }) => {
     );
 };
 
-export { TextInput, Button, FormButtons, CardBar, DataContainer };
+export { TextInput, Button, FormButtons, Bar, DataContainer };
