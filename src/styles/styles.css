@@ -37,6 +37,8 @@ h3 .date {
 
     & button,
     & label {
+        background: none;
+        border: none;
         padding: 0;
         margin: 0;
         width: 24px;
@@ -55,13 +57,15 @@ h3 .date {
         &:active {
             transform: scale(0.9);
         }
-
     }
 
     & button:focus-within,
     & label:focus-within {
         outline-color: var(--background);
     }
+}
+.card__title--sugest {
+    background-color: var(--warn);
 }
 svg {
     font: 1.5rem;
