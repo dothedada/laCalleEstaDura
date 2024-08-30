@@ -16,13 +16,12 @@ import {
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
-// 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
 // 7. creación del componente contenedor de los dormularios
 // 7. creacion del modelo base
 // 8. creación del pdf
 
-const ExperienceForm = ({ data }) => {
+const ExperienceForm = ({ data = new Experience({}) }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(false);
 
@@ -33,7 +32,7 @@ const ExperienceForm = ({ data }) => {
     });
     const [globalValidation, setGlobalValidation] = useState([]);
 
-    const updateData = (key) => (value) => {
+    const setDataToUpdate = (key) => (value) => {
         setDataToInject((previousData) => ({
             ...previousData,
             [key]: value,
@@ -57,7 +56,7 @@ const ExperienceForm = ({ data }) => {
                 dataToInject[name] instanceof Date
                     ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
                     : dataToInject[name],
-            callback: updateData(name),
+            callback: setDataToUpdate(name),
             label: uiText.experience.label[name],
             placeholder: uiText.experience.placeholder[name],
         };
@@ -94,6 +93,7 @@ const ExperienceForm = ({ data }) => {
             dataToInject.reference = dataToInject.reference ?? undefined;
             const newCard = new Experience(dataToInject);
             localStorage.setItem(newCard.id, JSON.stringify(newCard));
+            setDataToInject(() => newCard);
         } else {
             Object.keys(dataToInject).forEach((field) => {
                 if (dataToInject[field] !== startingData[field]) {
@@ -101,6 +101,7 @@ const ExperienceForm = ({ data }) => {
                 }
             });
             localStorage.setItem(startingData.id, JSON.stringify(startingData));
+            setDataToInject(() => new Experience(startingData));
         }
 
         setRenderInPdf(true);
@@ -118,7 +119,7 @@ const ExperienceForm = ({ data }) => {
     return (
         <div className="card__config" id={'cardID'}>
             <CardBar
-                data={startingData ?? undefined}
+                data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
                 inPdf={renderInPdf}
@@ -141,7 +142,9 @@ const ExperienceForm = ({ data }) => {
 
                 <fieldset
                     className={
-                        datesValidation.validate === false && 'fieldset__error'
+                        datesValidation.validate === false
+                            ? 'fieldset__error'
+                            : ''
                     }
                 >
                     <legend>
