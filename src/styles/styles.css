@@ -1,12 +1,12 @@
 h1 {
     font-size: 2.625rem;
-    line-height: 3.2rem;
+    line-height: var(--line-height);
 }
 h2,
 h3,
 p {
     font-size: 1rem;
-    line-height: 1.6rem;
+    line-height: var(--line-height);
 }
 h3 {
     font-style: italic;
@@ -93,6 +93,7 @@ fieldset > * {
     flex: 1;
 }
 fieldset.preview {
+    background: blue;
     padding: 2rem 2ch 1rem;
     flex-direction: column;
     gap: 0;
@@ -181,4 +182,17 @@ button:active {
 :focus-visible {
     outline: 1px solid var(--text);
     outline-offset: 3px;
+}
+
+.preview article {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.preview h3 {
+    display: flex;
+    gap: 1ch
+}
+.preview p {
+    margin: 0;
 }

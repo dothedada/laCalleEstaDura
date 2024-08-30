@@ -9,6 +9,7 @@
 
     --font-parragraph: 'Fira Sans', sans-serif;
     --font-headings: 'JetBrains Mono', sans-serif;
+    --line-height: calc(1ex / 0.32);
 }
 html {
     font-size: 100%;
@@ -34,9 +35,9 @@ h2 {
 }
 p {
     max-width: 65ch;
-    line-height: calc(1ex / 0.32);
-    margin: 0 0 calc(1ex / 0.32);
+    margin: 0 0 var(--line-height);
     text-wrap: pretty;
+    line-height: var(--line-height);
 }
 b,
 strong {
@@ -73,6 +74,7 @@ img {
 }
 /* Secciones */
 body {
+    font-size: 1rem;
     font-family: var(--font-parragraph);
     background-color: var(--background);
     color: var(--text);
