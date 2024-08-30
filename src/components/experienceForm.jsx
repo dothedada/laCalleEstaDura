@@ -7,32 +7,22 @@ import {
     DataContainer,
     CardBar,
 } from './formComponents';
-import { inputValidation, months, uiText } from './txtAndValidations.js';
+import {
+    inputValidation,
+    formValidation,
+    months,
+    uiText,
+} from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
 // revisar el objeto que se pasa como error global para tomar de ahí el texto UI
 // update barra elemento nuevo
-// 5. CRUD de tarjetas (
-//      feedback de acciones,
-//      actualización interfase,
-//      nuevo objeto)
 // 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
+// 7. creación del componente contenedor de los dormularios
 // 7. creacion del modelo base
 // 8. creación del pdf
-
-const validateForm = (data) => {
-    console.log(data);
-    return [
-        {
-            comprobation: 'The ending time is always closer to today',
-            fieldSet: 'Dates',
-            validate: inputValidation.dateSecuence.comparison(data),
-            message: inputValidation.dateSecuence.message,
-        },
-    ];
-};
 
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
@@ -96,7 +86,8 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
-        const formValidations = validateForm(dataToInject);
+        const formValidations = [formValidation.dateCoherence(dataToInject)];
+        console.log(formValidations)
         if (formValidations.filter((test) => test.validate === false).length) {
             setCardValidations(false);
             return;
