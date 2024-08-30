@@ -8,14 +8,6 @@ export const inputValidation = {
             /(^\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b.*\b(\d{4})\b$|^$)/g,
         message: 'Debe ser una fecha válida, ej: enero del 2012, ó, 4 2020',
     },
-    dateSecuence: {
-        comparison: ({ timeStart, timeEnd }) => {
-            const dateStart = parseDate(timeStart);
-            const dateEnd = parseDate(timeEnd);
-            return +dateStart.getTime() < +dateEnd.getTime();
-        },
-        message: 'La fecha de inicio es posterior o igual a la de terminación',
-    },
     isEmail: {
         pattern: /(^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$|^$)/g,
         message: 'Debe ser una dirección de correo electrónico válida',
@@ -25,6 +17,24 @@ export const inputValidation = {
         message: `Este campo no debe superar los ${char} caracteres`,
     }),
 };
+
+export const formValidation = {
+    dateCoherence: ({ timeStart, timeEnd }) => {
+        const dateStart = parseDate(timeStart);
+        const dateEnd = parseDate(timeEnd);
+        const isValid = dateStart.getTime() < dateEnd.getTime();
+
+        return {
+            fieldset: 'Dates',
+            validate: isValid,
+            message: isValid
+                ? ''
+                : 'La fecha de inicio es posterior o igual a la de terminación',
+        };
+    },
+};
+
+// misc functions
 
 export const findInString = {
     month: /\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b/,
@@ -66,6 +76,8 @@ export const parseDate = (date) => {
 
     return newDate;
 };
+
+// UI text
 
 export const iconsPaths = {
     edit: {
