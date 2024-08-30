@@ -1,14 +1,18 @@
 import { months } from './txtAndValidations';
 
 const formatDate = (date) => {
-    if (!(date instanceof Date) || !date) return;
-    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+    if (!date || (!(date instanceof Date) && date !== 'current')) return;
+
+    const workingDate = date instanceof Date ? date : new Date();
+    return `${months[workingDate.getMonth()]} ${workingDate.getFullYear()}`;
 };
 
 const dateLabel = (date) => {
-    if (!(date instanceof Date) || !date) return;
-    const formatedMonth = `${+date.getMonth() + 1}`.padStart(2, '0');
-    return `${date.getFullYear()}-${formatedMonth}`;
+    if (!date || (!(date instanceof Date) && date !== 'current')) return;
+
+    const workingDate = date instanceof Date ? date : new Date();
+    const formatedMonth = `${+workingDate.getMonth() + 1}`.padStart(2, '0');
+    return `${workingDate.getFullYear()}-${formatedMonth}`;
 };
 
 const ExperiencePreview = ({ data, lang = 'Esp' }) => {
