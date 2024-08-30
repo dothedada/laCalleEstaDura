@@ -16,8 +16,6 @@ import {
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
-// revisar el objeto que se pasa como error global para tomar de ahí el texto UI
-// update barra elemento nuevo
 // 5. botón de editar de la barra tambien sirve para guardar
 // 6. implementación en otros tipos de tarjetas
 // 7. creación del componente contenedor de los dormularios
@@ -33,7 +31,7 @@ const ExperienceForm = ({ data }) => {
     const [dataToInject, setDataToInject] = useState(() => {
         return startingData ? structuredClone(startingData) : {};
     });
-    const [cardValidations, setCardValidations] = useState(true);
+    const [globalValidation, setGlobalValidation] = useState([]);
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -87,12 +85,10 @@ const ExperienceForm = ({ data }) => {
         }
 
         const formValidations = [formValidation.dateCoherence(dataToInject)];
-        console.log(formValidations)
+        setGlobalValidation(formValidations);
         if (formValidations.filter((test) => test.validate === false).length) {
-            setCardValidations(false);
             return;
         }
-        setCardValidations(true);
 
         if (!startingData) {
             dataToInject.reference = dataToInject.reference ?? undefined;
@@ -110,6 +106,14 @@ const ExperienceForm = ({ data }) => {
         setRenderInPdf(true);
         setOpenToEdit(false);
     };
+
+    const getLocalValidation = (validation) => {
+        return (
+            globalValidation.find((test) => test.fieldset === validation) ?? {}
+        );
+    };
+
+    const datesValidation = getLocalValidation('Dates');
 
     return (
         <div className="card__config" id={'cardID'}>
@@ -135,11 +139,14 @@ const ExperienceForm = ({ data }) => {
                     validations={[inputValidation.notEmpty]}
                 />
 
-                {!cardValidations && <div className="error">123</div>}
-
-                <fieldset>
-                    <legend className={!cardValidations ? 'error' : ''}>
-                        {uiText.experience.legend.date}
+                <fieldset
+                    className={
+                        datesValidation.validate === false && 'fieldset__error'
+                    }
+                >
+                    <legend>
+                        {uiText.experience.legend.date}{' '}
+                        <span>{datesValidation.message}</span>
                     </legend>
 
                     <TextInput

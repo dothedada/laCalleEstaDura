@@ -93,6 +93,10 @@ fieldset.preview {
     flex-direction: column;
     gap: 0;
 }
+.fieldset__error {
+    color: var(--error);
+    border: solid 1px var(--error);
+}
 legend {
     width: fit-content;
     text-wrap: balance;
