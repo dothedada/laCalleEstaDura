@@ -178,7 +178,7 @@ const CardBar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
     const translated = data
         ? Object.keys(data)
               .filter((key) => /Translated$/.test(key))
-              .every((key) => key === true)
+              .every((key) => data[key] === true)
         : true;
 
     return (
