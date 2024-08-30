@@ -1,14 +1,18 @@
 import { months } from './txtAndValidations';
 
 const formatDate = (date) => {
-    if (!date || (!(date instanceof Date) && date !== 'current')) return;
+    if (!(date instanceof Date) && !/^$|current|actual(idad)?/gi.test(date)) {
+        return;
+    }
 
     const workingDate = date instanceof Date ? date : new Date();
     return `${months[workingDate.getMonth()]} ${workingDate.getFullYear()}`;
 };
 
 const dateLabel = (date) => {
-    if (!date || (!(date instanceof Date) && date !== 'current')) return;
+    if (!(date instanceof Date) && !/^$|current|actual(idad)?/gi.test(date)) {
+        return;
+    }
 
     const workingDate = date instanceof Date ? date : new Date();
     const formatedMonth = `${+workingDate.getMonth() + 1}`.padStart(2, '0');

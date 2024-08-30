@@ -5,7 +5,7 @@ export const inputValidation = {
     },
     isDate: {
         pattern:
-            /(^\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b.*\b(\d{4})\b$|^$)/g,
+            /(^\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b.*\b(\d{4})\b$|^$)|\b(current|actual(idad)?)\b/gi,
         message: 'Debe ser una fecha válida, ej: enero del 2012, ó, 4 2020',
     },
     isEmail: {
@@ -20,10 +20,11 @@ export const inputValidation = {
 
 export const formValidation = {
     dateCoherence: ({ timeStart, timeEnd }) => {
-        const dateStart = parseDate(timeStart);
-        const dateEnd = parseDate(timeEnd);
-        const isValid = dateStart.getTime() < dateEnd.getTime();
-
+        const dateEnd = /^$|current|actual(idad)?/gi.test(timeEnd) ? new Date() : timeEnd;
+        const dateStartParsed = parseDate(timeStart);
+        const dateEndParsed = parseDate(dateEnd);
+        const isValid = dateStartParsed.getTime() < dateEndParsed.getTime();
+// date === '' || /^$|current|actual(idad)?/gi.test(date)
         return {
             fieldset: 'Dates',
             validate: isValid,
@@ -63,6 +64,7 @@ const parseMonth = (month) => {
 };
 
 export const parseDate = (date) => {
+    if (date === '' || /current|actual(idad)?/gi.test(date)) return date;
     if (!date) return new Date();
     if (date instanceof Date) return date;
 
