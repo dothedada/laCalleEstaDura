@@ -1,23 +1,18 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { Experience } from '../js/card';
+import { Card, Experience } from '../js/card';
 import {
     TextInput,
     FormButtons,
     DataContainer,
     CardBar,
 } from './formComponents';
-import {
-    inputValidation,
-    months,
-    uiText,
-    parseDate,
-} from './txtAndValidations.js';
+import { inputValidation, months, uiText } from './txtAndValidations.js';
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
+// revisar el objeto que se pasa como error global para tomar de ahí el texto UI
 // update barra elemento nuevo
-// 5.a no permitir fecha de inicio mayor a finalizacion
 // 5. CRUD de tarjetas (
 //      feedback de acciones,
 //      actualización interfase,
@@ -27,23 +22,16 @@ import { ExperiencePreview } from './previewCards.jsx';
 // 7. creacion del modelo base
 // 8. creación del pdf
 
-const dateComparison = ({ timeStart, timeEnd }) => {
-    const dateStart = parseDate(timeStart);
-    const dateEnd = parseDate(timeEnd);
-
-    if (dateStart.getTime() >= dateEnd.getTime()) {
-        return 'la fecha de inicio es posterior a la de terminación'
-    }
-    return 'todo ok con las fechas'
-};
-
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(false);
 
     const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(startingData ?? {});
+    const [dataToInject, setDataToInject] = useState(() => {
+        return startingData ? structuredClone(startingData) : {};
+    });
+    const [cardValidations, setCardValidations] = useState(true);
 
     const updateData = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -78,7 +66,6 @@ const ExperienceForm = ({ data }) => {
     const handleDelete = () => {
         if (!startingData) return;
         localStorage.removeItem(startingData.id);
-        console.log(this);
     };
 
     const handleReset = () => {
@@ -97,8 +84,19 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
-        // comparación de fechas
-        console.log(dateComparison(dataToInject));
+        const globalValidations = [
+            {
+                type: 'Dates',
+                valid: inputValidation.coherentDates.comparison(dataToInject),
+                message: inputValidation.coherentDates.message,
+            },
+        ];
+
+        if (globalValidations.filter((test) => test.valid === false).length) {
+            setCardValidations(false);
+            return;
+        }
+        setCardValidations(true);
 
         if (!startingData) {
             dataToInject.reference = dataToInject.reference ?? undefined;
@@ -141,8 +139,12 @@ const ExperienceForm = ({ data }) => {
                     validations={[inputValidation.notEmpty]}
                 />
 
+                {!cardValidations && <div className="error">'123'</div>}
+
                 <fieldset>
-                    <legend>{uiText.experience.legend.date}</legend>
+                    <legend className={!cardValidations ? 'error' : ''}>
+                        {uiText.experience.legend.date}
+                    </legend>
 
                     <TextInput
                         {...propGenerator('timeStart')}

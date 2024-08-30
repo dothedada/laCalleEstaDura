@@ -12,7 +12,7 @@ export const inputValidation = {
         comparison: ({ timeStart, timeEnd }) => {
             const dateStart = parseDate(timeStart);
             const dateEnd = parseDate(timeEnd);
-            return dateStart.getTime() <= dateEnd.getTime();
+            return +dateStart.getTime() < +dateEnd.getTime();
         },
         message: 'La fecha de inicio es posterior o igual a la de terminación',
     },
@@ -54,10 +54,10 @@ const parseMonth = (month) => {
 
 export const parseDate = (date) => {
     if (!date) return new Date();
+    if (date instanceof Date) return date;
 
-    const cleanDate = date instanceof Date ? date.toDateString() : date;
-    const year = cleanDate.match(findInString.year)[0];
-    const month = parseMonth(cleanDate.match(findInString.month)[0]);
+    const year = date.match(findInString.year)[0];
+    const month = parseMonth(date.match(findInString.month)[0]);
 
     const newDate = new Date();
     newDate.setDate(1);

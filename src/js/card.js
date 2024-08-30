@@ -94,7 +94,7 @@ export class Education extends Card {
         // super.update(property, newValue) // llamado a método padre
         if (!(property in this)) return;
 
-        this[property] = /^time/.test(property)
+        this[property] = /^time[SE]/.test(property)
             ? parseDate(newValue)
             : newValue;
         this.checkIfTranslated(property.slice(0, -3));
