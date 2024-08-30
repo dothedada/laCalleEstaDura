@@ -1,12 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { Experience } from '../js/card';
-import {
-    TextInput,
-    FormButtons,
-    DataContainer,
-    CardBar,
-} from './formComponents';
+import { TextInput, FormButtons, DataContainer, Bar } from './formComponents';
 import {
     inputValidation,
     formValidation,
@@ -16,6 +11,7 @@ import {
 import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
+// estilos preview
 // 6. implementación en otros tipos de tarjetas
 // 7. creación del componente contenedor de los dormularios
 // 7. creacion del modelo base
@@ -50,12 +46,16 @@ const ExperienceForm = ({ data = new Experience({}) }) => {
     };
 
     const propGenerator = (name) => {
+        const dateToRender =
+            dataToInject[name] instanceof Date
+                ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
+                : dataToInject[name];
+
         return {
             ref: refs[name],
-            dataField:
-                dataToInject[name] instanceof Date
-                    ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
-                    : dataToInject[name],
+            dataField: /^time[ES]/.test(name)
+                ? dateToRender
+                : dataToInject[name],
             callback: setDataToUpdate(name),
             label: uiText.experience.label[name],
             placeholder: uiText.experience.placeholder[name],
@@ -118,7 +118,7 @@ const ExperienceForm = ({ data = new Experience({}) }) => {
 
     return (
         <div className="card__config" id={'cardID'}>
-            <CardBar
+            <Bar
                 data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
