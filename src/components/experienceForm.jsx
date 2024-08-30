@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { Card, Experience } from '../js/card';
+import { Experience } from '../js/card';
 import {
     TextInput,
     FormButtons,
@@ -21,6 +21,18 @@ import { ExperiencePreview } from './previewCards.jsx';
 // 6. implementación en otros tipos de tarjetas
 // 7. creacion del modelo base
 // 8. creación del pdf
+
+const validateForm = (data) => {
+    console.log(data);
+    return [
+        {
+            comprobation: 'The ending time is always closer to today',
+            fieldSet: 'Dates',
+            validate: inputValidation.dateSecuence.comparison(data),
+            message: inputValidation.dateSecuence.message,
+        },
+    ];
+};
 
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
@@ -84,15 +96,8 @@ const ExperienceForm = ({ data }) => {
             return;
         }
 
-        const globalValidations = [
-            {
-                type: 'Dates',
-                valid: inputValidation.coherentDates.comparison(dataToInject),
-                message: inputValidation.coherentDates.message,
-            },
-        ];
-
-        if (globalValidations.filter((test) => test.valid === false).length) {
+        const formValidations = validateForm(dataToInject);
+        if (formValidations.filter((test) => test.validate === false).length) {
             setCardValidations(false);
             return;
         }
@@ -139,7 +144,7 @@ const ExperienceForm = ({ data }) => {
                     validations={[inputValidation.notEmpty]}
                 />
 
-                {!cardValidations && <div className="error">'123'</div>}
+                {!cardValidations && <div className="error">123</div>}
 
                 <fieldset>
                     <legend className={!cardValidations ? 'error' : ''}>

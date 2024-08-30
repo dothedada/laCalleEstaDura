@@ -8,7 +8,7 @@ export const inputValidation = {
             /(^\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b.*\b(\d{4})\b$|^$)/g,
         message: 'Debe ser una fecha válida, ej: enero del 2012, ó, 4 2020',
     },
-    coherentDates: {
+    dateSecuence: {
         comparison: ({ timeStart, timeEnd }) => {
             const dateStart = parseDate(timeStart);
             const dateEnd = parseDate(timeEnd);
