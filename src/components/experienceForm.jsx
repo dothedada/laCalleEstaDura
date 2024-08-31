@@ -17,7 +17,7 @@ import { ExperiencePreview } from './previewCards.jsx';
 // 7. creacion del modelo base
 // 8. creación del pdf
 
-const ExperienceForm = ({ data = new Experience({}) }) => {
+const ExperienceForm = ({ data }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(false);
 

@@ -187,7 +187,7 @@ const Bar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
         >
             <h2>{data?.reference ?? uiText.experience.reference}</h2>
             <EditButon isOpen={open} editHandler={editHandler} />
-            {data && (
+            {data?.id && (
                 <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />
             )}
         </div>
