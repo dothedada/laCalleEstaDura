@@ -20,11 +20,14 @@ export const inputValidation = {
 
 export const formValidation = {
     dateCoherence: ({ timeStart, timeEnd }) => {
-        const dateEnd = /^$|current|actual(idad)?/gi.test(timeEnd) ? new Date() : timeEnd;
+        const dateEnd =
+            /^$|current|actual(idad)?/gi.test(timeEnd) || timeEnd === undefined
+                ? new Date()
+                : timeEnd;
         const dateStartParsed = parseDate(timeStart);
         const dateEndParsed = parseDate(dateEnd);
         const isValid = dateStartParsed.getTime() < dateEndParsed.getTime();
-// date === '' || /^$|current|actual(idad)?/gi.test(date)
+
         return {
             fieldset: 'Dates',
             validate: isValid,
@@ -36,7 +39,6 @@ export const formValidation = {
 };
 
 // misc functions
-
 export const findInString = {
     month: /\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b/,
     year: /\b(\d{4})\b/,
@@ -64,8 +66,9 @@ const parseMonth = (month) => {
 };
 
 export const parseDate = (date) => {
-    if (date === '' || /current|actual(idad)?/gi.test(date)) return date;
-    if (!date) return new Date();
+    console.log(date);
+    if (/^$|current|actual(idad)?/gi.test(date)) return date;
+    if (date === undefined) return '';
     if (date instanceof Date) return date;
 
     const year = date.match(findInString.year)[0];
@@ -80,7 +83,6 @@ export const parseDate = (date) => {
 };
 
 // UI text
-
 export const iconsPaths = {
     edit: {
         true: 'M208 80H96V56a32 32 0 0 1 32-32c15.37 0 29.2 11 32.16 25.59a8 8 0 0 0 15.68-3.18C171.32 24.15 151.2 8 128 8a48.05 48.05 0 0 0-48 48v24H48a16 16 0 0 0-16 16v112a16 16 0 0 0 16 16h160a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16M48 128h160v16H48Zm0 32h160v16H48Zm160-64v16H48V96Zm0 112H48v-16h160z',
@@ -144,13 +146,13 @@ export const uiText = {
             reference: 'El nombre del lugar o lo que hiciste',
             place: 'Acme Inc.',
             timeStart: 'Octubre 2023',
-            timeEnd: 'Octubre 2024',
+            timeEnd: 'Octubre 2024 ó actual',
             titleEsp: 'Ingeniero de puentes y festivos',
             titleEng: 'Holidays engineer',
             descriptionEsp:
-                'Dirigir el equipo de sugerencias. Implementar la semana laboral de 4 días.',
+                'Dirigí el equipo de sugerencias. Implementar la semana laboral de 4 días.',
             descriptionEng:
-                'Lead the suggestion team. Implement the 4-day workweek.',
+                'Led the suggestion team. Implement the 4-day workweek.',
         },
     },
 };
