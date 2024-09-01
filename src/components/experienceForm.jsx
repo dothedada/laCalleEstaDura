@@ -1,5 +1,11 @@
 import { useRef, useState } from 'react';
-import { TextInput, FormButtons, DataContainer, Bar } from './formComponents';
+import {
+    TextInput,
+    FormButtons,
+    DataContainer,
+    Bar,
+    Fieldset,
+} from './formComponents';
 import { ExperiencePreview } from './previewCards.jsx';
 import {
     inputValidation,
@@ -15,6 +21,7 @@ import {
 } from './formMethods.js';
 
 // TODO:
+// 5. fieldset como componente
 // 6. implementación en otros tipos de tarjetas
 // 7. creación del componente contenedor de los dormularios
 // 7. creacion del modelo base
@@ -91,18 +98,10 @@ const ExperienceForm = ({ data }) => {
                     validations={[inputValidation.notEmpty]}
                 />
 
-                <fieldset
-                    className={
-                        datesValidation.validate === false
-                            ? 'fieldset__error'
-                            : ''
-                    }
+                <Fieldset
+                    legend={uiText.experience.legend.date}
+                    validation={datesValidation}
                 >
-                    <legend>
-                        {uiText.experience.legend.date}{' '}
-                        <span>{datesValidation.message}</span>
-                    </legend>
-
                     <TextInput
                         {...props('timeStart')}
                         validations={[
@@ -115,10 +114,9 @@ const ExperienceForm = ({ data }) => {
                         {...props('timeEnd')}
                         validations={[inputValidation.isDate]}
                     />
-                </fieldset>
+                </Fieldset>
 
-                <fieldset>
-                    <legend>{uiText.experience.legend.title}</legend>
+                <Fieldset legend={uiText.experience.legend.title}>
                     <TextInput
                         {...props('titleEsp')}
                         validations={[inputValidation.notEmpty]}
@@ -130,11 +128,9 @@ const ExperienceForm = ({ data }) => {
                             dataToInject.titleEsp && !dataToInject.titleEng
                         }
                     />
-                </fieldset>
+                </Fieldset>
 
-                <fieldset>
-                    <legend>{uiText.experience.legend.description}</legend>
-
+                <Fieldset legend={uiText.experience.legend.description}>
                     <TextInput
                         {...props('descriptionEsp')}
                         height="5"
@@ -155,7 +151,7 @@ const ExperienceForm = ({ data }) => {
                             !dataToInject.descriptionEng
                         }
                     />
-                </fieldset>
+                </Fieldset>
 
                 <FormButtons
                     previousData={startingData}

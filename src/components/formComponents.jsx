@@ -134,6 +134,19 @@ const TextInput = forwardRef(function TextInput(
     );
 });
 
+const Fieldset = ({ legend, validation, children }) => {
+    return (
+        <fieldset
+            className={validation?.validate === false ? 'fieldset__error' : ''}
+        >
+            <legend>
+                {legend} {validation?.message}
+            </legend>
+            {children}
+        </fieldset>
+    );
+};
+
 const Button = ({ text, type, callback }) => (
     <button
         type={type === 'warn' ? 'button' : type}
@@ -206,4 +219,4 @@ const DataContainer = ({ open, children, preview }) => {
     );
 };
 
-export { TextInput, Button, FormButtons, Bar, DataContainer };
+export { TextInput, Fieldset, Button, FormButtons, Bar, DataContainer };
