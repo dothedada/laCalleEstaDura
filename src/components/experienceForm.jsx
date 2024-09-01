@@ -26,9 +26,9 @@ const ExperienceForm = ({ data }) => {
 
     const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(() => {
-        return startingData ? structuredClone(startingData) : {};
-    });
+    const [dataToInject, setDataToInject] = useState(() =>
+        startingData ? structuredClone(startingData) : {},
+    );
     const [globalValidations, setGlobalValidations] = useState([]);
 
     // form inputs

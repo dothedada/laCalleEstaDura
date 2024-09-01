@@ -40,10 +40,10 @@ export const validateInputs = (inputsRefs) => {
     return true;
 };
 
-export const validateForm = (validationsArray, validationStateSetter) => {
-    validationStateSetter(validationsArray);
+export const validateForm = (validationsResults, validationStateSetter) => {
+    validationStateSetter(validationsResults);
 
-    if (validationsArray.filter((test) => test.validate === false).length) {
+    if (validationsResults.filter((test) => test.validate === false).length) {
         return false;
     }
 
