@@ -1,110 +1,24 @@
 import { useRef, useState } from 'react';
-
-import { Experience } from '../js/card';
 import { TextInput, FormButtons, DataContainer, Bar } from './formComponents';
+import { ExperiencePreview } from './previewCards.jsx';
 import {
     inputValidation,
     formValidation,
-    months,
     uiText,
 } from './txtAndValidations.js';
-import { ExperiencePreview } from './previewCards.jsx';
+import {
+    propGenerator,
+    resetData,
+    deleteData,
+    saveData,
+    getFieldValidation,
+} from './formMethods.js';
 
 // TODO:
-// estilos preview
-// 5. extraer metodoa
 // 6. implementación en otros tipos de tarjetas
 // 7. creación del componente contenedor de los dormularios
 // 7. creacion del modelo base
 // 8. creación del pdf
-
-const updateField = (updater, field) => (value) => {
-    updater((previousData) => ({
-        ...previousData,
-        [field]: value,
-    }));
-};
-const resetData = (startingData, dataSetter) => {
-    dataSetter(startingData || {});
-};
-
-const deleteData = (startingData) => {
-    if (!startingData) return;
-    localStorage.removeItem(startingData.id);
-};
-
-const saveData = (inputRefs, startingData, dataToInject, stateSetters) => {
-    const {
-        setGlobalValidation,
-        setDataToInject,
-        setRenderInPdf,
-        setOpenToEdit,
-    } = stateSetters;
-    if (!validateInputs(inputRefs)) return;
-
-    const formValidations = [formValidation.dateCoherence(dataToInject)];
-    if (!validateForm(formValidations, setGlobalValidation)) return;
-
-    const isUpdate = !!startingData;
-    if (isUpdate) {
-        Object.keys(dataToInject).forEach((field) => {
-            if (dataToInject[field] !== startingData[field]) {
-                startingData.update(field, dataToInject[field]);
-            }
-        });
-    }
-
-    const newCard = new Experience(isUpdate ? startingData : dataToInject);
-    localStorage.setItem(newCard.id, JSON.stringify(newCard));
-
-    setDataToInject(() => newCard);
-    setRenderInPdf(true);
-    setOpenToEdit(false);
-};
-
-const validateInputs = (inputsRefs) => {
-    const invalidInputs = Object.values(inputsRefs).reduce((errors, ref) => {
-        const inputError = ref.current.validate();
-        if (inputError) errors.push(inputError);
-        return errors;
-    }, []);
-
-    if (invalidInputs.length) {
-        invalidInputs[0].focus();
-        return false;
-    }
-
-    return true;
-};
-
-const validateForm = (validationsArray, validationStateSetter) => {
-    validationStateSetter(validationsArray);
-
-    if (validationsArray.filter((test) => test.validate === false).length) {
-        return false;
-    }
-
-    return true;
-};
-
-const getFieldValidation = (validation, from) => {
-    return from.find((test) => test.fieldset === validation) ?? {};
-};
-
-const propGenerator = (inputRefs, dataToInject, setDataToInject) => (name) => {
-    const dateToRender =
-        dataToInject[name] instanceof Date
-            ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
-            : dataToInject[name];
-
-    return {
-        ref: inputRefs[name],
-        dataField: /^time[ES]/.test(name) ? dateToRender : dataToInject[name],
-        callback: updateField(setDataToInject, name),
-        label: uiText.experience.label[name],
-        placeholder: uiText.experience.placeholder[name],
-    };
-};
 
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
@@ -117,6 +31,7 @@ const ExperienceForm = ({ data }) => {
     });
     const [globalValidations, setGlobalValidations] = useState([]);
 
+    // form inputs
     const refs = {
         place: useRef(),
         timeStart: useRef(),
@@ -126,18 +41,29 @@ const ExperienceForm = ({ data }) => {
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
     };
-
     const props = propGenerator(refs, dataToInject, setDataToInject);
 
+    // card handlers
+    const handleDelete = () => deleteData(startingData);
+    const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
-        saveData(refs, startingData, dataToInject, {
-            setGlobalValidation: setGlobalValidations,
-            setDataToInject,
-            setRenderInPdf,
-            setOpenToEdit,
-        });
+        saveData(
+            refs,
+            startingData,
+            dataToInject,
+            //form validations array
+            [formValidation.dateCoherence(dataToInject)],
+            // setters
+            {
+                setGlobalValidations,
+                setDataToInject,
+                setRenderInPdf,
+                setOpenToEdit,
+            },
+        );
     };
 
+    // global validations
     const datesValidation = getFieldValidation('Dates', globalValidations);
 
     return (
@@ -232,10 +158,8 @@ const ExperienceForm = ({ data }) => {
 
                 <FormButtons
                     previousData={startingData}
-                    deleteCallback={() => deleteData(startingData)}
-                    resetCallback={() =>
-                        resetData(startingData, setDataToInject)
-                    }
+                    deleteCallback={handleDelete}
+                    resetCallback={handleReset}
                     saveCallback={handleSave}
                 />
             </DataContainer>
