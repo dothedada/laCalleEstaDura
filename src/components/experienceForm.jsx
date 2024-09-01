@@ -27,6 +27,35 @@ const deleteData = (startingData) => {
     localStorage.removeItem(startingData.id);
 };
 
+const saveData = (inputRefs, startingData, dataToInject, stateSetters) => {
+    const {
+        setGlobalValidation,
+        setDataToInject,
+        setRenderInPdf,
+        setOpenToEdit,
+    } = stateSetters;
+    if (!validateInputs(inputRefs)) return;
+
+    const formValidations = [formValidation.dateCoherence(dataToInject)];
+    if (!validateForm(formValidations, setGlobalValidation)) return;
+
+    const isUpdate = !!startingData;
+    if (isUpdate) {
+        Object.keys(dataToInject).forEach((field) => {
+            if (dataToInject[field] !== startingData[field]) {
+                startingData.update(field, dataToInject[field]);
+            }
+        });
+    }
+
+    const newCard = new Experience(isUpdate ? startingData : dataToInject);
+    localStorage.setItem(newCard.id, JSON.stringify(newCard));
+
+    setDataToInject(() => newCard);
+    setRenderInPdf(true);
+    setOpenToEdit(false);
+};
+
 const validateInputs = (inputsRefs) => {
     const invalidInputs = Object.values(inputsRefs).reduce((errors, ref) => {
         const inputError = ref.current.validate();
@@ -98,26 +127,32 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleSave = () => {
-        if (!validateInputs(refs)) return;
-
-        const formValidations = [formValidation.dateCoherence(dataToInject)];
-        if (!validateForm(formValidations, setGlobalValidation)) return;
-
-        const isUpdate = !!startingData;
-        if (isUpdate) {
-            Object.keys(dataToInject).forEach((field) => {
-                if (dataToInject[field] !== startingData[field]) {
-                    startingData.update(field, dataToInject[field]);
-                }
-            });
-        }
-
-        const newCard = new Experience(isUpdate ? startingData : dataToInject);
-        localStorage.setItem(newCard.id, JSON.stringify(newCard));
-
-        setDataToInject(() => newCard);
-        setRenderInPdf(true);
-        setOpenToEdit(false);
+        saveData(refs, startingData, dataToInject, {
+            setGlobalValidation,
+            setDataToInject,
+            setRenderInPdf,
+            setOpenToEdit,
+        });
+        // if (!validateInputs(refs)) return;
+        //
+        // const formValidations = [formValidation.dateCoherence(dataToInject)];
+        // if (!validateForm(formValidations, setGlobalValidation)) return;
+        //
+        // const isUpdate = !!startingData;
+        // if (isUpdate) {
+        //     Object.keys(dataToInject).forEach((field) => {
+        //         if (dataToInject[field] !== startingData[field]) {
+        //             startingData.update(field, dataToInject[field]);
+        //         }
+        //     });
+        // }
+        //
+        // const newCard = new Experience(isUpdate ? startingData : dataToInject);
+        // localStorage.setItem(newCard.id, JSON.stringify(newCard));
+        //
+        // setDataToInject(() => newCard);
+        // setRenderInPdf(true);
+        // setOpenToEdit(false);
     };
 
     const getLocalValidation = (validation) => {
