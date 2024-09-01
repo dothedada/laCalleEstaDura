@@ -81,6 +81,10 @@ const validateForm = (validationsArray, validationStateSetter) => {
     return true;
 };
 
+const getFieldValidation = (validation, from) => {
+    return from.find((test) => test.fieldset === validation) ?? {};
+};
+
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(false);
@@ -90,7 +94,7 @@ const ExperienceForm = ({ data }) => {
     const [dataToInject, setDataToInject] = useState(() => {
         return startingData ? structuredClone(startingData) : {};
     });
-    const [globalValidation, setGlobalValidation] = useState([]);
+    const [globalValidations, setGlobalValidations] = useState([]);
 
     const setDataToUpdate = (key) => (value) => {
         setDataToInject((previousData) => ({
@@ -128,40 +132,14 @@ const ExperienceForm = ({ data }) => {
 
     const handleSave = () => {
         saveData(refs, startingData, dataToInject, {
-            setGlobalValidation,
+            setGlobalValidation: setGlobalValidations,
             setDataToInject,
             setRenderInPdf,
             setOpenToEdit,
         });
-        // if (!validateInputs(refs)) return;
-        //
-        // const formValidations = [formValidation.dateCoherence(dataToInject)];
-        // if (!validateForm(formValidations, setGlobalValidation)) return;
-        //
-        // const isUpdate = !!startingData;
-        // if (isUpdate) {
-        //     Object.keys(dataToInject).forEach((field) => {
-        //         if (dataToInject[field] !== startingData[field]) {
-        //             startingData.update(field, dataToInject[field]);
-        //         }
-        //     });
-        // }
-        //
-        // const newCard = new Experience(isUpdate ? startingData : dataToInject);
-        // localStorage.setItem(newCard.id, JSON.stringify(newCard));
-        //
-        // setDataToInject(() => newCard);
-        // setRenderInPdf(true);
-        // setOpenToEdit(false);
     };
 
-    const getLocalValidation = (validation) => {
-        return (
-            globalValidation.find((test) => test.fieldset === validation) ?? {}
-        );
-    };
-
-    const datesValidation = getLocalValidation('Dates');
+    const datesValidation = getFieldValidation('Dates', globalValidations);
 
     return (
         <div className="card__config" id={'cardID'}>
