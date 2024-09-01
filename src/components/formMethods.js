@@ -1,4 +1,11 @@
-import { Experience } from '../js/card';
+import {
+    Contact,
+    Education,
+    Experience,
+    ListBlock,
+    Profile,
+    TextBlock,
+} from '../js/card';
 import { months, uiText } from './txtAndValidations';
 
 // props
@@ -65,6 +72,7 @@ export const deleteData = (startingData) => {
 };
 
 export const saveData = (
+    type,
     inputRefs,
     startingData,
     dataToInject,
@@ -90,10 +98,19 @@ export const saveData = (
         });
     }
 
-    const newCard = new Experience(isUpdate ? startingData : dataToInject);
-    localStorage.setItem(newCard.id, JSON.stringify(newCard));
+    const cardClass = {
+        experience: Experience,
+        education: Education,
+        profile: Profile,
+        contact: Contact,
+        textBlock: TextBlock,
+        listBlock: ListBlock,
+    };
 
-    setDataToInject(() => newCard);
+    const card = new cardClass[type](isUpdate ? startingData : dataToInject);
+    localStorage.setItem(card.id, JSON.stringify(card));
+
+    setDataToInject(() => card);
     setRenderInPdf(true);
     setOpenToEdit(false);
 };
