@@ -91,6 +91,21 @@ const getFieldValidation = (validation, from) => {
     return from.find((test) => test.fieldset === validation) ?? {};
 };
 
+const propGenerator = (inputRefs, dataToInject, setDataToInject) => (name) => {
+    const dateToRender =
+        dataToInject[name] instanceof Date
+            ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
+            : dataToInject[name];
+
+    return {
+        ref: inputRefs[name],
+        dataField: /^time[ES]/.test(name) ? dateToRender : dataToInject[name],
+        callback: updateField(setDataToInject, name),
+        label: uiText.experience.label[name],
+        placeholder: uiText.experience.placeholder[name],
+    };
+};
+
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(false);
@@ -112,22 +127,7 @@ const ExperienceForm = ({ data }) => {
         descriptionEng: useRef(),
     };
 
-    const propGenerator = (name) => {
-        const dateToRender =
-            dataToInject[name] instanceof Date
-                ? `${months[dataToInject[name].getMonth()]} ${dataToInject[name].getFullYear()}`
-                : dataToInject[name];
-
-        return {
-            ref: refs[name],
-            dataField: /^time[ES]/.test(name)
-                ? dateToRender
-                : dataToInject[name],
-            callback: updateField(setDataToInject, name),
-            label: uiText.experience.label[name],
-            placeholder: uiText.experience.placeholder[name],
-        };
-    };
+    const props = propGenerator(refs, dataToInject, setDataToInject);
 
     const handleSave = () => {
         saveData(refs, startingData, dataToInject, {
@@ -156,11 +156,11 @@ const ExperienceForm = ({ data }) => {
                     renderInPdf && <ExperiencePreview data={startingData} />
                 }
             >
-                <TextInput {...propGenerator('reference')} ref={null} />
+                <TextInput {...props('reference')} ref={null} />
                 <hr />
 
                 <TextInput
-                    {...propGenerator('place')}
+                    {...props('place')}
                     validations={[inputValidation.notEmpty]}
                 />
 
@@ -177,7 +177,7 @@ const ExperienceForm = ({ data }) => {
                     </legend>
 
                     <TextInput
-                        {...propGenerator('timeStart')}
+                        {...props('timeStart')}
                         validations={[
                             inputValidation.notEmpty,
                             inputValidation.isDate,
@@ -185,7 +185,7 @@ const ExperienceForm = ({ data }) => {
                     />
 
                     <TextInput
-                        {...propGenerator('timeEnd')}
+                        {...props('timeEnd')}
                         validations={[inputValidation.isDate]}
                     />
                 </fieldset>
@@ -193,12 +193,12 @@ const ExperienceForm = ({ data }) => {
                 <fieldset>
                     <legend>{uiText.experience.legend.title}</legend>
                     <TextInput
-                        {...propGenerator('titleEsp')}
+                        {...props('titleEsp')}
                         validations={[inputValidation.notEmpty]}
                     />
 
                     <TextInput
-                        {...propGenerator('titleEng')}
+                        {...props('titleEng')}
                         sugestTranslation={
                             dataToInject.titleEsp && !dataToInject.titleEng
                         }
@@ -209,7 +209,7 @@ const ExperienceForm = ({ data }) => {
                     <legend>{uiText.experience.legend.description}</legend>
 
                     <TextInput
-                        {...propGenerator('descriptionEsp')}
+                        {...props('descriptionEsp')}
                         height="5"
                         oneLine={false}
                         validations={[
@@ -219,7 +219,7 @@ const ExperienceForm = ({ data }) => {
                     />
 
                     <TextInput
-                        {...propGenerator('descriptionEng')}
+                        {...props('descriptionEng')}
                         oneLine={false}
                         height="5"
                         validations={[inputValidation.maxLength(350)]}
