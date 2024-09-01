@@ -12,10 +12,20 @@ import { ExperiencePreview } from './previewCards.jsx';
 
 // TODO:
 // estilos preview
+// 5. extraer metodoa
 // 6. implementación en otros tipos de tarjetas
 // 7. creación del componente contenedor de los dormularios
 // 7. creacion del modelo base
 // 8. creación del pdf
+
+const resetData = (startingData, dataSetter) => {
+    dataSetter(startingData || {});
+};
+
+const deleteData = (startingData) => {
+    if (!startingData) return;
+    localStorage.removeItem(startingData.id);
+};
 
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
@@ -60,15 +70,6 @@ const ExperienceForm = ({ data }) => {
             label: uiText.experience.label[name],
             placeholder: uiText.experience.placeholder[name],
         };
-    };
-
-    const handleDelete = () => {
-        if (!startingData) return;
-        localStorage.removeItem(startingData.id);
-    };
-
-    const handleReset = () => {
-        setDataToInject(startingData || {});
     };
 
     const handleSave = () => {
@@ -208,8 +209,10 @@ const ExperienceForm = ({ data }) => {
 
                 <FormButtons
                     previousData={startingData}
-                    deleteCallback={handleDelete}
-                    resetCallback={handleReset}
+                    deleteCallback={() => deleteData(startingData)}
+                    resetCallback={() =>
+                        resetData(startingData, setDataToInject)
+                    }
                     saveCallback={handleSave}
                 />
             </DataContainer>
