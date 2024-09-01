@@ -18,6 +18,12 @@ import { ExperiencePreview } from './previewCards.jsx';
 // 7. creacion del modelo base
 // 8. creación del pdf
 
+const updateField = (updater, field) => (value) => {
+    updater((previousData) => ({
+        ...previousData,
+        [field]: value,
+    }));
+};
 const resetData = (startingData, dataSetter) => {
     dataSetter(startingData || {});
 };
@@ -96,13 +102,6 @@ const ExperienceForm = ({ data }) => {
     });
     const [globalValidations, setGlobalValidations] = useState([]);
 
-    const setDataToUpdate = (key) => (value) => {
-        setDataToInject((previousData) => ({
-            ...previousData,
-            [key]: value,
-        }));
-    };
-
     const refs = {
         place: useRef(),
         timeStart: useRef(),
@@ -124,7 +123,7 @@ const ExperienceForm = ({ data }) => {
             dataField: /^time[ES]/.test(name)
                 ? dateToRender
                 : dataToInject[name],
-            callback: setDataToUpdate(name),
+            callback: updateField(setDataToInject, name),
             label: uiText.experience.label[name],
             placeholder: uiText.experience.placeholder[name],
         };
