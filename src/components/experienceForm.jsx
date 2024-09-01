@@ -38,6 +38,17 @@ const validateInputs = (inputsRefs) => {
         invalidInputs[0].focus();
         return false;
     }
+
+    return true;
+};
+
+const validateForm = (validationsArray, validationStateSetter) => {
+    validationStateSetter(validationsArray);
+
+    if (validationsArray.filter((test) => test.validate === false).length) {
+        return false;
+    }
+
     return true;
 };
 
@@ -87,39 +98,24 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleSave = () => {
-        if (!validateInputs(refs)) return
-        // const wrongInputs = Object.values(refs).reduce((errors, ref) => {
-        //     const inputWithError = ref.current.validate();
-        //     if (inputWithError) errors.push(inputWithError);
-        //     return errors;
-        // }, []);
-        //
-        // if (wrongInputs.length) {
-        //     wrongInputs[0].focus();
-        //     return;
-        // }
+        if (!validateInputs(refs)) return;
 
         const formValidations = [formValidation.dateCoherence(dataToInject)];
-        setGlobalValidation(formValidations);
-        if (formValidations.filter((test) => test.validate === false).length) {
-            return;
-        }
+        if (!validateForm(formValidations, setGlobalValidation)) return;
 
-        if (!startingData) {
-            dataToInject.reference = dataToInject.reference ?? undefined;
-            const newCard = new Experience(dataToInject);
-            localStorage.setItem(newCard.id, JSON.stringify(newCard));
-            setDataToInject(() => newCard);
-        } else {
+        const isUpdate = !!startingData;
+        if (isUpdate) {
             Object.keys(dataToInject).forEach((field) => {
                 if (dataToInject[field] !== startingData[field]) {
                     startingData.update(field, dataToInject[field]);
                 }
             });
-            localStorage.setItem(startingData.id, JSON.stringify(startingData));
-            setDataToInject(() => new Experience(startingData));
         }
 
+        const newCard = new Experience(isUpdate ? startingData : dataToInject);
+        localStorage.setItem(newCard.id, JSON.stringify(newCard));
+
+        setDataToInject(() => newCard);
         setRenderInPdf(true);
         setOpenToEdit(false);
     };
