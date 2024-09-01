@@ -27,6 +27,20 @@ const deleteData = (startingData) => {
     localStorage.removeItem(startingData.id);
 };
 
+const validateInputs = (inputsRefs) => {
+    const invalidInputs = Object.values(inputsRefs).reduce((errors, ref) => {
+        const inputError = ref.current.validate();
+        if (inputError) errors.push(inputError);
+        return errors;
+    }, []);
+
+    if (invalidInputs.length) {
+        invalidInputs[0].focus();
+        return false;
+    }
+    return true;
+};
+
 const ExperienceForm = ({ data }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(false);
@@ -73,16 +87,17 @@ const ExperienceForm = ({ data }) => {
     };
 
     const handleSave = () => {
-        const wrongInputs = Object.values(refs).reduce((errors, ref) => {
-            const inputWithError = ref.current.validate();
-            if (inputWithError) errors.push(inputWithError);
-            return errors;
-        }, []);
-
-        if (wrongInputs.length) {
-            wrongInputs[0].focus();
-            return;
-        }
+        if (!validateInputs(refs)) return
+        // const wrongInputs = Object.values(refs).reduce((errors, ref) => {
+        //     const inputWithError = ref.current.validate();
+        //     if (inputWithError) errors.push(inputWithError);
+        //     return errors;
+        // }, []);
+        //
+        // if (wrongInputs.length) {
+        //     wrongInputs[0].focus();
+        //     return;
+        // }
 
         const formValidations = [formValidation.dateCoherence(dataToInject)];
         setGlobalValidation(formValidations);
