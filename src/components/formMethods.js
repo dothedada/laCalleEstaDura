@@ -41,6 +41,7 @@ const validateInputs = (inputsRefs) => {
 };
 
 const validateForm = (validationsResults, validationStateSetter) => {
+    if (!validationsResults.length) return true
     validationStateSetter(validationsResults);
 
     if (validationsResults.filter((test) => test.validate === false).length) {
