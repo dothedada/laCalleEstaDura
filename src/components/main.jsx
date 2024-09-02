@@ -6,6 +6,7 @@ import cardClass from '../js/card';
 import ExperienceForm from './experienceForm';
 import EducationForm from './educationForm';
 import ProfileForm from './profileForm';
+import ContactForm from './contactForm';
 
 // TODO:
 // 6. implementación en otros tipos de tarjetas
@@ -45,5 +46,10 @@ createRoot(document.getElementById('root')).render(
                 <EducationForm data={card} key={card.id} />
             ))}
         <EducationForm />
+        {storedCards?.contact &&
+            storedCards.contact.map((card) => (
+                <ContactForm data={card} key={card.id} />
+            ))}
+        <ContactForm />
     </StrictMode>,
 );

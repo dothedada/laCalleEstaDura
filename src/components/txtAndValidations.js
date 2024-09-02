@@ -212,4 +212,27 @@ export const uiText = {
                 'Led the suggestion team. Implement the 4-day workweek.',
         },
     },
+
+    contact: {
+        reference: 'Nueva referencia laboral',
+        legend: {
+            title: '¿Qué relación laboral tenían o qué cargo tiene la persona?',
+        },
+        label: {
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
+            name: '¿Nombre de quien vas a poner como referencia laboral?',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+            email: '¿Cuál es su correo electrónico?',
+            phone: '¿Cuál es su número de teléfono?',
+        },
+        placeholder: {
+            reference: 'lugar en el que se conocieron',
+            name: 'Casimiro Butifú',
+            titleEsp: 'Inspector de siestas senior',
+            titleEng: 'Senior nap inspector',
+            email: 'casimiro@supernap.com',
+            phone: '(+57) 666 999 1234',
+        },
+    },
 };
