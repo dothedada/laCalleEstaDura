@@ -66,7 +66,6 @@ const parseMonth = (month) => {
 };
 
 export const parseDate = (date) => {
-    console.log(date);
     if (/^$|current|actual(idad)?/gi.test(date)) return date;
     if (date === undefined) return '';
     if (date instanceof Date) return date;

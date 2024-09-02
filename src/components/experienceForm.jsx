@@ -20,17 +20,15 @@ import {
     getFieldValidation,
 } from './formMethods.js';
 
-// TODO:
-// 5. fieldset como componente
-// 6. implementación en otros tipos de tarjetas
-// 7. creación del componente contenedor de los dormularios
-// 7. creacion del modelo base
-// 8. creación del pdf
-
-const ExperienceForm = ({ data }) => {
+const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
     // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(false);
+    const [renderInPdf, setRenderInPdf] = useState(inPdf = true);
+    const inPdfHandler = () => {
+        console.log(inPdfCallback)
+        setRenderInPdf(!renderInPdf);
+    };
 
+    // Card states
     const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(() =>
@@ -71,7 +69,7 @@ const ExperienceForm = ({ data }) => {
         );
     };
 
-    // global validations
+    // global validations info collectors
     const datesValidation = getFieldValidation('Dates', globalValidations);
 
     return (
@@ -81,7 +79,7 @@ const ExperienceForm = ({ data }) => {
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
                 inPdf={renderInPdf}
-                inPdfHandler={() => setRenderInPdf(!renderInPdf)}
+                inPdfHandler={inPdfHandler}
             />
 
             <DataContainer
