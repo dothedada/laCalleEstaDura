@@ -134,8 +134,8 @@ export const uiText = {
         label: {
             reference: '¿Cómo se llama esta tarjeta?',
             place: '¿Cómo se llamaba el lugar donde trabajaste?',
-            timeStart: 'mes de inicio',
-            timeEnd: 'mes de terminación',
+            timeStart: 'mes y año de inicio',
+            timeEnd: 'mes y año de finalización',
             titleEsp: 'en español',
             titleEng: 'en inglés',
             descriptionEsp: 'en español',
@@ -152,6 +152,30 @@ export const uiText = {
                 'Dirigí el equipo de sugerencias. Implementar la semana laboral de 4 días.',
             descriptionEng:
                 'Led the suggestion team. Implement the 4-day workweek.',
+        },
+    },
+
+    education: {
+        reference: 'Nuevo proceso de formación',
+        legend: {
+            date: '¿Cuanto tiempo duró el proceso?',
+            title: '¿Cuál fue el título o información obtenida?',
+        },
+        label: {
+            reference: '¿Cómo se llama esta tarjeta?',
+            place: '¿Nombre de la institución o del proceso de formación?',
+            timeStart: 'mes y año de inicio',
+            timeEnd: 'mes y año de finalización',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+        },
+        placeholder: {
+            reference: 'El nombre del lugar o lo que hiciste',
+            place: 'Universidad Nacional ó, Diplomado virtual en Finlandia',
+            timeStart: 'Octubre 2023',
+            timeEnd: 'Octubre 2024 ó actual',
+            titleEsp: 'Ingeniero de puentes y festivos',
+            titleEng: 'Holidays engineer',
         },
     },
 };

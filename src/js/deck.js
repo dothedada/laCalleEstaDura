@@ -1,5 +1,5 @@
-// TODO: 
-// Posibilidad de personalizar el orden de algunas secciones 
+// TODO:
+// Posibilidad de personalizar el orden de algunas secciones
 // (Habilidades, referencias, Formacion)
 
 export class Deck {

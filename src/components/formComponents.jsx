@@ -69,7 +69,7 @@ const validateInput = (validations, field) => {
     return errorList;
 };
 
-const TextInput = forwardRef(function TextInput(
+const Input = forwardRef(function TextInput(
     {
         oneLine = true,
         label,
@@ -187,7 +187,7 @@ const FormButtons = ({
     );
 };
 
-const Bar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
+const Bar = ({ type, data, open, editHandler, inPdf, inPdfHandler }) => {
     const translated = data
         ? Object.keys(data)
               .filter((key) => /Translated$/.test(key))
@@ -198,7 +198,7 @@ const Bar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
         <div
             className={`card__title${!translated ? ' card__title--sugest' : ''}`}
         >
-            <h2>{data?.reference ?? uiText.experience.reference}</h2>
+            <h2>{data?.reference ?? uiText[type].reference}</h2>
             <EditButon isOpen={open} editHandler={editHandler} />
             {data?.id && (
                 <InPdfCheckbox isInPdf={inPdf} inPdfHandler={inPdfHandler} />
@@ -207,7 +207,7 @@ const Bar = ({ data, open, editHandler, inPdf, inPdfHandler }) => {
     );
 };
 
-const DataContainer = ({ open, children, preview }) => {
+const Container = ({ open, children, preview }) => {
     return (
         <div>
             {open ? (
@@ -219,4 +219,4 @@ const DataContainer = ({ open, children, preview }) => {
     );
 };
 
-export { TextInput, Fieldset, Button, FormButtons, Bar, DataContainer };
+export { Input , Fieldset, Button, FormButtons, Bar, Container };

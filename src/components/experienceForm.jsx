@@ -1,11 +1,6 @@
 import { useRef, useState } from 'react';
-import {
-    TextInput,
-    FormButtons,
-    DataContainer,
-    Bar,
-    Fieldset,
-} from './formComponents';
+
+import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
 import { ExperiencePreview } from './previewCards.jsx';
 import {
     inputValidation,
@@ -20,11 +15,11 @@ import {
     getFieldValidation,
 } from './formMethods.js';
 
-const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
+const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
     // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf = true);
+    const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
-        console.log(inPdfCallback)
+        console.log(inPdfCallback);
         setRenderInPdf(!renderInPdf);
     };
 
@@ -46,7 +41,12 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
     };
-    const props = propGenerator(refs, dataToInject, setDataToInject);
+    const props = propGenerator(
+        'experience',
+        refs,
+        dataToInject,
+        setDataToInject,
+    );
 
     // card handlers
     const handleDelete = () => deleteData(startingData);
@@ -75,6 +75,7 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
     return (
         <div className="card__config" id={'cardID'}>
             <Bar
+                type="experience"
                 data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
@@ -82,16 +83,16 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
                 inPdfHandler={inPdfHandler}
             />
 
-            <DataContainer
+            <Container
                 open={openToEdit}
                 preview={
                     renderInPdf && <ExperiencePreview data={startingData} />
                 }
             >
-                <TextInput {...props('reference')} ref={null} />
+                <Input {...props('reference')} ref={null} />
                 <hr />
 
-                <TextInput
+                <Input
                     {...props('place')}
                     validations={[inputValidation.notEmpty]}
                 />
@@ -100,7 +101,7 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
                     legend={uiText.experience.legend.date}
                     validation={datesValidation}
                 >
-                    <TextInput
+                    <Input
                         {...props('timeStart')}
                         validations={[
                             inputValidation.notEmpty,
@@ -108,19 +109,19 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
                         ]}
                     />
 
-                    <TextInput
+                    <Input
                         {...props('timeEnd')}
                         validations={[inputValidation.isDate]}
                     />
                 </Fieldset>
 
                 <Fieldset legend={uiText.experience.legend.title}>
-                    <TextInput
+                    <Input
                         {...props('titleEsp')}
                         validations={[inputValidation.notEmpty]}
                     />
 
-                    <TextInput
+                    <Input
                         {...props('titleEng')}
                         sugestTranslation={
                             dataToInject.titleEsp && !dataToInject.titleEng
@@ -129,7 +130,7 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
                 </Fieldset>
 
                 <Fieldset legend={uiText.experience.legend.description}>
-                    <TextInput
+                    <Input
                         {...props('descriptionEsp')}
                         height="5"
                         oneLine={false}
@@ -139,7 +140,7 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
                         ]}
                     />
 
-                    <TextInput
+                    <Input
                         {...props('descriptionEng')}
                         oneLine={false}
                         height="5"
@@ -157,7 +158,7 @@ const ExperienceForm = ({ data, inPdf, inPdfCallback }) => {
                     resetCallback={handleReset}
                     saveCallback={handleSave}
                 />
-            </DataContainer>
+            </Container>
         </div>
     );
 };

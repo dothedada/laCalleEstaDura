@@ -1,24 +1,15 @@
-import cardClass from '../js/card'
+import cardClass from '../js/card';
 import { months, uiText } from './txtAndValidations';
 
-// export const cardClass = {
-//     experience: Experience,
-//     education: Education,
-//     profile: Profile,
-//     contact: Contact,
-//     textBlock: TextBlock,
-//     listBlock: ListBlock,
-// };
-
 // props
-export const updateField = (updater, field) => (value) => {
+const updateField = (updater, field) => (value) => {
     updater((previousData) => ({
         ...previousData,
         [field]: value,
     }));
 };
 
-export const propGenerator = (inputRefs, data, dataSetter) => (name) => {
+const propGenerator = (type, inputRefs, data, dataSetter) => (name) => {
     const dateToRender =
         data[name] instanceof Date
             ? `${months[data[name].getMonth()]} ${data[name].getFullYear()}`
@@ -28,13 +19,13 @@ export const propGenerator = (inputRefs, data, dataSetter) => (name) => {
         ref: inputRefs[name],
         dataField: /^time[ES]/.test(name) ? dateToRender : data[name],
         callback: updateField(dataSetter, name),
-        label: uiText.experience.label[name],
-        placeholder: uiText.experience.placeholder[name],
+        label: uiText[type].label[name],
+        placeholder: uiText[type].placeholder[name],
     };
 };
 
 // Validations
-export const validateInputs = (inputsRefs) => {
+const validateInputs = (inputsRefs) => {
     const invalidInputs = Object.values(inputsRefs).reduce((errors, ref) => {
         const inputError = ref.current.validate();
         if (inputError) errors.push(inputError);
@@ -49,7 +40,7 @@ export const validateInputs = (inputsRefs) => {
     return true;
 };
 
-export const validateForm = (validationsResults, validationStateSetter) => {
+const validateForm = (validationsResults, validationStateSetter) => {
     validationStateSetter(validationsResults);
 
     if (validationsResults.filter((test) => test.validate === false).length) {
@@ -59,21 +50,21 @@ export const validateForm = (validationsResults, validationStateSetter) => {
     return true;
 };
 
-export const getFieldValidation = (validation, from) => {
+const getFieldValidation = (validation, from) => {
     return from.find((test) => test.fieldset === validation) ?? {};
 };
 
 // data handling methods
-export const resetData = (startingData, dataSetter) => {
+const resetData = (startingData, dataSetter) => {
     dataSetter(startingData || {});
 };
 
-export const deleteData = (startingData) => {
+const deleteData = (startingData) => {
     if (!startingData) return;
     localStorage.removeItem(startingData.id);
 };
 
-export const saveData = (
+const saveData = (
     type,
     inputRefs,
     startingData,
@@ -107,3 +98,5 @@ export const saveData = (
     setRenderInPdf(true);
     setOpenToEdit(false);
 };
+
+export { propGenerator, resetData, deleteData, saveData, getFieldValidation };
