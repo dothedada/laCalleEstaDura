@@ -72,6 +72,7 @@ const saveData = (
     dataToInject,
     formValidations,
     stateSetters,
+    dataType = undefined,
 ) => {
     const {
         setGlobalValidations,
@@ -93,6 +94,7 @@ const saveData = (
     }
 
     const card = new cardClass[type](isUpdate ? startingData : dataToInject);
+    if (dataType) card.update('type', dataType)
     localStorage.setItem(card.id, JSON.stringify(card));
 
     setDataToInject(() => card);

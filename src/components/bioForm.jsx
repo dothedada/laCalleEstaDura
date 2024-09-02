@@ -2,17 +2,12 @@ import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
 import { ExperiencePreview } from './previewCards.jsx';
-import {
-    inputValidation,
-    formValidation,
-    uiText,
-} from './txtAndValidations.js';
+import { inputValidation, uiText } from './txtAndValidations.js';
 import {
     propGenerator,
     resetData,
     deleteData,
     saveData,
-    getFieldValidation,
 } from './formMethods.js';
 
 const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
@@ -29,19 +24,13 @@ const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
     const [dataToInject, setDataToInject] = useState(() =>
         startingData ? structuredClone(startingData) : {},
     );
-    const [globalValidations, setGlobalValidations] = useState([]);
 
     // form inputs
     const refs = {
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
     };
-    const props = propGenerator(
-        'bio',
-        refs,
-        dataToInject,
-        setDataToInject,
-    );
+    const props = propGenerator('bio', refs, dataToInject, setDataToInject);
 
     // card handlers
     const handleDelete = () => deleteData(startingData);
@@ -56,11 +45,11 @@ const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
             [],
             // setters
             {
-                setGlobalValidations,
                 setDataToInject,
                 setRenderInPdf,
                 setOpenToEdit,
             },
+            'bio',
         );
     };
 

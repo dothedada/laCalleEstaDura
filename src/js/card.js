@@ -28,7 +28,7 @@ class Card {
     }
 
     update(property, newValue) {
-        if (!(property in this) || property === 'type' || property === 'id') {
+        if (!(property in this) || property === 'id') {
             return;
         }
         this[property] = newValue;
