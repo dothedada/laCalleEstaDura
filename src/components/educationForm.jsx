@@ -38,8 +38,6 @@ const EducationForm = ({ data, inPdf = true, inPdfCallback }) => {
         timeEnd: useRef(),
         titleEsp: useRef(),
         titleEng: useRef(),
-        descriptionEsp: useRef(),
-        descriptionEng: useRef(),
     };
     const props = propGenerator(
         'education',
