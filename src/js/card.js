@@ -1,6 +1,6 @@
 import { parseDate } from '../components/txtAndValidations';
 
-export class Card {
+class Card {
     constructor({ reference = undefined, id = undefined, type = undefined }) {
         this.id = id || this.#createId();
         this.reference = reference || `Referencia_${this.id.slice(-5)}`;
@@ -42,7 +42,7 @@ export class Card {
     }
 }
 
-export class Contact extends Card {
+class Contact extends Card {
     constructor({ name, titleEsp, titleEng, email, phone, ...cardInfo }) {
         super(cardInfo);
 
@@ -56,7 +56,7 @@ export class Contact extends Card {
     }
 }
 
-export class Profile extends Contact {
+class Profile extends Contact {
     constructor({ location, link1, link2, ...contactInfo }) {
         super(contactInfo);
 
@@ -67,7 +67,7 @@ export class Profile extends Contact {
     }
 }
 
-export class Education extends Card {
+class Education extends Card {
     constructor({
         place,
         titleEsp,
@@ -117,7 +117,7 @@ export class Education extends Card {
     }
 }
 
-export class Experience extends Education {
+class Experience extends Education {
     constructor({ descriptionEsp, descriptionEng, ...educationInfo }) {
         super(educationInfo);
 
@@ -128,7 +128,7 @@ export class Experience extends Education {
     }
 }
 
-export class TextBlock extends Card {
+class TextBlock extends Card {
     constructor({ type, descriptionEsp, descriptionEng, ...cardInfo }) {
         super(cardInfo);
 
@@ -139,7 +139,7 @@ export class TextBlock extends Card {
     }
 }
 
-export class ListBlock extends Card {
+class ListBlock extends Card {
     constructor({ list, ...cardInfo }) {
         super(cardInfo);
 
@@ -193,3 +193,12 @@ export class ListBlock extends Card {
         );
     }
 }
+
+export default {
+    experience: Experience,
+    education: Education,
+    profile: Profile,
+    contact: Contact,
+    textBlock: TextBlock,
+    listBlock: ListBlock,
+};

@@ -1,12 +1,14 @@
-import {
-    Contact,
-    Education,
-    Experience,
-    ListBlock,
-    Profile,
-    TextBlock,
-} from '../js/card';
+import cardClass from '../js/card'
 import { months, uiText } from './txtAndValidations';
+
+// export const cardClass = {
+//     experience: Experience,
+//     education: Education,
+//     profile: Profile,
+//     contact: Contact,
+//     textBlock: TextBlock,
+//     listBlock: ListBlock,
+// };
 
 // props
 export const updateField = (updater, field) => (value) => {
@@ -97,15 +99,6 @@ export const saveData = (
             }
         });
     }
-
-    const cardClass = {
-        experience: Experience,
-        education: Education,
-        profile: Profile,
-        contact: Contact,
-        textBlock: TextBlock,
-        listBlock: ListBlock,
-    };
 
     const card = new cardClass[type](isUpdate ? startingData : dataToInject);
     localStorage.setItem(card.id, JSON.stringify(card));
