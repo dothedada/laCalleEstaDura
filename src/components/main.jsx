@@ -7,7 +7,7 @@ import ExperienceForm from './experienceForm';
 import EducationForm from './educationForm';
 import ProfileForm from './profileForm';
 import ContactForm from './contactForm';
-
+import BioForm from './bioForm';
 // TODO:
 // 6. implementación en otros tipos de tarjetas
 // 6.a. creación componentes vista previa
@@ -36,6 +36,11 @@ createRoot(document.getElementById('root')).render(
                 <ProfileForm data={card} key={card.id} />
             ))}
         <ProfileForm />
+        {storedCards?.bio &&
+            storedCards.bio.map((card) => (
+                <BioForm data={card} key={card.id} />
+            ))}
+        <BioForm />
         {storedCards?.experience &&
             storedCards.experience.map((card) => (
                 <ExperienceForm data={card} key={card.id} />

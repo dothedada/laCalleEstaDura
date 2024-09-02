@@ -158,6 +158,37 @@ export const uiText = {
         },
     },
 
+    bio: {
+        reference: 'Nueva experiencia laboral',
+        legend: {
+            date: '¿Cuánto tiempo trabajaste allí?',
+            title: '¿Cuál fue tu cargo?',
+            description: '¿Cuáles fueron tus logros o qué tareas realizaste?',
+        },
+        label: {
+            reference: '¿Cómo se llama esta tarjeta?',
+            place: '¿Cómo se llamaba el lugar donde trabajaste?',
+            timeStart: 'mes y año de inicio',
+            timeEnd: 'mes y año de finalización',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+            descriptionEsp: 'en español',
+            descriptionEng: 'en inglés',
+        },
+        placeholder: {
+            reference: 'El nombre del lugar o lo que hiciste',
+            place: 'Acme Inc.',
+            timeStart: 'Octubre 2023',
+            timeEnd: 'Octubre 2024 ó actual',
+            titleEsp: 'Ingeniero de puentes y festivos',
+            titleEng: 'Holidays engineer',
+            descriptionEsp:
+                'Dirigí el equipo de sugerencias. Implementar la semana laboral de 4 días.',
+            descriptionEng:
+                'Led the suggestion team. Implement the 4-day workweek.',
+        },
+    },
+
     education: {
         reference: 'Nuevo proceso de formación',
         legend: {

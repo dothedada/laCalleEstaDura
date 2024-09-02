@@ -41,7 +41,7 @@ const validateInputs = (inputsRefs) => {
 };
 
 const validateForm = (validationsResults, validationStateSetter) => {
-    if (!validationsResults.length) return true
+    if (!validationsResults.length) return true;
     validationStateSetter(validationsResults);
 
     if (validationsResults.filter((test) => test.validate === false).length) {
@@ -94,7 +94,7 @@ const saveData = (
     }
 
     const card = new cardClass[type](isUpdate ? startingData : dataToInject);
-    if (dataType) card.update('type', dataType)
+    if (dataType) card.update('type', dataType);
     localStorage.setItem(card.id, JSON.stringify(card));
 
     setDataToInject(() => card);

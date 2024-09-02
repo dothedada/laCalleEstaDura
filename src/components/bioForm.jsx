@@ -10,7 +10,7 @@ import {
     saveData,
 } from './formMethods.js';
 
-const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
+const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -30,14 +30,14 @@ const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
     };
-    const props = propGenerator('bio', refs, dataToInject, setDataToInject);
+    const props = propGenerator('textBlock', refs, dataToInject, setDataToInject);
 
     // card handlers
     const handleDelete = () => deleteData(startingData);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
-            'bio',
+            'textBlock',
             refs,
             startingData,
             dataToInject,
@@ -56,7 +56,7 @@ const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
     return (
         <div className="card__config" id={'cardID'}>
             <Bar
-                type="experience"
+                type="textBlock"
                 data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
@@ -107,4 +107,4 @@ const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
     );
 };
 
-export default ExperienceForm;
+export default BioForm;
