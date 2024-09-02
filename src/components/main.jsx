@@ -2,9 +2,10 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../styles/reset.css';
 import '../styles/styles.css';
-import ExperienceForm from './experienceForm';
 import cardClass from '../js/card';
+import ExperienceForm from './experienceForm';
 import EducationForm from './educationForm';
+import ProfileForm from './profileForm';
 
 // TODO:
 // 6. implementación en otros tipos de tarjetas
@@ -29,6 +30,11 @@ console.log(storedCards);
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
+        {storedCards?.profile &&
+            storedCards.profile.map((card) => (
+                <ProfileForm data={card} key={card.id} />
+            ))}
+        <ProfileForm />
         {storedCards?.experience &&
             storedCards.experience.map((card) => (
                 <ExperienceForm data={card} key={card.id} />

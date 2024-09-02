@@ -12,6 +12,10 @@ export const inputValidation = {
         pattern: /(^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$|^$)/g,
         message: 'Debe ser una dirección de correo electrónico válida',
     },
+    isURL: {
+        pattern: /(^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$|^$)/g,
+        message: 'Debe ser una dirección de correo electrónico válida',
+    },
     maxLength: (char) => ({
         pattern: `^.{0,${char}}$`,
         message: `Este campo no debe superar los ${char} caracteres`,
@@ -124,6 +128,60 @@ export const uiText = {
         },
     },
 
+    profile: {
+        reference: 'Nuevo perfil',
+        legend: {
+            title: '¿Qué sabes hacer o a qué posición aspiras?',
+            links: '¿Algún sitio web o red social que quieras compartir?',
+        },
+        label: {
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
+            name: '¿Cómo te llamas?',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+            email: '¿Cuál es tu correo electrónico?',
+            phone: '¿Cuál es tu número de teléfono?',
+            link1: 'enlace 1',
+            link2: 'enlace 2',
+            location: '¿Dónde te encuentras?',
+        },
+        placeholder: {
+            reference: 'Lo que haces o quieres hacer',
+            name: 'Casimiro Butifú',
+            titleEsp: 'Inspector de siestas senior',
+            titleEng: 'Senior nap inspector',
+            email: 'casimiro@supernap.com',
+            phone: '(+57) 666 999 1234',
+            link1: 'https://tuweb.com',
+            link2: 'https://linkedin.com/tuperfil',
+            location: 'Bogotá, Colombia.',
+        },
+    },
+
+    education: {
+        reference: 'Nuevo proceso de formación',
+        legend: {
+            date: '¿Cuanto tiempo duró el proceso?',
+            title: '¿Cuál fue el título o información obtenida?',
+        },
+        label: {
+            reference: '¿Cómo se llama esta tarjeta?',
+            place: '¿Nombre de la institución o del proceso de formación?',
+            timeStart: 'mes y año de inicio',
+            timeEnd: 'mes y año de finalización',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+        },
+        placeholder: {
+            reference: 'El nombre del lugar o lo que hiciste',
+            place: 'Universidad Nacional ó, Diplomado virtual en Finlandia',
+            timeStart: 'Octubre 2023',
+            timeEnd: 'Octubre 2024 ó actual',
+            titleEsp: 'Ingeniero de puentes y festivos',
+            titleEng: 'Holidays engineer',
+        },
+    },
+
     experience: {
         reference: 'Nueva experiencia laboral',
         legend: {
@@ -152,30 +210,6 @@ export const uiText = {
                 'Dirigí el equipo de sugerencias. Implementar la semana laboral de 4 días.',
             descriptionEng:
                 'Led the suggestion team. Implement the 4-day workweek.',
-        },
-    },
-
-    education: {
-        reference: 'Nuevo proceso de formación',
-        legend: {
-            date: '¿Cuanto tiempo duró el proceso?',
-            title: '¿Cuál fue el título o información obtenida?',
-        },
-        label: {
-            reference: '¿Cómo se llama esta tarjeta?',
-            place: '¿Nombre de la institución o del proceso de formación?',
-            timeStart: 'mes y año de inicio',
-            timeEnd: 'mes y año de finalización',
-            titleEsp: 'en español',
-            titleEng: 'en inglés',
-        },
-        placeholder: {
-            reference: 'El nombre del lugar o lo que hiciste',
-            place: 'Universidad Nacional ó, Diplomado virtual en Finlandia',
-            timeStart: 'Octubre 2023',
-            timeEnd: 'Octubre 2024 ó actual',
-            titleEsp: 'Ingeniero de puentes y festivos',
-            titleEng: 'Holidays engineer',
         },
     },
 };
