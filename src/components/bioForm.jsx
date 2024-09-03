@@ -2,7 +2,10 @@ import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
 import { ExperiencePreview } from './previewCards.jsx';
-import { inputValidation, uiText } from './txtAndValidations.js';
+import {
+    inputValidation,
+    uiText,
+} from './txtAndValidations.js';
 import {
     propGenerator,
     resetData,
@@ -30,14 +33,14 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
     };
-    const props = propGenerator('textBlock', refs, dataToInject, setDataToInject);
+    const props = propGenerator('bio', refs, dataToInject, setDataToInject);
 
     // card handlers
     const handleDelete = () => deleteData(startingData);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
-            'textBlock',
+            'bio',
             refs,
             startingData,
             dataToInject,
@@ -49,14 +52,15 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
                 setRenderInPdf,
                 setOpenToEdit,
             },
-            'bio',
         );
     };
+
+    // global validations info collectors
 
     return (
         <div className="card__config" id={'cardID'}>
             <Bar
-                type="textBlock"
+                type="bio"
                 data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
@@ -73,14 +77,14 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
                 <Input {...props('reference')} ref={null} />
                 <hr />
 
-                <Fieldset legend={uiText.experience.legend.description}>
+                <Fieldset legend={uiText.bio.legend.description}>
                     <Input
                         {...props('descriptionEsp')}
                         height="5"
                         oneLine={false}
                         validations={[
                             inputValidation.notEmpty,
-                            inputValidation.maxLength(350),
+                            inputValidation.maxLength(450),
                         ]}
                     />
 
@@ -88,7 +92,7 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
                         {...props('descriptionEng')}
                         oneLine={false}
                         height="5"
-                        validations={[inputValidation.maxLength(350)]}
+                        validations={[inputValidation.maxLength(450)]}
                         sugestTranslation={
                             dataToInject.descriptionEsp &&
                             !dataToInject.descriptionEng
