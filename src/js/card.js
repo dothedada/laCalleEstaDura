@@ -31,14 +31,10 @@ class Card {
         if (!(property in this) || property === 'id') {
             return;
         }
-        this[property] = newValue;
+        this[property] = /^time[SE]/.test(property)
+            ? parseDate(newValue)
+            : newValue;
         this.checkIfTranslated(property.slice(0, -3));
-    }
-
-    reset(property) {
-        if (!(property in this)) return;
-
-        this[property] = undefined;
     }
 }
 
@@ -85,18 +81,6 @@ class Education extends Card {
         this.#calculateTimeGap();
     }
 
-    update(property, newValue) {
-        // NOTE: Evaluar polimorfismo del método
-        // logica metodo hijo
-        // super.update(property, newValue) // llamado a método padre
-        if (!(property in this)) return;
-
-        this[property] = /^time[SE]/.test(property)
-            ? parseDate(newValue)
-            : newValue;
-        this.checkIfTranslated(property.slice(0, -3));
-    }
-
     #calculateTimeGap() {
         const timeEnd = /^$|current|actual(idad)?/gi.test(this.timeEnd)
             ? new Date()
@@ -135,10 +119,9 @@ class TextBlock extends Card {
 }
 
 class ListBlock extends Card {
-    constructor({ type, list, ...cardInfo }) {
+    constructor({ list, ...cardInfo }) {
         super(cardInfo);
 
-        this.type = type;
         this.list = [...list];
     }
 
@@ -195,4 +178,6 @@ export default {
     profile: Profile,
     contact: Contact,
     bio: TextBlock,
+    skillsText: TextBlock,
+    skillsList: ListBlock,
 };
