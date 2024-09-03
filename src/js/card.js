@@ -46,7 +46,6 @@ class Contact extends Card {
     constructor({ name, titleEsp, titleEng, email, phone, ...cardInfo }) {
         super(cardInfo);
 
-        this.type = 'contact';
         this.name = name;
         this.titleEsp = titleEsp;
         this.titleEng = titleEng;
@@ -60,7 +59,6 @@ class Profile extends Contact {
     constructor({ location, link1, link2, ...contactInfo }) {
         super(contactInfo);
 
-        this.type = 'profile';
         this.location = location;
         this.link1 = link1;
         this.link2 = link2;
@@ -78,7 +76,6 @@ class Education extends Card {
     }) {
         super(cardInfo);
 
-        this.type = 'education';
         this.place = place;
         this.titleEsp = titleEsp;
         this.titleEng = titleEng;
@@ -121,7 +118,6 @@ class Experience extends Education {
     constructor({ descriptionEsp, descriptionEng, ...educationInfo }) {
         super(educationInfo);
 
-        this.type = 'experience';
         this.descriptionEsp = descriptionEsp;
         this.descriptionEng = descriptionEng;
         this.checkIfTranslated('description');
@@ -129,10 +125,9 @@ class Experience extends Education {
 }
 
 class TextBlock extends Card {
-    constructor({ type, descriptionEsp, descriptionEng, ...cardInfo }) {
+    constructor({ descriptionEsp, descriptionEng, ...cardInfo }) {
         super(cardInfo);
 
-        this.type = type;
         this.descriptionEsp = descriptionEsp;
         this.descriptionEng = descriptionEng;
         this.checkIfTranslated('description');
@@ -140,10 +135,10 @@ class TextBlock extends Card {
 }
 
 class ListBlock extends Card {
-    constructor({ list, ...cardInfo }) {
+    constructor({ type, list, ...cardInfo }) {
         super(cardInfo);
 
-        this.type = 'skill';
+        this.type = type;
         this.list = [...list];
     }
 
@@ -199,6 +194,5 @@ export default {
     education: Education,
     profile: Profile,
     contact: Contact,
-    textBlock: TextBlock,
-    listBlock: ListBlock,
+    bio: TextBlock,
 };
