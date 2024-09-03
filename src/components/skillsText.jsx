@@ -10,7 +10,7 @@ import {
     saveData,
 } from './formMethods.js';
 
-const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
+const SkillsText = ({ data, inPdf = true, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -30,14 +30,14 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
         descriptionEsp: useRef(),
         descriptionEng: useRef(),
     };
-    const props = propGenerator('bio', refs, dataToInject, setDataToInject);
+    const props = propGenerator('skillsText', refs, dataToInject, setDataToInject);
 
     // card handlers
     const handleDelete = () => deleteData(startingData);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
-            'bio',
+            'skillsText',
             refs,
             startingData,
             dataToInject,
@@ -55,7 +55,7 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
     return (
         <div className="card__config" id={'cardID'}>
             <Bar
-                type="bio"
+                type="skillsText"
                 data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
@@ -72,7 +72,7 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
                 <Input {...props('reference')} ref={null} />
                 <hr />
 
-                <Fieldset legend={uiText.bio.legend.description}>
+                <Fieldset legend={uiText.skillsText.legend.description}>
                     <Input
                         {...props('descriptionEsp')}
                         height="5"
@@ -106,4 +106,4 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
     );
 };
 
-export default BioForm;
+export default SkillsText;

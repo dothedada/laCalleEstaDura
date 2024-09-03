@@ -159,57 +159,19 @@ export const uiText = {
     },
 
     bio: {
-        reference: 'Nueva experiencia laboral',
+        reference: 'Nuevo perfil profesional',
         legend: {
-            date: '¿Cuánto tiempo trabajaste allí?',
-            title: '¿Cuál fue tu cargo?',
-            description: '¿Cuáles fueron tus logros o qué tareas realizaste?',
+            description: '¿Cómo te relacionas con tu trabajo? ¿qué te gusta?',
         },
         label: {
-            reference: '¿Cómo se llama esta tarjeta?',
-            place: '¿Cómo se llamaba el lugar donde trabajaste?',
-            timeStart: 'mes y año de inicio',
-            timeEnd: 'mes y año de finalización',
-            titleEsp: 'en español',
-            titleEng: 'en inglés',
             descriptionEsp: 'en español',
             descriptionEng: 'en inglés',
         },
         placeholder: {
-            reference: 'El nombre del lugar o lo que hiciste',
-            place: 'Acme Inc.',
-            timeStart: 'Octubre 2023',
-            timeEnd: 'Octubre 2024 ó actual',
-            titleEsp: 'Ingeniero de puentes y festivos',
-            titleEng: 'Holidays engineer',
             descriptionEsp:
-                'Dirigí el equipo de sugerencias. Implementar la semana laboral de 4 días.',
+                'Soy un ingeniero de siestas con más de 10 años de experiencia...',
             descriptionEng:
-                'Led the suggestion team. Implement the 4-day workweek.',
-        },
-    },
-
-    education: {
-        reference: 'Nuevo proceso de formación',
-        legend: {
-            date: '¿Cuanto tiempo duró el proceso?',
-            title: '¿Cuál fue el título o información obtenida?',
-        },
-        label: {
-            reference: '¿Cómo se llama esta tarjeta?',
-            place: '¿Nombre de la institución o del proceso de formación?',
-            timeStart: 'mes y año de inicio',
-            timeEnd: 'mes y año de finalización',
-            titleEsp: 'en español',
-            titleEng: 'en inglés',
-        },
-        placeholder: {
-            reference: 'El nombre del lugar o lo que hiciste',
-            place: 'Universidad Nacional ó, Diplomado virtual en Finlandia',
-            timeStart: 'Octubre 2023',
-            timeEnd: 'Octubre 2024 ó actual',
-            titleEsp: 'Ingeniero de puentes y festivos',
-            titleEng: 'Holidays engineer',
+                'I am a nap engineer with over 10 years of experience...',
         },
     },
 
@@ -241,6 +203,46 @@ export const uiText = {
                 'Dirigí el equipo de sugerencias. Implementar la semana laboral de 4 días.',
             descriptionEng:
                 'Led the suggestion team. Implement the 4-day workweek.',
+        },
+    },
+
+    skillsText: {
+        reference: 'Nuevo perfil profesional',
+        legend: {
+            description: '¿Cómo te relacionas con tu trabajo? ¿qué te gusta?',
+        },
+        label: {
+            descriptionEsp: 'en español',
+            descriptionEng: 'en inglés',
+        },
+        placeholder: {
+            descriptionEsp:
+                'Soy un ingeniero de siestas con más de 10 años de experiencia...',
+            descriptionEng:
+                'I am a nap engineer with over 10 years of experience...',
+        },
+    },
+    education: {
+        reference: 'Nuevo proceso de formación',
+        legend: {
+            date: '¿Cuanto tiempo duró el proceso?',
+            title: '¿Cuál fue el título o información obtenida?',
+        },
+        label: {
+            reference: '¿Cómo se llama esta tarjeta?',
+            place: '¿Nombre de la institución o del proceso de formación?',
+            timeStart: 'mes y año de inicio',
+            timeEnd: 'mes y año de finalización',
+            titleEsp: 'en español',
+            titleEng: 'en inglés',
+        },
+        placeholder: {
+            reference: 'El nombre del lugar o lo que hiciste',
+            place: 'Universidad Nacional ó, Diplomado virtual en Finlandia',
+            timeStart: 'Octubre 2023',
+            timeEnd: 'Octubre 2024 ó actual',
+            titleEsp: 'Ingeniero de puentes y festivos',
+            titleEng: 'Holidays engineer',
         },
     },
 

@@ -8,6 +8,7 @@ import EducationForm from './educationForm';
 import ProfileForm from './profileForm';
 import ContactForm from './contactForm';
 import BioForm from './bioForm';
+//
 // TODO:
 // 6. implementación en otros tipos de tarjetas
 // 6.a. creación componentes vista previa
