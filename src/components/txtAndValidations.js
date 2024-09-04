@@ -164,10 +164,12 @@ export const uiText = {
             description: '¿Cómo te relacionas con tu trabajo? ¿qué te gusta?',
         },
         label: {
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             descriptionEsp: 'en español',
             descriptionEng: 'en inglés',
         },
         placeholder: {
+            reference: 'Lo que haces o quieres hacer',
             descriptionEsp:
                 'Soy un ingeniero de siestas con más de 10 años de experiencia...',
             descriptionEng:
@@ -183,7 +185,7 @@ export const uiText = {
             description: '¿Cuáles fueron tus logros o qué tareas realizaste?',
         },
         label: {
-            reference: '¿Cómo se llama esta tarjeta?',
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             place: '¿Cómo se llamaba el lugar donde trabajaste?',
             timeStart: 'mes y año de inicio',
             timeEnd: 'mes y año de finalización',
@@ -193,7 +195,7 @@ export const uiText = {
             descriptionEng: 'en inglés',
         },
         placeholder: {
-            reference: 'El nombre del lugar o lo que hiciste',
+            reference: 'El nombre del lugar o el trabajo que hiciste',
             place: 'Acme Inc.',
             timeStart: 'Octubre 2023',
             timeEnd: 'Octubre 2024 ó actual',
@@ -222,6 +224,7 @@ export const uiText = {
                 'I am a nap engineer with over 10 years of experience...',
         },
     },
+    
     education: {
         reference: 'Nuevo proceso de formación',
         legend: {
@@ -229,7 +232,7 @@ export const uiText = {
             title: '¿Cuál fue el título o información obtenida?',
         },
         label: {
-            reference: '¿Cómo se llama esta tarjeta?',
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             place: '¿Nombre de la institución o del proceso de formación?',
             timeStart: 'mes y año de inicio',
             timeEnd: 'mes y año de finalización',
@@ -237,7 +240,7 @@ export const uiText = {
             titleEng: 'en inglés',
         },
         placeholder: {
-            reference: 'El nombre del lugar o lo que hiciste',
+            reference: 'El nombre del lugar o el proceso que hiciste',
             place: 'Universidad Nacional ó, Diplomado virtual en Finlandia',
             timeStart: 'Octubre 2023',
             timeEnd: 'Octubre 2024 ó actual',
