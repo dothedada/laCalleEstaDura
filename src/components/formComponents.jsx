@@ -134,16 +134,16 @@ const Input = forwardRef(function TextInput(
     );
 });
 
-const ListItem = ({ placeholder, dataField = '', inPdf }) => {
-    const [inList, setInList] = useState(true);
+const ListItem = ({ placeholder, data, inPdf, listCallback }) => {
+    const [skillData, setSkillData] = useState(data);
+    const [skillVisibility, setSkillVisibility] = useState(inPdf);
 
-    const inPdfHandler = () => {
-        setInList(!inList);
+    const handleChange = (event) => {
+        setSkillData(event.target.value);
     };
 
-    const [values, setValues] = useState(dataField);
-    const handleChange = (event) => {
-        setValues(event.target.value);
+    const handleBlur = () => {
+        listCallback(skillData, skillVisibility);
     };
 
     return (
@@ -153,22 +153,40 @@ const ListItem = ({ placeholder, dataField = '', inPdf }) => {
                 <input
                     type="text"
                     placeholder={placeholder}
-                    value={values}
+                    value={skillData}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                 />
             </label>
-            <InPdfCheckbox isInPdf={inList} inPdfHandler={inPdfHandler} />
+            <InPdfCheckbox
+                isInPdf={skillVisibility}
+                inPdfHandler={() => setSkillVisibility(!skillVisibility)}
+            />
         </li>
     );
 };
 
-const SkillsList = ({ dataField = '', callback }) => {
+const SkillsList = () => {
+    const [skills, setSkill] = useState([['uno', true], ['dos', true]]);
+    // [[skill, printable], [skill, printable], ...]
+
+    const updateSkill = (index) => (text, visibility) => {
+        const skillsTmp = skills.map((skll, ind) =>
+            ind === index ? [text, visibility] : skll,
+        );
+        setSkill(skillsTmp);
+    };
+
     return (
         <ul>
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
+            {skills.map((skill, index) => (
+                <ListItem
+                    data={skill[0]}
+                    inPdf={skill[1]}
+                    key={index}
+                    listCallback={updateSkill(index)}
+                />
+            ))}
         </ul>
     );
 };
