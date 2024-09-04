@@ -44,6 +44,17 @@ const EditButon = ({ isOpen, editHandler }) => (
     </button>
 );
 
+const RemoveButton = ({ removeHandler }) => (
+    <button
+        type="button"
+        onPointerDown={removeHandler}
+        onKeyDown={handleKeyDown(removeHandler)}
+    >
+        <span className="sr-only">{uiText.global.reader.remove}</span>
+        <IconWrapper icon={'remove'} />
+    </button>
+);
+
 const InPdfCheckbox = ({ isInPdf, inPdfHandler }) => (
     <label tabIndex="0" onKeyDown={handleKeyDown(inPdfHandler)}>
         <span className="sr-only">
@@ -140,7 +151,13 @@ const Input = forwardRef(function TextInput(
     );
 });
 
-const ListItem = ({ placeholder, data, inPdf, listCallback }) => {
+const ListItem = ({
+    placeholder,
+    data,
+    inPdf,
+    listCallback,
+    removeCallback,
+}) => {
     const [skill, setSkill] = useState({ data: data, visibility: inPdf });
 
     const dataChange = (event) => {
@@ -173,10 +190,13 @@ const ListItem = ({ placeholder, data, inPdf, listCallback }) => {
                     onBlur={setSkillInList}
                 />
             </label>
-            <InPdfCheckbox
-                isInPdf={skill.visibility}
-                inPdfHandler={inPdfHandler}
-            />
+            <div>
+                <InPdfCheckbox
+                    isInPdf={skill.visibility}
+                    inPdfHandler={inPdfHandler}
+                />
+                <RemoveButton removeHandler={removeCallback} />
+            </div>
         </li>
     );
 };
@@ -199,6 +219,11 @@ const SkillsList = () => {
         setSkill((prv) => [...prv, ['', false]]);
     };
 
+    const removeSkill = (index) => () => {
+        const newSkillsList = skills.filter((_, ind) => ind !== index);
+        setSkill(newSkillsList);
+    };
+
     const activeSkills = skills
         .reduce((skillSum, skill) => {
             if (skill[1]) skillSum.push(skill[0]);
@@ -217,6 +242,7 @@ const SkillsList = () => {
                         inPdf={skill[1]}
                         key={index}
                         listCallback={updateSkill(index)}
+                        removeCallback={removeSkill(index)}
                     />
                 ))}
             </ul>
