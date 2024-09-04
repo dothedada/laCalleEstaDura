@@ -134,6 +134,45 @@ const Input = forwardRef(function TextInput(
     );
 });
 
+const ListItem = ({ placeholder, dataField = '', inPdf }) => {
+    const [inList, setInList] = useState(true);
+
+    const inPdfHandler = () => {
+        setInList(!inList);
+    };
+
+    const [values, setValues] = useState(dataField);
+    const handleChange = (event) => {
+        setValues(event.target.value);
+    };
+
+    return (
+        <li>
+            <IconWrapper icon={'dragNDrop'} />
+            <label>
+                <input
+                    type="text"
+                    placeholder={placeholder}
+                    value={values}
+                    onChange={handleChange}
+                />
+            </label>
+            <InPdfCheckbox isInPdf={inList} inPdfHandler={inPdfHandler} />
+        </li>
+    );
+};
+
+const SkillsList = ({
+    dataField = '',
+    callback,
+}) => {
+    return (
+        <ul>
+            {dataField}
+        </ul>
+    )
+};
+
 const Fieldset = ({ legend, validation, children }) => {
     return (
         <fieldset
@@ -219,4 +258,4 @@ const Container = ({ open, children, preview }) => {
     );
 };
 
-export { Input , Fieldset, Button, FormButtons, Bar, Container };
+export { Input, Fieldset, Button, FormButtons, Bar, Container, ListItem };
