@@ -162,15 +162,15 @@ const ListItem = ({ placeholder, dataField = '', inPdf }) => {
     );
 };
 
-const SkillsList = ({
-    dataField = '',
-    callback,
-}) => {
+const SkillsList = ({ dataField = '', callback }) => {
     return (
         <ul>
-            {dataField}
+            <ListItem />
+            <ListItem />
+            <ListItem />
+            <ListItem />
         </ul>
-    )
+    );
 };
 
 const Fieldset = ({ legend, validation, children }) => {
@@ -258,4 +258,13 @@ const Container = ({ open, children, preview }) => {
     );
 };
 
-export { Input, Fieldset, Button, FormButtons, Bar, Container, ListItem };
+export {
+    Input,
+    Fieldset,
+    Button,
+    FormButtons,
+    Bar,
+    Container,
+    ListItem,
+    SkillsList,
+};
