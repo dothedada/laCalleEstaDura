@@ -117,7 +117,7 @@ textarea {
     background: var(--text);
     color: var(--background);
     border: none;
-    border-radius: 0;
+    border-radius: 0.2rem;
     resize: vertical;
 }
 input[type='text']:invalid,
@@ -160,6 +160,16 @@ button:hover {
 }
 button:active {
     transform: scale(0.9);
+}
+
+li {
+    display: flex;
+    align-items: center;
+    padding: 0 1ch 0 0;
+}
+li > *:nth-child(2) {
+    flex: 1;
+    padding: 0 1ch 0 0; 
 }
 
 .button__normal {
