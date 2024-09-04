@@ -1,4 +1,10 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import {
+    useState,
+    useRef,
+    forwardRef,
+    useImperativeHandle,
+    useEffect,
+} from 'react';
 import { uiText, iconsPaths } from './txtAndValidations';
 
 const IconWrapper = ({ icon, open }) => (
@@ -135,16 +141,25 @@ const Input = forwardRef(function TextInput(
 });
 
 const ListItem = ({ placeholder, data, inPdf, listCallback }) => {
-    const [skillData, setSkillData] = useState(data);
-    const [skillVisibility, setSkillVisibility] = useState(inPdf);
+    const [skill, setSkill] = useState({ data: data, visibility: inPdf });
 
-    const handleChange = (event) => {
-        setSkillData(event.target.value);
+    const dataChange = (event) => {
+        setSkill((prv) => ({ ...prv, data: event.target.value }));
     };
 
-    const handleBlur = () => {
-        listCallback(skillData, skillVisibility);
+    const visibilityChange = () => {
+        setSkill((prv) => ({ ...prv, visibility: !skill.visibility }));
     };
+
+    const setSkillInList = () => {
+        listCallback(skill.data, skill.visibility);
+    };
+
+    const inPdfHandler = () => {
+        visibilityChange();
+    };
+
+    useEffect(setSkillInList, [skill.visibility]);
 
     return (
         <li>
@@ -153,21 +168,24 @@ const ListItem = ({ placeholder, data, inPdf, listCallback }) => {
                 <input
                     type="text"
                     placeholder={placeholder}
-                    value={skillData}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                    value={skill.data}
+                    onChange={dataChange}
+                    onBlur={setSkillInList}
                 />
             </label>
             <InPdfCheckbox
-                isInPdf={skillVisibility}
-                inPdfHandler={() => setSkillVisibility(!skillVisibility)}
+                isInPdf={skill.visibility}
+                inPdfHandler={inPdfHandler}
             />
         </li>
     );
 };
 
 const SkillsList = () => {
-    const [skills, setSkill] = useState([['uno', true], ['dos', true]]);
+    const [skills, setSkill] = useState([
+        ['uno', true],
+        ['dos', true],
+    ]);
     // [[skill, printable], [skill, printable], ...]
 
     const updateSkill = (index) => (text, visibility) => {
@@ -177,17 +195,36 @@ const SkillsList = () => {
         setSkill(skillsTmp);
     };
 
+    const addSkill = () => {
+        setSkill((prv) => [...prv, ['', false]]);
+    };
+
+    const activeSkills = skills
+        .reduce((skillSum, skill) => {
+            if (skill[1]) skillSum.push(skill[0]);
+            return skillSum;
+        }, [])
+        .join(', ');
+
+    const addAvailability = skills.some((skill) => skill[0] === '');
+
     return (
-        <ul>
-            {skills.map((skill, index) => (
-                <ListItem
-                    data={skill[0]}
-                    inPdf={skill[1]}
-                    key={index}
-                    listCallback={updateSkill(index)}
-                />
-            ))}
-        </ul>
+        <>
+            <ul>
+                {skills.map((skill, index) => (
+                    <ListItem
+                        data={skill[0]}
+                        inPdf={skill[1]}
+                        key={index}
+                        listCallback={updateSkill(index)}
+                    />
+                ))}
+            </ul>
+            {activeSkills}
+            <button type="button" onClick={addSkill} disabled={addAvailability}>
+                Añadir
+            </button>
+        </>
     );
 };
 
