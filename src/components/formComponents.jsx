@@ -1,10 +1,4 @@
-import {
-    useState,
-    useRef,
-    forwardRef,
-    useImperativeHandle,
-    useEffect,
-} from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { uiText, iconsPaths } from './txtAndValidations';
 
 const keygen = () =>
@@ -222,18 +216,11 @@ const SkillsList = () => {
         setSkill(newSkillsList);
     };
 
-    const activeSkills = skills
-        .reduce((skillSum, skill) => {
-            if (skill.visible) skillSum.push(skill.value);
-            return skillSum;
-        }, [])
-        .join(', ');
-
     const addAvailability = skills.some((skill) => skill.value === '');
 
     return (
         <>
-            <ul>
+            <ul className="skills-list">
                 {skills.map((skill) => (
                     <ListItem
                         data={skill}
@@ -243,9 +230,13 @@ const SkillsList = () => {
                     />
                 ))}
             </ul>
-            <div>{activeSkills}</div>
-            <button type="button" onClick={addSkill} disabled={addAvailability}>
-                Añadir
+            <button
+                className="add-item"
+                type="button"
+                onClick={addSkill}
+                disabled={addAvailability}
+            >
+                Añadir habilidad
             </button>
         </>
     );
@@ -264,8 +255,7 @@ const Fieldset = ({ legend, validation, children }) => {
     );
 };
 
-const Button = ({ text, type, callback, disabled }) => {
-    console.log(disabled);
+const Button = ({ text, type, callback }) => {
     return (
         <button
             type={type === 'warn' ? 'button' : type}
