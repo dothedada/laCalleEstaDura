@@ -213,11 +213,13 @@ export const uiText = {
     },
 
     skillsText: {
-        reference: 'Nuevo perfil profesional',
+        reference: 'Nuevo párrafo de habilidades',
         legend: {
-            description: '¿Cómo te relacionas con tu trabajo? ¿qué te gusta?',
+            description:
+                '¿Cuáles serían las habilidades que mejor te descirben?',
         },
         label: {
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             descriptionEsp: 'en español',
             descriptionEng: 'en inglés',
         },
@@ -230,11 +232,12 @@ export const uiText = {
     },
 
     skillsList: {
-        reference: 'Nuevo perfil profesional',
+        reference: 'Nuevo listado de habilidades',
         legend: {
             description: '¿Cómo te relacionas con tu trabajo? ¿qué te gusta?',
         },
         label: {
+            reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             descriptionEsp: 'en español',
             descriptionEng: 'en inglés',
         },
