@@ -1,9 +1,6 @@
 import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { uiText, iconsPaths } from './txtAndValidations';
 
-const keygen = () =>
-    (Math.floor(Math.random() * 1000) + new Date().getTime()).toString(26);
-
 const IconWrapper = ({ icon, open }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -150,18 +147,20 @@ const Input = forwardRef(function TextInput(
     );
 });
 
-const ListItem = ({ placeholder, data = '', listCallback, removeCallback }) => {
+// TODO: 
+// replantear el módulo de itemlist para hacerlo mas cercano a Input,
+// se elimina el modulo List para manejar la info desde el compornente de ui 
+// incorporar la validacion de los elementos
+//
+const ListItem = ({ placeholder, data, listCallback, removeCallback }) => {
     const [skill, setSkill] = useState(data);
+
     const updateValue = (event) => {
         setSkill((prvSkill) => ({ ...prvSkill, value: event.target.value }));
     };
 
     const updateRender = () => {
-        setSkill((prvSkill) => {
-            const updatedSkill = { ...prvSkill, visible: !skill.visible };
-            listCallback(updatedSkill);
-            return updatedSkill;
-        });
+        setSkill((prvSkill) => ({ ...prvSkill, visible: !skill.visible }));
     };
 
     const updateList = () => {
@@ -175,7 +174,7 @@ const ListItem = ({ placeholder, data = '', listCallback, removeCallback }) => {
                 <input
                     type="text"
                     placeholder={placeholder}
-                    value={skill.value}
+                    value={skill.value ?? ''}
                     onChange={updateValue}
                     onBlur={updateList}
                 />
@@ -188,77 +187,6 @@ const ListItem = ({ placeholder, data = '', listCallback, removeCallback }) => {
                 <RemoveButton removeHandler={removeCallback} />
             </div>
         </li>
-    );
-};
-
-const List = ({ items, placeholder, callback }) => {
-    const [skills, setSkill] = useState(items);
-
-    const updateSkill = (id) => (data) => {
-        const skillIndex = skills.findIndex((skill) => skill.id === id);
-
-        if (skillIndex < 0) {
-            setSkill([data]);
-        } else {
-            const updatedSkills = [...skills];
-            updatedSkills[skillIndex] = data;
-            setSkill(updatedSkills);
-        }
-    };
-
-    const addSkill = () => {
-        setSkill((prv) => [...prv, { visible: true, id: keygen() }]);
-    };
-
-    const removeSkill = (id) => () => {
-        const newSkillsList = skills.filter((skill) => id !== skill.id);
-        setSkill(newSkillsList);
-    };
-
-    const currentKeygen = keygen();
-    const addAvailability = skills.some((skill) => skill.value === '');
-
-    return (
-        <>
-            <p>
-                En caso de necesitar traduccion, separa la habilidad en dos
-                idiomas con una barra inclinada, (ej. habilidad, ó, habilidad en
-                español / habilidad en inglés)
-            </p>
-            <ul className="skills-list">
-                {skills.length ? (
-                    skills.map((skill) => (
-                        <ListItem
-                            data={skill}
-                            key={skill.id}
-                            listCallback={updateSkill(skill.id)}
-                            removeCallback={removeSkill(skill.id)}
-                            placeholder={placeholder}
-                        />
-                    ))
-                ) : (
-                    <ListItem
-                        data={{
-                            value: '',
-                            visible: false,
-                            id: currentKeygen,
-                        }}
-                        key={currentKeygen}
-                        listCallback={updateSkill(currentKeygen)}
-                        removeCallback={removeSkill(currentKeygen)}
-                        placeholder={placeholder}
-                    />
-                )}
-            </ul>
-            <button
-                className="add-item"
-                type="button"
-                onClick={addSkill}
-                disabled={addAvailability}
-            >
-                Añadir habilidad
-            </button>
-        </>
     );
 };
 
@@ -352,4 +280,4 @@ const Container = ({ open, children, preview }) => {
     );
 };
 
-export { Input, Fieldset, Button, FormButtons, Bar, Container, List };
+export { Input, Fieldset, Button, FormButtons, Bar, Container, ListItem };

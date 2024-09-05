@@ -1,87 +1,73 @@
-import { useRef, useState } from 'react';
 
-import { Input, FormButtons, Container, Bar, Fieldset, List } from './formComponents';
-import { ExperiencePreview } from './previewCards.jsx';
-import { inputValidation, uiText } from './txtAndValidations.js';
-import {
-    propGenerator,
-    resetData,
-    deleteData,
-    saveData,
-} from './formMethods.js';
-
-const SkillsList = ({ data, inPdf = true, inPdfCallback }) => {
-    // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf);
-    const inPdfHandler = () => {
-        console.log(inPdfCallback);
-        setRenderInPdf(!renderInPdf);
-    };
-
-    // Card states
-    const [openToEdit, setOpenToEdit] = useState(false);
-    const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(() =>
-        startingData ? structuredClone(startingData) : {},
-    );
-
-    // form inputs
-    const refs = {
-        skillsList: useRef(),
-    };
-    const props = propGenerator('skillsList', refs, dataToInject, setDataToInject);
-
-    // card handlers
-    const handleDelete = () => deleteData(startingData);
-    const handleReset = () => resetData(startingData, setDataToInject);
-    const handleSave = () => {
-        saveData(
-            'skillsList',
-            refs,
-            startingData,
-            dataToInject,
-            //form validations array
-            [],
-            // setters
-            {
-                setDataToInject,
-                setRenderInPdf,
-                setOpenToEdit,
-            },
-        );
-    };
-
-    return (
-        <div className="card__config" id={'cardID'}>
-            <Bar
-                type="skillsList"
-                data={dataToInject}
-                open={openToEdit}
-                editHandler={() => setOpenToEdit(!openToEdit)}
-                inPdf={renderInPdf}
-                inPdfHandler={inPdfHandler}
-            />
-
-            <Container
-                open={openToEdit}
-                preview={
-                    renderInPdf && <ExperiencePreview data={startingData} />
-                }
-            >
-                <Input {...props('reference')} ref={null} />
-                <hr />
-
-                <List items={[]} placeholder="patito" callback="" />
-
-                <FormButtons
-                    previousData={startingData}
-                    deleteCallback={handleDelete}
-                    resetCallback={handleReset}
-                    saveCallback={handleSave}
-                />
-            </Container>
-        </div>
-    );
-};
-
-export default SkillsList;
+// const List = ({ items, placeholder, callback }) => {
+//     const [skills, setSkills] = useState(items);
+//
+//     const updateSkill = (id) => (data) => {
+//         const skillIndex = skills.findIndex((skill) => skill.id === id);
+//
+//         if (skillIndex < 0) {
+//             setSkills([data]);
+//             callback(data);
+//         } else {
+//             const updatedSkills = [...skills];
+//             updatedSkills[skillIndex] = data;
+//             setSkills(updatedSkills);
+//             callback(updatedSkills);
+//         }
+//     };
+//
+//     const addSkill = () => {
+//         setSkills((prv) => [...prv, { visible: true, id: keygen() }]);
+//     };
+//
+//     const removeSkill = (id) => () => {
+//         const newSkillsList = skills.filter((skill) => id !== skill.id);
+//         setSkills(newSkillsList);
+//     };
+//
+//     const currentKeygen = keygen();
+//     const addAvailability = skills.some((skill) => skill.value === '');
+//
+//     return (
+//         <>
+//             <p>
+//                 En caso de necesitar traduccion, separa la habilidad en dos
+//                 idiomas con una barra inclinada, (ej. habilidad, ó, habilidad en
+//                 español / habilidad en inglés)
+//             </p>
+//             <ul className="skills-list">
+//                 {skills.length ? (
+//                     skills.map((skill) => (
+//                         <ListItem
+//                             data={skill}
+//                             key={skill.id}
+//                             listCallback={updateSkill(skill.id)}
+//                             removeCallback={removeSkill(skill.id)}
+//                             placeholder={placeholder}
+//                         />
+//                     ))
+//                 ) : (
+//                     <ListItem
+//                         data={{
+//                             value: '',
+//                             visible: true,
+//                             id: currentKeygen,
+//                         }}
+//                         key={currentKeygen}
+//                         listCallback={updateSkill(currentKeygen)}
+//                         removeCallback={removeSkill(currentKeygen)}
+//                         placeholder={placeholder}
+//                     />
+//                 )}
+//             </ul>
+//             <button
+//                 className="add-item"
+//                 type="button"
+//                 onClick={addSkill}
+//                 disabled={addAvailability}
+//             >
+//                 Añadir habilidad
+//             </button>
+//         </>
+//     );
+// };

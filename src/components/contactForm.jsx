@@ -36,23 +36,14 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
     const props = propGenerator('contact', refs, dataToInject, setDataToInject);
 
     // card handlers
-    const handleDelete = () => deleteData(startingData);
-    const handleReset = () => resetData(startingData, setDataToInject);
+    const handleDelete = () => {
+        console.log(dataToInject, startingData);
+    };
+    const handleReset = () => {
+        console.log(dataToInject, startingData);
+    };
     const handleSave = () => {
-        saveData(
-            'contact',
-            refs,
-            startingData,
-            dataToInject,
-            //form validations array
-            [],
-            // setters
-            {
-                setDataToInject,
-                setRenderInPdf,
-                setOpenToEdit,
-            },
-        );
+        console.log(dataToInject, startingData);
     };
 
     return (
@@ -97,10 +88,9 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
                     ]}
                 />
 
-                <Input {...props('phone')}
-                    validations={[
-                        inputValidation.notEmpty,
-                    ]}
+                <Input
+                    {...props('phone')}
+                    validations={[inputValidation.notEmpty]}
                 />
 
                 <FormButtons
