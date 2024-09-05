@@ -191,7 +191,7 @@ const ListItem = ({ placeholder, data, listCallback, removeCallback }) => {
     );
 };
 
-const SkillsList = () => {
+const List = () => {
     const [skills, setSkill] = useState([
         { value: 'uno', visible: true, id: keygen() },
         { value: 'dos', visible: true, id: keygen() },
@@ -332,13 +332,4 @@ const Container = ({ open, children, preview }) => {
     );
 };
 
-export {
-    Input,
-    Fieldset,
-    Button,
-    FormButtons,
-    Bar,
-    Container,
-    ListItem,
-    SkillsList,
-};
+export { Input, Fieldset, Button, FormButtons, Bar, Container, List };

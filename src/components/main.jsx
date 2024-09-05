@@ -8,7 +8,8 @@ import EducationForm from './educationForm';
 import ProfileForm from './profileForm';
 import ContactForm from './contactForm';
 import BioForm from './bioForm';
-import { SkillsList } from './formComponents';
+import SkillsList from './skillsList';
+import SkillsText from './skillsText';
 //
 // TODO:
 // 6. implementación en otros tipos de tarjetas
@@ -34,6 +35,8 @@ console.log(storedCards);
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <SkillsList />
+        <SkillsText />
+        <hr />
         {storedCards?.profile &&
             storedCards.profile.map((card) => (
                 <ProfileForm data={card} key={card.id} />
