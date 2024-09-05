@@ -210,18 +210,18 @@ const SkillsList = () => {
         setSkill(skillsArr);
     };
 
-    // const addSkill = () => {
-    //     setSkill((prv) => [
-    //         ...prv,
-    //         { value: '', visible: false, id: keygen() },
-    //     ]);
-    // };
+    const addSkill = () => {
+        setSkill((prv) => [
+            ...prv,
+            { value: '', visible: false, id: keygen() },
+        ]);
+    };
 
-    // const removeSkill = (id) => () => {
-    //     const newSkillsList = skills.filter((skill) => id !== skill.id);
-    //     setSkill(newSkillsList);
-    // };
-    //
+    const removeSkill = (id) => () => {
+        const newSkillsList = skills.filter((skill) => id !== skill.id);
+        setSkill(newSkillsList);
+    };
+
     const activeSkills = skills
         .reduce((skillSum, skill) => {
             if (skill.visible) skillSum.push(skill.value);
@@ -239,10 +239,14 @@ const SkillsList = () => {
                         data={skill}
                         key={skill.id}
                         listCallback={updateSkill(skill.id)}
+                        removeCallback={removeSkill(skill.id)}
                     />
                 ))}
             </ul>
-            {activeSkills}
+            <div>{activeSkills}</div>
+            <button type="button" onClick={addSkill} disabled={addAvailability}>
+                Añadir
+            </button>
         </>
     );
 };
@@ -260,16 +264,19 @@ const Fieldset = ({ legend, validation, children }) => {
     );
 };
 
-const Button = ({ text, type, callback }) => (
-    <button
-        type={type === 'warn' ? 'button' : type}
-        onPointerDown={callback}
-        onKeyDown={handleKeyDown(callback)}
-        className={`button__${type}`}
-    >
-        {text}
-    </button>
-);
+const Button = ({ text, type, callback, disabled }) => {
+    console.log(disabled);
+    return (
+        <button
+            type={type === 'warn' ? 'button' : type}
+            onPointerDown={callback}
+            onKeyDown={handleKeyDown(callback)}
+            className={`button__${type}`}
+        >
+            {text}
+        </button>
+    );
+};
 
 const FormButtons = ({
     previousData,
