@@ -88,15 +88,17 @@ fieldset {
     display: flex;
     padding: 0.25rem 1ch;
     gap: 2ch;
-}
-fieldset > * {
-    flex: 1;
-}
-fieldset.preview {
-    background: blue;
-    padding: 2rem 2ch 1rem;
-    flex-direction: column;
-    gap: 0;
+    
+    > * {
+        flex: 1;
+    }
+
+    &.preview {
+        background: blue;
+        padding: 2rem 2ch 1rem;
+        flex-direction: column;
+        gap: 0;
+    }
 }
 .fieldset__error {
     color: var(--error);
@@ -153,23 +155,15 @@ button {
         background-color 0.2s,
         color 0.5s;
     transition-timing-function: ease-in-out;
-}
-button:hover {
-    color: var(--bkg-color);
-    background-color: var(--txt-color);
-}
-button:active {
-    transform: scale(0.9);
-}
 
-li {
-    display: flex;
-    align-items: center;
-    padding: 0 1ch 0 0;
-}
-li > *:nth-child(2) {
-    flex: 1;
-    padding: 0 1ch 0 0; 
+    &:hover {
+        color: var(--bkg-color);
+        background-color: var(--txt-color);
+    }
+
+    &:active {
+        transform: scale(0.9);
+    }
 }
 
 .button__normal {
@@ -194,15 +188,61 @@ li > *:nth-child(2) {
     outline-offset: 3px;
 }
 
-.preview article {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
+.preview {
+    article {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .preview h3 {
+        display: flex;
+        gap: 1ch;
+    }
+
+    .preview p {
+        margin: 0;
+    }
 }
-.preview h3 {
-    display: flex;
-    gap: 1ch
+.skills-list {
+    > li {
+        display: flex;
+        align-items: center;
+        padding: 0 1ch 0 0;
+        padding: 0.25rem 0;
+
+        > label {
+            flex: 1;
+        }
+
+        > div {
+            padding: 0 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        & button {
+            background: none;
+            border: none;
+            color: var(--warn);
+            padding: 0 0.25rem;
+
+            &:hover {
+                background: var(--warn);
+                color: var(--background);
+            }
+        }
+    }
+
+    > li:first-child {
+        border: none;
+    }
+
 }
-.preview p {
-    margin: 0;
+.add-item {
+    width: 100%;
+}
+.add-item:disabled {
+    color: var(--text);
+    background-color: var(--background);
 }
