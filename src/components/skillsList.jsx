@@ -27,8 +27,7 @@ const SkillsList = ({ data, inPdf = true, inPdfCallback }) => {
 
     // form inputs
     const refs = {
-        descriptionEsp: useRef(),
-        descriptionEng: useRef(),
+        skillsList: useRef(),
     };
     const props = propGenerator('skillsList', refs, dataToInject, setDataToInject);
 
@@ -72,7 +71,7 @@ const SkillsList = ({ data, inPdf = true, inPdfCallback }) => {
                 <Input {...props('reference')} ref={null} />
                 <hr />
 
-                <List />
+                <List items={[]} placeholder="patito" callback="" />
 
                 <FormButtons
                     previousData={startingData}

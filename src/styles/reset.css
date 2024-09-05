@@ -35,7 +35,6 @@ h2 {
 }
 p {
     max-width: 65ch;
-    margin: 0 0 var(--line-height);
     text-wrap: pretty;
     line-height: var(--line-height);
 }

@@ -150,7 +150,7 @@ const Input = forwardRef(function TextInput(
     );
 });
 
-const ListItem = ({ placeholder, data, listCallback, removeCallback }) => {
+const ListItem = ({ placeholder, data = '', listCallback, removeCallback }) => {
     const [skill, setSkill] = useState(data);
     const updateValue = (event) => {
         setSkill((prvSkill) => ({ ...prvSkill, value: event.target.value }));
@@ -191,24 +191,23 @@ const ListItem = ({ placeholder, data, listCallback, removeCallback }) => {
     );
 };
 
-const List = () => {
-    const [skills, setSkill] = useState([
-        { value: 'uno', visible: true, id: keygen() },
-        { value: 'dos', visible: true, id: keygen() },
-    ]);
+const List = ({ items, placeholder, callback }) => {
+    const [skills, setSkill] = useState(items);
 
     const updateSkill = (id) => (data) => {
         const skillIndex = skills.findIndex((skill) => skill.id === id);
-        const skillsArr = [...skills];
-        skillsArr[skillIndex] = data;
-        setSkill(skillsArr);
+
+        if (skillIndex < 0) {
+            setSkill([data]);
+        } else {
+            const updatedSkills = [...skills];
+            updatedSkills[skillIndex] = data;
+            setSkill(updatedSkills);
+        }
     };
 
     const addSkill = () => {
-        setSkill((prv) => [
-            ...prv,
-            { value: '', visible: false, id: keygen() },
-        ]);
+        setSkill((prv) => [...prv, { visible: true, id: keygen() }]);
     };
 
     const removeSkill = (id) => () => {
@@ -216,19 +215,40 @@ const List = () => {
         setSkill(newSkillsList);
     };
 
+    const currentKeygen = keygen();
     const addAvailability = skills.some((skill) => skill.value === '');
 
     return (
         <>
+            <p>
+                En caso de necesitar traduccion, separa la habilidad en dos
+                idiomas con una barra inclinada, (ej. habilidad, ó, habilidad en
+                español / habilidad en inglés)
+            </p>
             <ul className="skills-list">
-                {skills.map((skill) => (
+                {skills.length ? (
+                    skills.map((skill) => (
+                        <ListItem
+                            data={skill}
+                            key={skill.id}
+                            listCallback={updateSkill(skill.id)}
+                            removeCallback={removeSkill(skill.id)}
+                            placeholder={placeholder}
+                        />
+                    ))
+                ) : (
                     <ListItem
-                        data={skill}
-                        key={skill.id}
-                        listCallback={updateSkill(skill.id)}
-                        removeCallback={removeSkill(skill.id)}
+                        data={{
+                            value: '',
+                            visible: false,
+                            id: currentKeygen,
+                        }}
+                        key={currentKeygen}
+                        listCallback={updateSkill(currentKeygen)}
+                        removeCallback={removeSkill(currentKeygen)}
+                        placeholder={placeholder}
                     />
-                ))}
+                )}
             </ul>
             <button
                 className="add-item"
