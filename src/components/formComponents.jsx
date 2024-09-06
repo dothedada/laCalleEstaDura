@@ -153,30 +153,26 @@ const Input = forwardRef(function TextInput(
     );
 });
 
-// TODO:
-// replantear el módulo de itemlist para hacerlo mas cercano a Input,
-// se elimina el modulo List para manejar la info desde el compornente de ui
-// incorporar la validacion de los elementos
-//
 const ListItem = ({
     data,
     placeholder,
     updateListCallback,
     removeItemCallback,
 }) => {
-    const [skill, setSkill] = useState(data);
+    const { value, visible } = data;
 
-    const updateValue = (event) => {
-        setSkill((prvSkill) => ({ ...prvSkill, value: event.target.value }));
+    const valueChange = (event) => {
+        updateListCallback({
+            ...data,
+            value: event.target.value,
+        });
     };
-
-    const updateRender = () => {
-        setSkill((prvSkill) => ({ ...prvSkill, visible: !skill.visible }));
+    const visibleChange = (event) => {
+        updateListCallback({
+            ...data,
+            visible: event.target.checked,
+        });
     };
-
-    useEffect(() => {
-        updateListCallback(skill);
-    }, [skill]);
 
     return (
         <li>
@@ -184,13 +180,13 @@ const ListItem = ({
             <input
                 type="text"
                 placeholder={placeholder}
-                value={skill.value ?? ''}
-                onChange={updateValue}
+                value={value ?? ''}
+                onChange={valueChange}
             />
             <div>
                 <InRenderCheckbox
-                    inRender={skill.visible}
-                    inRenderHandler={updateRender}
+                    inRender={visible}
+                    inRenderHandler={visibleChange}
                 />
                 <RemoveButton removeHandler={removeItemCallback} />
             </div>
