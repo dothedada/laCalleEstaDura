@@ -1,4 +1,10 @@
-import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
+import {
+    useState,
+    useRef,
+    forwardRef,
+    useImperativeHandle,
+    useEffect,
+} from 'react';
 import { uiText, iconsPaths } from './txtAndValidations';
 
 const IconWrapper = ({ icon, open }) => (
@@ -147,12 +153,17 @@ const Input = forwardRef(function TextInput(
     );
 });
 
-// TODO: 
+// TODO:
 // replantear el módulo de itemlist para hacerlo mas cercano a Input,
-// se elimina el modulo List para manejar la info desde el compornente de ui 
+// se elimina el modulo List para manejar la info desde el compornente de ui
 // incorporar la validacion de los elementos
 //
-const ListItem = ({ placeholder, data, listCallback, removeCallback }) => {
+const ListItem = ({
+    data,
+    placeholder,
+    updateListCallback,
+    removeItemCallback,
+}) => {
     const [skill, setSkill] = useState(data);
 
     const updateValue = (event) => {
@@ -163,28 +174,25 @@ const ListItem = ({ placeholder, data, listCallback, removeCallback }) => {
         setSkill((prvSkill) => ({ ...prvSkill, visible: !skill.visible }));
     };
 
-    const updateList = () => {
-        listCallback(skill);
-    };
+    useEffect(() => {
+        updateListCallback(skill);
+    }, [skill]);
 
     return (
         <li>
             <IconWrapper icon={'dragNDrop'} />
-            <label>
-                <input
-                    type="text"
-                    placeholder={placeholder}
-                    value={skill.value ?? ''}
-                    onChange={updateValue}
-                    onBlur={updateList}
-                />
-            </label>
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={skill.value ?? ''}
+                onChange={updateValue}
+            />
             <div>
                 <InRenderCheckbox
                     inRender={skill.visible}
                     inRenderHandler={updateRender}
                 />
-                <RemoveButton removeHandler={removeCallback} />
+                <RemoveButton removeHandler={removeItemCallback} />
             </div>
         </li>
     );
