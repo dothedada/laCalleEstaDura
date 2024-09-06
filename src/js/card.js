@@ -142,27 +142,6 @@ class ListBlock extends Card {
         ];
     }
 
-    insertElement(element, index) {
-        if (index < 0 || index >= this.list.length) return;
-
-        const previousElements = this.list.slice(0, index);
-        const followingElements = this.list.slice(index);
-        this.list = [...previousElements, element, ...followingElements];
-    }
-
-    editElement(newValue, index) {
-        if (index < 0 || index >= this.list.length) return;
-
-        this.list[index] = newValue;
-    }
-
-    removeElement(index) {
-        if (index < 0 || index >= this.list.length) return;
-
-        this.list[index] = null;
-        this.list = this.list.filter((e) => e);
-    }
-
     filterLang(lang) {
         const langIndex = /esp/i.test(lang) ? 0 : 1;
 
