@@ -79,9 +79,11 @@ const saveData = (
         setRenderInPdf,
         setOpenToEdit,
     } = stateSetters;
-    if (!validateInputs(inputRefs)) return;
 
-    if (!validateForm(formValidations, setGlobalValidations)) return;
+    if (Object.keys(inputRefs).length) {
+        if (!validateInputs(inputRefs)) return;
+        if (!validateForm(formValidations, setGlobalValidations)) return;
+    }
 
     const isUpdate = !!startingData;
     if (isUpdate) {
