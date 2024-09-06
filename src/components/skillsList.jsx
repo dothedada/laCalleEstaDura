@@ -14,11 +14,22 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
         setRenderInPdf(!renderInPdf);
     };
 
+    const currentKeygen = keygen();
     // Card states
     const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(items || undefined);
     const [dataToInject, setDataToInject] = useState(() =>
-        startingData ? structuredClone(startingData) : { list: [] },
+        startingData
+            ? structuredClone(startingData)
+            : {
+                  list: [
+                      {
+                          value: '',
+                          visible: true,
+                          id: currentKeygen,
+                      },
+                  ],
+              },
     );
 
     const props = propGenerator(
@@ -58,7 +69,7 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
                 setDataToInject((prv) => ({ ...prv, list: [data] }));
             } else {
                 const updatedSkills = structuredClone(dataToInject);
-                updatedSkills[skillIndex].list = data;
+                updatedSkills.list[skillIndex] = data;
                 setDataToInject(updatedSkills);
             }
         },
@@ -68,7 +79,9 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
     const addSkill = () => {
         const updatedSkills = structuredClone(dataToInject);
         updatedSkills.list.push({ visible: true, id: keygen() });
+        console.log(updatedSkills);
         setDataToInject(updatedSkills);
+        console.log(dataToInject);
     };
 
     const removeSkill = (id) => () => {
@@ -78,7 +91,6 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
         setDataToInject((prv) => ({ ...prv, newSkillsList }));
     };
 
-    const currentKeygen = keygen();
     const addAvailability = dataToInject.list.some(
         (skill) => skill.value === '',
     );
@@ -117,28 +129,15 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
                     .join(', ')}
 
                 <ul className="skills-list">
-                    {dataToInject.length ? (
-                        dataToInject.list.map((skill) => (
-                            <ListItem
-                                data={skill}
-                                key={skill.id}
-                                updateListCallback={updateSkill(skill.id)}
-                                removeItemCallback={removeSkill(skill.id)}
-                                placeholder={'pato'}
-                            />
-                        ))
-                    ) : (
+                    {dataToInject.list.map((skill) => (
                         <ListItem
-                            data={{
-                                value: '',
-                                visible: true,
-                                id: currentKeygen,
-                            }}
-                            updateListCallback={updateSkill(currentKeygen)}
-                            removeItemCallback={removeSkill(currentKeygen)}
-                            placeholder={'pppp'}
+                            data={skill}
+                            key={skill.id}
+                            updateListCallback={updateSkill(skill.id)}
+                            removeItemCallback={removeSkill(skill.id)}
+                            placeholder={'pato'}
                         />
-                    )}
+                    ))}
                 </ul>
 
                 <button

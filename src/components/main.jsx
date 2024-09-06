@@ -10,6 +10,7 @@ import ContactForm from './contactForm';
 import BioForm from './bioForm';
 import SkillsList from './skillsList';
 import SkillsText from './skillsText';
+import SkillList from './skillsList';
 //
 // TODO:
 // 6. implementación en otros tipos de tarjetas
@@ -34,6 +35,10 @@ console.log(storedCards);
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
+        {storedCards?.skillsList &&
+            storedCards.skillsList.map((card) => (
+                <SkillList data={card} key={card.id} />
+            ))}
         <SkillsList />
         <SkillsText />
         <hr />
