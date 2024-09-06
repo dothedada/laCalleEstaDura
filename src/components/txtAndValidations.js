@@ -233,19 +233,15 @@ export const uiText = {
 
     skillsList: {
         reference: 'Nuevo listado de habilidades',
-        legend: {
-            description: '¿Cómo te relacionas con tu trabajo? ¿qué te gusta?',
-        },
         label: {
             reference: '¿Qué nombre le vas a dar a esta tarjeta?',
-            descriptionEsp: 'en español',
-            descriptionEng: 'en inglés',
+            instructions:
+                'En caso de necesitar traduccion, separa la habilidad en dos idiomas con una barra inclinada, (ej. habilidad, ó, habilidad en español / habilidad en inglés)',
+            addButton: 'Añadir una nueva habilidad',
         },
         placeholder: {
-            descriptionEsp:
-                'Soy un ingeniero de siestas con más de 10 años de experiencia...',
-            descriptionEng:
-                'I am a nap engineer with over 10 years of experience...',
+            reference: 'Habilidades técnicas, personalidad...  ',
+            item: 'sinTraducción, ó, español/inglés',
         },
     },
 

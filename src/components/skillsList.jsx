@@ -1,7 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import { Bar, Container, Input, ListItem, FormButtons } from './formComponents';
 import { ExperiencePreview } from './previewCards';
-import { propGenerator, deleteData, resetData, saveData } from './formMethods';
+import { propGenerator, deleteData, saveData } from './formMethods';
+import { uiText } from './txtAndValidations';
 
 const keygen = () =>
     (Math.floor(Math.random() * 1000) + new Date().getTime()).toString(26);
@@ -10,26 +11,19 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
-        console.log(inPdfCallback);
         setRenderInPdf(!renderInPdf);
     };
 
     const currentKeygen = keygen();
+    const newBlankSkill = { value: '', visible: true, id: currentKeygen };
+
     // Card states
     const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(() =>
         startingData
             ? structuredClone(startingData)
-            : {
-                  list: [
-                      {
-                          value: '',
-                          visible: true,
-                          id: currentKeygen,
-                      },
-                  ],
-              },
+            : { list: [newBlankSkill] },
     );
 
     const props = propGenerator(
@@ -42,18 +36,7 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
     // card handlers
     const handleDelete = () => deleteData(startingData);
     const handleReset = () => {
-        setDataToInject(
-            () =>
-                startingData ?? {
-                    list: [
-                        {
-                            value: '',
-                            visible: true,
-                            id: currentKeygen,
-                        },
-                    ],
-                },
-        );
+        setDataToInject(() => startingData ?? { list: [newBlankSkill] });
     };
     const handleSave = () => {
         const sanitizedSkills = structuredClone(dataToInject);
@@ -101,7 +84,6 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
         const newSkillsList = dataToInject.list.filter(
             (skill) => id !== skill.id,
         );
-        console.log(newSkillsList);
         setDataToInject((prv) => ({ ...prv, list: newSkillsList }));
     };
 
@@ -127,18 +109,7 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
                 <Input {...props('reference')} ref={null} />
                 <hr />
 
-                <p>
-                    En caso de necesitar traduccion, separa la habilidad en dos
-                    idiomas con una barra inclinada, (ej. habilidad, ó,
-                    habilidad en español / habilidad en inglés)
-                </p>
-
-                {dataToInject.list
-                    .reduce((list, item) => {
-                        if (item.visible) list.push(item.value);
-                        return list;
-                    }, [])
-                    .join(', ')}
+                <p>{uiText.skillsList.label.instructions}</p>
 
                 <ul className="skills-list">
                     {dataToInject.list.map((skill) => (
@@ -147,7 +118,7 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
                             key={skill.id}
                             updateListCallback={updateSkill(skill.id)}
                             removeItemCallback={removeSkill(skill.id)}
-                            placeholder={'pato'}
+                            placeholder={uiText.skillsList.placeholder.item}
                         />
                     ))}
                 </ul>
@@ -158,9 +129,18 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
                     onClick={addSkill}
                     disabled={addAvailability}
                 >
-                    carajo
+                    {uiText.skillsList.label.addButton}
                 </button>
 
+                <p>
+                    <strong>Habilidades en lista: </strong>
+                    {dataToInject.list
+                        .reduce((list, item) => {
+                            if (item.visible) list.push(item.value);
+                            return list;
+                        }, [])
+                        .join(', ')}
+                </p>
                 <hr />
 
                 <FormButtons
