@@ -37,7 +37,7 @@ createRoot(document.getElementById('root')).render(
     <StrictMode>
         {storedCards?.skillsList &&
             storedCards.skillsList.map((card) => (
-                <SkillList data={card} key={card.id} />
+                <SkillList data={card} key={card.id} inPdf={true}/>
             ))}
         <SkillsList />
         <SkillsText />

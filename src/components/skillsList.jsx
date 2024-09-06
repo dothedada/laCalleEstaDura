@@ -6,7 +6,7 @@ import { propGenerator, deleteData, resetData, saveData } from './formMethods';
 const keygen = () =>
     (Math.floor(Math.random() * 1000) + new Date().getTime()).toString(26);
 
-const SkillList = ({ items, inPdf, inPdfCallback }) => {
+const SkillList = ({ data, inPdf, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -17,7 +17,7 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
     const currentKeygen = keygen();
     // Card states
     const [openToEdit, setOpenToEdit] = useState(false);
-    const [startingData] = useState(items || undefined);
+    const [startingData] = useState(data || undefined);
     const [dataToInject, setDataToInject] = useState(() =>
         startingData
             ? structuredClone(startingData)
@@ -60,16 +60,16 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
     };
 
     const updateSkill = useCallback(
-        (id) => (data) => {
+        (id) => (item) => {
             const skillIndex = dataToInject.list.findIndex(
                 (skill) => skill.id === id,
             );
 
             if (skillIndex < 0) {
-                setDataToInject((prv) => ({ ...prv, list: [data] }));
+                setDataToInject((prv) => ({ ...prv, list: [item] }));
             } else {
                 const updatedSkills = structuredClone(dataToInject);
-                updatedSkills.list[skillIndex] = data;
+                updatedSkills.list[skillIndex] = item;
                 setDataToInject(updatedSkills);
             }
         },
@@ -88,7 +88,8 @@ const SkillList = ({ items, inPdf, inPdfCallback }) => {
         const newSkillsList = dataToInject.list.filter(
             (skill) => id !== skill.id,
         );
-        setDataToInject((prv) => ({ ...prv, newSkillsList }));
+        console.log(newSkillsList)
+        setDataToInject((prv) => ({ ...prv, list: newSkillsList }));
     };
 
     const addAvailability = dataToInject.list.some(
