@@ -105,9 +105,7 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
         setDataToInject((prv) => ({ ...prv, list: newSkillsList }));
     };
 
-    const addAvailability = dataToInject.list.some(
-        (skill) => skill.value === '',
-    );
+    const addAvailability = dataToInject.list.some((skill) => !skill.value);
 
     return (
         <div className="card__config" id={'cardID'}>
@@ -162,6 +160,8 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
                 >
                     carajo
                 </button>
+
+                <hr />
 
                 <FormButtons
                     previousData={startingData}

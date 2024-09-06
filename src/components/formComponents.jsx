@@ -1,10 +1,4 @@
-import {
-    useState,
-    useRef,
-    forwardRef,
-    useImperativeHandle,
-    useEffect,
-} from 'react';
+import { useState, useRef, forwardRef, useImperativeHandle } from 'react';
 import { uiText, iconsPaths } from './txtAndValidations';
 
 const IconWrapper = ({ icon, open }) => (
