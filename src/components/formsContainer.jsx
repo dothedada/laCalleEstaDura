@@ -7,21 +7,16 @@ import SkillsList from './skillsList';
 import SkillsText from './skillsText';
 import SkillList from './skillsList';
 
-const storedCards = Object.keys(localStorage)
-    .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
-    .reduce((deck, card) => {
-        if (!deck[card.type]) {
-            deck[card.type] = [];
-        }
-        deck[card.type].push(new cardClass[card.type](card));
-        return deck;
-    }, {});
-
-const container = (data) => {
+const container = (data, cvs) => {
     return (
         <>
             <h1>la calle esta dura</h1>
-            <div className="cv">
+            <div className="cv-selector">
+                <select name="cvs" id="cvs_selector">
+                    <option value="value"></option>
+                </select>
+            </div>
+            <div className="cv-cards">
                 <div className="contact">
                     <div className="contact__name">nombres</div>
                     <div className="contact__info">Info de contactoº</div>
@@ -42,6 +37,11 @@ const container = (data) => {
                     <div className="references__work">nombres</div>
                     <div className="references__studies">Info de contactoº</div>
                 </div>
+            </div>
+            <div className="cv-actions">
+                <button type="button">Añadir</button>
+                <button type="button">Actualizar</button>
+                <button type="button">Eliminar</button>
             </div>
         </>
     );
