@@ -18,24 +18,52 @@ const container = (data, cvs) => {
             </div>
             <div className="cv-cards">
                 <div className="contact">
-                    <div className="contact__name">nombres</div>
-                    <div className="contact__info">Info de contactoº</div>
+                    {data?.profile &&
+                        data.profile.map((card) => (
+                            <ProfileForm data={card} key={card.id} />
+                        ))}
                 </div>
                 <div className="bio">
-                    <div className="bio__txt">perfiles</div>
+                    {data?.bio &&
+                        data.bio.map((card) => (
+                            <ProfileForm data={card} key={card.id} />
+                        ))}
                 </div>
                 <div className="knowledge">
                     <div className="knowledge__experience">
-                        experiencias de trabajo relevantes
+                        {data?.experience &&
+                            data.experience.map((card) => (
+                                <ProfileForm data={card} key={card.id} />
+                            ))}
                     </div>
                     <div className="knowledge__skills">
-                        <div className="skills__text">texto de habilidades</div>
-                        <div className="skills__list">lista de habilidades</div>
+                        <div className="skills__text">
+                            {data?.skillsText &&
+                                data.skillsText.map((card) => (
+                                    <ProfileForm data={card} key={card.id} />
+                                ))}
+                        </div>
+                        <div className="skills__list">
+                            {data?.skillsList &&
+                                data.skillsList.map((card) => (
+                                    <ProfileForm data={card} key={card.id} />
+                                ))}
+                        </div>
                     </div>
                 </div>
                 <div className="references">
-                    <div className="references__work">nombres</div>
-                    <div className="references__studies">Info de contactoº</div>
+                    <div className="references__work">
+                        {data?.contact &&
+                            data.contact.map((card) => (
+                                <ProfileForm data={card} key={card.id} />
+                            ))}
+                    </div>
+                    <div className="references__studies">
+                        {data?.education &&
+                            data.education.map((card) => (
+                                <ProfileForm data={card} key={card.id} />
+                            ))}
+                    </div>
                 </div>
             </div>
             <div className="cv-actions">
@@ -47,4 +75,4 @@ const container = (data, cvs) => {
     );
 };
 
-return container;
+return { container };
