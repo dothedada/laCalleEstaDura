@@ -45,4 +45,38 @@ const ExperiencePreview = ({ data, lang = 'Esp' }) => {
     );
 };
 
-export { ExperiencePreview };
+const ProfilePreview = ({ data, lang = 'Esp' }) => {
+    return (
+        data && (
+            <div className="card__preview twoCol">
+                <div>
+                    <h2 className="name">{data.name}</h2>
+                    <div className="title">{data[`title${lang}`]}</div>
+                </div>
+                <div>
+                    <div>Mail: {data.email}</div>
+                    {data.link1 && (
+                        <div>
+                            Link 1:{' '}
+                            <a href={data.link1} target="_blank">
+                                {data.link1}
+                            </a>
+                        </div>
+                    )}
+                    {data.link2 && (
+                        <div>
+                            Link 2:{' '}
+                            <a href={data.link2} target="_blank">
+                                {data.link2}
+                            </a>
+                        </div>
+                    )}
+                    <div>Teléfono: {data.phone}</div>
+                    <div>Ubicación: {data.location}</div>
+                </div>
+            </div>
+        )
+    );
+};
+
+export { ExperiencePreview, ProfilePreview };
