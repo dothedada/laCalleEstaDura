@@ -18,8 +18,6 @@ const DeckManager = () => {
             return deck;
         }, {});
 
-    const renderedCards = storedCards.rendered || null;
-
     return (
         <>
             <h1>la calle esta dura</h1>
@@ -28,55 +26,53 @@ const DeckManager = () => {
                     <option>carajo</option>
                 </select>
             </div>
-            <div className="cv-cards">
+            <div className="frame decks">
                 <div className="contact">
-                    {storedCards?.profile &&
-                        storedCards.profile.map((card) => (
-                            <ProfileForm data={card} key={card.id} />
-                        ))}
+                    {storedCards?.profile?.map((card) => (
+                        <ProfileForm data={card} key={card.id} />
+                    ))}
+                    <ProfileForm />
                 </div>
                 <div className="bio">
-                    {storedCards?.bio &&
-                        storedCards.bio.map((card) => (
-                            <BioForm data={card} key={card.id} />
-                        ))}
+                    {storedCards?.bio?.map((card) => (
+                        <BioForm data={card} key={card.id} />
+                    ))}
+                    <BioForm />
                 </div>
                 <div className="knowledge">
                     <div className="knowledge__experience">
-                        {storedCards?.experience
-                            ? storedCards.experience.map((card) => (
-                                  <ExperienceForm data={card} key={card.id} />
-                              ))
-                            : 'carajo'}
+                        {storedCards?.experience?.map((card) => (
+                            <ExperienceForm data={card} key={card.id} />
+                        ))}
                         <ExperienceForm />
                     </div>
                     <div className="knowledge__skills">
                         <div className="skills__text">
-                            {storedCards?.skillsText &&
-                                storedCards.skillsText.map((card) => (
-                                    <SkillsText data={card} key={card.id} />
-                                ))}
+                            {storedCards?.skillsText?.map((card) => (
+                                <SkillsText data={card} key={card.id} />
+                            ))}
+                            <SkillsText />
                         </div>
                         <div className="skills__list">
-                            {storedCards?.skillsList &&
-                                storedCards.skillsList.map((card) => (
-                                    <SkillsList data={card} key={card.id} />
-                                ))}
+                            {storedCards?.skillsList?.map((card) => (
+                                <SkillsList data={card} key={card.id} />
+                            ))}
+                            <SkillsList />
                         </div>
                     </div>
                 </div>
                 <div className="references">
                     <div className="references__work">
-                        {storedCards?.contact &&
-                            storedCards.contact.map((card) => (
-                                <ContactForm data={card} key={card.id} />
-                            ))}
+                        {storedCards?.contact?.map((card) => (
+                            <ContactForm data={card} key={card.id} />
+                        ))}
+                        <ContactForm />
                     </div>
                     <div className="references__studies">
-                        {storedCards?.education &&
-                            storedCards.education.map((card) => (
-                                <EducationForm data={card} key={card.id} />
-                            ))}
+                        {storedCards?.education?.map((card) => (
+                            <EducationForm data={card} key={card.id} />
+                        ))}
+                        <EducationForm />
                     </div>
                 </div>
             </div>
