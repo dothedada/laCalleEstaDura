@@ -6,6 +6,7 @@
     --background: #110425;
     --warn: #db8ea3;
     --error: #f77e4f;
+    --highlight: #fff;
 
     --font-parragraph: 'Fira Sans', sans-serif;
     --font-headings: 'JetBrains Mono', sans-serif;
@@ -45,7 +46,8 @@ strong {
 }
 /* Interacción */
 a,
-button {
+button,
+label:has([type="checkbox"]){
     /* Corrige el problema de consistencia del cursor */
     cursor: pointer;
 }
@@ -77,6 +79,7 @@ body {
     font-family: var(--font-parragraph);
     background-color: var(--background);
     color: var(--text);
+    margin: 1rem;
 }
 ul {
     list-style: none;
@@ -84,6 +87,10 @@ ul {
 }
 
 /* Accesibilidad del contenido*/
+:focus-visible {
+    outline: 1px solid var(--text);
+    outline-offset: 3px;
+}
 .hidden,
 [hidden] {
     display: none !important;
