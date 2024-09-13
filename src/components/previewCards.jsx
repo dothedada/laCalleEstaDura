@@ -19,32 +19,6 @@ const dateLabel = (date) => {
     return `${workingDate.getFullYear()}-${formatedMonth}`;
 };
 
-const ExperiencePreview = ({ data, lang = 'Esp' }) => {
-    return (
-        data && (
-            <article>
-                <header>
-                    <h3>
-                        {data.place}
-                        <span className="date">
-                            <time dateTime={dateLabel(data.timeStart)}>
-                                {formatDate(data.timeStart)}{' '}
-                            </time>
-                            -
-                            <time dateTime={dateLabel(data.timeEnd)}>
-                                {' '}
-                                {formatDate(data.timeEnd)}
-                            </time>
-                        </span>
-                    </h3>
-                    <div className="title">{data[`title${lang}`]}</div>
-                </header>
-                <p>{data[`description${lang}`]}</p>
-            </article>
-        )
-    );
-};
-
 const ProfilePreview = ({ data, lang = 'Esp' }) => {
     return (
         data && (
@@ -80,7 +54,65 @@ const ProfilePreview = ({ data, lang = 'Esp' }) => {
 };
 
 const BioPreview = ({ data, lang = 'Esp' }) => {
-    return data && <p className="card__preview">{data.descriptionEsp}</p>;
+    return (
+        data && <p className="card__preview">{data[`description${lang}`]}</p>
+    );
 };
 
-export { ProfilePreview, BioPreview };
+const ExperiencePreview = ({ data, lang = 'Esp' }) => {
+    return (
+        data && (
+            <article>
+                <header>
+                    <h3>
+                        {`${data.place} `}
+                        <span className="date">
+                            <time dateTime={dateLabel(data.timeStart)}>
+                                {formatDate(data.timeStart)}
+                            </time>
+                            {' - '}
+                            <time dateTime={dateLabel(data.timeEnd)}>
+                                {formatDate(data.timeEnd)}
+                            </time>
+                        </span>
+                    </h3>
+                    <div className="title">{data[`title${lang}`]}</div>
+                </header>
+                <p>{data[`description${lang}`]}</p>
+            </article>
+        )
+    );
+};
+
+const SkillsTextPreview = ({ data, lang = 'Esp' }) => {
+    return (
+        data && <p className="card__preview">{data[`description${lang}`]}</p>
+    );
+};
+
+const SkillsListPreview = ({ data, lang = 'Esp' }) => {
+    const visibleSkills = data.list.reduce((list, item) => {
+        if (item.visible) {
+            list.push(item.value);
+        }
+        return list;
+    }, []);
+
+    return (
+        data && (
+            <ul className="card__preview">
+                {visibleSkills.map((skill) => (
+                    <li key={skill.id}>{skill}</li>
+                ))}
+            </ul>
+        )
+    );
+};
+
+export {
+    ProfilePreview,
+    BioPreview,
+    ExperiencePreview,
+    SkillsTextPreview,
+    SkillsListPreview,
+};

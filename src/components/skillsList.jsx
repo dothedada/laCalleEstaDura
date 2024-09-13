@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Bar, Container, Input, ListItem, FormButtons } from './formComponents';
-import { ExperiencePreview } from './previewCards';
+import { SkillsListPreview } from './previewCards';
 import { propGenerator, deleteData, saveData } from './formMethods';
 import { uiText } from './txtAndValidations';
 
@@ -90,7 +90,7 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
     const addAvailability = dataToInject.list.some((skill) => !skill.value);
 
     return (
-        <div className="card__config" id={'cardID'}>
+        <div className="card" id={'cardID'}>
             <Bar
                 type="skillsList"
                 data={dataToInject}
@@ -103,7 +103,7 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
             <Container
                 open={openToEdit}
                 preview={
-                    renderInPdf && <ExperiencePreview data={startingData} />
+                    renderInPdf && <SkillsListPreview data={startingData} />
                 }
             >
                 <Input {...props('reference')} ref={null} />
@@ -132,15 +132,6 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
                     {uiText.skillsList.label.addButton}
                 </button>
 
-                <p>
-                    <strong>Habilidades en lista: </strong>
-                    {dataToInject.list
-                        .reduce((list, item) => {
-                            if (item.visible) list.push(item.value);
-                            return list;
-                        }, [])
-                        .join(', ')}
-                </p>
                 <hr />
 
                 <FormButtons
