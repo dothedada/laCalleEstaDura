@@ -71,9 +71,7 @@ const ProfileForm = ({ data, inPdf = true, inPdfCallback }) => {
 
             <Container
                 open={openToEdit}
-                preview={
-                    renderInPdf && <ProfilePreview data={startingData} />
-                }
+                preview={renderInPdf && <ProfilePreview data={startingData} />}
             >
                 <Input {...props('reference')} ref={null} />
                 <hr />
