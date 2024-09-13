@@ -13,8 +13,8 @@ export const inputValidation = {
         message: 'Debe ser una dirección de correo electrónico válida',
     },
     isURL: {
-        pattern: /(^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$|^$)/g,
-        message: 'Debe ser una dirección de correo electrónico válida',
+        pattern: /\b(?<!@)((http(s)?:\/\/)?([a-z0-9-]+\.)?([a-z0-9-]{1,63}\.[a-z0-9]+)(\/[/\w\d\-+.*$%?#]+)?)(?!@)\b/ig,
+        message: 'Debe ser una url válida',
     },
     maxLength: (char) => ({
         pattern: `^.{0,${char}}$`,
