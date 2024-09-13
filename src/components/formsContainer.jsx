@@ -1,67 +1,81 @@
+import cardClass from '../js/card';
 import ExperienceForm from './experienceForm';
 import EducationForm from './educationForm';
 import ProfileForm from './profileForm';
 import ContactForm from './contactForm';
 import BioForm from './bioForm';
-import SkillsList from './skillsList';
 import SkillsText from './skillsText';
-import SkillList from './skillsList';
+import SkillsList from './skillsList';
 
-const container = (data, cvs) => {
+const DeckManager = () => {
+    const storedCards = Object.keys(localStorage)
+        .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
+        .reduce((deck, card) => {
+            if (!deck[card.type]) {
+                deck[card.type] = [];
+            }
+            deck[card.type].push(new cardClass[card.type](card));
+            return deck;
+        }, {});
+
+    const renderedCards = storedCards.rendered || null;
+
     return (
         <>
             <h1>la calle esta dura</h1>
             <div className="cv-selector">
                 <select name="cvs" id="cvs_selector">
-                    <option value="value"></option>
+                    <option>carajo</option>
                 </select>
             </div>
             <div className="cv-cards">
                 <div className="contact">
-                    {data?.profile &&
-                        data.profile.map((card) => (
+                    {storedCards?.profile &&
+                        storedCards.profile.map((card) => (
                             <ProfileForm data={card} key={card.id} />
                         ))}
                 </div>
                 <div className="bio">
-                    {data?.bio &&
-                        data.bio.map((card) => (
-                            <ProfileForm data={card} key={card.id} />
+                    {storedCards?.bio &&
+                        storedCards.bio.map((card) => (
+                            <BioForm data={card} key={card.id} />
                         ))}
                 </div>
                 <div className="knowledge">
                     <div className="knowledge__experience">
-                        {data?.experience &&
-                            data.experience.map((card) => (
-                                <ProfileForm data={card} key={card.id} />
-                            ))}
+                        {storedCards?.experience
+                            ? storedCards.experience.map((card) => (
+                                  <ExperienceForm data={card} key={card.id} />
+                              ))
+                            : 'carajo'}
+                        <ExperienceForm />
                     </div>
                     <div className="knowledge__skills">
                         <div className="skills__text">
-                            {data?.skillsText &&
-                                data.skillsText.map((card) => (
-                                    <ProfileForm data={card} key={card.id} />
+                            {storedCards?.skillsText &&
+                                storedCards.skillsText.map((card) => (
+                                    <SkillsText data={card} key={card.id} />
                                 ))}
                         </div>
                         <div className="skills__list">
-                            {data?.skillsList &&
-                                data.skillsList.map((card) => (
-                                    <ProfileForm data={card} key={card.id} />
+                            {storedCards?.skillsList &&
+                                storedCards.skillsList.map((card) => (
+                                    <SkillsList data={card} key={card.id} />
                                 ))}
                         </div>
                     </div>
                 </div>
                 <div className="references">
                     <div className="references__work">
-                        {data?.contact &&
-                            data.contact.map((card) => (
-                                <ProfileForm data={card} key={card.id} />
+                        {storedCards?.contact &&
+                            storedCards.contact.map((card) => (
+                                <ContactForm data={card} key={card.id} />
                             ))}
                     </div>
                     <div className="references__studies">
-                        {data?.education &&
-                            data.education.map((card) => (
-                                <ProfileForm data={card} key={card.id} />
+                        {storedCards?.education &&
+                            storedCards.education.map((card) => (
+                                <EducationForm data={card} key={card.id} />
                             ))}
                     </div>
                 </div>
@@ -75,4 +89,4 @@ const container = (data, cvs) => {
     );
 };
 
-return { container };
+export { DeckManager };

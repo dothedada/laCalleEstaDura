@@ -7,7 +7,7 @@ import { uiText } from './txtAndValidations';
 const keygen = () =>
     (Math.floor(Math.random() * 1000) + new Date().getTime()).toString(26);
 
-const SkillList = ({ data, inPdf, inPdfCallback }) => {
+const SkillsList = ({ data, inPdf, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -154,4 +154,4 @@ const SkillList = ({ data, inPdf, inPdfCallback }) => {
     );
 };
 
-export default SkillList;
+export default SkillsList;
