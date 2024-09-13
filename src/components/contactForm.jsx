@@ -47,7 +47,7 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
     };
 
     return (
-        <div className="card__config" id={'cardID'}>
+        <div className="card" id={'cardID'}>
             <Bar
                 type="contact"
                 data={dataToInject}

@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
-import { ExperiencePreview } from './previewCards.jsx';
+import { BioPreview } from './previewCards.jsx';
 import { inputValidation, uiText } from './txtAndValidations.js';
 import {
     propGenerator,
@@ -53,7 +53,7 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
     };
 
     return (
-        <div className="card__config" id={'cardID'}>
+        <div className="card" id={'cardID'}>
             <Bar
                 type="bio"
                 data={dataToInject}
@@ -65,9 +65,7 @@ const BioForm = ({ data, inPdf = true, inPdfCallback }) => {
 
             <Container
                 open={openToEdit}
-                preview={
-                    renderInPdf && <ExperiencePreview data={startingData} />
-                }
+                preview={renderInPdf && <BioPreview data={startingData} />}
             >
                 <Input {...props('reference')} ref={null} />
                 <hr />
