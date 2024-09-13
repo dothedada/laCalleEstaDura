@@ -190,9 +190,7 @@ const ListItem = ({
 
 const Fieldset = ({ legend, validation, children }) => {
     return (
-        <fieldset
-            className={validation?.validate === false ? 'fieldset__error' : ''}
-        >
+        <fieldset className={validation?.validate === false ? 'error' : ''}>
             <legend>
                 {legend} {validation?.message}
             </legend>
@@ -207,7 +205,7 @@ const Button = ({ text, type, callback }) => {
             type={type === 'warn' ? 'button' : type}
             onPointerDown={callback}
             onKeyDown={handleKeyDown(callback)}
-            className={`button__${type}`}
+            className={type}
         >
             {text}
         </button>
@@ -252,7 +250,7 @@ const Bar = ({ type, data, open, editHandler, inPdf, inPdfHandler }) => {
 
     return (
         <div
-            className={`card__title${!translated ? ' card__title--sugest' : ''}`}
+            className={`card__title${!translated ? ' sugest-translation' : ''}`}
         >
             <h2>{data?.reference ?? uiText[type].reference}</h2>
             <EditButon isOpen={open} editHandler={editHandler} />
@@ -270,9 +268,9 @@ const Container = ({ open, children, preview }) => {
     return (
         <div>
             {open ? (
-                <form>{children}</form>
+                <form className="card__form">{children}</form>
             ) : (
-                <div className="preview">{preview}</div>
+                <div className="card__preview">{preview}</div>
             )}
         </div>
     );
