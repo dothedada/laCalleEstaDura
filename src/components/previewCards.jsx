@@ -79,4 +79,8 @@ const ProfilePreview = ({ data, lang = 'Esp' }) => {
     );
 };
 
-export { ExperiencePreview, ProfilePreview };
+const BioPreview = ({ data, lang = 'Esp' }) => {
+    return data && <p className="card__preview">{data.descriptionEsp}</p>;
+};
+
+export { ProfilePreview, BioPreview };
