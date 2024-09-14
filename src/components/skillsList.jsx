@@ -14,7 +14,7 @@ import { uiText } from './txtAndValidations';
 const keygen = () =>
     (Math.floor(Math.random() * 1000) + new Date().getTime()).toString(26);
 
-const SkillsList = ({ data, inPdf, inPdfCallback }) => {
+const SkillsList = ({ data, inPdf = true, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -127,7 +127,8 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
                     <Input
                         {...props('listTitleEng')}
                         sugestTranslation={
-                            dataToInject.listTitleEsp && !dataToInject.listTitleEng
+                            dataToInject.listTitleEsp &&
+                            !dataToInject.listTitleEng
                         }
                     />
                 </Fieldset>

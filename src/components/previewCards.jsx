@@ -28,10 +28,11 @@ const ProfilePreview = ({ data, lang = 'Esp' }) => {
                     <div className="title">{data[`title${lang}`]}</div>
                 </div>
                 <div>
-                    <div>Mail: {data.email}</div>
+                    <div>
+                        <a href={`mailto:${data.email}`}>{data.email}</a>
+                    </div>
                     {data.link1 && (
                         <div>
-                            Link 1:{' '}
                             <a href={data.link1} target="_blank">
                                 {data.link1}
                             </a>
@@ -39,14 +40,13 @@ const ProfilePreview = ({ data, lang = 'Esp' }) => {
                     )}
                     {data.link2 && (
                         <div>
-                            Link 2:{' '}
                             <a href={data.link2} target="_blank">
                                 {data.link2}
                             </a>
                         </div>
                     )}
-                    <div>Teléfono: {data.phone}</div>
-                    <div>Ubicación: {data.location}</div>
+                    <div>{data.phone}</div>
+                    <div>{data.location}</div>
                 </div>
             </div>
         )
@@ -91,16 +91,16 @@ const SkillsTextPreview = ({ data, lang = 'Esp' }) => {
 };
 
 const SkillsListPreview = ({ data, lang = 'Esp' }) => {
-    const listTitle = data[`listTitle${lang}`];
+    const listTitle = data?.[`listTitle${lang}`];
     const langIndex = lang === 'Esp' ? 0 : 1;
-    const visibleSkills = data.list.reduce((list, item) => {
-        if (/[/]/.test(item.value)) console.log(item.value);
+
+    const visibleSkills = data?.list.reduce((list, item) => {
         if (item.visible) {
-            list.push(
-                /[/]/.test(item.value)
-                    ? item.value.split('/')[langIndex]
-                    : item.value,
-            );
+            item.value = /[/]/.test(item.value)
+                ? item.value.split('/')[langIndex]
+                : item.value;
+
+            list.push(item);
         }
         return list;
     }, []);
@@ -111,7 +111,7 @@ const SkillsListPreview = ({ data, lang = 'Esp' }) => {
                 {listTitle && <h3>{listTitle}</h3>}
                 <ul className="card__preview">
                     {visibleSkills.map((skill) => (
-                        <li key={skill.id}>{skill}</li>
+                        <li key={skill.id}>{skill.value}</li>
                     ))}
                 </ul>
             </>

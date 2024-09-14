@@ -6,7 +6,7 @@ import BioForm from './bioForm';
 import SkillsText from './skillsText';
 import SkillsList from './skillsList';
 import { uiText } from './txtAndValidations';
-import ReferencesForm from './ReferencesForm';
+import ReferencesForm from './referencesForm';
 
 const DeckManager = () => {
     const storedCards = Object.keys(localStorage)
