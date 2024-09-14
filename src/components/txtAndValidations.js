@@ -13,7 +13,8 @@ export const inputValidation = {
         message: 'Debe ser una dirección de correo electrónico válida',
     },
     isURL: {
-        pattern: /\b(?<!@)((http(s)?:\/\/)?([a-z0-9-]+\.)?([a-z0-9-]{1,63}\.[a-z0-9]+)(\/[/\w\d\-+.*$%?#]+)?)(?!@)\b/ig,
+        pattern:
+            /\b(?<!@)((http(s)?:\/\/)?([a-z0-9-]+\.)?([a-z0-9-]{1,63}\.[a-z0-9]+)(\/[/\w\d\-+.*$%?#]+)?)(?!@)\b/gi,
         message: 'Debe ser una url válida',
     },
     maxLength: (char) => ({
@@ -129,6 +130,24 @@ export const uiText = {
         inputs: {
             lengthStatus: (maxLength, currentLengt) =>
                 `, quedan ${maxLength - currentLengt} caracteres.`,
+        },
+        sections: {
+            Esp: {
+                profile: 'Presentación e información de contacto',
+                bio: 'Perfil',
+                experience: 'Experiencia laboral',
+                skills: 'Habilidades',
+                contact: 'Referencias laborales',
+                education: 'Formación académica',
+            },
+            Eng: {
+                profile: '---',
+                bio: '---',
+                experience: '---',
+                skills: '---',
+                contact: '---',
+                education: '---',
+            },
         },
     },
 
