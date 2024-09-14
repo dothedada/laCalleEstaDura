@@ -1,5 +1,12 @@
-import { useState } from 'react';
-import { Bar, Container, Input, ListItem, FormButtons } from './formComponents';
+import { useRef, useState } from 'react';
+import {
+    Bar,
+    Container,
+    Input,
+    ListItem,
+    FormButtons,
+    Fieldset,
+} from './formComponents';
 import { SkillsListPreview } from './previewCards';
 import { propGenerator, deleteData, saveData } from './formMethods';
 import { uiText } from './txtAndValidations';
@@ -26,9 +33,14 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
             : { list: [newBlankSkill] },
     );
 
+    const refs = {
+        listTitleEsp: useRef(),
+        listTitleEng: useRef(),
+    };
+
     const props = propGenerator(
         'skillsList',
-        {},
+        refs,
         dataToInject,
         setDataToInject,
     );
@@ -46,7 +58,7 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
 
         saveData(
             'skillsList',
-            {}, //no references to check
+            refs, //no references to check
             startingData,
             sanitizedSkills,
             //form validations array
@@ -108,6 +120,17 @@ const SkillsList = ({ data, inPdf, inPdfCallback }) => {
             >
                 <Input {...props('reference')} ref={null} />
                 <hr />
+
+                <Fieldset legend={uiText.skillsList.legend.description}>
+                    <Input {...props('listTitleEsp')} />
+
+                    <Input
+                        {...props('listTitleEng')}
+                        sugestTranslation={
+                            dataToInject.listTitleEsp && !dataToInject.listTitleEng
+                        }
+                    />
+                </Fieldset>
 
                 <p>{uiText.skillsList.label.instructions}</p>
 

@@ -119,9 +119,12 @@ class TextBlock extends Card {
 }
 
 class ListBlock extends Card {
-    constructor({ list, ...cardInfo }) {
+    constructor({ list, listTitleEsp, listTitleEng, ...cardInfo }) {
         super(cardInfo);
 
+        this.listTitleEsp = listTitleEsp;
+        this.listTitleEng = listTitleEng;
+        this.checkIfTranslated('listTitle');
         this.list = [...list];
     }
 

@@ -256,15 +256,23 @@ export const uiText = {
 
     skillsList: {
         reference: 'Nuevo listado de habilidades',
+        legend: {
+            description:
+                '¿Qué tipo de habilidades se encuentran en esta lista?',
+        },
         label: {
             reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             instructions:
-                'En caso de necesitar traduccion, separa la habilidad en dos idiomas con una barra inclinada, (ej. habilidad, ó, habilidad en español / habilidad en inglés)',
+                'En caso de necesitar traduccion, separa la habilidad en español de la traducción a inglés con una barra inclinada (ej. Dios de las siestas / God of nap).',
             addButton: 'Añadir una nueva habilidad',
+            listTitleEsp: 'en español',
+            listTitleEng: 'en inglés',
         },
         placeholder: {
             reference: 'Habilidades técnicas, personalidad...  ',
             item: 'sinTraducción, ó, español/inglés',
+            listTitleEsp: 'Conocimientos avanzados en... Habilidades blandas... ',
+            listTitleEng: 'Advance knowledge... Soft skills...',
         },
     },
 
