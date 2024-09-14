@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
-import { ExperiencePreview } from './previewCards.jsx';
+import { SkillsTextPreview } from './previewCards.jsx';
 import { inputValidation, uiText } from './txtAndValidations.js';
 import {
     propGenerator,
@@ -53,7 +53,7 @@ const SkillsText = ({ data, inPdf = true, inPdfCallback }) => {
     };
 
     return (
-        <div className="card__config" id={'cardID'}>
+        <div className="card" id={'cardID'}>
             <Bar
                 type="skillsText"
                 data={dataToInject}
@@ -66,7 +66,7 @@ const SkillsText = ({ data, inPdf = true, inPdfCallback }) => {
             <Container
                 open={openToEdit}
                 preview={
-                    renderInPdf && <ExperiencePreview data={startingData} />
+                    renderInPdf && <SkillsTextPreview data={startingData} />
                 }
             >
                 <Input {...props('reference')} ref={null} />

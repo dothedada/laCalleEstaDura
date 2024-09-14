@@ -1,4 +1,4 @@
-import { months } from './txtAndValidations';
+import { months, uiText } from './txtAndValidations';
 
 const formatDate = (date) => {
     if (!(date instanceof Date) && !/^$|current|actual(idad)?/gi.test(date)) {
@@ -66,7 +66,7 @@ const ExperiencePreview = ({ data, lang = 'Esp' }) => {
                 <header>
                     <h3>
                         {`${data.place} `}
-                        <span className="date">
+                        <span className="secondary">
                             <time dateTime={dateLabel(data.timeStart)}>
                                 {formatDate(data.timeStart)}
                             </time>
@@ -113,10 +113,20 @@ const ContactPreview = ({ data, lang = 'Esp' }) => {
     return (
         data && (
             <div>
-                <div>{data.name}</div>
-                <div>{data[`title${lang}`]}</div>
-                <div>Mail: {data.email}</div>
-                <div>Teléfono: {data.phone}</div>
+                <h3>
+                    {data.name}
+                    <span className="secondary">
+                        {uiText.global.separator.type1}
+                        {data[`title${lang}`]}
+                    </span>
+                </h3>
+                <div>
+                    <a href={`mailto:${data.email}`}>{data.email}</a>
+                    <span>
+                        {' '}
+                        {uiText.global.separator.type2} {data.phone}
+                    </span>
+                </div>
             </div>
         )
     );

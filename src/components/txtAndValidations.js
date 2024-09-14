@@ -131,6 +131,10 @@ export const uiText = {
             lengthStatus: (maxLength, currentLengt) =>
                 `, quedan ${maxLength - currentLengt} caracteres.`,
         },
+        separator: {
+            type1: ' | ',
+            type2: ' • ',
+        },
         sections: {
             Esp: {
                 profile: 'Presentación e información de contacto',
