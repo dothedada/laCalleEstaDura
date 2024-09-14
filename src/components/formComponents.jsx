@@ -23,18 +23,14 @@ const handleKeyDown = (callback) => (event) => {
     callback();
 };
 
-const EditButon = ({ isOpen, editHandler }) => (
+const BarButton = ({ action, actionHandler }) => (
     <button
         type="button"
-        onPointerDown={editHandler}
-        onKeyDown={handleKeyDown(editHandler)}
+        onPointerDown={actionHandler}
+        onKeyDown={handleKeyDown(actionHandler)}
     >
-        <span className="sr-only">
-            {isOpen
-                ? uiText.global.reader.editCard.open
-                : uiText.global.reader.editCard.closed}
-        </span>
-        <IconWrapper icon={'edit'} open={isOpen} />
+        <span className="sr-only">{uiText.global.reader[`${action}Card`]}</span>
+        <IconWrapper icon={action} />
     </button>
 );
 
@@ -241,7 +237,7 @@ const FormButtons = ({
     );
 };
 
-const Bar = ({ type, data, open, editHandler, inPdf, inPdfHandler }) => {
+const Bar = ({ data, editHandler, duplicateHandler, inPdf, inPdfHandler }) => {
     const translated = data
         ? Object.keys(data)
               .filter((key) => /Translated$/.test(key))
@@ -249,31 +245,13 @@ const Bar = ({ type, data, open, editHandler, inPdf, inPdfHandler }) => {
         : true;
 
     return (
-        <div
-            className={`card__title${!translated ? ' sugest-translation' : ''}`}
-        >
-            <h2>{data?.reference ?? uiText[type].reference}</h2>
-            <EditButon isOpen={open} editHandler={editHandler} />
-            {data?.id && (
-                <InRenderCheckbox
-                    inRender={inPdf}
-                    inRenderHandler={inPdfHandler}
-                />
-            )}
+        <div className={`card__title${!translated ? ' need-translation' : ''}`}>
+            <h2>{data.reference}</h2>
+            <BarButton action={'edit'} actionHandler={editHandler} />
+            <BarButton action={'duplicate'} actionHandler={duplicateHandler} />
+            <InRenderCheckbox inRender={inPdf} inRenderHandler={inPdfHandler} />
         </div>
     );
 };
 
-const Container = ({ open, children, preview }) => {
-    return (
-        <div>
-            {open ? (
-                <form className="card__form">{children}</form>
-            ) : (
-                <div className="card__preview">{preview}</div>
-            )}
-        </div>
-    );
-};
-
-export { Input, Fieldset, Button, FormButtons, Bar, Container, ListItem };
+export { Input, Fieldset, Button, FormButtons, Bar, ListItem };

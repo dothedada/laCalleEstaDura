@@ -53,12 +53,12 @@ svg {
     display: flex;
     align-items: center;
 
-    h2 {
-        margin: 0 auto 0 0;
+    & h2 {
+        margin: 0 1rem 0 0;
     }
 
-    button,
-    label {
+    & button,
+    & label {
         background: none !important;
         border: none;
         padding: 0;
@@ -80,12 +80,16 @@ svg {
         }
     }
 
-    button:focus-within,
-    label:focus-within {
+    & button:focus-within,
+    & label:focus-within {
         outline-color: var(--background);
     }
 
-    &.sugest-translation {
+    & label:last-child {
+        margin: 0 0 0 auto;
+    }
+
+    &.need-translation {
         background-color: var(--warn);
     }
 }
@@ -94,7 +98,6 @@ svg {
     padding: 1rem 2ch;
 
     &.twoCol {
-        padding: 0;
         display: flex;
 
         > div {
@@ -115,7 +118,6 @@ svg {
     }
 
     & ul {
-        padding: 0;
         list-style: none;
 
         > * {
