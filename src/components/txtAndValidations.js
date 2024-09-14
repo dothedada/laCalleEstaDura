@@ -50,24 +50,24 @@ export const findInString = {
 };
 
 export const months = [
-    'enero',
-    'febrero',
-    'marzo',
-    'abril',
-    'mayo',
-    'junio',
-    'julio',
-    'agosto',
-    'septiembre',
-    'octubre',
-    'noviembre',
-    'diciembre',
+    { Esp: 'enero', Eng: '' },
+    { Esp: 'febrero', Eng: '' },
+    { Esp: 'marzo', Eng: '' },
+    { Esp: 'abril', Eng: '' },
+    { Esp: 'mayo', Eng: '' },
+    { Esp: 'junio', Eng: '' },
+    { Esp: 'julio', Eng: '' },
+    { Esp: 'agosto', Eng: '' },
+    { Esp: 'septiembre', Eng: '' },
+    { Esp: 'octubre', Eng: '' },
+    { Esp: 'noviembre', Eng: '' },
+    { Esp: 'diciembre', Eng: '' },
 ];
 
 const parseMonth = (month) => {
     return /\d/.test(month)
         ? +month - 1
-        : months.findIndex((m) => m === month.toLowerCase());
+        : months.findIndex((m) => m.Esp === month.toLowerCase());
 };
 
 export const parseDate = (date) => {

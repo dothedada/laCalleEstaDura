@@ -6,7 +6,7 @@ const formatDate = (date) => {
     }
 
     const workingDate = date instanceof Date ? date : new Date();
-    return `${months[workingDate.getMonth()]} ${workingDate.getFullYear()}`;
+    return `${months[workingDate.getMonth()]['Esp']} ${workingDate.getFullYear()}`;
 };
 
 const dateLabel = (date) => {
@@ -109,10 +109,23 @@ const SkillsListPreview = ({ data, lang = 'Esp' }) => {
     );
 };
 
+const ContactPreview = ({ data, lang = 'Esp' }) => {
+    return (
+        data && (
+            <div>
+                <div>{data.name}</div>
+                <div>{data[`title${lang}`]}</div>
+                <div>Mail: {data.email}</div>
+                <div>Teléfono: {data.phone}</div>
+            </div>
+        )
+    );
+};
 export {
     ProfilePreview,
     BioPreview,
     ExperiencePreview,
     SkillsTextPreview,
     SkillsListPreview,
+    ContactPreview,
 };

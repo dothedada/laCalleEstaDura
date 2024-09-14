@@ -12,7 +12,7 @@ const updateField = (updater, field) => (value) => {
 const propGenerator = (type, inputRefs, data, dataSetter) => (name) => {
     const dateToRender =
         data[name] instanceof Date
-            ? `${months[data[name].getMonth()]} ${data[name].getFullYear()}`
+            ? `${months[data[name].getMonth()]['Esp']} ${data[name].getFullYear()}`
             : data[name];
 
     return {
