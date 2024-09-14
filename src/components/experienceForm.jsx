@@ -73,7 +73,7 @@ const ExperienceForm = ({ data, inPdf = true, inPdfCallback }) => {
     const datesValidation = getFieldValidation('Dates', globalValidations);
 
     return (
-        <div className="card__config" id={'cardID'}>
+        <div className="card" id={'cardID'}>
             <Bar
                 type="experience"
                 data={dataToInject}

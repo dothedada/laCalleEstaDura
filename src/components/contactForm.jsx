@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
-import { ExperiencePreview } from './previewCards.jsx';
+import { ContactPreview } from './previewCards.jsx';
 import { inputValidation, uiText } from './txtAndValidations.js';
 import {
     propGenerator,
@@ -36,14 +36,23 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
     const props = propGenerator('contact', refs, dataToInject, setDataToInject);
 
     // card handlers
-    const handleDelete = () => {
-        console.log(dataToInject, startingData);
-    };
-    const handleReset = () => {
-        console.log(dataToInject, startingData);
-    };
+    const handleDelete = () => deleteData(startingData);
+    const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
-        console.log(dataToInject, startingData);
+        saveData(
+            'contact',
+            refs,
+            startingData,
+            dataToInject,
+            //form validations array
+            [],
+            // setters
+            {
+                setDataToInject,
+                setRenderInPdf,
+                setOpenToEdit,
+            },
+        );
     };
 
     return (
@@ -57,7 +66,10 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
                 inPdfHandler={inPdfHandler}
             />
 
-            <Container open={openToEdit}>
+            <Container
+                open={openToEdit}
+                preview={renderInPdf && <ContactPreview data={startingData} />}
+            >
                 <Input {...props('reference')} ref={null} />
                 <hr />
 
