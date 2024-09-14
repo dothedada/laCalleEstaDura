@@ -6,6 +6,7 @@ import ContactForm from './contactForm';
 import BioForm from './bioForm';
 import SkillsText from './skillsText';
 import SkillsList from './skillsList';
+import { uiText } from './txtAndValidations';
 
 const DeckManager = () => {
     const storedCards = Object.keys(localStorage)
@@ -27,13 +28,15 @@ const DeckManager = () => {
                 </select>
             </div>
             <div className="frame decks">
-                <div className="contact">
+                <div>
+                    <h2>{uiText.global.sections.Esp.profile}</h2>
                     {storedCards?.profile?.map((card) => (
                         <ProfileForm data={card} key={card.id} />
                     ))}
                     <ProfileForm />
                 </div>
-                <div className="bio">
+                <div>
+                    <h2>{uiText.global.sections.Esp.bio}</h2>
                     {storedCards?.bio?.map((card) => (
                         <BioForm data={card} key={card.id} />
                     ))}
@@ -41,6 +44,7 @@ const DeckManager = () => {
                 </div>
                 <div className="knowledge">
                     <div className="knowledge__experience">
+                        <h2>{uiText.global.sections.Esp.experience}</h2>
                         {storedCards?.experience?.map((card) => (
                             <ExperienceForm data={card} key={card.id} />
                         ))}
@@ -48,6 +52,7 @@ const DeckManager = () => {
                     </div>
                     <div className="knowledge__skills">
                         <div className="skills__text">
+                            <h2>{uiText.global.sections.Esp.skills}</h2>
                             {storedCards?.skillsText?.map((card) => (
                                 <SkillsText data={card} key={card.id} />
                             ))}
@@ -63,12 +68,14 @@ const DeckManager = () => {
                 </div>
                 <div className="references">
                     <div className="references__work">
+                        <h2>{uiText.global.sections.Esp.contact}</h2>
                         {storedCards?.contact?.map((card) => (
                             <ContactForm data={card} key={card.id} />
                         ))}
                         <ContactForm />
                     </div>
                     <div className="references__studies">
+                        <h2>{uiText.global.sections.Esp.education}</h2>
                         {storedCards?.education?.map((card) => (
                             <EducationForm data={card} key={card.id} />
                         ))}
