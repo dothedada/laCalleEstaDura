@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
-import { ExperiencePreview } from './previewCards.jsx';
+import { EducationPreview } from './previewCards.jsx';
 import {
     inputValidation,
     formValidation,
@@ -71,7 +71,7 @@ const EducationForm = ({ data, inPdf = true, inPdfCallback }) => {
     const datesValidation = getFieldValidation('Dates', globalValidations);
 
     return (
-        <div className="card__config" id={'cardID'}>
+        <div className="card" id={'cardID'}>
             <Bar
                 type="education"
                 data={dataToInject}
@@ -84,7 +84,7 @@ const EducationForm = ({ data, inPdf = true, inPdfCallback }) => {
             <Container
                 open={openToEdit}
                 preview={
-                    renderInPdf && <ExperiencePreview data={startingData} />
+                    renderInPdf && <EducationPreview data={startingData} />
                 }
             >
                 <Input {...props('reference')} ref={null} />

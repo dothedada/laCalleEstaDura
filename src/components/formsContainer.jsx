@@ -42,15 +42,15 @@ const DeckManager = () => {
                     ))}
                     <BioForm />
                 </div>
-                <div className="knowledge">
-                    <div className="knowledge__experience">
+                <div className="split">
+                    <div>
                         <h2>{uiText.global.sections.Esp.experience}</h2>
                         {storedCards?.experience?.map((card) => (
                             <ExperienceForm data={card} key={card.id} />
                         ))}
                         <ExperienceForm />
                     </div>
-                    <div className="knowledge__skills">
+                    <div className="skills">
                         <div className="skills__text">
                             <h2>{uiText.global.sections.Esp.skills}</h2>
                             {storedCards?.skillsText?.map((card) => (
@@ -66,15 +66,15 @@ const DeckManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className="references">
-                    <div className="references__work">
+                <div className="split">
+                    <div>
                         <h2>{uiText.global.sections.Esp.contact}</h2>
                         {storedCards?.contact?.map((card) => (
                             <ContactForm data={card} key={card.id} />
                         ))}
                         <ContactForm />
                     </div>
-                    <div className="references__studies">
+                    <div>
                         <h2>{uiText.global.sections.Esp.education}</h2>
                         {storedCards?.education?.map((card) => (
                             <EducationForm data={card} key={card.id} />

@@ -113,20 +113,27 @@ const ContactPreview = ({ data, lang = 'Esp' }) => {
     return (
         data && (
             <div>
-                <h3>
-                    {data.name}
-                    <span className="secondary">
-                        {uiText.global.separator.type1}
-                        {data[`title${lang}`]}
-                    </span>
-                </h3>
+                <h3>{data.name}</h3>
+                <div>{data[`title${lang}`]}</div>
                 <div>
                     <a href={`mailto:${data.email}`}>{data.email}</a>
-                    <span>
-                        {' '}
-                        {uiText.global.separator.type2} {data.phone}
-                    </span>
+                    {uiText.global.separator.type2}
+                    {data.phone}
                 </div>
+            </div>
+        )
+    );
+};
+
+const EducationPreview = ({ data, lang = 'Esp' }) => {
+    const dateToDisplay = `${data?.timeStart.getFullYear()} - ${data?.timeEnd.getFullYear()}`;
+    return (
+        data && (
+            <div>
+                <h3>{data[`title${lang}`]}</h3>
+                <p>
+                    {data.place} ({dateToDisplay})
+                </p>
             </div>
         )
     );
@@ -138,4 +145,5 @@ export {
     SkillsTextPreview,
     SkillsListPreview,
     ContactPreview,
+    EducationPreview,
 };

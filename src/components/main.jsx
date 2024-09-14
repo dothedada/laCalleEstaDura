@@ -2,7 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../styles/reset.css';
 import '../styles/styles.css';
-import cardClass from '../js/card';
 import { DeckManager } from './formsContainer';
 import ExperienceForm from './experienceForm';
 
