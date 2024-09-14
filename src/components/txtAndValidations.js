@@ -141,7 +141,7 @@ export const uiText = {
                 bio: 'Perfil',
                 experience: 'Experiencia laboral',
                 skills: 'Habilidades',
-                contact: 'Referencias laborales',
+                references: 'Referencias laborales',
                 education: 'Formación académica',
             },
             Eng: {
@@ -149,7 +149,7 @@ export const uiText = {
                 bio: '---',
                 experience: '---',
                 skills: '---',
-                contact: '---',
+                references: '---',
                 education: '---',
             },
         },
@@ -300,7 +300,7 @@ export const uiText = {
         },
     },
 
-    contact: {
+    references: {
         reference: 'Nueva referencia laboral',
         legend: {
             title: '¿Qué relación laboral tenían o qué cargo tiene la persona?',

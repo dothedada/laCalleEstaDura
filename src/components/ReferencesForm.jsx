@@ -10,7 +10,7 @@ import {
     saveData,
 } from './formMethods.js';
 
-const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
+const ReferencesForm = ({ data, inPdf = true, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -33,14 +33,14 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
         email: useRef(),
         phone: useRef(),
     };
-    const props = propGenerator('contact', refs, dataToInject, setDataToInject);
+    const props = propGenerator('references', refs, dataToInject, setDataToInject);
 
     // card handlers
     const handleDelete = () => deleteData(startingData);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
-            'contact',
+            'references',
             refs,
             startingData,
             dataToInject,
@@ -58,7 +58,7 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
     return (
         <div className="card" id={'cardID'}>
             <Bar
-                type="contact"
+                type="references"
                 data={dataToInject}
                 open={openToEdit}
                 editHandler={() => setOpenToEdit(!openToEdit)}
@@ -78,7 +78,7 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
                     validations={[inputValidation.notEmpty]}
                 />
 
-                <Fieldset legend={uiText.contact.legend.title}>
+                <Fieldset legend={uiText.references.legend.title}>
                     <Input
                         {...props('titleEsp')}
                         validations={[inputValidation.notEmpty]}
@@ -116,4 +116,4 @@ const ContactForm = ({ data, inPdf = true, inPdfCallback }) => {
     );
 };
 
-export default ContactForm;
+export default ReferencesForm;

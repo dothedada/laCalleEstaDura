@@ -2,11 +2,11 @@ import cardClass from '../js/card';
 import ExperienceForm from './experienceForm';
 import EducationForm from './educationForm';
 import ProfileForm from './profileForm';
-import ContactForm from './contactForm';
 import BioForm from './bioForm';
 import SkillsText from './skillsText';
 import SkillsList from './skillsList';
 import { uiText } from './txtAndValidations';
+import ReferencesForm from './ReferencesForm';
 
 const DeckManager = () => {
     const storedCards = Object.keys(localStorage)
@@ -22,12 +22,17 @@ const DeckManager = () => {
     return (
         <>
             <h1>la calle esta dura</h1>
-            <div className="cv-selector">
-                <select name="cvs" id="cvs_selector">
-                    <option>carajo</option>
-                </select>
-            </div>
             <div className="frame decks">
+                <div className="cv-selector">
+                    <select name="cvs" id="cvs_selector">
+                        <option>carajo</option>
+                    </select>
+                    <div className="cv-actions">
+                        <button type="button">Añadir</button>
+                        <button type="button">Actualizar</button>
+                        <button type="button">Eliminar</button>
+                    </div>
+                </div>
                 <div>
                     <h2>{uiText.global.sections.Esp.profile}</h2>
                     {storedCards?.profile?.map((card) => (
@@ -68,11 +73,11 @@ const DeckManager = () => {
                 </div>
                 <div className="split">
                     <div>
-                        <h2>{uiText.global.sections.Esp.contact}</h2>
-                        {storedCards?.contact?.map((card) => (
-                            <ContactForm data={card} key={card.id} />
+                        <h2>{uiText.global.sections.Esp.references}</h2>
+                        {storedCards?.references?.map((card) => (
+                            <ReferencesForm data={card} key={card.id} />
                         ))}
-                        <ContactForm />
+                        <ReferencesForm />
                     </div>
                     <div>
                         <h2>{uiText.global.sections.Esp.education}</h2>
@@ -82,11 +87,11 @@ const DeckManager = () => {
                         <EducationForm />
                     </div>
                 </div>
-            </div>
-            <div className="cv-actions">
-                <button type="button">Añadir</button>
-                <button type="button">Actualizar</button>
-                <button type="button">Eliminar</button>
+                <div className="cv-actions">
+                    <button type="button">Añadir</button>
+                    <button type="button">Actualizar</button>
+                    <button type="button">Eliminar</button>
+                </div>
             </div>
         </>
     );

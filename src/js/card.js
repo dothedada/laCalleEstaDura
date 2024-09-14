@@ -38,7 +38,7 @@ class Card {
     }
 }
 
-class Contact extends Card {
+class References extends Card {
     constructor({ name, titleEsp, titleEng, email, phone, ...cardInfo }) {
         super(cardInfo);
 
@@ -51,7 +51,7 @@ class Contact extends Card {
     }
 }
 
-class Profile extends Contact {
+class Profile extends References {
     constructor({ location, link1, link2, ...contactInfo }) {
         super(contactInfo);
 
@@ -158,7 +158,7 @@ export default {
     experience: Experience,
     education: Education,
     profile: Profile,
-    contact: Contact,
+    references: References,
     bio: TextBlock,
     skillsText: TextBlock,
     skillsList: ListBlock,
