@@ -129,4 +129,3 @@ const ProfileForm = ({ data, inPdf = true, inPdfCallback }) => {
     );
 };
 
-export default ProfileForm;

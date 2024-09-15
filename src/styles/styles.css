@@ -139,15 +139,24 @@ svg {
 ::backdrop {
     -webkit-backdrop-filter: blur(70px);
     backdrop-filter: blur(70px);
+    background-color: rgba(255, 255, 255, 0.2);
 }
-dialog {
-    background-color: hsla(0, 100%, 100%, 0.1);
+
+:modal {
+    background: none;
     border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    > button {
+        align-self: flex-end;
+    }
 }
 
 .card__form {
     display: flex;
-    padding: 1rem 2ch;
+    /* padding: 1rem 2ch; */
     flex-direction: column;
     gap: 0.75rem;
 
@@ -275,7 +284,7 @@ button {
     transition-timing-function: ease-in-out;
 
     &:hover {
-        color: var(--bkg-color);
+        color: var(--background);
         background-color: var(--txt-color);
     }
 
@@ -290,13 +299,15 @@ button {
 
     &.warn {
         --_txt-color: var(--warn);
-        --_bkg-color: var(--background);
         --_brd-color: var(--warn);
+
+        --_bkg-color: var(--background);
     }
 
     &.reset {
         --_txt-color: var(--text);
-        --_bkg-color: var(--background);
         --_brd-color: var(--text);
+
+        --_bkg-color: var(--background);
     }
 }
