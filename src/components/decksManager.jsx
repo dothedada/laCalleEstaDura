@@ -1,8 +1,17 @@
 import { useState } from 'react';
 
-import { cardGroups, DynamicCard } from './deckManager';
+import { DynamicCard } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
+
+const cardGroups = [
+    'profile',
+    'bio',
+    'experience',
+    'education',
+    'skills',
+    'references',
+];
 
 const DeckManager = ({ cards }) => {
     const [storedCards, setStoredCards] = useState(cards);

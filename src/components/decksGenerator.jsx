@@ -2,12 +2,12 @@ import ProfilePreview from './profilePreview';
 
 const cardPreviewMap = {
     profile: ProfilePreview,
-    bio: '',
-    experience: '',
-    education: '',
-    skillsText: '',
-    skillsList: '',
-    references: '',
+    // bio: '',
+    // experience: '',
+    // education: '',
+    // skillsText: '',
+    // skillsList: '',
+    // references: '',
 };
 
 const cardGroups = [
