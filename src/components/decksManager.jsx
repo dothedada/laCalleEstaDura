@@ -33,16 +33,29 @@ const DeckManager = ({ cards }) => {
         });
     };
 
-    const closeForm = () => {
-        formRef.current.close()
-    }
+    const addToPdf = (id) => () => {
+        console.log('pendejo123');
+        setRenderInPdf((prvRender) => {
+            const newRender = new Set(prvRender);
+            newRender.add(id);
+            return newRender;
+        });
+    };
 
-    const openForm = (type, data) => () => {
+    const closeForm = () => {
+        formRef.current.close();
+    };
+
+    const openForm = (type, data, id) => () => {
         formRef.current.showModal();
         setFormFields(
             <>
                 <Button callback={closeForm} type="warn" text="cerrar" />
-                <DynamicForm type={type} data={data} />
+                <DynamicForm
+                    type={type}
+                    data={data}
+                    inPdfCallback={addToPdf(id)}
+                />
             </>,
         );
     };
@@ -62,8 +75,8 @@ const DeckManager = ({ cards }) => {
             </div>
 
             {cardGroups.map((deckType, index) => (
-                <>
-                    <div key={index}>
+                <div key={index}>
+                    <div>
                         <h2>{uiText.global.sections.Esp[deckType]}</h2>
 
                         {storedCards?.[deckType]?.map((card) => (
@@ -99,7 +112,7 @@ const DeckManager = ({ cards }) => {
                         )}
                     </div>
                     <dialog ref={formRef}>{formFields}</dialog>
-                </>
+                </div>
             ))}
 
             <div className="cv-actions">
