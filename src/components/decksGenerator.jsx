@@ -1,6 +1,7 @@
 import BioForm from './formBio';
 import ExperienceForm from './formExperience';
 import ProfileForm from './formProfile';
+import SkillsTextForm from './formSkillsText';
 import BioPreview from './previewBio';
 import EducationPreview from './previewEducation';
 import ExperiencePreview from './previewExperience';
@@ -23,9 +24,9 @@ const cardFormMap = {
     profile: ProfileForm,
     bio: BioForm,
     experience: ExperienceForm,
-    education: '',
-    skillsText: '',
+    skillsText: SkillsTextForm,
     skillsList: '',
+    education: '',
     references: '',
 };
 

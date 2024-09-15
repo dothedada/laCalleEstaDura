@@ -34,7 +34,6 @@ const DeckManager = ({ cards }) => {
     };
 
     const addToPdf = (id) => () => {
-        console.log('pendejo123');
         setRenderInPdf((prvRender) => {
             const newRender = new Set(prvRender);
             newRender.add(id);
