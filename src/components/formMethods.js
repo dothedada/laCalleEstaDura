@@ -76,8 +76,8 @@ const saveData = (
     const {
         setGlobalValidations,
         setDataToInject,
-        setRenderInPdf,
-        setOpenToEdit,
+        // setRenderInPdf,
+        // setOpenToEdit,
     } = stateSetters;
 
     if (Object.keys(inputRefs).length) {
@@ -102,8 +102,8 @@ const saveData = (
     localStorage.setItem(card.id, JSON.stringify(card));
 
     setDataToInject(() => card);
-    setRenderInPdf(true);
-    setOpenToEdit(false);
+    // setRenderInPdf(true);
+    // setOpenToEdit(false);
 };
 
 export { propGenerator, resetData, deleteData, saveData, getFieldValidation };

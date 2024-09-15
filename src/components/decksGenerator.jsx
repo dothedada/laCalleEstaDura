@@ -1,3 +1,4 @@
+import BioForm from './formBio';
 import ProfileForm from './formProfile';
 import BioPreview from './previewBio';
 import EducationPreview from './previewEducation';
@@ -19,7 +20,7 @@ const cardPreviewMap = {
 
 const cardFormMap = {
     profile: ProfileForm,
-    bio: '',
+    bio: BioForm,
     experience: '',
     education: '',
     skillsText: '',
