@@ -2,11 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap');
 
 :root {
-    --text: #7ebaa7;
+    --text: hsl(339, 36%, 25%);
+    --background: hsl(83, 33%, 83%);
+    --warn: hsl(34, 67%, 30%);
+    --error: hsl(344, 100%, 28%);
+    --highlight: hsl(240, 63%, 46%);
+
+    /* --text: #7ebaa7;
     --background: #110425;
     --warn: #db8ea3;
     --error: #f77e4f;
-    --highlight: #fff;
+    --highlight: #fff; */
 
     --font-parragraph: 'Fira Sans', sans-serif;
     --font-headings: 'JetBrains Mono', sans-serif;
