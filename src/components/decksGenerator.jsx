@@ -1,23 +1,16 @@
-import ProfilePreview from './profilePreview';
+import BioPreview from './previewBio';
+import ExperiencePreview from './previewExperience';
+import ProfilePreview from './previewProfile';
 
 const cardPreviewMap = {
     profile: ProfilePreview,
-    // bio: '',
-    // experience: '',
+    bio: BioPreview,
+    experience: ExperiencePreview,
     // education: '',
     // skillsText: '',
     // skillsList: '',
     // references: '',
 };
-
-const cardGroups = [
-    'profile',
-    'bio',
-    'experience',
-    'education',
-    'skills',
-    'references',
-];
 
 const DynamicCard = ({
     type,
@@ -40,4 +33,4 @@ const DynamicCard = ({
     );
 };
 
-export { cardGroups, DynamicCard };
+export { DynamicCard };
