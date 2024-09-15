@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-import { DynamicCard } from './decksGenerator';
+import { DynamicCard, DynamicForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
 
@@ -8,18 +8,18 @@ const cardGroups = [
     'profile',
     'bio',
     'experience',
-    'education',
     'skills',
+    'education',
     'references',
 ];
 
 const DeckManager = ({ cards }) => {
     const [storedCards, setStoredCards] = useState(cards);
-
     const [renderInPdf, setRenderInPdf] = useState(new Set());
+    const formRef = useRef(null);
+    const [formFields, setFormFields] = useState();
 
     const inPdfHandler = (id) => () => {
-        console.log('pato', renderInPdf)
         setRenderInPdf((prvRender) => {
             const newRender = new Set(prvRender);
 
@@ -31,6 +31,20 @@ const DeckManager = ({ cards }) => {
 
             return newRender;
         });
+    };
+
+    const closeForm = () => {
+        formRef.current.close()
+    }
+
+    const openForm = (type, data) => () => {
+        formRef.current.showModal();
+        setFormFields(
+            <>
+                <Button callback={closeForm} type="warn" text="cerrar" />
+                <DynamicForm type={type} data={data} />
+            </>,
+        );
     };
 
     return (
@@ -48,38 +62,44 @@ const DeckManager = ({ cards }) => {
             </div>
 
             {cardGroups.map((deckType, index) => (
-                <div key={index}>
-                    <h2>{uiText.global.sections.Esp[deckType]}</h2>
+                <>
+                    <div key={index}>
+                        <h2>{uiText.global.sections.Esp[deckType]}</h2>
 
-                    {storedCards?.[deckType]?.map((card) => (
-                        <DynamicCard
-                            type={card.type}
-                            key={card.id}
-                            data={card}
-                            lang="Esp"
-                            inPdf={renderInPdf.has(card.id)}
-                            inPdfCallback={inPdfHandler(card.id)}
-                        />
-                    ))}
+                        {storedCards?.[deckType]?.map((card) => (
+                            <DynamicCard
+                                type={card.type}
+                                key={card.id}
+                                data={card}
+                                lang="Esp"
+                                inPdf={renderInPdf.has(card.id)}
+                                inPdfCallback={inPdfHandler(card.id)}
+                            />
+                        ))}
 
-                    {deckType !== 'skills' ? (
-                        <Button
-                            type="button"
-                            text={uiText[deckType].reference}
-                        />
-                    ) : (
-                        <>
+                        {deckType !== 'skills' ? (
                             <Button
                                 type="button"
-                                text={uiText.skillsList.reference}
+                                text={uiText[deckType].reference}
+                                callback={openForm(deckType)}
                             />
-                            <Button
-                                type="button"
-                                text={uiText.skillsText.reference}
-                            />
-                        </>
-                    )}
-                </div>
+                        ) : (
+                            <>
+                                <Button
+                                    type="button"
+                                    text={uiText.skillsList.reference}
+                                    callback={openForm('skillsList')}
+                                />
+                                <Button
+                                    type="button"
+                                    text={uiText.skillsText.reference}
+                                    callback={openForm('skillsText')}
+                                />
+                            </>
+                        )}
+                    </div>
+                    <dialog ref={formRef}>{formFields}</dialog>
+                </>
             ))}
 
             <div className="cv-actions">

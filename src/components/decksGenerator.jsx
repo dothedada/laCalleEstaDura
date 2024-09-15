@@ -1,3 +1,4 @@
+import ProfileForm from './formProfile';
 import BioPreview from './previewBio';
 import EducationPreview from './previewEducation';
 import ExperiencePreview from './previewExperience';
@@ -16,6 +17,16 @@ const cardPreviewMap = {
     references: ReferencesPreview,
 };
 
+const cardFormMap = {
+    profile: ProfileForm,
+    bio: '',
+    experience: '',
+    education: '',
+    skillsText: '',
+    skillsList: '',
+    references: '',
+};
+
 const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
     const CardToRender = cardPreviewMap[type] || null;
 
@@ -27,8 +38,18 @@ const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
             inPdfCallback={inPdfCallback}
         />
     ) : (
-        'componente no encontrado'
+        'tarjeta no encontrada'
     );
 };
 
-export { DynamicCard };
+const DynamicForm = ({ type, data, inPdfCallback }) => {
+    const FormToRender = cardFormMap[type] || null;
+
+    return FormToRender ? (
+        <FormToRender data={data} inPdfCallback={inPdfCallback} />
+    ) : (
+        ' formulario no encontrado'
+    );
+};
+
+export { DynamicCard, DynamicForm };
