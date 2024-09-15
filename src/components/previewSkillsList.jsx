@@ -2,12 +2,8 @@ import { useState } from 'react';
 
 import { Bar } from './formComponents';
 
-const SkillsList = ({ data, lang, inPdf, inPdfCallback }) => {
-    // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf);
-    const inPdfHandler = () => {
-        setRenderInPdf(!renderInPdf);
-    };
+const SkillsListPreview = ({ data, lang, inPdf, inPdfCallback }) => {
+    const [startingData] = useState(data);
 
     const listTitle = data?.[`listTitle${lang}`];
     const langIndex = lang === 'Esp' ? 0 : 1;
@@ -23,19 +19,17 @@ const SkillsList = ({ data, lang, inPdf, inPdfCallback }) => {
         return list;
     }, []);
 
-    const [startingData] = useState(data);
-
     return (
         <div className="card" id={'cardID'}>
             <Bar
                 data={startingData}
                 editHandler={() => console.log('edita')}
                 duplicateHandler={() => console.log('duplica')}
-                inPdf={renderInPdf}
-                inPdfHandler={inPdfHandler}
+                inPdf={inPdf}
+                inPdfHandler={inPdfCallback}
             />
 
-            {renderInPdf && (
+            {inPdf && (
                 <div className="card__preview">
                     {listTitle && <h3>{listTitle}</h3>}
                     <ul>
@@ -49,4 +43,4 @@ const SkillsList = ({ data, lang, inPdf, inPdfCallback }) => {
     );
 };
 
-export default SkillsList;
+export default SkillsListPreview;

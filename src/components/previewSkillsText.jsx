@@ -3,14 +3,6 @@ import { useState } from 'react';
 import { Bar } from './formComponents';
 
 const SkillsTextPreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf);
-    const inPdfHandler = () => {
-        setRenderInPdf(!renderInPdf);
-    };
-
-    // Card states
-    const [openToEdit, setOpenToEdit] = useState(false);
     const [startingData] = useState(data);
 
     return (
@@ -19,11 +11,11 @@ const SkillsTextPreview = ({ data, lang, inPdf, inPdfCallback }) => {
                 data={startingData}
                 editHandler={() => console.log('edita')}
                 duplicateHandler={() => console.log('duplica')}
-                inPdf={renderInPdf}
-                inPdfHandler={inPdfHandler}
+                inPdf={inPdf}
+                inPdfHandler={inPdfCallback}
             />
 
-            {renderInPdf && (
+            {inPdf && (
                 <div className="card__preview">
                     <p>{data[`description${lang}`]}</p>
                 </div>

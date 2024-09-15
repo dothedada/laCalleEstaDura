@@ -19,6 +19,7 @@ const DeckManager = ({ cards }) => {
     const [renderInPdf, setRenderInPdf] = useState(new Set());
 
     const inPdfHandler = (id) => () => {
+        console.log('pato', renderInPdf)
         setRenderInPdf((prvRender) => {
             const newRender = new Set(prvRender);
 

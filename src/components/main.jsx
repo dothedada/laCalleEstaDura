@@ -6,13 +6,13 @@ import { DeckManager } from './decksManager';
 import cardClass from '../js/card';
 
 // TODO:
-// 6. implementación en otros tipos de tarjetas
-// 6.a. creación componentes vista previa
-// pre 7 REVISAR OBJETO DECK Y SU RELACION CON STOREDCARDS Y LA ACTUALIZACIÓN
-// 7. creación del componente contenedor de los dormularios
-// 7.a. levantar el estado del render en pdf
-// 7.b creacion del modelo base
-// 8. creación del pdf
+// 1. Creación de lo modales de formulario
+// 2. Implementar interfase del deck
+// 3. Completar interfase del deck
+// 4. administrar el estado desde el deck
+// 5. levantar el estado del render en pdf
+// 6. creacion del modelo base
+// 7. creación del pdf
 
 const groupedCards = Object.keys(localStorage)
     .map((cardId) => JSON.parse(localStorage.getItem(cardId)))

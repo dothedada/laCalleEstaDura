@@ -4,15 +4,7 @@ import { Bar } from './formComponents';
 import { uiText } from './txtAndValidations';
 
 const ReferencesPreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf);
-    const inPdfHandler = () => {
-        console.log(inPdfCallback);
-        setRenderInPdf(!renderInPdf);
-    };
-
-    // Card states
-    const [startingData] = useState(data || undefined);
+    const [startingData] = useState(data);
 
     return (
         <div className="card" id={'cardID'}>
@@ -20,11 +12,11 @@ const ReferencesPreview = ({ data, lang, inPdf, inPdfCallback }) => {
                 data={startingData}
                 editHandler={() => console.log('edita')}
                 duplicateHandler={() => console.log('duplica')}
-                inPdf={renderInPdf}
-                inPdfHandler={inPdfHandler}
+                inPdf={inPdf}
+                inPdfHandler={inPdfCallback}
             />
 
-            {renderInPdf && (
+            {inPdf && (
                 <div className="card__preview">
                     <h3>{data.name}</h3>
                     <div>{data[`title${lang}`]}</div>

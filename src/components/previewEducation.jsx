@@ -3,16 +3,8 @@ import { useState } from 'react';
 import { Bar } from './formComponents';
 
 const EducationPreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf);
-    const inPdfHandler = () => {
-        console.log(inPdfCallback);
-        setRenderInPdf(!renderInPdf);
-    };
-
-    const dateToDisplay = `${data?.timeStart.getFullYear()} - ${data?.timeEnd.getFullYear()}`;
-    // Card states
     const [startingData] = useState(data);
+    const dateToDisplay = `${data?.timeStart.getFullYear()} - ${data?.timeEnd.getFullYear()}`;
 
     return (
         <div className="card" id={'cardID'}>
@@ -20,11 +12,11 @@ const EducationPreview = ({ data, lang, inPdf, inPdfCallback }) => {
                 data={startingData}
                 editHandler={() => console.log('edita')}
                 duplicateHandler={() => console.log('duplica')}
-                inPdf={renderInPdf}
-                inPdfHandler={inPdfHandler}
+                inPdf={inPdf}
+                inPdfHandler={inPdfCallback}
             />
 
-            {renderInPdf && (
+            {inPdf && (
                 <div className="card__preview">
                     <h3>{data[`title${lang}`]}</h3>
                     <p>

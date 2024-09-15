@@ -3,12 +3,6 @@ import { useState } from 'react';
 import { Bar } from './formComponents';
 
 const ProfilePreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    // se va para arriba luego
-    const [renderInPdf, setRenderInPdf] = useState(inPdf);
-    const inPdfHandler = () => {
-        setRenderInPdf(!renderInPdf);
-    };
-
     const [startingData] = useState(data);
 
     return (
@@ -17,11 +11,11 @@ const ProfilePreview = ({ data, lang, inPdf, inPdfCallback }) => {
                 data={startingData}
                 editHandler={() => console.log('edita')}
                 duplicateHandler={() => console.log('duplica')}
-                inPdf={renderInPdf}
-                inPdfHandler={inPdfHandler}
+                inPdf={inPdf}
+                inPdfHandler={inPdfCallback}
             />
 
-            {renderInPdf && (
+            {inPdf && (
                 <div className="card__preview twoCol">
                     <div>
                         <h2 className="name">{data.name}</h2>
