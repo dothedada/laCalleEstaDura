@@ -1,23 +1,51 @@
-import cardClass from '../js/card';
-import ExperienceForm from './experienceForm';
-import EducationForm from './educationForm';
-import ProfileForm from './profileForm';
-import BioForm from './bioForm';
-import SkillsText from './skillsText';
-import SkillsList from './skillsList';
-import { uiText } from './txtAndValidations';
-import ReferencesForm from './referencesForm';
+import { useState } from 'react';
 
-const DeckManager = () => {
-    const storedCards = Object.keys(localStorage)
-        .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
-        .reduce((deck, card) => {
-            if (!deck[card.type]) {
-                deck[card.type] = [];
-            }
-            deck[card.type].push(new cardClass[card.type](card));
-            return deck;
-        }, {});
+import { uiText } from './txtAndValidations';
+import ProfilePreview from './profilePreview';
+import { Button } from './formComponents';
+
+const cardPreviewMap = {
+    profile: ProfilePreview,
+    bio: '',
+    experience: '',
+    education: '',
+    skillsText: '',
+    skillsList: '',
+    references: '',
+};
+
+const cardGroups = [
+    'profile',
+    'bio',
+    'experience',
+    'education',
+    'skills',
+    'references',
+];
+
+const DynamicCard = ({
+    type,
+    data,
+    lang = 'Esp',
+    inPdf = true,
+    inPdfCallback,
+}) => {
+    const CardToRender = cardPreviewMap[type] || null;
+
+    return CardToRender ? (
+        <CardToRender
+            data={data}
+            lang={lang}
+            inPdf={inPdf}
+            inPdfCallback={inPdfCallback}
+        />
+    ) : (
+        'componente no encontrado'
+    );
+};
+
+const DeckManager = ({ cards }) => {
+    const [storedCards, setStoredCards] = useState(cards);
 
     return (
         <>
@@ -27,66 +55,44 @@ const DeckManager = () => {
                     <select name="cvs" id="cvs_selector">
                         <option>carajo</option>
                     </select>
+
                     <div className="cv-actions">
                         <button type="button">Añadir</button>
                         <button type="button">Actualizar</button>
                         <button type="button">Eliminar</button>
                     </div>
                 </div>
-                <div>
-                    <h2>{uiText.global.sections.Esp.profile}</h2>
-                    {storedCards?.profile?.map((card) => (
-                        <ProfileForm data={card} key={card.id} />
-                    ))}
-                    <ProfileForm />
-                </div>
-                <div>
-                    <h2>{uiText.global.sections.Esp.bio}</h2>
-                    {storedCards?.bio?.map((card) => (
-                        <BioForm data={card} key={card.id} />
-                    ))}
-                    <BioForm />
-                </div>
-                <div className="split">
-                    <div>
-                        <h2>{uiText.global.sections.Esp.experience}</h2>
-                        {storedCards?.experience?.map((card) => (
-                            <ExperienceForm data={card} key={card.id} />
+
+                {cardGroups.map((deckType, index) => (
+                    <div key={index}>
+                        <h2>{uiText.global.sections.Esp[deckType]}</h2>
+                        {storedCards?.[deckType]?.map((card) => (
+                            <DynamicCard
+                                type={deckType}
+                                data={card}
+                                key={card.id}
+                            />
                         ))}
-                        <ExperienceForm />
+                        {deckType !== 'skills' ? (
+                            <Button
+                                type="button"
+                                text={uiText[deckType].reference}
+                            />
+                        ) : (
+                            <>
+                                <Button
+                                    type="button"
+                                    text={uiText.skillsList.reference}
+                                />
+                                <Button
+                                    type="button"
+                                    text={uiText.skillsText.reference}
+                                />
+                            </>
+                        )}
                     </div>
-                    <div className="skills">
-                        <div className="skills__text">
-                            <h2>{uiText.global.sections.Esp.skills}</h2>
-                            {storedCards?.skillsText?.map((card) => (
-                                <SkillsText data={card} key={card.id} />
-                            ))}
-                            <SkillsText />
-                        </div>
-                        <div className="skills__list">
-                            {storedCards?.skillsList?.map((card) => (
-                                <SkillsList data={card} key={card.id} />
-                            ))}
-                            <SkillsList />
-                        </div>
-                    </div>
-                </div>
-                <div className="split">
-                    <div>
-                        <h2>{uiText.global.sections.Esp.references}</h2>
-                        {storedCards?.references?.map((card) => (
-                            <ReferencesForm data={card} key={card.id} />
-                        ))}
-                        <ReferencesForm />
-                    </div>
-                    <div>
-                        <h2>{uiText.global.sections.Esp.education}</h2>
-                        {storedCards?.education?.map((card) => (
-                            <EducationForm data={card} key={card.id} />
-                        ))}
-                        <EducationForm />
-                    </div>
-                </div>
+                ))}
+
                 <div className="cv-actions">
                     <button type="button">Añadir</button>
                     <button type="button">Actualizar</button>

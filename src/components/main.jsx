@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '../styles/reset.css';
 import '../styles/styles.css';
 import { DeckManager } from './formsContainer';
-import ExperienceForm from './experienceForm';
+import cardClass from '../js/card';
 
 // TODO:
 // 6. implementación en otros tipos de tarjetas
@@ -14,9 +14,29 @@ import ExperienceForm from './experienceForm';
 // 7.b creacion del modelo base
 // 8. creación del pdf
 
+const storedCards = Object.keys(localStorage)
+    .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
+    .reduce((deck, card) => {
+        if (!deck[card.type]) {
+            deck[card.type] = [];
+        }
+        deck[card.type].push(new cardClass[card.type](card));
+        return deck;
+    }, {});
+
+const groupedCards = Object.keys(localStorage)
+    .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
+    .reduce((deck, card) => {
+        const typeKey = /^skills/.test(card.type) ? 'skills' : card.type;
+
+        if (!deck[typeKey]) deck[typeKey] = [];
+        deck[typeKey].push(new cardClass[card.type](card));
+
+        return deck;
+    }, {});
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <DeckManager />
+        <DeckManager cards={groupedCards} />
     </StrictMode>,
 );
