@@ -2,11 +2,10 @@ import { useState } from 'react';
 
 import { Bar } from './formComponents';
 
-const BioPreview = ({ data, inPdf = true, inPdfCallback, lang = 'Esp' }) => {
+const BioPreview = ({ data, lang, inPdf, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
-        console.log(inPdfCallback);
         setRenderInPdf(!renderInPdf);
     };
 

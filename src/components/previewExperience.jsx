@@ -22,12 +22,7 @@ const dateLabel = (date) => {
     return `${workingDate.getFullYear()}-${formatedMonth}`;
 };
 
-const ExperiencePreview = ({
-    data,
-    lang = 'Esp',
-    inPdf = true,
-    inPdfCallback,
-}) => {
+const ExperiencePreview = ({ data, lang, inPdf, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
@@ -48,7 +43,7 @@ const ExperiencePreview = ({
             />
 
             {renderInPdf && (
-                <div className='card__preview'>
+                <div className="card__preview">
                     <div>
                         <h3>
                             {`${data.place} `}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Bar } from './formComponents';
 
-const ProfilePreview = ({ data, lang= 'Eng', inPdf = true, inPdfCallback }) => {
+const ProfilePreview = ({ data, lang, inPdf, inPdfCallback }) => {
     // se va para arriba luego
     const [renderInPdf, setRenderInPdf] = useState(inPdf);
     const inPdfHandler = () => {
