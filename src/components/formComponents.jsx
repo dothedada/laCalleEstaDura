@@ -238,11 +238,9 @@ const FormButtons = ({
 };
 
 const Bar = ({ data, editHandler, duplicateHandler, inPdf, inPdfHandler }) => {
-    const translated = data
-        ? Object.keys(data)
-              .filter((key) => /Translated$/.test(key))
-              .every((key) => data[key] === true)
-        : true;
+    const translated = Object.keys(data)
+        .filter((key) => /Translated$/.test(key))
+        .every((key) => data[key] === true);
 
     return (
         <div className={`card__title${!translated ? ' need-translation' : ''}`}>
