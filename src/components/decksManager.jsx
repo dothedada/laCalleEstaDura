@@ -39,8 +39,11 @@ const DeckManager = ({ cards }) => {
                         {storedCards?.[deckType]?.map((card) => (
                             <DynamicCard
                                 type={deckType}
-                                data={card}
                                 key={card.id}
+                                data={card}
+                                lang="Esp"
+                                inPdf={false}
+                                inPdfCallback={() => console.log('carajillo')}
                             />
                         ))}
 

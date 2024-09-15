@@ -12,13 +12,7 @@ const cardPreviewMap = {
     // references: '',
 };
 
-const DynamicCard = ({
-    type,
-    data,
-    lang = 'Esp',
-    inPdf = true,
-    inPdfCallback,
-}) => {
+const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
     const CardToRender = cardPreviewMap[type] || null;
 
     return CardToRender ? (
