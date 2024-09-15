@@ -1,15 +1,17 @@
 import BioPreview from './previewBio';
+import EducationPreview from './previewEducation';
 import ExperiencePreview from './previewExperience';
 import ProfilePreview from './previewProfile';
+import ReferencesPreview from './previewReferences';
 
 const cardPreviewMap = {
     profile: ProfilePreview,
     bio: BioPreview,
     experience: ExperiencePreview,
-    // education: '',
+    education: EducationPreview,
     // skillsText: '',
     // skillsList: '',
-    // references: '',
+    references: ReferencesPreview,
 };
 
 const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
