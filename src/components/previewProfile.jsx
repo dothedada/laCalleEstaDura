@@ -9,7 +9,7 @@ const ProfilePreview = ({ data, lang= 'Eng', inPdf = true, inPdfCallback }) => {
         setRenderInPdf(!renderInPdf);
     };
 
-    const [startingData] = useState(data || undefined);
+    const [startingData] = useState(data);
 
     return (
         <div className="card" id={'cardID'}>

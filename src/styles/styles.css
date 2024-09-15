@@ -99,13 +99,15 @@ svg {
 
     &.twoCol {
         display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
 
         > div {
-            flex: 2;
+            flex: 2 2 250px;
         }
 
         > div:last-child {
-            flex: 1;
+            flex: 1 1 200px;
         }
     }
 
