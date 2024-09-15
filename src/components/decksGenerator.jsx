@@ -3,6 +3,7 @@ import EducationPreview from './previewEducation';
 import ExperiencePreview from './previewExperience';
 import ProfilePreview from './previewProfile';
 import ReferencesPreview from './previewReferences';
+import SkillsListPreview from './previewSkillsList';
 import SkillsTextPreview from './previewSkillsText';
 
 const cardPreviewMap = {
@@ -11,7 +12,7 @@ const cardPreviewMap = {
     experience: ExperiencePreview,
     education: EducationPreview,
     skillsText: SkillsTextPreview,
-    // skillsList: '',
+    skillsList: SkillsListPreview,
     references: ReferencesPreview,
 };
 
