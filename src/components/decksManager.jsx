@@ -38,7 +38,7 @@ const DeckManager = ({ cards }) => {
 
                         {storedCards?.[deckType]?.map((card) => (
                             <DynamicCard
-                                type={deckType}
+                                type={card.type}
                                 key={card.id}
                                 data={card}
                                 lang="Esp"
