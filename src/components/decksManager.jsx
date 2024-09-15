@@ -16,7 +16,7 @@ const cardGroups = [
 const DeckManager = ({ cards }) => {
     const [storedCards, setStoredCards] = useState(cards);
     const [renderInPdf, setRenderInPdf] = useState(new Set());
-    const formRef = useRef(null);
+    const formDialog = useRef(null);
     const [formFields, setFormFields] = useState();
 
     const inPdfHandler = (id) => () => {
@@ -42,11 +42,11 @@ const DeckManager = ({ cards }) => {
     };
 
     const closeForm = () => {
-        formRef.current.close();
+        formDialog.current.close();
     };
 
     const openForm = (type, data, id) => () => {
-        formRef.current.showModal();
+        formDialog.current.showModal();
         setFormFields(
             <>
                 <Button callback={closeForm} type="warn" text="cerrar" />
@@ -110,7 +110,7 @@ const DeckManager = ({ cards }) => {
                             </>
                         )}
                     </div>
-                    <dialog ref={formRef}>{formFields}</dialog>
+                    <dialog ref={formDialog}>{formFields}</dialog>
                 </div>
             ))}
 

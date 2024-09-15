@@ -1,6 +1,8 @@
 import BioForm from './formBio';
+import EducationForm from './formEducation';
 import ExperienceForm from './formExperience';
 import ProfileForm from './formProfile';
+import ReferencesForm from './formReferences';
 import SkillsListForm from './formSkillsList';
 import SkillsTextForm from './formSkillsText';
 import BioPreview from './previewBio';
@@ -15,9 +17,9 @@ const cardPreviewMap = {
     profile: ProfilePreview,
     bio: BioPreview,
     experience: ExperiencePreview,
-    education: EducationPreview,
     skillsText: SkillsTextPreview,
     skillsList: SkillsListPreview,
+    education: EducationPreview,
     references: ReferencesPreview,
 };
 
@@ -27,8 +29,8 @@ const cardFormMap = {
     experience: ExperienceForm,
     skillsText: SkillsTextForm,
     skillsList: SkillsListForm,
-    education: '',
-    references: '',
+    education: EducationForm,
+    references: ReferencesForm,
 };
 
 const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
