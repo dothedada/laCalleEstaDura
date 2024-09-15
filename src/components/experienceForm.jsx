@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
-import { Input, FormButtons, Container, Bar, Fieldset } from './formComponents';
-import { ExperiencePreview } from './previewCards.jsx';
+import { Input, FormButtons, Bar, Fieldset } from './formComponents';
+// import { ExperiencePreview } from './previewCards.jsx';
 import {
     inputValidation,
     formValidation,

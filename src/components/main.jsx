@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '../styles/reset.css';
 import '../styles/styles.css';
-import { DeckManager } from './formsContainer';
+import { DeckManager } from './decksManager';
 import cardClass from '../js/card';
 
 // TODO:
@@ -13,16 +13,6 @@ import cardClass from '../js/card';
 // 7.a. levantar el estado del render en pdf
 // 7.b creacion del modelo base
 // 8. creación del pdf
-
-const storedCards = Object.keys(localStorage)
-    .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
-    .reduce((deck, card) => {
-        if (!deck[card.type]) {
-            deck[card.type] = [];
-        }
-        deck[card.type].push(new cardClass[card.type](card));
-        return deck;
-    }, {});
 
 const groupedCards = Object.keys(localStorage)
     .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
