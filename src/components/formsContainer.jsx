@@ -1,48 +1,8 @@
 import { useState } from 'react';
 
+import { cardGroups, DynamicCard } from './deckManager';
 import { uiText } from './txtAndValidations';
-import ProfilePreview from './profilePreview';
 import { Button } from './formComponents';
-
-const cardPreviewMap = {
-    profile: ProfilePreview,
-    bio: '',
-    experience: '',
-    education: '',
-    skillsText: '',
-    skillsList: '',
-    references: '',
-};
-
-const cardGroups = [
-    'profile',
-    'bio',
-    'experience',
-    'education',
-    'skills',
-    'references',
-];
-
-const DynamicCard = ({
-    type,
-    data,
-    lang = 'Esp',
-    inPdf = true,
-    inPdfCallback,
-}) => {
-    const CardToRender = cardPreviewMap[type] || null;
-
-    return CardToRender ? (
-        <CardToRender
-            data={data}
-            lang={lang}
-            inPdf={inPdf}
-            inPdfCallback={inPdfCallback}
-        />
-    ) : (
-        'componente no encontrado'
-    );
-};
 
 const DeckManager = ({ cards }) => {
     const [storedCards, setStoredCards] = useState(cards);
@@ -66,6 +26,7 @@ const DeckManager = ({ cards }) => {
                 {cardGroups.map((deckType, index) => (
                     <div key={index}>
                         <h2>{uiText.global.sections.Esp[deckType]}</h2>
+
                         {storedCards?.[deckType]?.map((card) => (
                             <DynamicCard
                                 type={deckType}
@@ -73,6 +34,7 @@ const DeckManager = ({ cards }) => {
                                 key={card.id}
                             />
                         ))}
+
                         {deckType !== 'skills' ? (
                             <Button
                                 type="button"
