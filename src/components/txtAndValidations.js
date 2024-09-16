@@ -115,13 +115,15 @@ export const uiText = {
             reset: (previousData) => (previousData ? 'Deshacer' : 'Reiniciar'),
             save: (previousData) => (previousData ? 'Actualizar' : 'Guardar'),
         },
-        reader: {
-            editCard: 'Haz clic para abrir el cuadro de edición',
-            renderInPdf: {
-                open: 'Este elemento se encuentra en la hoja de vida actual, haz clic para cambiar el estado.',
-                closed: 'Este elemento no se encuentra en la hoja de vida actual, haz clic para cambiar el estado.',
+        bar: {
+            reader: {
+                duplicateCard: 'Haz clic para duplicar la tarjeta y abrir el cuadro de edición',
+                editCard: 'Haz clic para abrir el cuadro de edición',
+                renderInPdf: {
+                    open: 'Este elemento se encuentra en la hoja de vida actual, haz clic para cambiar el estado.',
+                    closed: 'Este elemento no se encuentra en la hoja de vida actual, haz clic para cambiar el estado.',
+                },
             },
-            remove: 'Desea eliminar este elemento',
         },
         inputs: {
             lengthStatus: (maxLength, currentLengt) =>
@@ -130,6 +132,36 @@ export const uiText = {
         separator: {
             type1: ' | ',
             type2: ' • ',
+        },
+        deck: {
+            reader: {
+                importData: 'importar tarjetas desde archivo',
+                exportData: 'exportar tarjetas a archivo',
+                cvSelector: 'Selecciona una configuración de tarjetas',
+                language: {
+                    toEnglish: 'ver la información en inglés',
+                    toSpanish: 'ver la información en español',
+                },
+                viewCV: 'Ver hoja de vida',
+                downloadCV: 'Descargar pdf con la hoja de vida',
+                deleteModel: 'Borrar configuración de tarjetas',
+                createModel: 'Crear configuración de tarjetas',
+                updateModel: 'Actualizar configuración de tarjetas',
+            },
+            button: {
+                importData: 'importar',
+                exportData: 'exportar',
+                cvSelector: 'Seleccionar configuración',
+                language: {
+                    toEnglish: 'Inglés',
+                    toSpanish: 'Español',
+                },
+                viewCV: 'Ver',
+                downloadCV: 'PDF',
+                deleteModel: 'Borrar configuración',
+                createModel: 'Crear configuración',
+                updateModel: 'Actualizar configuración',
+            },
         },
         sections: {
             Esp: {
