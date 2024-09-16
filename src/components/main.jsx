@@ -7,26 +7,34 @@ import cardClass from '../js/card';
 
 // TODO:
 // 1. Implementar funcionalidad del deck
-// 2. Completar interfase del deck (botones y selectores)
-// 3. Habilitar botones de editar, copiar, eliminar y guardar de las tarjetas
+//      - crear modelo
+//      - duplicar modelo
+//      - Borrar modelo
+// 3. Habilitar botones de la barra de las tarjetas
+//      - copiar,
+//      - eliminar
+//      - guardar
+//      - actualización del deck segun cambios de la tarjeta
 // 4. administrar el estado desde el deck
-// 5. creacion del modelo base
+//      - Actualización del deck acorde al modelo
+// 5. creacion de la vista previa renderizada
 // 6. creación del pdf
 // 7. revisar textos UI
+//
+const userDeck = Object.keys(localStorage).reduce((deck, card) => {
+    const parsedCard = JSON.parse(localStorage.getItem(card));
+    const typeKey = /^skills/.test(parsedCard.type)
+        ? 'skills'
+        : parsedCard.type;
 
-const groupedCards = Object.keys(localStorage)
-    .map((cardId) => JSON.parse(localStorage.getItem(cardId)))
-    .reduce((deck, card) => {
-        const typeKey = /^skills/.test(card.type) ? 'skills' : card.type;
+    if (!deck[typeKey]) deck[typeKey] = []
+    deck[typeKey].push(new cardClass[parsedCard.type](parsedCard))
 
-        if (!deck[typeKey]) deck[typeKey] = [];
-        deck[typeKey].push(new cardClass[card.type](card));
-
-        return deck;
-    }, {});
+    return deck
+}, {});
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <DeckManager cards={groupedCards} />
+        <DeckManager cards={userDeck} />
     </StrictMode>,
 );
