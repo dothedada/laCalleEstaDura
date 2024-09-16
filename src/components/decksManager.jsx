@@ -88,7 +88,7 @@ const DeckManager = ({ cards }) => {
 
                     <Button
                         type="reset"
-                        text={lang === 'Esp' ? 'Español' : 'Inglés'}
+                        text={lang === 'Esp' ? 'En inglés' : 'En español'}
                         callback={changeLang}
                     />
                     <Button type="reset" text="Ver" />
@@ -105,7 +105,7 @@ const DeckManager = ({ cards }) => {
             {cardGroups.map((deckType, index) => (
                 <div key={index}>
                     <div>
-                        <h2>{uiText.global.sections.Esp[deckType]}</h2>
+                        <h2>{uiText.global.sections[lang][deckType]}</h2>
 
                         {storedCards?.[deckType]?.map((card) => (
                             <DynamicCard
