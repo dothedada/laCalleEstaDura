@@ -1,6 +1,13 @@
 import { Bar } from './formComponents';
 
-const SkillsListPreview = ({ data, lang, inPdf, inPdfCallback }) => {
+const SkillsListPreview = ({ 
+    data,
+    lang,
+    inPdf,
+    inPdfCallback,
+    editHandler,
+    duplicateHandler,
+}) => {
     const listTitle = data?.[`listTitle${lang}`];
     const langIndex = lang === 'Esp' ? 0 : 1;
 
@@ -22,9 +29,9 @@ const SkillsListPreview = ({ data, lang, inPdf, inPdfCallback }) => {
         <div className="card" id={'cardID'}>
             <Bar
                 data={data}
-                editHandler={() => console.log('edita')}
-                duplicateHandler={() => console.log('duplica')}
                 inPdf={inPdf}
+                editHandler={editHandler}
+                duplicateHandler={duplicateHandler}
                 inPdfHandler={inPdfCallback}
             />
 

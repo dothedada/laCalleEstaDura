@@ -1,17 +1,20 @@
-import { useState } from 'react';
-
 import { Bar } from './formComponents';
 
-const SkillsTextPreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    const [startingData] = useState(data);
-
+const SkillsTextPreview = ({
+    data,
+    lang,
+    inPdf,
+    editHandler,
+    duplicateHandler,
+    inPdfCallback,
+}) => {
     return (
         <div className="card" id={'cardID'}>
             <Bar
-                data={startingData}
-                editHandler={() => console.log('edita')}
-                duplicateHandler={() => console.log('duplica')}
+                data={data}
                 inPdf={inPdf}
+                editHandler={editHandler}
+                duplicateHandler={duplicateHandler}
                 inPdfHandler={inPdfCallback}
             />
 

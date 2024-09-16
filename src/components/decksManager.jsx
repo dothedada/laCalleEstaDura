@@ -109,12 +109,13 @@ const DeckManager = ({ cards }) => {
 
                         {storedCards?.[deckType]?.map((card) => (
                             <DynamicCard
-                                type={card.type}
-                                key={card.id}
                                 data={card}
                                 lang={lang}
+                                editHandler={()=> console.log('editar', card.id)}
+                                duplicateHandler={()=> console.log('duplicar', card.id)}
                                 inPdf={renderInPdf.has(card.id)}
                                 inPdfCallback={inPdfHandler(card.id)}
+                                key={card.id}
                             />
                         ))}
 

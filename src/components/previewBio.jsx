@@ -1,17 +1,20 @@
-import { useState } from 'react';
-
 import { Bar } from './formComponents';
 
-const BioPreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    const [startingData] = useState(data);
-
+const BioPreview = ({
+    data,
+    lang,
+    inPdf,
+    inPdfCallback,
+    editHandler,
+    duplicateHandler,
+}) => {
     return (
         <div className="card" id={'cardID'}>
             <Bar
-                data={startingData}
-                editHandler={() => console.log('edita')}
-                duplicateHandler={() => console.log('duplica')}
+                data={data}
                 inPdf={inPdf}
+                editHandler={editHandler}
+                duplicateHandler={duplicateHandler}
                 inPdfHandler={inPdfCallback}
             />
 

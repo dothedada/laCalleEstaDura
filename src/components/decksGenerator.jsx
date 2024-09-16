@@ -33,8 +33,15 @@ const cardFormMap = {
     references: ReferencesForm,
 };
 
-const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
-    const CardToRender = cardPreviewMap[type] || null;
+const DynamicCard = ({
+    data,
+    lang,
+    inPdf,
+    inPdfCallback,
+    editHandler,
+    duplicateHandler,
+}) => {
+    const CardToRender = cardPreviewMap[data.type] || null;
 
     return CardToRender ? (
         <CardToRender
@@ -42,6 +49,8 @@ const DynamicCard = ({ type, data, lang, inPdf, inPdfCallback }) => {
             lang={lang}
             inPdf={inPdf}
             inPdfCallback={inPdfCallback}
+            editHandler={editHandler}
+            duplicateHandler={duplicateHandler}
         />
     ) : (
         'tarjeta no encontrada'

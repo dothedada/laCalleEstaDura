@@ -1,18 +1,22 @@
-import { useState } from 'react';
-
 import { Bar } from './formComponents';
 
-const EducationPreview = ({ data, lang, inPdf, inPdfCallback }) => {
-    const [startingData] = useState(data);
+const EducationPreview = ({
+    data,
+    lang,
+    inPdf,
+    inPdfCallback,
+    editHandler,
+    duplicateHandler,
+}) => {
     const dateToDisplay = `${data?.timeStart.getFullYear()} - ${data?.timeEnd.getFullYear()}`;
 
     return (
         <div className="card" id={'cardID'}>
             <Bar
-                data={startingData}
-                editHandler={() => console.log('edita')}
-                duplicateHandler={() => console.log('duplica')}
+                data={data}
                 inPdf={inPdf}
+                editHandler={editHandler}
+                duplicateHandler={duplicateHandler}
                 inPdfHandler={inPdfCallback}
             />
 
