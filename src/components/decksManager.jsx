@@ -16,6 +16,7 @@ const cardGroups = [
 const DeckManager = ({ cards }) => {
     const [storedCards, setStoredCards] = useState(cards);
     const [renderInPdf, setRenderInPdf] = useState(new Set());
+    const [lang, setLang] = useState('Esp');
     const formDialog = useRef(null);
     const [formFields, setFormFields] = useState(null);
 
@@ -31,6 +32,10 @@ const DeckManager = ({ cards }) => {
 
             return newRender;
         });
+    };
+
+    const changeLang = () => {
+        setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
     };
 
     const addToPdf = (id) => () => {
@@ -70,9 +75,10 @@ const DeckManager = ({ cards }) => {
 
                 <div className="cv-picker">
                     <label>
-                        Selecciona un modelo de hoja de vida
                         <select name="cvs" id="cvs_selector">
-                            <option>---</option>
+                            <option>
+                                Selecciona un modelo de hoja de vida
+                            </option>
                             <option>carajo</option>
                             <option>pato</option>
                             <option>pendejo</option>
@@ -80,15 +86,19 @@ const DeckManager = ({ cards }) => {
                         </select>
                     </label>
 
-                    <Button type="reset" text="Español" />
+                    <Button
+                        type="reset"
+                        text={lang === 'Esp' ? 'Español' : 'Inglés'}
+                        callback={changeLang}
+                    />
                     <Button type="reset" text="Ver" />
                     <Button type="button" text="PDF" />
                 </div>
 
                 <div className="cv-actions">
-                    <Button type="warn" text="Eliminar" />
-                    <Button type="reset" text="Añadir" />
-                    <Button type="reset" text="Actualizar" />
+                    <Button type="warn" text="Borrar modelo" />
+                    <Button type="reset" text="Añadir modelo" />
+                    <Button type="reset" text="Actualizar modelo" />
                 </div>
             </div>
 
@@ -102,7 +112,7 @@ const DeckManager = ({ cards }) => {
                                 type={card.type}
                                 key={card.id}
                                 data={card}
-                                lang="Esp"
+                                lang={lang}
                                 inPdf={renderInPdf.has(card.id)}
                                 inPdfCallback={inPdfHandler(card.id)}
                             />
