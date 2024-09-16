@@ -14,6 +14,7 @@ const cardGroups = [
 ];
 
 const DeckManager = ({ cards }) => {
+    // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(cards);
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const [lang, setLang] = useState('Esp');
@@ -69,16 +70,25 @@ const DeckManager = ({ cards }) => {
         <div className="decks">
             <div className="cv-selector">
                 <div className="cv-globals">
-                    <Button type="reset" text="exportar" />
-                    <Button type="reset" text="importar" />
+                    <Button
+                        type="reset"
+                        text={uiText.global.deck.button.exportData}
+                        reader={uiText.global.deck.reader.exportData}
+                    />
+                    <Button
+                        type="reset"
+                        text={uiText.global.deck.button.importData}
+                        reader={uiText.global.deck.reader.importData}
+                    />
                 </div>
 
                 <div className="cv-picker">
                     <label>
+                        <span className="sr-only">
+                            {uiText.global.deck.reader.cvSelector}
+                        </span>
                         <select name="cvs" id="cvs_selector">
-                            <option>
-                                Selecciona un modelo de hoja de vida
-                            </option>
+                            <option>---</option>
                             <option>carajo</option>
                             <option>pato</option>
                             <option>pendejo</option>
@@ -88,17 +98,46 @@ const DeckManager = ({ cards }) => {
 
                     <Button
                         type="reset"
-                        text={lang === 'Esp' ? 'En inglés' : 'En español'}
+                        text={
+                            lang === 'Esp'
+                                ? uiText.global.deck.button.language.toEnglish
+                                : uiText.global.deck.button.language.toSpanish
+                        }
                         callback={changeLang}
+                        reader={
+                            lang === 'Esp'
+                                ? uiText.global.deck.reader.language.toEnglish
+                                : uiText.global.deck.reader.language.toSpanish
+                        }
                     />
-                    <Button type="reset" text="Ver" />
-                    <Button type="button" text="PDF" />
+                    <Button
+                        type="reset"
+                        text={uiText.global.deck.button.viewCV}
+                        reader={uiText.global.deck.reader.viewCV}
+                    />
+                    <Button
+                        type="button"
+                        text={uiText.global.deck.button.downloadCV}
+                        reader={uiText.global.deck.reader.downloadCV}
+                    />
                 </div>
 
                 <div className="cv-actions">
-                    <Button type="warn" text="Borrar modelo" />
-                    <Button type="reset" text="Añadir modelo" />
-                    <Button type="reset" text="Actualizar modelo" />
+                    <Button
+                        type="warn"
+                        text={uiText.global.deck.button.deleteModel}
+                        reader={uiText.global.deck.reader.deleteModel}
+                    />
+                    <Button
+                        type="reset"
+                        text={uiText.global.deck.button.createModel}
+                        reader={uiText.global.deck.reader.createModel}
+                    />
+                    <Button
+                        type="reset"
+                        text={uiText.global.deck.button.updateModel}
+                        reader={uiText.global.deck.reader.updateModel}
+                    />
                 </div>
             </div>
 
@@ -111,8 +150,12 @@ const DeckManager = ({ cards }) => {
                             <DynamicCard
                                 data={card}
                                 lang={lang}
-                                editHandler={()=> console.log('editar', card.id)}
-                                duplicateHandler={()=> console.log('duplicar', card.id)}
+                                editHandler={() =>
+                                    console.log('editar', card.id)
+                                }
+                                duplicateHandler={() =>
+                                    console.log('duplicar', card.id)
+                                }
                                 inPdf={renderInPdf.has(card.id)}
                                 inPdfCallback={inPdfHandler(card.id)}
                                 key={card.id}
