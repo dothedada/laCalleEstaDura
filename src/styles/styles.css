@@ -24,13 +24,63 @@ svg {
 }
 
 .decks {
-    border: 1px solid var(--text);
+    outline: 1px solid var(--text);
     display: flex;
     padding: 1rem;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
+    width: min(100%, 80ch);
+    margin: 0 auto;
 
-    .split {
+    & .cv-selector {
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        padding: 1rem;
+        width: calc(100% + 2rem);
+        margin: 0 -1rem;
+        top: 2.5rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+        /* background: var(--background); */
+        backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
+        outline: 1px solid var(--text);
+
+        > * {
+            display: flex;
+            gap: 1rem;
+        }
+    }
+
+    & .cv-globals {
+        position: absolute;
+        right: 1rem;
+        top: 0;
+        translate: 0 -100%;
+    }
+
+    & .cv-picker {
+        align-items: flex-end;
+
+        > *:first-child {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+        }
+
+        & select {
+            border: 1px solid var(--text);
+            padding: inherit;
+            margin: 0.25rem 0 0;
+            padding: 0.25rem 1ch;
+            background: var(--background);
+            color: var(--text);
+        }
+    }
+
+    & .split {
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
@@ -137,8 +187,8 @@ svg {
 }
 
 ::backdrop {
-    -webkit-backdrop-filter: blur(70px);
-    backdrop-filter: blur(70px);
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
     background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -162,7 +212,7 @@ svg {
 
     & fieldset {
         border: 1px solid var(--text);
-        color:var(--text);
+        color: var(--text);
         display: flex;
         flex-wrap: wrap;
         padding: 0.25rem 1ch 0.5rem;

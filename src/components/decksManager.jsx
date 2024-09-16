@@ -17,7 +17,7 @@ const DeckManager = ({ cards }) => {
     const [storedCards, setStoredCards] = useState(cards);
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const formDialog = useRef(null);
-    const [formFields, setFormFields] = useState();
+    const [formFields, setFormFields] = useState(null);
 
     const inPdfHandler = (id) => () => {
         setRenderInPdf((prvRender) => {
@@ -43,6 +43,7 @@ const DeckManager = ({ cards }) => {
 
     const closeForm = () => {
         formDialog.current.close();
+        setFormFields(null);
     };
 
     const openForm = (type, data, id) => () => {
@@ -60,16 +61,34 @@ const DeckManager = ({ cards }) => {
     };
 
     return (
-        <div className="frame decks">
+        <div className="decks">
             <div className="cv-selector">
-                <select name="cvs" id="cvs_selector">
-                    <option>carajo</option>
-                </select>
+                <div className="cv-globals">
+                    <Button type="reset" text="exportar" />
+                    <Button type="reset" text="importar" />
+                </div>
+
+                <div className="cv-picker">
+                    <label>
+                        Selecciona un modelo de hoja de vida
+                        <select name="cvs" id="cvs_selector">
+                            <option>---</option>
+                            <option>carajo</option>
+                            <option>pato</option>
+                            <option>pendejo</option>
+                            <option>culicagada</option>
+                        </select>
+                    </label>
+
+                    <Button type="reset" text="Español" />
+                    <Button type="reset" text="Ver" />
+                    <Button type="button" text="PDF" />
+                </div>
 
                 <div className="cv-actions">
-                    <button type="button">Añadir</button>
-                    <button type="button">Actualizar</button>
-                    <button type="button">Eliminar</button>
+                    <Button type="warn" text="Eliminar" />
+                    <Button type="reset" text="Añadir" />
+                    <Button type="reset" text="Actualizar" />
                 </div>
             </div>
 
@@ -110,15 +129,10 @@ const DeckManager = ({ cards }) => {
                             </>
                         )}
                     </div>
-                    <dialog ref={formDialog}>{formFields}</dialog>
                 </div>
             ))}
 
-            <div className="cv-actions">
-                <button type="button">Añadir</button>
-                <button type="button">Actualizar</button>
-                <button type="button">Eliminar</button>
-            </div>
+            <dialog ref={formDialog}>{formFields}</dialog>
         </div>
     );
 };

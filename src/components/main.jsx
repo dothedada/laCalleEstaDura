@@ -6,13 +6,13 @@ import { DeckManager } from './decksManager';
 import cardClass from '../js/card';
 
 // TODO:
-// 1. Creación de lo modales de formulario
-// 2. Implementar interfase del deck
-// 3. Completar interfase del deck
+// 1. Implementar funcionalidad del deck
+// 2. Completar interfase del deck (botones y selectores)
+// 3. Habilitar botones de editar, copiar, eliminar y guardar de las tarjetas
 // 4. administrar el estado desde el deck
-// 5. levantar el estado del render en pdf
-// 6. creacion del modelo base
-// 7. creación del pdf
+// 5. creacion del modelo base
+// 6. creación del pdf
+// 7. revisar textos UI
 
 const groupedCards = Object.keys(localStorage)
     .map((cardId) => JSON.parse(localStorage.getItem(cardId)))

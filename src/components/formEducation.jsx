@@ -53,7 +53,7 @@ const EducationForm = ({ data, inPdfCallback }) => {
                 setDataToInject,
             },
         );
-        inPdfCallback()
+        inPdfCallback();
     };
 
     // global validations info collectors
