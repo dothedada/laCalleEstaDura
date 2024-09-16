@@ -29,7 +29,9 @@ const BarButton = ({ action, actionHandler }) => (
         onPointerDown={actionHandler}
         onKeyDown={handleKeyDown(actionHandler)}
     >
-        <span className="sr-only">{uiText.global.reader[`${action}Card`]}</span>
+        <span className="sr-only">
+            {uiText.global.bar.reader[`${action}Card`]}
+        </span>
         <IconWrapper icon={action} />
     </button>
 );
@@ -50,8 +52,8 @@ const InRenderCheckbox = ({ inRender, inRenderHandler }) => {
         <label tabIndex="0" onKeyDown={handleKeyDown(inRenderHandler)}>
             <span className="sr-only">
                 {inRender
-                    ? uiText.global.reader.renderInPdf.open
-                    : uiText.global.reader.renderInPdf.closed}
+                    ? uiText.global.bar.reader.renderInPdf.open
+                    : uiText.global.bar.reader.renderInPdf.closed}
             </span>
             <IconWrapper icon={'renderInPdf'} open={inRender} />
             <input
@@ -195,7 +197,7 @@ const Fieldset = ({ legend, validation, children }) => {
     );
 };
 
-const Button = ({ text, type, callback }) => {
+const Button = ({ text, type, callback, reader }) => {
     return (
         <button
             type={type === 'warn' ? 'button' : type}
@@ -203,7 +205,14 @@ const Button = ({ text, type, callback }) => {
             onKeyDown={handleKeyDown(callback)}
             className={type}
         >
-            {text}
+            {reader ? (
+                <>
+                    <span className="sr-only">{reader}</span>
+                    <span aria-hidden="true">{reader}</span>
+                </>
+            ) : (
+                text
+            )}
         </button>
     );
 };
