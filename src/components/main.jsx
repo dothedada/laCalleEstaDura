@@ -7,6 +7,7 @@ import cardClass from '../js/card';
 import { Deck } from '../js/deck';
 
 // TODO:
+// 0. revisar cagadas
 // 1. Implementar funcionalidad del deck
 //      - crear modelo
 //      - duplicar modelo

@@ -4,10 +4,11 @@ export class Deck {
     constructor() {
         const inLS = this.loadLS();
 
-        this.subDecks = inLS.cards.reduce((deck, card) =>
-            this.addCardToDeck(deck, card),
+        this.subDecks = inLS.cards.reduce(
+            (deck, card) => this.addCardToDeck(deck, card),
+            {},
         );
-        // sets = [{id: '', name: '', cardsIds: []}]
+        // sets = [{id: '', name: '', lang: '', cardsIds: []}]
         this.sets = inLS.sets;
     }
 
@@ -79,25 +80,27 @@ export class Deck {
         return this.sets.find((set) => set.id === setId).cardsIds;
     }
 
-    createNewSet(setName) {
+    createNewSet(setName, setLang) {
         const id = this.#generateId(setName);
         const name = setName;
-        const cardsIds = document
-            .querySelectorAll('[data-inpdf="true"]')
-            .forEach((element) => element.getAttribute('data-id'));
+        const lang = setLang;
+        const cardsIds = Array.from(
+            document.querySelectorAll('[data-inpdf="true"]'),
+        ).map((element) => element.getAttribute('data-id'));
 
-        const newSet = { id, name, cardsIds }
+        const newSet = { id, name, cardsIds, lang };
         this.sets.push(newSet);
         localStorage.setItem(id, JSON.stringify(newSet));
     }
 
-    updateSet(setId) {
+    updateSet(setId, lang) {
         const setToUpdate = this.sets.find((set) => set.id === setId);
         const cardsIds = document
             .querySelectorAll('[data-inpdf="true"]')
             .forEach((element) => element.getAttribute('data-id'));
 
         setToUpdate.cardsIds = cardsIds;
+        setToUpdate.lang = lang;
     }
 
     removeSet(setId) {
