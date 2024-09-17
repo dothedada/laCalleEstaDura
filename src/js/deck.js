@@ -89,8 +89,9 @@ export class Deck {
         ).map((element) => element.getAttribute('data-id'));
 
         const newSet = { id, name, cardsIds, lang };
-        this.sets.push(newSet);
+
         localStorage.setItem(id, JSON.stringify(newSet));
+        return newSet
     }
 
     updateSet(setId, lang) {
@@ -101,6 +102,8 @@ export class Deck {
 
         setToUpdate.cardsIds = cardsIds;
         setToUpdate.lang = lang;
+
+        return setToUpdate
     }
 
     removeSet(setId) {

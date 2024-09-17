@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { DynamicCard, DynamicForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
@@ -17,6 +17,8 @@ const DeckManager = ({ deck }) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(deck.subDecks);
     const [sets, setSets] = useState(deck.sets);
+
+    //evaluar si el render puede integrarse a los sets
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const [lang, setLang] = useState('Esp');
     const formDialog = useRef(null);
@@ -37,8 +39,14 @@ const DeckManager = ({ deck }) => {
         });
     };
 
+    useEffect(() => {
+
+        optionSets.current.value = sets[sets.length - 1].id
+    }, [sets])
+
     const addSet = (name) => () => {
-        deck.createNewSet(name, lang);
+        const newSet = deck.createNewSet(name, lang);
+        setSets((prvSet) => [...prvSet, newSet]);
     };
 
     const selectSet = () => {
@@ -48,8 +56,9 @@ const DeckManager = ({ deck }) => {
                 : undefined;
         if (!activeSet) return;
 
-        const cardsInPdf = sets.find((set) => set.id === activeSet).cardsIds;
-        setRenderInPdf(new Set(cardsInPdf));
+        const currentSet = sets.find((set) => set.id === activeSet);
+        setRenderInPdf(new Set(currentSet.cardsIds));
+        setLang(currentSet.lang);
     };
 
     // const updateSet = (id) => {
@@ -119,11 +128,13 @@ const DeckManager = ({ deck }) => {
                             ref={optionSets}
                         >
                             <option>---</option>
-                            {sets.map((set) => (
-                                <option value={set.id} key={set.id}>
-                                    {set.name}
-                                </option>
-                            ))}
+                            {sets.map((set) => {
+                                return (
+                                    <option value={set.id} key={set.id}>
+                                        {set.name}
+                                    </option>
+                                );
+                            })}
                         </select>
                     </label>
 
@@ -163,7 +174,9 @@ const DeckManager = ({ deck }) => {
                         type="reset"
                         text={uiText.global.deck.button.createModel}
                         reader={uiText.global.deck.reader.createModel}
-                        callback={addSet('carajillo')}
+                        callback={addSet(
+                            `c_${Math.round(Math.random() * 1000)}`,
+                        )}
                     />
                     <Button
                         type="reset"
