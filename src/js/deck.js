@@ -1,17 +1,13 @@
-// TODO:
-// Posibilidad de personalizar el orden de algunas secciones
-// (Habilidades, referencias, Formacion)
 import cardClass from './card';
 
-export class MainDeck {
+export class Deck {
     constructor() {
         const inLS = this.loadLS();
 
         this.subDecks = inLS.cards.reduce(this.addCardToDeck);
+        // sets = [{id: '', name: '', cardsIds: []}]
         this.sets = inLS.sets;
     }
-
-    // sets = [{setId: keygen, cardsIds: []}]
 
     loadLS() {
         return Object.keys(localStorage).reduce(
@@ -43,7 +39,7 @@ export class MainDeck {
         return deck;
     }
 
-    removeFromSets({ id, type }) {
+    removeFromSetsAndDecks({ id, type }) {
         this.sets.forEach((set) => {
             const cardIdIndex = set.cardsIds.indexOf((cardId) => cardId === id);
 
@@ -68,41 +64,40 @@ export class MainDeck {
 
         this.subDecks[deckType].splice(indexOfCard, 1, updatedCard);
     }
-}
 
-export class Deck {
-    #cards = new Set();
-
-    constructor({ name, cards }) {
-        this.name = name;
-        this.id = this.#generateId(name);
-        if (cards) this.addCards(cards);
-    }
-
-    #generateId(name) {
-        const sanitizedName = `${name}`.replace(/[^a-z0-9_]/gi, '');
+    #generateId(setName) {
+        const sanitizedName = `${setName}`.replace(/[^a-z0-9_]/gi, '');
         const randomHex = Math.floor(Math.random() * 1000000).toString(16);
         const timeSignature = Number(new Date().getTime()).toString(16);
 
         return `${sanitizedName}_${randomHex}_${timeSignature}`;
     }
 
-    get getCards() {
-        return this.#cards;
+    getCardsOfSet(setId) {
+        return this.sets.find((set) => set.id === setId).cardsIds;
     }
 
-    addCards(cards) {
-        const cardsArray = !Array.isArray(cards) ? [cards] : cards;
-        cardsArray.forEach((card) => this.#cards.add(card));
+    createNewSet(setName) {
+        const id = this.#generateId(setName);
+        const name = setName;
+        const cardsIds = document
+            .querySelectorAll('[data-inpdf="true"]')
+            .forEach((element) => element.getAttribute('data-id'));
+
+        this.sets.push({ id, name, cardsIds });
     }
 
-    removeCards(cards) {
-        const cardsArray = !Array.isArray(cards) ? [cards] : cards;
-        cardsArray.forEach((card) => this.#cards.delete(card));
+    updateSet(setId) {
+        const setToUpdate = this.sets.find((set) => set.id === setId);
+        const cardsIds = document
+            .querySelectorAll('[data-inpdf="true"]')
+            .forEach((element) => element.getAttribute('data-id'));
+
+        setToUpdate.cardsIds = cardsIds;
     }
 
-    updateCards(cards) {
-        const cardsArray = !Array.isArray(cards) ? [cards] : cards;
-        this.#cards = new Set(cardsArray);
+    removeSet(setId) {
+        const indexOfSetToRemove = this.sets((set) => set.id === setId);
+        this.sets.splice(indexOfSetToRemove, 1);
     }
 }
