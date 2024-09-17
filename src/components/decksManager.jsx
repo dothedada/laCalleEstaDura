@@ -40,9 +40,9 @@ const DeckManager = ({ deck }) => {
     };
 
     useEffect(() => {
-
-        optionSets.current.value = sets[sets.length - 1].id
-    }, [sets])
+        if (!sets.length) return;
+        optionSets.current.value = sets[sets.length - 1].id;
+    }, [sets]);
 
     const addSet = (name) => () => {
         const newSet = deck.createNewSet(name, lang);
@@ -61,13 +61,17 @@ const DeckManager = ({ deck }) => {
         setLang(currentSet.lang);
     };
 
-    // const updateSet = (id) => {
-    //     deck.updateSet(id);
-    // };
-    //
-    // const removeSet = (id) => {
-    //     deck.removeSet(id)
-    // };
+    const updateSet = () => {
+        const currentSets = [...sets];
+        const updatedSet = deck.updateSet(optionSets.current.value, lang);
+        const indexOfSet = currentSets.findIndex((e) => e.id === updatedSet.id);
+        currentSets[indexOfSet] = updatedSet;
+        setSets(currentSets);
+    };
+
+    const removeSet = (id) => {
+        deck.removeSet(id)
+    };
 
     const changeLang = () => {
         setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
@@ -127,7 +131,7 @@ const DeckManager = ({ deck }) => {
                             onChange={selectSet}
                             ref={optionSets}
                         >
-                            <option>---</option>
+                            <option value="0">---</option>
                             {sets.map((set) => {
                                 return (
                                     <option value={set.id} key={set.id}>
@@ -182,6 +186,7 @@ const DeckManager = ({ deck }) => {
                         type="reset"
                         text={uiText.global.deck.button.updateModel}
                         reader={uiText.global.deck.reader.updateModel}
+                        callback={updateSet}
                     />
                 </div>
             </div>

@@ -91,19 +91,19 @@ export class Deck {
         const newSet = { id, name, cardsIds, lang };
 
         localStorage.setItem(id, JSON.stringify(newSet));
-        return newSet
+        return newSet;
     }
 
     updateSet(setId, lang) {
-        const setToUpdate = this.sets.find((set) => set.id === setId);
-        const cardsIds = document
-            .querySelectorAll('[data-inpdf="true"]')
-            .forEach((element) => element.getAttribute('data-id'));
+        let setToUpdate = this.sets.find((set) => set.id === setId);
+        const cardsIds = Array.from(
+            document.querySelectorAll('[data-inpdf="true"]'),
+        ).map((element) => element.getAttribute('data-id'));
 
-        setToUpdate.cardsIds = cardsIds;
-        setToUpdate.lang = lang;
+        setToUpdate = { ...setToUpdate, cardsIds, lang };
+        localStorage.setItem(setId, JSON.stringify(setToUpdate));
 
-        return setToUpdate
+        return setToUpdate;
     }
 
     removeSet(setId) {
