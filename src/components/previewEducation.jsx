@@ -11,7 +11,7 @@ const EducationPreview = ({
     const dateToDisplay = `${data?.timeStart.getFullYear()} - ${data?.timeEnd.getFullYear()}`;
 
     return (
-        <div className="card" id={'cardID'}>
+        <div className="card" data-id={data.id} data-inpdf={inPdf}>
             <Bar
                 data={data}
                 inPdf={inPdf}
