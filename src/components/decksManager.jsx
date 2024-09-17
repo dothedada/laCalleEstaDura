@@ -16,9 +16,11 @@ const cardGroups = [
 const DeckManager = ({ deck }) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(deck.subDecks);
+    const [sets, setSets] = useState(deck.sets);
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const [lang, setLang] = useState('Esp');
     const formDialog = useRef(null);
+    const optionSets = useRef(null);
     const [formFields, setFormFields] = useState(null);
 
     const inPdfHandler = (id) => () => {
@@ -35,8 +37,19 @@ const DeckManager = ({ deck }) => {
         });
     };
 
-    const addSet = (name) => () =>{
+    const addSet = (name) => () => {
         deck.createNewSet(name, lang);
+    };
+
+    const selectSet = () => {
+        const activeSet =
+            optionSets.current.value !== '---'
+                ? optionSets.current.value
+                : undefined;
+        if (!activeSet) return;
+
+        const cardsInPdf = sets.find((set) => set.id === activeSet).cardsIds;
+        setRenderInPdf(new Set(cardsInPdf));
     };
 
     // const updateSet = (id) => {
@@ -99,12 +112,18 @@ const DeckManager = ({ deck }) => {
                         <span className="sr-only">
                             {uiText.global.deck.reader.cvSelector}
                         </span>
-                        <select name="cvs" id="cvs_selector">
+                        <select
+                            name="cvs"
+                            id="cvs_selector"
+                            onChange={selectSet}
+                            ref={optionSets}
+                        >
                             <option>---</option>
-                            <option>carajo</option>
-                            <option>pato</option>
-                            <option>pendejo</option>
-                            <option>culicagada</option>
+                            {sets.map((set) => (
+                                <option value={set.id} key={set.id}>
+                                    {set.name}
+                                </option>
+                            ))}
                         </select>
                     </label>
 
