@@ -208,7 +208,7 @@ const Button = ({ text, type, callback, reader }) => {
             {reader ? (
                 <>
                     <span className="sr-only">{reader}</span>
-                    <span aria-hidden="true">{reader}</span>
+                    <span aria-hidden="true">{text}</span>
                 </>
             ) : (
                 text

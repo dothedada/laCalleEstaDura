@@ -117,11 +117,12 @@ export const uiText = {
         },
         bar: {
             reader: {
-                duplicateCard: 'Haz clic para duplicar la tarjeta y abrir el cuadro de edición',
+                duplicateCard:
+                    'Haz clic para duplicar la tarjeta y abrir el cuadro de edición',
                 editCard: 'Haz clic para abrir el cuadro de edición',
                 renderInPdf: {
-                    open: 'Este elemento se encuentra en la hoja de vida actual, haz clic para cambiar el estado.',
-                    closed: 'Este elemento no se encuentra en la hoja de vida actual, haz clic para cambiar el estado.',
+                    open: 'Este elemento se encuentra en la configuración de la hoja de vida actual, haz clic para quitarlo.',
+                    closed: 'Este elemento no se encuentra en la configuración de la hoja de vida actual, haz clic para incorporarlo.',
                 },
             },
         },
