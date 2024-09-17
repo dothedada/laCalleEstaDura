@@ -4,7 +4,9 @@ export class Deck {
     constructor() {
         const inLS = this.loadLS();
 
-        this.subDecks = inLS.cards.reduce(this.addCardToDeck);
+        this.subDecks = inLS.cards.reduce((deck, card) =>
+            this.addCardToDeck(deck, card),
+        );
         // sets = [{id: '', name: '', cardsIds: []}]
         this.sets = inLS.sets;
     }
@@ -24,7 +26,7 @@ export class Deck {
         );
     }
 
-    getDeckType(type) {
+    #getDeckType(type) {
         return /^skills/.test(type) ? 'skills' : type;
     }
 
@@ -32,7 +34,7 @@ export class Deck {
         if (!card.type) {
             return deck;
         }
-        const deckType = this.getDeckType(card.type);
+        const deckType = this.#getDeckType(card.type);
         deck[deckType] = deck[deckType] || [];
         deck[deckType].push(new cardClass[card.type](card));
 
@@ -48,7 +50,7 @@ export class Deck {
             }
         });
 
-        const deckType = this.getDeckType(type);
+        const deckType = this.#getDeckType(type);
         const indexOfCard = this.subDecks[deckType].indexOf(
             (card) => card.id === id,
         );
@@ -56,7 +58,7 @@ export class Deck {
     }
 
     updateCardOnDeck({ id, type }) {
-        const deckType = this.getDeckType(type);
+        const deckType = this.#getDeckType(type);
         const indexOfCard = this.subDecks[deckType].indexOf(
             (card) => card.id === id,
         );
@@ -84,7 +86,9 @@ export class Deck {
             .querySelectorAll('[data-inpdf="true"]')
             .forEach((element) => element.getAttribute('data-id'));
 
-        this.sets.push({ id, name, cardsIds });
+        const newSet = { id, name, cardsIds }
+        this.sets.push(newSet);
+        localStorage.setItem(id, JSON.stringify(newSet));
     }
 
     updateSet(setId) {

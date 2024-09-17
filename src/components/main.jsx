@@ -4,6 +4,7 @@ import '../styles/reset.css';
 import '../styles/styles.css';
 import { DeckManager } from './decksManager';
 import cardClass from '../js/card';
+import { Deck } from '../js/deck';
 
 // TODO:
 // 1. Implementar funcionalidad del deck
@@ -20,21 +21,11 @@ import cardClass from '../js/card';
 // 5. creacion de la vista previa renderizada
 // 6. creación del pdf
 // 7. revisar textos UI
-//
-const userDeck = Object.keys(localStorage).reduce((deck, card) => {
-    const parsedCard = JSON.parse(localStorage.getItem(card));
-    const typeKey = /^skills/.test(parsedCard.type)
-        ? 'skills'
-        : parsedCard.type;
 
-    if (!deck[typeKey]) deck[typeKey] = []
-    deck[typeKey].push(new cardClass[parsedCard.type](parsedCard))
-
-    return deck
-}, {});
+const deck = new Deck()
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <DeckManager cards={userDeck} />
+        <DeckManager deck={deck}/>
     </StrictMode>,
 );

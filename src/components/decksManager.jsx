@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import { DynamicCard, DynamicForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
+import { Deck } from '../js/deck';
 
 const cardGroups = [
     'profile',
@@ -13,9 +14,9 @@ const cardGroups = [
     'references',
 ];
 
-const DeckManager = ({ cards }) => {
+const DeckManager = ({deck}) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
-    const [storedCards, setStoredCards] = useState(cards);
+    const [storedCards, setStoredCards] = useState(deck.subDecks);
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const [lang, setLang] = useState('Esp');
     const formDialog = useRef(null);
@@ -34,6 +35,10 @@ const DeckManager = ({ cards }) => {
             return newRender;
         });
     };
+
+    const addSet = () => {
+        deck.createNewSet('carajo')
+    }
 
     const changeLang = () => {
         setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
@@ -132,6 +137,7 @@ const DeckManager = ({ cards }) => {
                         type="reset"
                         text={uiText.global.deck.button.createModel}
                         reader={uiText.global.deck.reader.createModel}
+                        callback={addSet}
                     />
                     <Button
                         type="reset"
