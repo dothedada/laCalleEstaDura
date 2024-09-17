@@ -1,5 +1,5 @@
 import { Bar } from './formComponents';
-
+import { dateLabel, formatDate } from './previewMethods';
 const EducationPreview = ({
     data,
     lang,
@@ -8,8 +8,6 @@ const EducationPreview = ({
     editHandler,
     duplicateHandler,
 }) => {
-    const dateToDisplay = `${data?.timeStart.getFullYear()} - ${data?.timeEnd.getFullYear()}`;
-
     return (
         <div className="card" data-id={data.id} data-inpdf={inPdf}>
             <Bar
@@ -24,7 +22,15 @@ const EducationPreview = ({
                 <div className="card__preview">
                     <h3>{data[`title${lang}`]}</h3>
                     <p>
-                        {data.place} ({dateToDisplay})
+                        {data.place} (
+                        <time dateTime={dateLabel(data.timeStart)}>
+                            {formatDate(data.timeStart, lang)}
+                        </time>
+                        {' - '}
+                        <time dateTime={dateLabel(data.timeEnd)}>
+                            {formatDate(data.timeEnd, lang)}
+                        </time>
+                        )
                     </p>
                 </div>
             )}
