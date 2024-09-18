@@ -89,8 +89,8 @@ export class Deck {
         ).map((element) => element.getAttribute('data-id'));
 
         const newSet = { id, name, cardsIds, lang };
-
         localStorage.setItem(id, JSON.stringify(newSet));
+
         return newSet;
     }
 
@@ -110,7 +110,7 @@ export class Deck {
         const indexOfSetToRemove = this.sets.findIndex(
             (set) => set.id === setId,
         );
-        localStorage.removeItem(setId);
         this.sets.splice(indexOfSetToRemove, 1);
+        localStorage.removeItem(setId);
     }
 }
