@@ -107,7 +107,10 @@ export class Deck {
     }
 
     removeSet(setId) {
-        const indexOfSetToRemove = this.sets((set) => set.id === setId);
+        const indexOfSetToRemove = this.sets.findIndex(
+            (set) => set.id === setId,
+        );
+        localStorage.removeItem(setId);
         this.sets.splice(indexOfSetToRemove, 1);
     }
 }

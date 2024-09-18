@@ -45,13 +45,14 @@ const DeckManager = ({ deck }) => {
     }, [sets]);
 
     const addSet = (name) => () => {
+        // deck, ref, sets, setSets
         const newSet = deck.createNewSet(name, lang);
         setSets((prvSet) => [...prvSet, newSet]);
     };
 
     const selectSet = () => {
         const activeSet =
-            optionSets.current.value !== '---'
+            optionSets.current.value !== '0'
                 ? optionSets.current.value
                 : undefined;
         if (!activeSet) return;
@@ -62,15 +63,27 @@ const DeckManager = ({ deck }) => {
     };
 
     const updateSet = () => {
-        const currentSets = [...sets];
+        // deck, ref, setSets
         const updatedSet = deck.updateSet(optionSets.current.value, lang);
-        const indexOfSet = currentSets.findIndex((e) => e.id === updatedSet.id);
-        currentSets[indexOfSet] = updatedSet;
-        setSets(currentSets);
+        setSets((prvSets) =>
+            prvSets.map((set) => (set.id === updatedSet.id ? updatedSet : set)),
+        );
+        optionSets.current.value = updatedSet.id;
     };
 
-    const removeSet = (id) => {
-        deck.removeSet(id)
+    const removeSet = () => {
+        // deck, ref, sets, setSets
+        const setId = optionSets.current.value;
+        if (!sets.length) return;
+
+        deck.removeSet(setId);
+        setSets((prvSet) =>
+            prvSet.reduce((sets, set) => {
+                if (set.id === setId) return sets;
+                sets.push(set);
+                return sets;
+            }, []),
+        );
     };
 
     const changeLang = () => {
@@ -173,6 +186,7 @@ const DeckManager = ({ deck }) => {
                         type="warn"
                         text={uiText.global.deck.button.deleteModel}
                         reader={uiText.global.deck.reader.deleteModel}
+                        callback={removeSet}
                     />
                     <Button
                         type="reset"
