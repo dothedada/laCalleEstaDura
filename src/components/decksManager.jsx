@@ -16,7 +16,10 @@ const cardGroups = [
 const DeckManager = ({ deck }) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(deck.subDecks);
-    const [sets, setSets] = useState(deck.sets);
+    const [decks, setDecks] = useState(deck.sets);
+
+    // TODO: la solución al problema del set actual va a estar en un state
+    const [currentDeck, setCurrentDeck] = useState('0');
 
     //evaluar si el render puede integrarse a los sets
     const [renderInPdf, setRenderInPdf] = useState(new Set());
@@ -24,6 +27,10 @@ const DeckManager = ({ deck }) => {
     const formDialog = useRef(null);
     const optionSets = useRef(null);
     const [formFields, setFormFields] = useState(null);
+
+    useEffect(() => {
+        optionSets.current.value = currentDeck;
+    }, [currentDeck]);
 
     const inPdfHandler = (id) => () => {
         setRenderInPdf((prvRender) => {
@@ -39,33 +46,25 @@ const DeckManager = ({ deck }) => {
         });
     };
 
-    useEffect(() => {
-        if (!sets.length) return;
-        optionSets.current.value = sets[sets.length - 1].id;
-    }, [sets]);
-
     const addSet = (name) => () => {
         // deck, ref, sets, setSets
         const newSet = deck.createNewSet(name, lang);
-        setSets((prvSet) => [...prvSet, newSet]);
+        setDecks((prvSet) => [...prvSet, newSet]);
+        setCurrentDeck(newSet.id);
     };
 
     const selectSet = () => {
-        const activeSet =
-            optionSets.current.value !== '0'
-                ? optionSets.current.value
-                : undefined;
+        const activeSet = optionSets.current.value;
         if (!activeSet) return;
 
-        const currentSet = sets.find((set) => set.id === activeSet);
+        const currentSet = decks.find((set) => set.id === activeSet);
         setRenderInPdf(new Set(currentSet.cardsIds));
-        setLang(currentSet.lang);
     };
 
     const updateSet = () => {
         // deck, ref, setSets
         const updatedSet = deck.updateSet(optionSets.current.value, lang);
-        setSets((prvSets) =>
+        setDecks((prvSets) =>
             prvSets.map((set) => (set.id === updatedSet.id ? updatedSet : set)),
         );
         optionSets.current.value = updatedSet.id;
@@ -74,16 +73,18 @@ const DeckManager = ({ deck }) => {
     const removeSet = () => {
         // deck, ref, sets, setSets
         const setId = optionSets.current.value;
-        if (!sets.length) return;
+        if (!decks.length) return;
 
         deck.removeSet(setId);
-        setSets((prvSet) =>
+        setDecks((prvSet) =>
             prvSet.reduce((sets, set) => {
                 if (set.id === setId) return sets;
                 sets.push(set);
                 return sets;
             }, []),
         );
+        setCurrentDeck(0);
+        setCurrentDeck(0);
     };
 
     const changeLang = () => {
@@ -144,8 +145,8 @@ const DeckManager = ({ deck }) => {
                             onChange={selectSet}
                             ref={optionSets}
                         >
-                            <option value="0">---</option>
-                            {sets.map((set) => {
+                            <option value={0}>---</option>
+                            {decks.map((set) => {
                                 return (
                                     <option value={set.id} key={set.id}>
                                         {set.name}
