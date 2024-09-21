@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { DynamicCard, DynamicForm } from './decksGenerator';
+import { DynamicCard, DynamicForm, DynamicSetForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
 
@@ -17,8 +17,6 @@ const DeckManager = ({ deck }) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(deck.subDecks);
     const [decks, setDecks] = useState(deck.sets);
-
-    // TODO: la solución al problema del set actual va a estar en un state
     const [currentDeck, setCurrentDeck] = useState('0');
 
     //evaluar si el render puede integrarse a los sets
@@ -44,13 +42,6 @@ const DeckManager = ({ deck }) => {
 
             return newRender;
         });
-    };
-
-    const addSet = (name) => () => {
-        // deck, ref, sets, setSets
-        const newSet = deck.createNewSet(name, lang);
-        setDecks((prvSet) => [...prvSet, newSet]);
-        setCurrentDeck(newSet.id);
     };
 
     const selectSet = () => {
@@ -84,7 +75,6 @@ const DeckManager = ({ deck }) => {
             }, []),
         );
         setCurrentDeck(0);
-        setCurrentDeck(0);
     };
 
     const changeLang = () => {
@@ -102,6 +92,28 @@ const DeckManager = ({ deck }) => {
     const closeForm = () => {
         formDialog.current.close();
         setFormFields(null);
+    };
+
+    const saveSet = (name) => () => {
+        // deck, ref, sets, setSets
+        const newSet = deck.createNewSet(name, lang);
+        setDecks((prvSet) => [...prvSet, newSet]);
+        setCurrentDeck(newSet.id);
+        formDialog.current.close();
+    };
+
+    const openSetForm = (type, id) => () => {
+        formDialog.current.showModal();
+        setFormFields(
+            <>
+                <Button callback={closeForm} type="warn" text="cerrar" />
+                <DynamicSetForm
+                    type={type}
+                    cancelCallback={closeForm}
+                    saveCallback={saveSet}
+                />
+            </>,
+        );
     };
 
     const openForm = (type, data, id) => () => {
@@ -193,9 +205,7 @@ const DeckManager = ({ deck }) => {
                         type="reset"
                         text={uiText.global.deck.button.createModel}
                         reader={uiText.global.deck.reader.createModel}
-                        callback={addSet(
-                            `c_${Math.round(Math.random() * 1000)}`,
-                        )}
+                        callback={openSetForm('addForm')}
                     />
                     <Button
                         type="reset"

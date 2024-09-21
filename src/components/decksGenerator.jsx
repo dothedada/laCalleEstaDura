@@ -1,6 +1,7 @@
 import BioForm from './formBio';
 import EducationForm from './formEducation';
 import ExperienceForm from './formExperience';
+import NewSetForm from './formNewSet';
 import ProfileForm from './formProfile';
 import ReferencesForm from './formReferences';
 import SkillsListForm from './formSkillsList';
@@ -31,6 +32,9 @@ const cardFormMap = {
     skillsList: SkillsListForm,
     education: EducationForm,
     references: ReferencesForm,
+};
+const setFormMap = {
+    addForm: NewSetForm,
 };
 
 const DynamicCard = ({
@@ -67,4 +71,18 @@ const DynamicForm = ({ type, data, inPdfCallback }) => {
     );
 };
 
-export { DynamicCard, DynamicForm };
+const DynamicSetForm = ({ type, saveCallback, removeCallback }) => {
+    console.log('en el set');
+    const SetFormToRender = setFormMap[type] || null;
+
+    return SetFormToRender ? (
+        <SetFormToRender
+            saveCallback={saveCallback}
+            removeCallback={removeCallback}
+        />
+    ) : (
+        ' formulario no encontrado'
+    );
+};
+
+export { DynamicCard, DynamicForm, DynamicSetForm };
