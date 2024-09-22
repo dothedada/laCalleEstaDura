@@ -53,7 +53,7 @@ strong {
 /* Interacción */
 a,
 button,
-label:has([type="checkbox"]){
+label:has([type='checkbox']) {
     /* Corrige el problema de consistencia del cursor */
     cursor: pointer;
 }
