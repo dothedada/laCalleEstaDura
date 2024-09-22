@@ -1,7 +1,29 @@
+import { useRef, useEffect } from 'react';
+
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
 
-const DeckPicker = () => {
+const DeckPicker = ({
+    decks,
+    cardsInPdfCallback,
+    lang,
+    langCallback,
+    currentDeck,
+}) => {
+    const optionSets = useRef(null);
+
+    useEffect(() => {
+        optionSets.current.value = currentDeck;
+    }, [currentDeck]);
+
+    const selectSet = () => {
+        const activeSet = optionSets.current.value;
+        if (!activeSet) return;
+
+        const currentSet = decks.find((set) => set.id === activeSet);
+        cardsInPdfCallback(new Set(currentSet.cardsIds));
+    };
+
     return (
         <div className="cv-picker">
             <label>
@@ -32,7 +54,7 @@ const DeckPicker = () => {
                         ? uiText.global.deck.button.language.toEnglish
                         : uiText.global.deck.button.language.toSpanish
                 }
-                callback={changeLang}
+                callback={langCallback}
                 reader={
                     lang === 'Esp'
                         ? uiText.global.deck.reader.language.toEnglish

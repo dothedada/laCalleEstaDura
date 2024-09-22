@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { DynamicCard, DynamicForm, DynamicSetForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
+import { DecksGlobals } from './decksGlobals';
+import { DeckPicker } from './decksPicker';
 
 const cardGroups = [
     'profile',
@@ -26,30 +28,26 @@ const DeckManager = ({ deck }) => {
     const optionSets = useRef(null);
     const [formFields, setFormFields] = useState(null);
 
-    useEffect(() => {
-        optionSets.current.value = currentDeck;
-    }, [currentDeck]);
+    const changeLang = () => {
+        setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
+    };
 
     const inPdfHandler = (id) => () => {
         setRenderInPdf((prvRender) => {
             const newRender = new Set(prvRender);
 
-            if (renderInPdf.has(id)) {
-                newRender.delete(id);
-            } else {
-                newRender.add(id);
-            }
+            renderInPdf.has(id) ? newRender.delete(id) : newRender.add(id);
 
             return newRender;
         });
     };
 
-    const selectSet = () => {
-        const activeSet = optionSets.current.value;
-        if (!activeSet) return;
-
-        const currentSet = decks.find((set) => set.id === activeSet);
-        setRenderInPdf(new Set(currentSet.cardsIds));
+    const saveSet = (name) => () => {
+        // deck, ref, sets, setSets
+        const newSet = deck.createNewSet(name, lang);
+        setDecks((prvSet) => [...prvSet, newSet]);
+        setCurrentDeck(newSet.id);
+        formDialog.current.close();
     };
 
     const updateSet = () => {
@@ -61,7 +59,7 @@ const DeckManager = ({ deck }) => {
         optionSets.current.value = updatedSet.id;
     };
 
-    const removeSet = () => {
+    const removeSet = (id) => {
         // deck, ref, sets, setSets
         const setId = optionSets.current.value;
         if (!decks.length) return;
@@ -77,29 +75,9 @@ const DeckManager = ({ deck }) => {
         setCurrentDeck(0);
     };
 
-    const changeLang = () => {
-        setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
-    };
-
-    const addToPdf = (id) => () => {
-        setRenderInPdf((prvRender) => {
-            const newRender = new Set(prvRender);
-            newRender.add(id);
-            return newRender;
-        });
-    };
-
     const closeForm = () => {
         formDialog.current.close();
         setFormFields(null);
-    };
-
-    const saveSet = (name) => () => {
-        // deck, ref, sets, setSets
-        const newSet = deck.createNewSet(name, lang);
-        setDecks((prvSet) => [...prvSet, newSet]);
-        setCurrentDeck(newSet.id);
-        formDialog.current.close();
     };
 
     const openSetForm = (type, id) => () => {
@@ -109,6 +87,7 @@ const DeckManager = ({ deck }) => {
                 <Button callback={closeForm} type="warn" text="cerrar" />
                 <DynamicSetForm
                     type={type}
+                    removeCallback={removeSet(id)}
                     cancelCallback={closeForm}
                     saveCallback={saveSet}
                 />
@@ -124,7 +103,7 @@ const DeckManager = ({ deck }) => {
                 <DynamicForm
                     type={type}
                     data={data}
-                    inPdfCallback={addToPdf(id)}
+                    inPdfCallback={inPdfHandler(id)}
                 />
             </>,
         );
@@ -133,66 +112,15 @@ const DeckManager = ({ deck }) => {
     return (
         <div className="decks">
             <div className="cv-selector">
-                <div className="cv-globals">
-                    <Button
-                        type="reset"
-                        text={uiText.global.deck.button.exportData}
-                        reader={uiText.global.deck.reader.exportData}
-                    />
-                    <Button
-                        type="reset"
-                        text={uiText.global.deck.button.importData}
-                        reader={uiText.global.deck.reader.importData}
-                    />
-                </div>
+                <DecksGlobals />
 
-                <div className="cv-picker">
-                    <label>
-                        <span className="sr-only">
-                            {uiText.global.deck.reader.cvSelector}
-                        </span>
-                        <select
-                            name="cvs"
-                            id="cvs_selector"
-                            onChange={selectSet}
-                            ref={optionSets}
-                        >
-                            <option value={0}>---</option>
-                            {decks.map((set) => {
-                                return (
-                                    <option value={set.id} key={set.id}>
-                                        {set.name}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                    </label>
-
-                    <Button
-                        type="reset"
-                        text={
-                            lang === 'Esp'
-                                ? uiText.global.deck.button.language.toEnglish
-                                : uiText.global.deck.button.language.toSpanish
-                        }
-                        callback={changeLang}
-                        reader={
-                            lang === 'Esp'
-                                ? uiText.global.deck.reader.language.toEnglish
-                                : uiText.global.deck.reader.language.toSpanish
-                        }
-                    />
-                    <Button
-                        type="reset"
-                        text={uiText.global.deck.button.viewCV}
-                        reader={uiText.global.deck.reader.viewCV}
-                    />
-                    <Button
-                        type="button"
-                        text={uiText.global.deck.button.downloadCV}
-                        reader={uiText.global.deck.reader.downloadCV}
-                    />
-                </div>
+                <DeckPicker
+                    decks={decks}
+                    cardsInPdfCallback={setRenderInPdf}
+                    lang={lang}
+                    currentDeck={currentDeck}
+                    langCallback={changeLang}
+                />
 
                 <div className="cv-actions">
                     <Button

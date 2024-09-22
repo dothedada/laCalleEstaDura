@@ -1,7 +1,7 @@
 import { Button } from './formComponents';
 import { uiText } from './txtAndValidations';
 
-const DecksGlobals = (exportCallback, importCallback) => {
+const DecksGlobals = ({ exportCallback, importCallback }) => {
     return (
         <div className="cv-globals">
             <Button
