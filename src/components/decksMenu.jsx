@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import { uiText } from './txtAndValidations';
 import { Button, Dialog } from './formComponents';
 import NewDeckForm from './formNewDeck';
+import RemoveDeckForm from './formRemoveDeck';
 
 const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     const [decks, setDecks] = useState(data.decks);
@@ -53,11 +54,8 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
         );
     };
 
-    const removeDeck = () => {
-        dialogRef.current.close();
+    const deleteDeck = () => {
         const deckId = optionSets.current.value;
-        if (!decks.length || !deckId) return;
-
         data.removeDeck(deckId);
         setDecks((prvDeck) =>
             prvDeck.reduce((decks, currentDeck) => {
@@ -67,6 +65,26 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
             }, []),
         );
         setCurrentDeck('');
+        setDialogInfo();
+        dialogRef.current.close();
+    };
+
+    const removeDeck = () => {
+        const deckId = optionSets.current.value;
+        if (!decks.length || !deckId) return;
+
+        const deckName = Array.from(optionSets.current.options).find(
+            (deck) => deck.value === deckId,
+        ).text;
+
+        dialogRef.current.open();
+        setDialogInfo(
+            <RemoveDeckForm
+                cvName={deckName}
+                cancelCallback={dialogRef.current.close}
+                saveCallback={deleteDeck}
+            />,
+        );
     };
 
     return (

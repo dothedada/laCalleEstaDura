@@ -135,7 +135,19 @@ export const uiText = {
             type2: ' • ',
         },
         dialog: {
-            decksForm: {
+            removeDeckForm: {
+                text: (id) =>
+                    `¿Realmente quieres borrar la hoja de vida ${id}?`,
+                cancelBtn: {
+                    reader: 'no borrar la hoja de vida y cerrar dialogo',
+                    text: 'No borrar',
+                },
+                saveBtn: {
+                    reader: 'Borrar la hoja de vida y cerrar dialogo',
+                    text: 'Si, borrar definitivamente',
+                },
+            },
+            addDeckForm: {
                 label: '¿Qué nombre le quieres dar a esta nueva hoja de vida',
                 placeholder: 'Hoja de vida para diseño 2024',
                 cancelBtn: {
