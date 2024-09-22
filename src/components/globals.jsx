@@ -11,26 +11,26 @@ const Globals = ({
         <div className="cv-globals">
             <Button
                 type="reset"
-                text={uiText.global.deck.button.exportData}
-                reader={uiText.global.deck.reader.exportData}
+                text={uiText.global.deck.exportData.text}
+                reader={uiText.global.deck.exportData.reader}
                 callback={exportCallback}
             />
             <Button
                 type="reset"
-                text={uiText.global.deck.button.importData}
-                reader={uiText.global.deck.reader.importData}
+                text={uiText.global.deck.importData.text}
+                reader={uiText.global.deck.importData.reader}
                 callback={importCallback}
             />
             <Button
                 type="reset"
-                text={uiText.global.deck.button.viewCV}
-                reader={uiText.global.deck.reader.viewCV}
+                text={uiText.global.deck.viewCV.text}
+                reader={uiText.global.deck.viewCV.reader}
                 callback={viewCallback}
             />
             <Button
                 type="button"
-                text={uiText.global.deck.button.downloadCV}
-                reader={uiText.global.deck.reader.downloadCV}
+                text={uiText.global.deck.downloadCV.text}
+                reader={uiText.global.deck.downloadCV.reader}
                 callback={downloadCallback}
             />
         </div>

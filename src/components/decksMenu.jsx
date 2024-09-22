@@ -74,7 +74,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
             <div className="cv-picker">
                 <label>
                     <span className="sr-only">
-                        {uiText.global.deck.reader.cvSelector}
+                        {uiText.global.deck.cvSelector.reader}
                     </span>
                     <select
                         name="cvs"
@@ -82,7 +82,9 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
                         onChange={selectSet}
                         ref={optionSets}
                     >
-                        <option value="">---</option>
+                        <option value="">
+                            {uiText.global.deck.cvSelector.text}
+                        </option>
                         {decks.map((set) => {
                             return (
                                 <option value={set.id} key={set.id}>
@@ -97,14 +99,14 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
                     type="reset"
                     text={
                         lang === 'Esp'
-                            ? uiText.global.deck.button.language.toEnglish
-                            : uiText.global.deck.button.language.toSpanish
+                            ? uiText.global.deck.language.toEnglish.text
+                            : uiText.global.deck.language.toSpanish.text
                     }
                     callback={langCallback}
                     reader={
                         lang === 'Esp'
-                            ? uiText.global.deck.reader.language.toEnglish
-                            : uiText.global.deck.reader.language.toSpanish
+                            ? uiText.global.deck.language.toEnglish.reader
+                            : uiText.global.deck.language.toSpanish.reader
                     }
                 />
             </div>
@@ -112,20 +114,20 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
             <div className="cv-actions">
                 <Button
                     type="warn"
-                    text={uiText.global.deck.button.deleteModel}
-                    reader={uiText.global.deck.reader.deleteModel}
+                    text={uiText.global.deck.deleteModel.text}
+                    reader={uiText.global.deck.deleteModel.reader}
                     callback={removeDeck}
                 />
                 <Button
                     type="reset"
-                    text={uiText.global.deck.button.createModel}
-                    reader={uiText.global.deck.reader.createModel}
+                    text={uiText.global.deck.createModel.text}
+                    reader={uiText.global.deck.createModel.reader}
                     callback={newDeck}
                 />
                 <Button
                     type="reset"
-                    text={uiText.global.deck.button.updateModel}
-                    reader={uiText.global.deck.reader.updateModel}
+                    text={uiText.global.deck.updateModel.text}
+                    reader={uiText.global.deck.updateModel.reader}
                     callback={updateDeck}
                 />
                 <Dialog ref={dialogRef}>{dialogInfo}</Dialog>

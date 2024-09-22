@@ -153,33 +153,44 @@ export const uiText = {
             },
         },
         deck: {
-            reader: {
-                importData: 'importar tarjetas desde archivo',
-                exportData: 'exportar tarjetas a archivo',
-                cvSelector: 'Selecciona una configuración de tarjetas',
-                language: {
-                    toEnglish: 'ver la información en inglés',
-                    toSpanish: 'ver la información en español',
-                },
-                viewCV: 'Ver hoja de vida',
-                downloadCV: 'Descargar pdf con la hoja de vida',
-                deleteModel: 'Borrar configuración de tarjetas',
-                createModel: 'Crear configuración de tarjetas',
-                updateModel: 'Actualizar configuración de tarjetas',
+            importData: {
+                reader: 'importar tarjetas desde archivo',
+                text: 'Importar',
             },
-            button: {
-                importData: 'importar',
-                exportData: 'exportar',
-                cvSelector: 'Seleccionar configuración',
-                language: {
-                    toEnglish: 'Inglés',
-                    toSpanish: 'Español',
+            exportData: {
+                reader: 'exportar tarjetas a archivo',
+                text: 'Exportar',
+            },
+            cvSelector: {
+                reader: 'Selecciona una hoja de vida',
+                text: '---',
+            },
+            language: {
+                toEnglish: {
+                    reader: 'ver la información en inglés',
+                    text: 'Inglés',
                 },
-                viewCV: 'Ver',
-                downloadCV: 'PDF',
-                deleteModel: 'Borrar configuración',
-                createModel: 'Crear configuración',
-                updateModel: 'Actualizar configuración',
+                toSpanish: {
+                    reader: 'ver la información en español',
+                    text: 'Español',
+                },
+            },
+            viewCV: { reader: 'Ver hoja de vida', text: 'Ver' },
+            downloadCV: {
+                reader: 'Descargar pdf con la hoja de vida',
+                text: 'PDF',
+            },
+            deleteModel: {
+                reader: 'Borrar configuración de tarjetas',
+                text: 'Borrar CV',
+            },
+            createModel: {
+                reader: 'Crear configuración de tarjetas',
+                text: 'Crear CV',
+            },
+            updateModel: {
+                reader: 'Actualizar configuración de tarjetas',
+                text: 'Actualizar CV',
             },
         },
         sections: {
