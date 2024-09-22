@@ -36,13 +36,13 @@ const BarButton = ({ action, actionHandler }) => (
     </button>
 );
 
-const RemoveButton = ({ removeHandler }) => (
+const RemoveButton = ({ removeHandler, reader }) => (
     <button
         type="button"
         onPointerDown={removeHandler}
         onKeyDown={handleKeyDown(removeHandler)}
     >
-        <span className="sr-only">{uiText.global.reader.remove}</span>
+        <span className="sr-only">{reader}</span>
         <IconWrapper icon={'remove'} />
     </button>
 );
@@ -180,7 +180,10 @@ const ListItem = ({
                     inRender={visible}
                     inRenderHandler={visibleChange}
                 />
-                <RemoveButton removeHandler={removeItemCallback} />
+                <RemoveButton
+                    removeHandler={removeItemCallback}
+                    reader={uiText.skillsList.button.remove.reader}
+                />
             </div>
         </li>
     );

@@ -330,6 +330,12 @@ export const uiText = {
             description:
                 '¿Qué tipo de habilidades se encuentran en esta lista?',
         },
+        button: {
+            remove: {
+                reader: 'eliminar esta habilidad de la lista',
+                text: 'X',
+            },
+        },
         label: {
             reference: '¿Qué nombre le vas a dar a esta tarjeta?',
             instructions:
