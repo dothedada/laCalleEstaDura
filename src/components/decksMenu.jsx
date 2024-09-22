@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 
 import { uiText } from './txtAndValidations';
 import { Button, Dialog } from './formComponents';
+import NewDeckForm from './formNewDeck';
 
 const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     const [decks, setDecks] = useState(data.decks);
@@ -26,11 +27,21 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
         const newSet = data.createNewDeck(name, lang);
         setDecks((prvSet) => [...prvSet, newSet]);
         setCurrentDeck(newSet.id);
+        dialogRef.current.close();
+        setDialogInfo();
+    };
+
+    const newDeck = () => {
+        dialogRef.current.open();
+        setDialogInfo(
+            <NewDeckForm
+                saveCallback={createDeck}
+                cancelCallback={dialogRef.current.close}
+            />,
+        );
     };
 
     const updateDeck = () => {
-        dialogRef.current.open();
-        // dialogRef.current.showModal();
         const deckId = optionSets.current.value;
         if (!decks.length || !deckId) return;
 
@@ -109,9 +120,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
                     type="reset"
                     text={uiText.global.deck.button.createModel}
                     reader={uiText.global.deck.reader.createModel}
-                    callback={createDeck(
-                        `pato ${Math.round(Math.random() * 1000)}`,
-                    )}
+                    callback={newDeck}
                 />
                 <Button
                     type="reset"

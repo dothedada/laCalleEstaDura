@@ -272,8 +272,8 @@ const Dialog = forwardRef(function CreateDialog({ children }, ref) {
     return (
         <dialog ref={dialogRef}>
             <Button
-                text={uiText.global.dialog.button.close}
-                reader={uiText.global.dialog.button.close}
+                text={uiText.global.dialog.close.text}
+                reader={uiText.global.dialog.close.reader}
                 callback={() => dialogRef.current.close()}
             />
             {children}

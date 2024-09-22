@@ -115,14 +115,6 @@ export const uiText = {
             reset: (previousData) => (previousData ? 'Deshacer' : 'Reiniciar'),
             save: (previousData) => (previousData ? 'Actualizar' : 'Guardar'),
         },
-        dialog: {
-            reader: {
-                close: 'cerrar esta ventana',
-            },
-            button: {
-                close: 'Cerrar',
-            },
-        },
         bar: {
             reader: {
                 duplicateCard:
@@ -141,6 +133,24 @@ export const uiText = {
         separator: {
             type1: ' | ',
             type2: ' • ',
+        },
+        dialog: {
+            decksForm: {
+                label: '¿Qué nombre le quieres dar a esta nueva hoja de vida',
+                placeholder: 'Hoja de vida para diseño 2024',
+                cancelBtn: {
+                    reader: 'no crear la hoja de vida y cerrar dialogo',
+                    text: 'Cancelar',
+                },
+                saveBtn: {
+                    reader: 'crear la hoja de vida y cerrar dialogo',
+                    text: 'Guardar',
+                },
+            },
+            close: {
+                reader: 'cerrar esta ventana',
+                text: 'X',
+            },
         },
         deck: {
             reader: {
