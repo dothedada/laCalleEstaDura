@@ -7,8 +7,8 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     const [decks, setDecks] = useState(data.decks);
     const [currentDeck, setCurrentDeck] = useState('');
     const optionSets = useRef(null);
-    // const formDialog = useRef(null);
-    // const [formFields, setFormFields] = useState(null);
+    const dialogRef = useRef(null);
+    const [dialogInfo, setDialogInfo] = useState(null);
 
     useEffect(() => {
         optionSets.current.value = currentDeck;
@@ -29,6 +29,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     };
 
     const updateDeck = () => {
+        dialogRef.current.showModal();
         const deckId = optionSets.current.value;
         if (!decks.length || !deckId) return;
 
@@ -41,6 +42,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     };
 
     const removeDeck = () => {
+        dialogRef.current.close();
         const deckId = optionSets.current.value;
         if (!decks.length || !deckId) return;
 
@@ -116,6 +118,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
                     reader={uiText.global.deck.reader.updateModel}
                     callback={updateDeck}
                 />
+                <dialog ref={dialogRef}>carajo</dialog>
             </div>
         </>
     );

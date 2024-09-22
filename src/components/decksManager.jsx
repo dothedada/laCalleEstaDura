@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 
-import { DynamicCard, DynamicForm, DynamicSetForm } from './decksGenerator';
+import { DynamicCard, DynamicForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
-import { Globals } from './decksGlobals';
-import { DeckMenu } from './decksPicker';
+import { Globals } from './globals';
+import { DeckMenu } from './decksMenu';
 
 const cardGroups = [
     'profile',
@@ -24,9 +24,6 @@ const DeckManager = ({ deck }) => {
     const [lang, setLang] = useState('Esp');
     const formDialog = useRef(null);
     const [formFields, setFormFields] = useState(null);
-
-    // Sacar este use effect de acá
-    const optionSets = useRef(null);
 
     const changeLang = () => {
         setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
