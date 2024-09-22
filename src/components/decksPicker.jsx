@@ -61,16 +61,6 @@ const DeckPicker = ({
                         : uiText.global.deck.reader.language.toSpanish
                 }
             />
-            <Button
-                type="reset"
-                text={uiText.global.deck.button.viewCV}
-                reader={uiText.global.deck.reader.viewCV}
-            />
-            <Button
-                type="button"
-                text={uiText.global.deck.button.downloadCV}
-                reader={uiText.global.deck.reader.downloadCV}
-            />
         </div>
     );
 };

@@ -16,6 +16,16 @@ const DecksGlobals = ({ exportCallback, importCallback }) => {
                 reader={uiText.global.deck.reader.importData}
                 callback={importCallback}
             />
+            <Button
+                type="reset"
+                text={uiText.global.deck.button.viewCV}
+                reader={uiText.global.deck.reader.viewCV}
+            />
+            <Button
+                type="button"
+                text={uiText.global.deck.button.downloadCV}
+                reader={uiText.global.deck.reader.downloadCV}
+            />
         </div>
     );
 };
