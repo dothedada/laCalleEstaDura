@@ -3,13 +3,9 @@ import { createRoot } from 'react-dom/client';
 import '../styles/reset.css';
 import '../styles/styles.css';
 import { DeckManager } from './decksManager';
-import cardClass from '../js/card';
 import { Deck } from '../js/deck';
 
 // TODO:
-// 2. incorporar interfase para edición de sets, emplear dialog actual
-//      - Crear nuevo set
-//      - confirmar borrar set
 // 3. Habilitar botones de la barra de las tarjetas
 //      - copiar,
 //      - eliminar
