@@ -115,6 +115,14 @@ export const uiText = {
             reset: (previousData) => (previousData ? 'Deshacer' : 'Reiniciar'),
             save: (previousData) => (previousData ? 'Actualizar' : 'Guardar'),
         },
+        dialog: {
+            reader: {
+                close: 'cerrar esta ventana',
+            },
+            button: {
+                close: 'Cerrar',
+            },
+        },
         bar: {
             reader: {
                 duplicateCard:

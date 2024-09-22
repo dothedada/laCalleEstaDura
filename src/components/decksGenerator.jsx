@@ -33,7 +33,8 @@ const cardFormMap = {
     education: EducationForm,
     references: ReferencesForm,
 };
-const setFormMap = {
+
+const deckFormMap = {
     addForm: NewSetForm,
 };
 
@@ -67,16 +68,16 @@ const DynamicForm = ({ type, data, inPdfCallback }) => {
     return FormToRender ? (
         <FormToRender data={data} inPdfCallback={inPdfCallback} />
     ) : (
-        ' formulario no encontrado'
+        'formulario no encontrado'
     );
 };
 
-const DynamicSetForm = ({ type, saveCallback, removeCallback }) => {
+const DynamicDeckForm = ({ type, saveCallback, removeCallback }) => {
     console.log('en el set');
-    const SetFormToRender = setFormMap[type] || null;
+    const DeckFormToRender = deckFormMap[type] || null;
 
-    return SetFormToRender ? (
-        <SetFormToRender
+    return DeckFormToRender ? (
+        <DeckFormToRender
             saveCallback={saveCallback}
             removeCallback={removeCallback}
         />
@@ -85,4 +86,4 @@ const DynamicSetForm = ({ type, saveCallback, removeCallback }) => {
     );
 };
 
-export { DynamicCard, DynamicForm, DynamicSetForm };
+export { DynamicCard, DynamicForm, DynamicDeckForm };

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 
 import { uiText } from './txtAndValidations';
-import { Button } from './formComponents';
+import { Button, Dialog } from './formComponents';
 
 const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     const [decks, setDecks] = useState(data.decks);
@@ -29,7 +29,8 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
     };
 
     const updateDeck = () => {
-        dialogRef.current.showModal();
+        dialogRef.current.open();
+        // dialogRef.current.showModal();
         const deckId = optionSets.current.value;
         if (!decks.length || !deckId) return;
 
@@ -118,7 +119,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
                     reader={uiText.global.deck.reader.updateModel}
                     callback={updateDeck}
                 />
-                <dialog ref={dialogRef}>carajo</dialog>
+                <Dialog ref={dialogRef}>{dialogInfo}</Dialog>
             </div>
         </>
     );

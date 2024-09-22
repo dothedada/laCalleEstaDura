@@ -261,4 +261,24 @@ const Bar = ({ data, editHandler, duplicateHandler, inPdf, inPdfHandler }) => {
     );
 };
 
-export { Input, Fieldset, Button, FormButtons, Bar, ListItem };
+const Dialog = forwardRef(function CreateDialog({ children }, ref) {
+    const dialogRef = useRef(null);
+
+    useImperativeHandle(ref, () => ({
+        close: () => dialogRef.current.close(),
+        open: () => dialogRef.current.showModal(),
+    }));
+
+    return (
+        <dialog ref={dialogRef}>
+            <Button
+                text={uiText.global.dialog.button.close}
+                reader={uiText.global.dialog.button.close}
+                callback={() => dialogRef.current.close()}
+            />
+            {children}
+        </dialog>
+    );
+});
+
+export { Input, Fieldset, Button, FormButtons, Bar, ListItem, Dialog };

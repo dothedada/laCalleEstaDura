@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 
 import { DynamicCard, DynamicForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
-import { Button } from './formComponents';
+import { Button, Dialog } from './formComponents';
 import { Globals } from './globals';
 import { DeckMenu } from './decksMenu';
 
@@ -39,22 +39,14 @@ const DeckManager = ({ deck }) => {
         });
     };
 
-    const closeForm = () => {
-        formDialog.current.close();
-        setFormFields(null);
-    };
-
-    const openForm = (type, data, id) => () => {
-        formDialog.current.showModal();
+    const openCardForm = (type, data, id) => () => {
+        formDialog.current.open();
         setFormFields(
-            <>
-                <Button callback={closeForm} type="warn" text="cerrar" />
-                <DynamicForm
-                    type={type}
-                    data={data}
-                    inPdfCallback={inPdfHandler(id)}
-                />
-            </>,
+            <DynamicForm
+                type={type}
+                data={data}
+                inPdfCallback={inPdfHandler(id)}
+            />,
         );
     };
 
@@ -96,19 +88,19 @@ const DeckManager = ({ deck }) => {
                             <Button
                                 type="button"
                                 text={uiText[deckType].reference}
-                                callback={openForm(deckType)}
+                                callback={openCardForm(deckType)}
                             />
                         ) : (
                             <>
                                 <Button
                                     type="button"
                                     text={uiText.skillsList.reference}
-                                    callback={openForm('skillsList')}
+                                    callback={openCardForm('skillsList')}
                                 />
                                 <Button
                                     type="button"
                                     text={uiText.skillsText.reference}
-                                    callback={openForm('skillsText')}
+                                    callback={openCardForm('skillsText')}
                                 />
                             </>
                         )}
@@ -116,7 +108,7 @@ const DeckManager = ({ deck }) => {
                 </div>
             ))}
 
-            <dialog ref={formDialog}>{formFields}</dialog>
+            <Dialog ref={formDialog}>{formFields}</Dialog>
         </div>
     );
 };
