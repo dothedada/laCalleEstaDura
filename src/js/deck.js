@@ -4,12 +4,12 @@ export class Deck {
     constructor() {
         const inLS = this.loadLS();
 
-        this.subDecks = inLS.cards.reduce(
+        this.cardsGroups = inLS.cards.reduce(
             (deck, card) => this.addCardToDeck(deck, card),
             {},
         );
         // sets = [{id: '', name: '', lang: '', cardsIds: []}]
-        this.sets = inLS.sets;
+        this.decks = inLS.decks;
     }
 
     loadLS() {
@@ -19,11 +19,11 @@ export class Deck {
                 // if (!/LCED/g.test(item.id)) return items;
 
                 const { type } = item;
-                (type ? items.cards : items.sets).push(item);
+                (type ? items.cards : items.decks).push(item);
 
                 return items;
             },
-            { cards: [], sets: [] },
+            { cards: [], decks: [] },
         );
     }
 
@@ -43,74 +43,76 @@ export class Deck {
     }
 
     removeFromSetsAndDecks({ id, type }) {
-        this.sets.forEach((set) => {
-            const cardIdIndex = set.cardsIds.indexOf((cardId) => cardId === id);
+        this.decks.forEach((deck) => {
+            const cardIdIndex = deck.cardsIds.indexOf(
+                (cardId) => cardId === id,
+            );
 
             if (cardIdIndex > 0) {
-                set.cardsIds.splice(cardIdIndex, 1);
+                deck.cardsIds.splice(cardIdIndex, 1);
             }
         });
 
         const deckType = this.#getDeckType(type);
-        const indexOfCard = this.subDecks[deckType].indexOf(
+        const indexOfCard = this.cardsGroups[deckType].indexOf(
             (card) => card.id === id,
         );
-        this.subDecks[deckType].splice(indexOfCard, 1);
+        this.cardsGroups[deckType].splice(indexOfCard, 1);
     }
 
     updateCardOnDeck({ id, type }) {
         const deckType = this.#getDeckType(type);
-        const indexOfCard = this.subDecks[deckType].indexOf(
+        const indexOfCard = this.cardsGroups[deckType].indexOf(
             (card) => card.id === id,
         );
         const updatedCard = new cardClass[deckType](localStorage.getItem(id));
 
-        this.subDecks[deckType].splice(indexOfCard, 1, updatedCard);
+        this.cardsGroups[deckType].splice(indexOfCard, 1, updatedCard);
     }
 
-    #generateId(setName) {
-        const sanitizedName = `${setName}`.replace(/[^a-z0-9_]/gi, '');
+    #generateId(deckName) {
+        const sanitizedName = `${deckName}`.replace(/[^a-z0-9_]/gi, '');
         const randomHex = Math.floor(Math.random() * 1000000).toString(16);
         const timeSignature = Number(new Date().getTime()).toString(16);
 
         return `${sanitizedName}_${randomHex}_${timeSignature}`;
     }
 
-    getCardsOfSet(setId) {
-        return this.sets.find((set) => set.id === setId).cardsIds;
+    getCardsOfDeck(deckId) {
+        return this.decks.find((deck) => deck.id === deckId).cardsIds;
     }
 
-    createNewSet(setName, setLang) {
-        const id = this.#generateId(setName);
-        const name = setName;
-        const lang = setLang;
+    createNewDeck(deckName, deckLang) {
+        const id = this.#generateId(deckName);
+        const name = deckName;
+        const lang = deckLang;
         const cardsIds = Array.from(
             document.querySelectorAll('[data-inpdf="true"]'),
         ).map((element) => element.getAttribute('data-id'));
 
-        const newSet = { id, name, cardsIds, lang };
-        localStorage.setItem(id, JSON.stringify(newSet));
+        const newDeck = { id, name, cardsIds, lang };
+        localStorage.setItem(id, JSON.stringify(newDeck));
 
-        return newSet;
+        return newDeck;
     }
 
-    updateSet(setId, lang) {
-        let setToUpdate = this.sets.find((set) => set.id === setId);
+    updateDeck(deckId, lang) {
+        let deckToUpdate = this.decks.find((deck) => deck.id === deckId);
         const cardsIds = Array.from(
             document.querySelectorAll('[data-inpdf="true"]'),
         ).map((element) => element.getAttribute('data-id'));
 
-        setToUpdate = { ...setToUpdate, cardsIds, lang };
-        localStorage.setItem(setId, JSON.stringify(setToUpdate));
+        deckToUpdate = { ...deckToUpdate, cardsIds, lang };
+        localStorage.setItem(deckId, JSON.stringify(deckToUpdate));
 
-        return setToUpdate;
+        return deckToUpdate;
     }
 
-    removeSet(setId) {
-        const indexOfSetToRemove = this.sets.findIndex(
-            (set) => set.id === setId,
+    removeDeck(deckId) {
+        const indexOfDeckToRemove = this.decks.findIndex(
+            (deck) => deck.id === deckId,
         );
-        this.sets.splice(indexOfSetToRemove, 1);
-        localStorage.removeItem(setId);
+        this.decks.splice(indexOfDeckToRemove, 1);
+        localStorage.removeItem(deckId);
     }
 }
