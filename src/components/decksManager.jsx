@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { DynamicCard, DynamicForm, DynamicSetForm } from './decksGenerator';
 import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
-import { DecksGlobals } from './decksGlobals';
-import { DeckPicker } from './decksPicker';
+import { Globals } from './decksGlobals';
+import { DeckMenu } from './decksPicker';
 
 const cardGroups = [
     'profile',
@@ -17,16 +17,16 @@ const cardGroups = [
 
 const DeckManager = ({ deck }) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
-    const [storedCards, setStoredCards] = useState(deck.subDecks);
-    const [decks, setDecks] = useState(deck.sets);
-    const [currentDeck, setCurrentDeck] = useState('0');
+    const [storedCards, setStoredCards] = useState(deck.cardsGroups);
 
     //evaluar si el render puede integrarse a los sets
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const [lang, setLang] = useState('Esp');
     const formDialog = useRef(null);
-    const optionSets = useRef(null);
     const [formFields, setFormFields] = useState(null);
+
+    // Sacar este use effect de acá
+    const optionSets = useRef(null);
 
     const changeLang = () => {
         setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
@@ -42,57 +42,9 @@ const DeckManager = ({ deck }) => {
         });
     };
 
-    const saveSet = (name) => () => {
-        // deck, ref, sets, setSets
-        const newSet = deck.createNewSet(name, lang);
-        setDecks((prvSet) => [...prvSet, newSet]);
-        setCurrentDeck(newSet.id);
-        formDialog.current.close();
-    };
-
-    const updateSet = () => {
-        // deck, ref, setSets
-        const updatedSet = deck.updateSet(optionSets.current.value, lang);
-        setDecks((prvSets) =>
-            prvSets.map((set) => (set.id === updatedSet.id ? updatedSet : set)),
-        );
-        optionSets.current.value = updatedSet.id;
-    };
-
-    const removeSet = (id) => {
-        // deck, ref, sets, setSets
-        const setId = optionSets.current.value;
-        if (!decks.length) return;
-
-        deck.removeSet(setId);
-        setDecks((prvSet) =>
-            prvSet.reduce((sets, set) => {
-                if (set.id === setId) return sets;
-                sets.push(set);
-                return sets;
-            }, []),
-        );
-        setCurrentDeck(0);
-    };
-
     const closeForm = () => {
         formDialog.current.close();
         setFormFields(null);
-    };
-
-    const openSetForm = (type, id) => () => {
-        formDialog.current.showModal();
-        setFormFields(
-            <>
-                <Button callback={closeForm} type="warn" text="cerrar" />
-                <DynamicSetForm
-                    type={type}
-                    removeCallback={removeSet(id)}
-                    cancelCallback={closeForm}
-                    saveCallback={saveSet}
-                />
-            </>,
-        );
     };
 
     const openForm = (type, data, id) => () => {
@@ -112,36 +64,14 @@ const DeckManager = ({ deck }) => {
     return (
         <div className="decks">
             <div className="cv-selector">
-                <DecksGlobals />
+                <Globals />
 
-                <DeckPicker
-                    decks={decks}
+                <DeckMenu
+                    data={deck}
                     cardsInPdfCallback={setRenderInPdf}
                     lang={lang}
-                    currentDeck={currentDeck}
                     langCallback={changeLang}
                 />
-
-                <div className="cv-actions">
-                    <Button
-                        type="warn"
-                        text={uiText.global.deck.button.deleteModel}
-                        reader={uiText.global.deck.reader.deleteModel}
-                        callback={removeSet}
-                    />
-                    <Button
-                        type="reset"
-                        text={uiText.global.deck.button.createModel}
-                        reader={uiText.global.deck.reader.createModel}
-                        callback={openSetForm('addForm')}
-                    />
-                    <Button
-                        type="reset"
-                        text={uiText.global.deck.button.updateModel}
-                        reader={uiText.global.deck.reader.updateModel}
-                        callback={updateSet}
-                    />
-                </div>
             </div>
 
             {cardGroups.map((deckType, index) => (

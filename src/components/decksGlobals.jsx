@@ -1,7 +1,12 @@
 import { Button } from './formComponents';
 import { uiText } from './txtAndValidations';
 
-const DecksGlobals = ({ exportCallback, importCallback }) => {
+const Globals = ({
+    exportCallback,
+    importCallback,
+    viewCallback,
+    downloadCallback,
+}) => {
     return (
         <div className="cv-globals">
             <Button
@@ -20,14 +25,16 @@ const DecksGlobals = ({ exportCallback, importCallback }) => {
                 type="reset"
                 text={uiText.global.deck.button.viewCV}
                 reader={uiText.global.deck.reader.viewCV}
+                callback={viewCallback}
             />
             <Button
                 type="button"
                 text={uiText.global.deck.button.downloadCV}
                 reader={uiText.global.deck.reader.downloadCV}
+                callback={downloadCallback}
             />
         </div>
     );
 };
 
-export { DecksGlobals };
+export { Globals };
