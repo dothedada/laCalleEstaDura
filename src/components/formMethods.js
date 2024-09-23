@@ -64,10 +64,9 @@ const deleteData = (startingData, cardsManager) => {
     if (!startingData) return;
     const { storedCards, setStoredCards, dialogRef, dialogHandler } =
         cardsManager;
-    // borra del ls
+
     localStorage.removeItem(startingData.id);
 
-    // borra del deck
     const cardDeck = [...storedCards];
     const cardIndexInDeck = cardDeck.findIndex(
         (cardInDeck) => cardInDeck.id === startingData.id,
@@ -104,7 +103,6 @@ const saveData = (
     let card;
     const cardDeck = [...storedCards];
 
-    console.log('update' in startingData);
     if (Object.keys(startingData).length > 0) {
         Object.keys(dataToInject).forEach((field) => {
             if (dataToInject[field] !== startingData[field]) {
@@ -112,13 +110,13 @@ const saveData = (
             }
         });
 
-        card = { ...startingData };
+        card = startingData;
         const cardIndexInDeck = cardDeck.findIndex(
             (cardInDeck) => cardInDeck.id === card.id,
         );
         cardDeck.splice(cardIndexInDeck, 1, card);
     } else {
-        const data = { ...dataToInject, type: type };
+        const data = { ...dataToInject, type: type, id: undefined };
 
         card = new cardClass[type](data);
         cardDeck.push(card);

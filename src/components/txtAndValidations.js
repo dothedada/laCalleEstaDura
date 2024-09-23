@@ -112,10 +112,8 @@ export const uiText = {
     global: {
         buttons: {
             delete: 'Eliminar tarjeta',
-            reset: (previousData) =>
-                Object.keys(previousData).length ? 'Deshacer' : 'Reiniciar',
-            save: (previousData) =>
-                Object.keys(previousData).length ? 'Actualizar' : 'Guardar',
+            reset: (previousData) => (previousData ? 'Deshacer' : 'Reiniciar'),
+            save: (previousData) => (previousData ? 'Actualizar' : 'Guardar'),
         },
         bar: {
             reader: {

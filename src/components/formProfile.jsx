@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Input, FormButtons, Fieldset } from './formComponents';
 import { inputValidation, uiText } from './txtAndValidations.js';
@@ -9,10 +9,14 @@ import {
     saveData,
 } from './formMethods.js';
 
-const ProfileForm = ({ data, cardsManager, inPdfCallback }) => {
-    const initialData = data ?? {};
-    const [startingData] = useState(initialData);
+const ProfileForm = ({ data, cardsManager, inPdfCallback, update }) => {
+    const initialData = useMemo(() => data ?? {}, [data]);
+    const [startingData, setStartingData] = useState(initialData);
     const [dataToInject, setDataToInject] = useState({ ...initialData });
+
+    useEffect(() => {
+        setStartingData(() => (update ? initialData : {}));
+    }, [initialData, update]);
 
     const refs = {
         name: useRef(),
@@ -39,6 +43,7 @@ const ProfileForm = ({ data, cardsManager, inPdfCallback }) => {
             [],
             // setters
             {
+                setStartingData,
                 cardsManager,
             },
         );
@@ -93,7 +98,7 @@ const ProfileForm = ({ data, cardsManager, inPdfCallback }) => {
 
             <Input {...props('location')} />
             <FormButtons
-                previousData={startingData}
+                previousData={update}
                 deleteCallback={handleDelete}
                 resetCallback={handleReset}
                 saveCallback={handleSave}

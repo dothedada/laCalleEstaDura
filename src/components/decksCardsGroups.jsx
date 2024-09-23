@@ -13,17 +13,20 @@ const CardsGroup = ({
     dialogRef,
     dialogHandler,
 }) => {
-    const openCardForm = (type, cardData) => () => {
-        dialogRef.current.open();
-        dialogHandler(
-            <DynamicForm
-                type={type}
-                data={cardData}
-                cardsManager={cardsManager}
-                inPdfCallback={inPdfHandler(cardData?.id)}
-            />,
-        );
-    };
+    const openCardForm =
+        (type, cardData, update = false) =>
+        () => {
+            dialogHandler(() => (
+                <DynamicForm
+                    type={type}
+                    data={cardData}
+                    cardsManager={cardsManager}
+                    inPdfCallback={inPdfHandler(cardData?.id)}
+                    update={update}
+                />
+            ));
+            dialogRef.current.open();
+        };
 
     return (
         <div>
@@ -33,8 +36,8 @@ const CardsGroup = ({
                 <DynamicCard
                     data={card}
                     lang={lang}
-                    editHandler={openCardForm(deckType, card)}
-                    duplicateHandler={() => console.log('duplicar', card.id)}
+                    editHandler={openCardForm(deckType, card, true)}
+                    duplicateHandler={openCardForm(deckType, card, false)}
                     inPdf={renderInPdf.has(card.id)}
                     inPdfCallback={inPdfHandler(card.id)}
                     key={card.id}

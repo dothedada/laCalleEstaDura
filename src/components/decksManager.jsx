@@ -72,7 +72,9 @@ const DeckManager = ({ deck }) => {
                 />
             ))}
 
-            <Dialog ref={formDialog}>{formFields}</Dialog>
+            <Dialog ref={formDialog} dialogSetter={setFormFields}>
+                {formFields}
+            </Dialog>
         </div>
     );
 };

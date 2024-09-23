@@ -264,7 +264,10 @@ const Bar = ({ data, editHandler, duplicateHandler, inPdf, inPdfHandler }) => {
     );
 };
 
-const Dialog = forwardRef(function CreateDialog({ children }, ref) {
+const Dialog = forwardRef(function CreateDialog(
+    { children, dialogSetter },
+    ref,
+) {
     const dialogRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
@@ -272,12 +275,17 @@ const Dialog = forwardRef(function CreateDialog({ children }, ref) {
         open: () => dialogRef.current.showModal(),
     }));
 
+    const handleClose = () => {
+        dialogSetter();
+        dialogRef.current.close();
+    };
+
     return (
         <dialog ref={dialogRef}>
             <Button
                 text={uiText.global.dialog.close.text}
                 reader={uiText.global.dialog.close.reader}
-                callback={() => dialogRef.current.close()}
+                callback={handleClose}
             />
             {children}
         </dialog>
