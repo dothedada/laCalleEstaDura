@@ -60,10 +60,26 @@ const resetData = (startingData, dataSetter) => {
     dataSetter(startingData || {});
 };
 
-const deleteData = (startingData, cardHandler) => {
+const deleteData = (startingData, cardsManager) => {
     if (!startingData) return;
+    const { storedCards, setStoredCards, dialogRef, dialogHandler } =
+        cardsManager;
+    // borra del ls
     localStorage.removeItem(startingData.id);
-    cardHandler();
+
+    // borra del deck
+    const cardDeck = [...storedCards];
+    const cardIndexInDeck = cardDeck.findIndex(
+        (cardInDeck) => cardInDeck.id === startingData.id,
+    );
+    cardDeck.splice(cardIndexInDeck, 1);
+    setStoredCards((prvCardGroups) => ({
+        ...prvCardGroups,
+        [startingData.type]: cardDeck,
+    }));
+
+    dialogRef.current.close();
+    dialogHandler();
 };
 
 const saveData = (
@@ -74,13 +90,16 @@ const saveData = (
     formValidations,
     stateSetters,
 ) => {
-    const { setGlobalValidations, setDataToInject, cardsManager } =
-        stateSetters;
+    const { setGlobalValidations, cardsManager } = stateSetters;
     const { storedCards, setStoredCards, dialogRef, dialogHandler } =
         cardsManager;
 
-    if (!validateInputs(inputRefs)) return;
-    if (!validateForm(formValidations, setGlobalValidations)) return;
+    if (
+        !validateInputs(inputRefs) ||
+        !validateForm(formValidations, setGlobalValidations)
+    ) {
+        return;
+    }
 
     let card;
     const cardDeck = [...storedCards];
@@ -109,8 +128,6 @@ const saveData = (
     setStoredCards((prvCardGroups) => ({ ...prvCardGroups, [type]: cardDeck }));
     dialogRef.current.close();
     dialogHandler();
-    // actualiza formulario ??? es necesario???
-    // setDataToInject(() => card);
 };
 
 export { propGenerator, resetData, deleteData, saveData, getFieldValidation };
