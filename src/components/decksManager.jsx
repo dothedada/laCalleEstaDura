@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 
-import { DynamicCard, DynamicForm } from './decksGenerator';
-import { uiText } from './txtAndValidations';
-import { Button, Dialog } from './formComponents';
+import { DynamicForm } from './decksGenerator';
+import { Dialog } from './formComponents';
 import { Globals } from './globals';
 import { DeckMenu } from './decksMenu';
+import CardsGroup from './decksCardsGroups';
 
-const cardGroups = [
+const cardTypes = [
     'profile',
     'bio',
     'experience',
@@ -15,15 +15,12 @@ const cardGroups = [
     'references',
 ];
 
-// TODO: separar elemento de construcción de subdecks
-
 const DeckManager = ({ deck }) => {
     const [renderInPdf, setRenderInPdf] = useState(new Set());
     const [lang, setLang] = useState('Esp');
 
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(deck.cardsGroups);
-    console.log(storedCards);
 
     const formDialog = useRef(null);
     const [formFields, setFormFields] = useState(null);
@@ -66,45 +63,16 @@ const DeckManager = ({ deck }) => {
                 />
             </div>
 
-            {cardGroups.map((deckType) => (
-                <div key={deckType}>
-                    <h2>{uiText.global.sections[lang][deckType]}</h2>
-
-                    {storedCards?.[deckType]?.map((card) => (
-                        <DynamicCard
-                            data={card}
-                            lang={lang}
-                            editHandler={() => console.log('editar', card.id)}
-                            duplicateHandler={() =>
-                                console.log('duplicar', card.id)
-                            }
-                            inPdf={renderInPdf.has(card.id)}
-                            inPdfCallback={inPdfHandler(card.id)}
-                            key={card.id}
-                        />
-                    ))}
-
-                    {deckType !== 'skills' ? (
-                        <Button
-                            type="button"
-                            text={uiText[deckType].reference}
-                            callback={openCardForm(deckType)}
-                        />
-                    ) : (
-                        <>
-                            <Button
-                                type="button"
-                                text={uiText.skillsList.reference}
-                                callback={openCardForm('skillsList')}
-                            />
-                            <Button
-                                type="button"
-                                text={uiText.skillsText.reference}
-                                callback={openCardForm('skillsText')}
-                            />
-                        </>
-                    )}
-                </div>
+            {cardTypes.map((cardType) => (
+                <CardsGroup
+                    cards={storedCards[cardType]}
+                    deckType={cardType}
+                    lang={lang}
+                    renderInPdf={renderInPdf}
+                    inPdfHandler={inPdfHandler}
+                    dialogHandler={openCardForm}
+                    key={cardType}
+                />
             ))}
 
             <Dialog ref={formDialog}>{formFields}</Dialog>
