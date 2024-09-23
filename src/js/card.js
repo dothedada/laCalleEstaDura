@@ -98,7 +98,7 @@ class Education extends Card {
     }
 }
 
-class Experience extends Education {
+export class Experience extends Education {
     constructor({ descriptionEsp, descriptionEng, ...educationInfo }) {
         super(educationInfo);
 

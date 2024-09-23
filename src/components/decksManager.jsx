@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 
-import { DynamicForm } from './decksGenerator';
 import { Dialog } from './formComponents';
 import { Globals } from './globals';
 import { DeckMenu } from './decksMenu';
@@ -57,6 +56,10 @@ const DeckManager = ({ deck }) => {
             {cardTypes.map((cardType) => (
                 <CardsGroup
                     cards={storedCards[cardType]}
+                    cardsManager={{
+                        storedCards: storedCards[cardType],
+                        setStoredCards,
+                    }}
                     deckType={cardType}
                     lang={lang}
                     renderInPdf={renderInPdf}

@@ -5,6 +5,7 @@ import { DynamicForm } from './decksGenerator';
 
 const CardsGroup = ({
     cards,
+    cardsManager,
     deckType,
     lang,
     renderInPdf,
@@ -12,13 +13,14 @@ const CardsGroup = ({
     dialogRef,
     dialogHandler,
 }) => {
-    const openCardForm = (type, data, id) => () => {
+    const openCardForm = (type, cardData) => () => {
         dialogRef.current.open();
         dialogHandler(
             <DynamicForm
                 type={type}
-                data={data}
-                inPdfCallback={inPdfHandler(id)}
+                data={cardData}
+                cardsManager={{ ...cardsManager, dialogRef, dialogHandler }}
+                inPdfCallback={inPdfHandler(cardData?.id)}
             />,
         );
     };
@@ -31,7 +33,7 @@ const CardsGroup = ({
                 <DynamicCard
                     data={card}
                     lang={lang}
-                    editHandler={() => console.log('editar', card.id)}
+                    editHandler={openCardForm(deckType, card)}
                     duplicateHandler={() => console.log('duplicar', card.id)}
                     inPdf={renderInPdf.has(card.id)}
                     inPdfCallback={inPdfHandler(card.id)}

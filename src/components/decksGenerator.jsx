@@ -57,11 +57,15 @@ const DynamicCard = ({
     );
 };
 
-const DynamicForm = ({ type, data, inPdfCallback }) => {
+const DynamicForm = ({ type, data, cardsManager, inPdfCallback }) => {
     const FormToRender = cardFormMap[type] || null;
 
     return FormToRender ? (
-        <FormToRender data={data} inPdfCallback={inPdfCallback} />
+        <FormToRender
+            data={data}
+            cardsManager={cardsManager}
+            inPdfCallback={inPdfCallback}
+        />
     ) : (
         'formulario no encontrado'
     );

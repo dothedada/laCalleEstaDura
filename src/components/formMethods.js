@@ -42,9 +42,9 @@ const validateInputs = (inputsRefs) => {
 
 const validateForm = (validationsResults, validationStateSetter) => {
     if (!validationsResults.length) return true;
-    validationStateSetter(validationsResults);
 
-    if (validationsResults.filter((test) => test.validate === false).length) {
+    validationStateSetter(validationsResults);
+    if (validationsResults.some((test) => test.validate === false)) {
         return false;
     }
 
@@ -60,9 +60,10 @@ const resetData = (startingData, dataSetter) => {
     dataSetter(startingData || {});
 };
 
-const deleteData = (startingData) => {
+const deleteData = (startingData, cardHandler) => {
     if (!startingData) return;
     localStorage.removeItem(startingData.id);
+    cardHandler();
 };
 
 const saveData = (
@@ -73,37 +74,59 @@ const saveData = (
     formValidations,
     stateSetters,
 ) => {
-    const {
-        setGlobalValidations,
-        setDataToInject,
-        // setRenderInPdf,
-        // setOpenToEdit,
-    } = stateSetters;
+    const { setGlobalValidations, setDataToInject, cardsManager } =
+        stateSetters;
+    const { storedCards, setStoredCards, dialogRef, dialogHandler } =
+        cardsManager;
 
-    if (Object.keys(inputRefs).length) {
-        if (!validateInputs(inputRefs)) return;
-        if (!validateForm(formValidations, setGlobalValidations)) return;
-    }
+    // --- validacion
 
-    const isUpdate = !!startingData;
-    if (isUpdate) {
+    if (!validateInputs(inputRefs)) return;
+    if (!validateForm(formValidations, setGlobalValidations)) return;
+
+    // --- fin validacion
+    // --- creacion del objeto card, y cardDeck
+    let card;
+    const cardDeck = [...storedCards];
+
+    console.log('update' in startingData);
+    if (Object.keys(startingData).length > 0) {
         Object.keys(dataToInject).forEach((field) => {
             if (dataToInject[field] !== startingData[field]) {
                 startingData.update(field, dataToInject[field]);
             }
         });
+
+        card = { ...startingData };
+        const cardIndexInDeck = cardDeck.findIndex(
+            (cardInDeck) => cardInDeck.id === card.id,
+        );
+        cardDeck.splice(cardIndexInDeck, 1, card);
+    } else {
+        const data = { ...dataToInject, type: type };
+
+        card = new cardClass[type](data);
+        cardDeck.push(card);
     }
 
-    const data = isUpdate
-        ? { ...startingData, type: type }
-        : { ...dataToInject, type: type };
+    // --- fin creacion del objeto card
+    // --- incorporacion del objeto card al flujo
 
-    const card = new cardClass[type](data);
+    // actualiza LS
     localStorage.setItem(card.id, JSON.stringify(card));
+    // actualiza Interfase
+    setStoredCards((prvCardGroups) => ({ ...prvCardGroups, [type]: cardDeck }));
+    // actualiza formulario ??? es necesario???
+    // setDataToInject(() => card);
 
-    setDataToInject(() => card);
-    // setRenderInPdf(true);
-    // setOpenToEdit(false);
+    // cierra y limpia dialog
+    dialogRef.current.close();
+    dialogHandler();
+    // cierra dialog
+    // cardsSetter((prvData) => {
+    //     console.log(prvData);
+    //     return prvData;
+    // });
 };
 
 export { propGenerator, resetData, deleteData, saveData, getFieldValidation };

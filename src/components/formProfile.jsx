@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Input, FormButtons, Fieldset } from './formComponents';
 import { inputValidation, uiText } from './txtAndValidations.js';
@@ -9,13 +9,17 @@ import {
     saveData,
 } from './formMethods.js';
 
-const ProfileForm = ({ data, inPdfCallback }) => {
-    const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(() =>
-        startingData ? structuredClone(startingData) : {},
-    );
+const ProfileForm = ({ data, cardsManager, deck, inPdfCallback }) => {
+    const [startingData, setStartingData] = useState({});
+    const [dataToInject, setDataToInject] = useState({});
 
-    // form inputs
+    useEffect(() => {
+        const initialData = data ?? {};
+
+        setStartingData(initialData);
+        setDataToInject({ ...initialData });
+    }, [data]);
+
     const refs = {
         name: useRef(),
         titleEsp: useRef(),
@@ -41,6 +45,8 @@ const ProfileForm = ({ data, inPdfCallback }) => {
             [],
             // setters
             {
+                deck,
+                cardsManager,
                 setDataToInject,
             },
         );
