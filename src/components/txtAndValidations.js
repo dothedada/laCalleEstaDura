@@ -14,7 +14,7 @@ export const inputValidation = {
     },
     isURL: {
         pattern:
-            /\b(?<!@)((http(s)?:\/\/)?([a-z0-9-]+\.)?([a-z0-9-]{1,63}\.[a-z0-9]+)(\/[/\w\d\-+.*$%?#]+)?)(?!@)\b/gi,
+            /\b(?<!@)((http(s)?:\/\/)?([a-z0-9-]+\.)?([a-z0-9-]{1,63}\.[a-z0-9]+)(\/[/\w\d\-+.*$%?#]+)?)(?!@)\b|^$/gi,
         message: 'Debe ser una url válida',
     },
     maxLength: (char) => ({
