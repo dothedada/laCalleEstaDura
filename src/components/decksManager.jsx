@@ -39,17 +39,6 @@ const DeckManager = ({ deck }) => {
         });
     };
 
-    const openCardForm = (type, data, id) => () => {
-        formDialog.current.open();
-        setFormFields(
-            <DynamicForm
-                type={type}
-                data={data}
-                inPdfCallback={inPdfHandler(id)}
-            />,
-        );
-    };
-
     return (
         <div className="decks">
             <div className="cv-selector">
@@ -60,6 +49,8 @@ const DeckManager = ({ deck }) => {
                     cardsInPdfCallback={setRenderInPdf}
                     lang={lang}
                     langCallback={changeLang}
+                    dialogRef={formDialog}
+                    dialogHandler={setFormFields}
                 />
             </div>
 
@@ -70,7 +61,8 @@ const DeckManager = ({ deck }) => {
                     lang={lang}
                     renderInPdf={renderInPdf}
                     inPdfHandler={inPdfHandler}
-                    dialogHandler={openCardForm}
+                    dialogRef={formDialog}
+                    dialogHandler={setFormFields}
                     key={cardType}
                 />
             ))}

@@ -1,6 +1,7 @@
 import { DynamicCard } from './decksGenerator';
 import { Button } from './formComponents';
 import { uiText } from './txtAndValidations';
+import { DynamicForm } from './decksGenerator';
 
 const CardsGroup = ({
     cards,
@@ -8,8 +9,20 @@ const CardsGroup = ({
     lang,
     renderInPdf,
     inPdfHandler,
+    dialogRef,
     dialogHandler,
 }) => {
+    const openCardForm = (type, data, id) => () => {
+        dialogRef.current.open();
+        dialogHandler(
+            <DynamicForm
+                type={type}
+                data={data}
+                inPdfCallback={inPdfHandler(id)}
+            />,
+        );
+    };
+
     return (
         <div>
             <h2>{uiText.global.sections[lang][deckType]}</h2>
@@ -30,19 +43,19 @@ const CardsGroup = ({
                 <Button
                     type="button"
                     text={uiText[deckType].reference}
-                    callback={dialogHandler(deckType)}
+                    callback={openCardForm(deckType)}
                 />
             ) : (
                 <>
                     <Button
                         type="button"
                         text={uiText.skillsList.reference}
-                        callback={dialogHandler('skillsList')}
+                        callback={openCardForm('skillsList')}
                     />
                     <Button
                         type="button"
                         text={uiText.skillsText.reference}
-                        callback={dialogHandler('skillsText')}
+                        callback={openCardForm('skillsText')}
                     />
                 </>
             )}

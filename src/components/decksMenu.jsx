@@ -1,16 +1,21 @@
 import { useRef, useEffect, useState } from 'react';
 
 import { uiText } from './txtAndValidations';
-import { Button, Dialog } from './formComponents';
+import { Button } from './formComponents';
 import NewDeckForm from './formNewDeck';
 import RemoveDeckForm from './formRemoveDeck';
 
-const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
+const DeckMenu = ({
+    data,
+    cardsInPdfCallback,
+    lang,
+    langCallback,
+    dialogRef,
+    dialogHandler,
+}) => {
     const [decks, setDecks] = useState(data.decks);
     const [currentDeck, setCurrentDeck] = useState('');
     const optionSets = useRef(null);
-    const dialogRef = useRef(null);
-    const [dialogInfo, setDialogInfo] = useState(null);
 
     useEffect(() => {
         optionSets.current.value = currentDeck;
@@ -29,12 +34,12 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
         setDecks((prvSet) => [...prvSet, newSet]);
         setCurrentDeck(newSet.id);
         dialogRef.current.close();
-        setDialogInfo();
+        dialogHandler();
     };
 
     const newDeck = () => {
         dialogRef.current.open();
-        setDialogInfo(
+        dialogHandler(
             <NewDeckForm
                 saveCallback={createDeck}
                 cancelCallback={dialogRef.current.close}
@@ -65,7 +70,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
             }, []),
         );
         setCurrentDeck('');
-        setDialogInfo();
+        dialogHandler();
         dialogRef.current.close();
     };
 
@@ -78,7 +83,7 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
         ).text;
 
         dialogRef.current.open();
-        setDialogInfo(
+        dialogHandler(
             <RemoveDeckForm
                 cvName={deckName}
                 cancelCallback={dialogRef.current.close}
@@ -148,7 +153,6 @@ const DeckMenu = ({ data, cardsInPdfCallback, lang, langCallback }) => {
                     reader={uiText.global.deck.updateModel.reader}
                     callback={updateDeck}
                 />
-                <Dialog ref={dialogRef}>{dialogInfo}</Dialog>
             </div>
         </>
     );
