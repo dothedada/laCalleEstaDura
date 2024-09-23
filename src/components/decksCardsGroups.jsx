@@ -19,7 +19,7 @@ const CardsGroup = ({
             <DynamicForm
                 type={type}
                 data={cardData}
-                cardsManager={{ ...cardsManager, dialogRef, dialogHandler }}
+                cardsManager={cardsManager}
                 inPdfCallback={inPdfHandler(cardData?.id)}
             />,
         );

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Input, FormButtons, Fieldset } from './formComponents';
 import { inputValidation, uiText } from './txtAndValidations.js';
@@ -9,16 +9,10 @@ import {
     saveData,
 } from './formMethods.js';
 
-const ProfileForm = ({ data, cardsManager, deck, inPdfCallback }) => {
-    const [startingData, setStartingData] = useState({});
-    const [dataToInject, setDataToInject] = useState({});
-
-    useEffect(() => {
-        const initialData = data ?? {};
-
-        setStartingData(initialData);
-        setDataToInject({ ...initialData });
-    }, [data]);
+const ProfileForm = ({ data, cardsManager, inPdfCallback }) => {
+    const initialData = data ?? {};
+    const [startingData] = useState(initialData);
+    const [dataToInject, setDataToInject] = useState({ ...initialData });
 
     const refs = {
         name: useRef(),
@@ -33,7 +27,7 @@ const ProfileForm = ({ data, cardsManager, deck, inPdfCallback }) => {
     const props = propGenerator('profile', refs, dataToInject, setDataToInject);
 
     // card handlers
-    const handleDelete = () => deleteData(startingData);
+    const handleDelete = () => deleteData(startingData, cardsManager);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
@@ -45,9 +39,7 @@ const ProfileForm = ({ data, cardsManager, deck, inPdfCallback }) => {
             [],
             // setters
             {
-                deck,
                 cardsManager,
-                setDataToInject,
             },
         );
         inPdfCallback();

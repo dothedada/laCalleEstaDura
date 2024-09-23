@@ -59,6 +59,8 @@ const DeckManager = ({ deck }) => {
                     cardsManager={{
                         storedCards: storedCards[cardType],
                         setStoredCards,
+                        dialogRef: formDialog,
+                        dialogHandler: setFormFields,
                     }}
                     deckType={cardType}
                     lang={lang}

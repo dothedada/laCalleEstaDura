@@ -79,13 +79,9 @@ const saveData = (
     const { storedCards, setStoredCards, dialogRef, dialogHandler } =
         cardsManager;
 
-    // --- validacion
-
     if (!validateInputs(inputRefs)) return;
     if (!validateForm(formValidations, setGlobalValidations)) return;
 
-    // --- fin validacion
-    // --- creacion del objeto card, y cardDeck
     let card;
     const cardDeck = [...storedCards];
 
@@ -109,24 +105,12 @@ const saveData = (
         cardDeck.push(card);
     }
 
-    // --- fin creacion del objeto card
-    // --- incorporacion del objeto card al flujo
-
-    // actualiza LS
     localStorage.setItem(card.id, JSON.stringify(card));
-    // actualiza Interfase
     setStoredCards((prvCardGroups) => ({ ...prvCardGroups, [type]: cardDeck }));
-    // actualiza formulario ??? es necesario???
-    // setDataToInject(() => card);
-
-    // cierra y limpia dialog
     dialogRef.current.close();
     dialogHandler();
-    // cierra dialog
-    // cardsSetter((prvData) => {
-    //     console.log(prvData);
-    //     return prvData;
-    // });
+    // actualiza formulario ??? es necesario???
+    // setDataToInject(() => card);
 };
 
 export { propGenerator, resetData, deleteData, saveData, getFieldValidation };
