@@ -1,3 +1,7 @@
+body:has(:modal[open]) {
+    overflow: hidden;
+}
+
 h1 {
     font-size: 2.625rem;
     line-height: var(--line-height);
@@ -44,7 +48,7 @@ svg {
         flex-wrap: wrap;
         /* background: var(--background); */
         backdrop-filter: blur(50px);
-            -webkit-backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(50px);
         outline: 1px solid var(--text);
 
         > * {
