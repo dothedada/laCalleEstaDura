@@ -1,5 +1,7 @@
+import { uiText } from './txtAndValidations';
+
 const SkillsListPreview = ({ data, lang }) => {
-    const listTitle = data?.[`listTitle${lang}`];
+    const listTitle = data?.[`listTitle${lang}`] || uiText.global.nonTranslated;
     const langIndex = lang === 'Esp' ? 0 : 1;
 
     const visibleSkills = data?.list.reduce((list, item) => {

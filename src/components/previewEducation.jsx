@@ -1,8 +1,11 @@
 import { dateLabel, formatDate } from './previewMethods';
+import { uiText } from './txtAndValidations';
+
 const EducationPreview = ({ data, lang }) => {
+    const title = data[`title${lang}`] || uiText.global.nonTranslated;
     return (
         <>
-            <h3>{data[`title${lang}`]}</h3>
+            <h3>{title}</h3>
             <p>
                 {data.place} (
                 <time dateTime={dateLabel(data.timeStart)}>

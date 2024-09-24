@@ -1,9 +1,12 @@
+import { uiText } from './txtAndValidations';
+
 const ProfilePreview = ({ data, lang }) => {
+    const title = data[`title${lang}`] || uiText.global.nonTranslated;
     return (
         <>
             <div>
                 <h2 className="name">{data.name}</h2>
-                <div className="title">{data[`title${lang}`]}</div>
+                <div className="title">{title}</div>
             </div>
             <div>
                 <div>

@@ -110,6 +110,7 @@ export const iconsPaths = {
 
 export const uiText = {
     global: {
+        nonTranslated: 'Esta información aún no se ha traducido',
         buttons: {
             delete: 'Eliminar tarjeta',
             reset: (previousData) => (previousData ? 'Deshacer' : 'Reiniciar'),

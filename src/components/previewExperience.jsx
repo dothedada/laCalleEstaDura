@@ -1,6 +1,9 @@
 import { dateLabel, formatDate } from './previewMethods';
+import { uiText } from './txtAndValidations';
 
 const ExperiencePreview = ({ data, lang }) => {
+    const title = data[`title${lang}`] || uiText.global.nonTranslated;
+    const description = data[`title${lang}`] || uiText.global.nonTranslated;
     return (
         <>
             <div>
@@ -16,9 +19,9 @@ const ExperiencePreview = ({ data, lang }) => {
                         </time>
                     </span>
                 </h3>
-                <div className="title">{data[`title${lang}`]}</div>
+                <div className="title">{title}</div>
             </div>
-            <p>{data[`description${lang}`]}</p>
+            <p>{description}</p>
         </>
     );
 };

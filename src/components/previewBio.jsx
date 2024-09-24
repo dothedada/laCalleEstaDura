@@ -1,5 +1,9 @@
+import { uiText } from './txtAndValidations';
+
 const BioPreview = ({ data, lang }) => {
-    return <p>{data[`description${lang}`]}</p>;
+    const description =
+        data[`description${lang}`] || uiText.global.nonTranslated;
+    return <p>{description}</p>;
 };
 
 export default BioPreview;

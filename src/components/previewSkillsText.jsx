@@ -1,5 +1,9 @@
+import { uiText } from './txtAndValidations';
+
 const SkillsTextPreview = ({ data, lang }) => {
-    return <p>{data[`description${lang}`] || 'No ha sido traducido'}</p>;
+    const description =
+        data[`description${lang}`] || uiText.global.nonTranslated;
+    return <p>{description}</p>;
 };
 
 export default SkillsTextPreview;
