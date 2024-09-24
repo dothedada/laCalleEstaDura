@@ -29,15 +29,6 @@ const CardsGroup = ({
             dialogRef.current.open();
         };
 
-    // <DynamicCard
-    //     data={card}
-    //     lang={lang}
-    //     editHandler={openCardForm(card.type, card, true)}
-    //     duplicateHandler={openCardForm(card.type, card, false)}
-    //     inPdf={renderInPdf.has(card.id)}
-    //     inPdfCallback={inPdfHandler(card.id)}
-    //     key={card.id}
-    // />
     return (
         <div>
             <h2>{uiText.global.sections[lang][deckType]}</h2>

@@ -1,13 +1,4 @@
-import { Bar } from './formComponents';
-
-const SkillsListPreview = ({ 
-    data,
-    lang,
-    inPdf,
-    inPdfCallback,
-    editHandler,
-    duplicateHandler,
-}) => {
+const SkillsListPreview = ({ data, lang }) => {
     const listTitle = data?.[`listTitle${lang}`];
     const langIndex = lang === 'Esp' ? 0 : 1;
 
@@ -26,26 +17,14 @@ const SkillsListPreview = ({
     }, []);
 
     return (
-        <div className="card" data-id={data.id} data-inpdf={inPdf}>
-            <Bar
-                data={data}
-                inPdf={inPdf}
-                editHandler={editHandler}
-                duplicateHandler={duplicateHandler}
-                inPdfHandler={inPdfCallback}
-            />
-
-            {inPdf && (
-                <div className="card__preview">
-                    {listTitle && <h3>{listTitle}</h3>}
-                    <ul>
-                        {visibleSkills.map((skill) => (
-                            <li key={skill.id}>{skill.value}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </div>
+        <>
+            {listTitle && <h3>{listTitle}</h3>}
+            <ul>
+                {visibleSkills.map((skill) => (
+                    <li key={skill.id}>{skill.value}</li>
+                ))}
+            </ul>
+        </>
     );
 };
 

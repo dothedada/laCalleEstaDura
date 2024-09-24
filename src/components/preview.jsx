@@ -13,17 +13,6 @@ const Preview = ({ renderInPdf = [], lang = 'Esp' }) => {
     }, {});
 
     const types = Object.keys(arrangedCards);
-    // cargar ids
-    // buscarlas en el ls
-    // ordenarlas grupos de preview
-    //
-    // obtener los visibles
-    // cambiar el preview?
-    // cambiar idioma de previsualización
-    // exportar
-    //
-
-    console.log(arrangedCards);
 
     return (
         <div className="preview">

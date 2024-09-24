@@ -18,7 +18,7 @@ const CardWrapper = ({
                 inPdfHandler={inPdfCallback}
             />
 
-            {inPdf && <div className="card__preview twoCol">{children}</div>}
+            {inPdf && <div className="card__preview">{children}</div>}
         </div>
     );
 };
