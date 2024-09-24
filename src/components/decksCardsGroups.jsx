@@ -2,6 +2,7 @@ import { DynamicCard } from './decksGenerator';
 import { Button } from './formComponents';
 import { uiText } from './txtAndValidations';
 import { DynamicForm } from './decksGenerator';
+import CardWrapper from './cardWrapper';
 
 const CardsGroup = ({
     cards,
@@ -28,20 +29,30 @@ const CardsGroup = ({
             dialogRef.current.open();
         };
 
+    // <DynamicCard
+    //     data={card}
+    //     lang={lang}
+    //     editHandler={openCardForm(card.type, card, true)}
+    //     duplicateHandler={openCardForm(card.type, card, false)}
+    //     inPdf={renderInPdf.has(card.id)}
+    //     inPdfCallback={inPdfHandler(card.id)}
+    //     key={card.id}
+    // />
     return (
         <div>
             <h2>{uiText.global.sections[lang][deckType]}</h2>
 
             {cards?.map((card) => (
-                <DynamicCard
+                <CardWrapper
                     data={card}
-                    lang={lang}
                     editHandler={openCardForm(card.type, card, true)}
                     duplicateHandler={openCardForm(card.type, card, false)}
                     inPdf={renderInPdf.has(card.id)}
                     inPdfCallback={inPdfHandler(card.id)}
                     key={card.id}
-                />
+                >
+                    <DynamicCard data={card} lang={lang} />
+                </CardWrapper>
             ))}
 
             {deckType !== 'skills' ? (

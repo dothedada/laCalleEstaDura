@@ -43,15 +43,12 @@ const DynamicCard = ({
 }) => {
     const CardToRender = cardPreviewMap[data.type] || null;
 
+    // inPdf={inPdf}
+    // inPdfCallback={inPdfCallback}
+    // editHandler={editHandler}
+    // duplicateHandler={duplicateHandler}
     return CardToRender ? (
-        <CardToRender
-            data={data}
-            lang={lang}
-            inPdf={inPdf}
-            inPdfCallback={inPdfCallback}
-            editHandler={editHandler}
-            duplicateHandler={duplicateHandler}
-        />
+        <CardToRender data={data} lang={lang} />
     ) : (
         'tarjeta no encontrada'
     );
