@@ -68,13 +68,17 @@ const deleteData = (startingData, cardsManager) => {
     localStorage.removeItem(startingData.id);
 
     const cardDeck = [...storedCards];
+    const cardDeckName = /^skill/.test(startingData.type)
+        ? 'skills'
+        : startingData.type;
     const cardIndexInDeck = cardDeck.findIndex(
         (cardInDeck) => cardInDeck.id === startingData.id,
     );
+
     cardDeck.splice(cardIndexInDeck, 1);
     setStoredCards((prvCardGroups) => ({
         ...prvCardGroups,
-        [startingData.type]: cardDeck,
+        [cardDeckName]: cardDeck,
     }));
 
     dialogRef.current.close();
@@ -101,7 +105,8 @@ const saveData = (
     }
 
     let card;
-    const cardDeck = [...storedCards];
+    const cardDeck = storedCards ? [...storedCards] : [];
+    const cardDeckName = /^skills/.test(type) ? 'skills' : type;
 
     if (Object.keys(startingData).length > 0) {
         Object.keys(dataToInject).forEach((field) => {
@@ -114,6 +119,7 @@ const saveData = (
         const cardIndexInDeck = cardDeck.findIndex(
             (cardInDeck) => cardInDeck.id === card.id,
         );
+        console.log(cardIndexInDeck, cardDeck);
         cardDeck.splice(cardIndexInDeck, 1, card);
     } else {
         const data = { ...dataToInject, type: type, id: undefined };
@@ -123,7 +129,10 @@ const saveData = (
     }
 
     localStorage.setItem(card.id, JSON.stringify(card));
-    setStoredCards((prvCardGroups) => ({ ...prvCardGroups, [type]: cardDeck }));
+    setStoredCards((prvCardGroups) => ({
+        ...prvCardGroups,
+        [cardDeckName]: cardDeck,
+    }));
     dialogRef.current.close();
     dialogHandler();
 };

@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
 import { Input, ListItem, FormButtons, Fieldset } from './formComponents';
 import { propGenerator, deleteData, saveData } from './formMethods';
 import { uiText } from './txtAndValidations';
@@ -6,17 +7,26 @@ import { uiText } from './txtAndValidations';
 const keygen = () =>
     (Math.floor(Math.random() * 1000) + new Date().getTime()).toString(26);
 
-const SkillsListForm = ({ data, inPdfCallback }) => {
+const SkillsListForm = ({ data, cardsManager, inPdfCallback, update }) => {
     const currentKeygen = keygen();
     const newBlankSkill = { value: '', visible: true, id: currentKeygen };
 
     // Card states
-    const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(() =>
-        startingData
-            ? structuredClone(startingData)
-            : { list: [newBlankSkill] },
+    const initialData = useMemo(() => data ?? {}, [data]);
+    const [startingData, setStartingData] = useState(initialData);
+    const [dataToInject, setDataToInject] = useState(
+        'list' in initialData ? { ...initialData } : { list: [newBlankSkill] },
     );
+
+    // const [dataToInject, setDataToInject] = useState(() =>
+    //     startingData
+    //         ? structuredClone(startingData)
+    //         : { list: [newBlankSkill] },
+    // );
+
+    useEffect(() => {
+        setStartingData(() => (update ? initialData : {}));
+    }, [initialData, update]);
 
     const refs = {
         listTitleEsp: useRef(),
@@ -31,7 +41,7 @@ const SkillsListForm = ({ data, inPdfCallback }) => {
     );
 
     // card handlers
-    const handleDelete = () => deleteData(startingData);
+    const handleDelete = () => deleteData(startingData, cardsManager);
     const handleReset = () => {
         setDataToInject(() => startingData ?? { list: [newBlankSkill] });
     };
@@ -50,7 +60,7 @@ const SkillsListForm = ({ data, inPdfCallback }) => {
             [],
             // setters
             {
-                setDataToInject,
+                cardsManager,
             },
         );
 
@@ -128,7 +138,7 @@ const SkillsListForm = ({ data, inPdfCallback }) => {
             <hr />
 
             <FormButtons
-                previousData={startingData}
+                previousData={update}
                 deleteCallback={handleDelete}
                 resetCallback={handleReset}
                 saveCallback={handleSave}

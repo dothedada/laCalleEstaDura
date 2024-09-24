@@ -43,7 +43,6 @@ const ProfileForm = ({ data, cardsManager, inPdfCallback, update }) => {
             [],
             // setters
             {
-                setStartingData,
                 cardsManager,
             },
         );

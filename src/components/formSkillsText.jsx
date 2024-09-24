@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Input, FormButtons, Fieldset } from './formComponents';
 import { inputValidation, uiText } from './txtAndValidations.js';
@@ -9,11 +9,14 @@ import {
     saveData,
 } from './formMethods.js';
 
-const SkillsTextForm = ({ data, inPdfCallback }) => {
-    const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(() =>
-        startingData ? structuredClone(startingData) : {},
-    );
+const SkillsTextForm = ({ data, cardsManager, inPdfCallback, update }) => {
+    const initialData = useMemo(() => data ?? {}, [data]);
+    const [startingData, setStartingData] = useState(initialData);
+    const [dataToInject, setDataToInject] = useState({ ...initialData });
+
+    useEffect(() => {
+        setStartingData(() => (update ? initialData : {}));
+    }, [initialData, update]);
 
     // form inputs
     const refs = {
@@ -28,7 +31,7 @@ const SkillsTextForm = ({ data, inPdfCallback }) => {
     );
 
     // card handlers
-    const handleDelete = () => deleteData(startingData);
+    const handleDelete = () => deleteData(startingData, cardsManager);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
@@ -40,7 +43,7 @@ const SkillsTextForm = ({ data, inPdfCallback }) => {
             [],
             // setters
             {
-                setDataToInject,
+                cardsManager,
             },
         );
         inPdfCallback();
@@ -75,7 +78,7 @@ const SkillsTextForm = ({ data, inPdfCallback }) => {
             </Fieldset>
 
             <FormButtons
-                previousData={startingData}
+                previousData={update}
                 deleteCallback={handleDelete}
                 resetCallback={handleReset}
                 saveCallback={handleSave}

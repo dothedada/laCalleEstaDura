@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Input, FormButtons, Fieldset } from './formComponents';
 // import { ExperiencePreview } from './previewCards.jsx';
@@ -15,12 +15,15 @@ import {
     getFieldValidation,
 } from './formMethods.js';
 
-const ExperienceForm = ({ data, inPdfCallback }) => {
-    const [startingData] = useState(data || undefined);
-    const [dataToInject, setDataToInject] = useState(() =>
-        startingData ? structuredClone(startingData) : {},
-    );
+const ExperienceForm = ({ data, cardsManager, inPdfCallback, update }) => {
+    const initialData = useMemo(() => data ?? {}, [data]);
+    const [startingData, setStartingData] = useState(initialData);
+    const [dataToInject, setDataToInject] = useState({ ...initialData });
     const [globalValidations, setGlobalValidations] = useState([]);
+
+    useEffect(() => {
+        setStartingData(() => (update ? initialData : {}));
+    }, [initialData, update]);
 
     // form inputs
     const refs = {
@@ -40,7 +43,7 @@ const ExperienceForm = ({ data, inPdfCallback }) => {
     );
 
     // card handlers
-    const handleDelete = () => deleteData(startingData);
+    const handleDelete = () => deleteData(startingData, cardsManager);
     const handleReset = () => resetData(startingData, setDataToInject);
     const handleSave = () => {
         saveData(
@@ -53,7 +56,7 @@ const ExperienceForm = ({ data, inPdfCallback }) => {
             // setters
             {
                 setGlobalValidations,
-                setDataToInject,
+                cardsManager,
             },
         );
         inPdfCallback();
@@ -128,7 +131,7 @@ const ExperienceForm = ({ data, inPdfCallback }) => {
             </Fieldset>
 
             <FormButtons
-                previousData={startingData}
+                previousData={update}
                 deleteCallback={handleDelete}
                 resetCallback={handleReset}
                 saveCallback={handleSave}
