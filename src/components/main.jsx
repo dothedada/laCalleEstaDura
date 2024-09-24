@@ -6,14 +6,11 @@ import { DeckManager } from './decksManager';
 import { Deck } from '../js/deck';
 
 // TODO:
-// 3. Habilitar botones de la barra de las tarjetas
-//      - copiar,
-//      - eliminar
-//      - guardar
-//      - actualización del deck segun cambios de la tarjeta
 // 5. creacion de la vista previa renderizada
 // 6. creación del pdf
-// 7. revisar textos UI
+// 7. orden de las tarjetas
+// 7. revisar textos y UI
+// 8. montar en vercel
 
 const deck = new Deck();
 

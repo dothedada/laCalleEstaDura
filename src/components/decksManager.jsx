@@ -4,6 +4,7 @@ import { Dialog } from './formComponents';
 import { Globals } from './globals';
 import { DeckMenu } from './decksMenu';
 import CardsGroup from './decksCardsGroups';
+import { Preview } from './preview';
 
 const cardTypes = [
     'profile',
@@ -38,10 +39,15 @@ const DeckManager = ({ deck }) => {
         });
     };
 
+    const previewHandler = () => {
+        formDialog.current.open();
+        setFormFields(<Preview renderInPdf={renderInPdf} lang={lang} />);
+    };
+
     return (
         <div className="decks">
             <div className="cv-selector">
-                <Globals />
+                <Globals viewCallback={previewHandler} />
 
                 <DeckMenu
                     data={deck}

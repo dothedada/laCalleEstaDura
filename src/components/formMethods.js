@@ -119,7 +119,6 @@ const saveData = (
         const cardIndexInDeck = cardDeck.findIndex(
             (cardInDeck) => cardInDeck.id === card.id,
         );
-        console.log(cardIndexInDeck, cardDeck);
         cardDeck.splice(cardIndexInDeck, 1, card);
     } else {
         const data = { ...dataToInject, type: type, id: undefined };
