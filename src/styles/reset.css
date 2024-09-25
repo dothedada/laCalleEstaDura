@@ -7,6 +7,8 @@
     --warn: hsl(34, 67%, 30%);
     --error: hsl(344, 100%, 28%);
     --highlight: hsl(240, 63%, 46%);
+    --papper: hsl(0, 100%, 100%);
+    --ink: hsl(0, 0%, 0%);
 
     /* --text: #7ebaa7;
     --background: #110425;

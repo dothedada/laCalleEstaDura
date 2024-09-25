@@ -5,7 +5,7 @@ const ProfilePreview = ({ data, lang }) => {
     return (
         <>
             <div>
-                <h2 className="name">{data.name}</h2>
+                <h1 className="name">{data.name}</h1>
                 <div className="title">{title}</div>
             </div>
             <div>

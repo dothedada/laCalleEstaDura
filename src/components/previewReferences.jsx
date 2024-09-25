@@ -3,15 +3,16 @@ import { uiText } from './txtAndValidations';
 const ReferencesPreview = ({ data, lang }) => {
     const title = data[`title${lang}`] || uiText.global.nonTranslated;
     return (
-        <>
-            <h3>{data.name}</h3>
-            <div>{title}</div>
+        <div>
+            <h3>
+                {data.name} <span className="secondary">{title}</span>
+            </h3>
             <div>
                 <a href={`mailto:${data.email}`}>{data.email}</a>
-                {uiText.global.separator.type2}
+                <br />
                 {data.phone}
             </div>
-        </>
+        </div>
     );
 };
 

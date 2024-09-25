@@ -3,11 +3,12 @@ import { uiText } from './txtAndValidations';
 
 const EducationPreview = ({ data, lang }) => {
     const title = data[`title${lang}`] || uiText.global.nonTranslated;
+
     return (
-        <>
+        <div>
             <h3>{title}</h3>
             <p>
-                {data.place} (
+                {data.place} <br />(
                 <time dateTime={dateLabel(data.timeStart)}>
                     {formatDate(data.timeStart, lang)}
                 </time>
@@ -17,7 +18,7 @@ const EducationPreview = ({ data, lang }) => {
                 </time>
                 )
             </p>
-        </>
+        </div>
     );
 };
 

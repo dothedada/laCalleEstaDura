@@ -44,8 +44,17 @@ export const formValidation = {
 };
 
 // misc functions
+export const cardTypesInOrder = [
+    'profile',
+    'bio',
+    'experience',
+    'skills',
+    'education',
+    'references',
+];
+
 export const findInString = {
-    month: /\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b/,
+    month: /\b(1[0-2]|0?[1-9]|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b/i,
     year: /\b(\d{4})\b/,
 };
 

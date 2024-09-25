@@ -5,15 +5,7 @@ import { Globals } from './globals';
 import { DeckMenu } from './decksMenu';
 import CardsGroup from './decksCardsGroups';
 import { Preview } from './preview';
-
-const cardTypes = [
-    'profile',
-    'bio',
-    'experience',
-    'skills',
-    'education',
-    'references',
-];
+import { cardTypesInOrder } from './txtAndValidations';
 
 const DeckManager = ({ deck }) => {
     const [renderInPdf, setRenderInPdf] = useState(new Set());
@@ -41,7 +33,13 @@ const DeckManager = ({ deck }) => {
 
     const previewHandler = () => {
         formDialog.current.open();
-        setFormFields(<Preview renderInPdf={renderInPdf} lang={lang} />);
+        setFormFields(
+            <Preview
+                deck={deck.cardsGroups}
+                renderInPdf={renderInPdf}
+                lang={lang}
+            />,
+        );
     };
 
     return (
@@ -59,7 +57,7 @@ const DeckManager = ({ deck }) => {
                 />
             </div>
 
-            {cardTypes.map((cardType) => (
+            {cardTypesInOrder.map((cardType) => (
                 <CardsGroup
                     cards={storedCards[cardType]}
                     cardsManager={{

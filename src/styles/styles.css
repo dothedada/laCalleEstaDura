@@ -14,6 +14,7 @@ p {
 }
 h3 {
     font-style: italic;
+    text-wrap: balance;
 
     .secondary {
         font-style: italic;
@@ -206,6 +207,65 @@ svg {
 
     > button {
         align-self: flex-end;
+    }
+}
+
+.preview {
+    font-size: min(14px, 1.6cqw);
+    line-height: 1.2;
+    aspect-ratio: 8.5 / 11;
+    padding: 3.5% 7.15%;
+    border: 1px solid var(--text);
+    background-color: var(--papper);
+    color: var(--ink);
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.5em;
+    row-gap: 1.2em;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2em;
+        margin: 0;
+        padding: 0;
+    }
+    > .profile,
+    > .bio {
+        grid-column: span 2;
+    }
+
+    h1 {
+        font-size: 2.625em;
+    }
+
+    > .profile {
+        align-items: end;
+    }
+
+    > .bio {
+        border-bottom: 1px solid var(--ink);
+    }
+
+    > .profile {
+        display: grid;
+        grid-template-columns: 75% 25%;
+    }
+
+    .title {
+        font-weight: 700;
+    }
+    .section {
+        margin: 0 0 -1em;
+    }
+    & h2,
+    & h3,
+    & p,
+    & a {
+        max-width: unset;
+        font-size: 1em;
+        line-height: inherit;
     }
 }
 

@@ -1,31 +1,31 @@
-import CardsGroup from './decksCardsGroups';
+import { useEffect } from 'react';
 import { DynamicCard } from './decksGenerator';
+import { cardTypesInOrder, uiText } from './txtAndValidations';
 
-const Preview = ({ renderInPdf = [], lang = 'Esp' }) => {
-    const arrangedCards = [...renderInPdf].reduce((decks, cardId) => {
-        const card = JSON.parse(localStorage.getItem(cardId));
-        const cardType = /^skills/.test(card.type) ? 'skills' : card.type;
-
-        decks[cardType] = decks[cardType] || [];
-        decks[cardType].push(card);
-
-        return decks;
-    }, {});
-
-    const types = Object.keys(arrangedCards);
+const Preview = ({ deck, renderInPdf = new Set(), lang = 'Esp' }) => {
+    const cardsByType = (type) => {
+        return deck[type].map((card) =>
+            renderInPdf.has(card.id) ? (
+                <DynamicCard
+                    data={card}
+                    inPdf={true}
+                    lang={lang}
+                    key={card.id}
+                />
+            ) : null,
+        );
+    };
 
     return (
         <div className="preview">
-            {types.map((type) => (
-                <div className={`preview ${type}`} key={type}>
-                    {arrangedCards[type].map((card) => (
-                        <DynamicCard
-                            data={card}
-                            inPdf={true}
-                            lang={lang}
-                            key={card.id}
-                        />
-                    ))}
+            {cardTypesInOrder.map((type) => (
+                <div className={`${type}`} key={type}>
+                    {!/^profile|^bio/.test(type) && (
+                        <h2 className="section">
+                            {uiText.global.sections[lang][type]}
+                        </h2>
+                    )}
+                    {cardsByType(type)}
                 </div>
             ))}
         </div>
