@@ -21,12 +21,15 @@ const Globals = ({
                 reader={uiText.global.deck.importData.reader}
                 callback={importCallback}
             />
-            <Button
-                type="reset"
-                text={uiText.global.deck.viewCV.text}
-                reader={uiText.global.deck.viewCV.reader}
-                callback={viewCallback}
-            />
+
+            {viewCallback && (
+                <Button
+                    type="reset"
+                    text={uiText.global.deck.viewCV.text}
+                    reader={uiText.global.deck.viewCV.reader}
+                    callback={viewCallback}
+                />
+            )}
             <Button
                 type="button"
                 text={uiText.global.deck.downloadCV.text}

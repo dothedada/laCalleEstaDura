@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DynamicCard } from './decksGenerator';
 import { cardTypesInOrder, uiText } from './txtAndValidations';
 
 const Preview = ({ deck, renderInPdf, lang = 'Esp' }) => {
     const [overflow, setOverflow] = useState(false);
     const page = useRef(null);
+
     const cardsByType = (type) => {
         return deck[type].map((card) =>
             renderInPdf.has(card.id) ? (

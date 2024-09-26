@@ -45,7 +45,9 @@ const DeckManager = ({ deck }) => {
     return (
         <div className="decks">
             <div className="cv-selector">
-                <Globals viewCallback={previewHandler} />
+                <Globals
+                    viewCallback={renderInPdf.size ? previewHandler : undefined}
+                />
 
                 <DeckMenu
                     data={deck}
