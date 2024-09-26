@@ -19,14 +19,14 @@ const SkillsListPreview = ({ data, lang }) => {
     }, []);
 
     return (
-        <>
+        <div>
             {listTitle && <h3>{listTitle}</h3>}
             <ul>
                 {visibleSkills.map((skill) => (
                     <li key={skill.id}>{skill.value}</li>
                 ))}
             </ul>
-        </>
+        </div>
     );
 };
 

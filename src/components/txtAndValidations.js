@@ -145,6 +145,8 @@ export const uiText = {
             type2: ' • ',
         },
         dialog: {
+            previewOverflow:
+                'El texto del CV excede el tamaño de la hoja de vida',
             removeDeckForm: {
                 text: (id) =>
                     `¿Realmente quieres borrar la hoja de vida ${id}?`,

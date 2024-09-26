@@ -208,6 +208,12 @@ svg {
     > button {
         align-self: flex-end;
     }
+
+    & .overflow__text {
+        text-align: center;
+        color: var(--error);
+        font-size: 1.5rem;
+    }
 }
 
 .preview {
@@ -223,6 +229,11 @@ svg {
     grid-template-columns: 1fr 1fr;
     column-gap: 1.5em;
     row-gap: 1.2em;
+
+    &.overflow {
+        color: var(--error);
+        border-bottom: 1rem solid var(--error);
+    }
 
     > * {
         display: flex;
@@ -266,6 +277,14 @@ svg {
         max-width: unset;
         font-size: 1em;
         line-height: inherit;
+    }
+
+    & li {
+        display: inline;
+
+        + li::before {
+            content: ' | ';
+        }
     }
 }
 

@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { DynamicCard } from './decksGenerator';
 import { cardTypesInOrder, uiText } from './txtAndValidations';
 
-const Preview = ({ deck, renderInPdf = new Set(), lang = 'Esp' }) => {
+const Preview = ({ deck, renderInPdf, lang = 'Esp' }) => {
+    const [overflow, setOverflow] = useState(false);
+    const page = useRef(null);
     const cardsByType = (type) => {
         return deck[type].map((card) =>
             renderInPdf.has(card.id) ? (
@@ -16,19 +18,32 @@ const Preview = ({ deck, renderInPdf = new Set(), lang = 'Esp' }) => {
         );
     };
 
+    useEffect(() => {
+        if (page.current) {
+            setOverflow(page.current.scrollHeight > page.current.clientHeight);
+        }
+    }, [page]);
+
     return (
-        <div className="preview">
-            {cardTypesInOrder.map((type) => (
-                <div className={`${type}`} key={type}>
-                    {!/^profile|^bio/.test(type) && (
-                        <h2 className="section">
-                            {uiText.global.sections[lang][type]}
-                        </h2>
-                    )}
-                    {cardsByType(type)}
+        <>
+            {overflow && (
+                <div className="overflow__text">
+                    {uiText.global.dialog.previewOverflow}
                 </div>
-            ))}
-        </div>
+            )}
+            <div className={`preview${overflow ? ' overflow' : ''}`} ref={page}>
+                {cardTypesInOrder.map((type) => (
+                    <div className={`${type}`} key={type}>
+                        {!/^profile|^bio/.test(type) && (
+                            <h2 className="section">
+                                {uiText.global.sections[lang][type]}
+                            </h2>
+                        )}
+                        {cardsByType(type)}
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
 
