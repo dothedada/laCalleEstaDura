@@ -135,12 +135,14 @@ const DeckMenu = ({
             </div>
 
             <div className="cv-actions">
-                <Button
-                    type="warn"
-                    text={uiText.global.deck.deleteModel.text}
-                    reader={uiText.global.deck.deleteModel.reader}
-                    callback={removeDeck}
-                />
+                {optionSets.current.value !== '' && (
+                    <Button
+                        type="warn"
+                        text={uiText.global.deck.deleteModel.text}
+                        reader={uiText.global.deck.deleteModel.reader}
+                        callback={removeDeck}
+                    />
+                )}
                 <Button
                     type="reset"
                     text={uiText.global.deck.createModel.text}
