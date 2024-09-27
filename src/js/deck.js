@@ -75,7 +75,7 @@ export class Deck {
         const randomHex = Math.floor(Math.random() * 1000000).toString(16);
         const timeSignature = Number(new Date().getTime()).toString(16);
 
-        return `${sanitizedName}_${randomHex}_${timeSignature}`;
+        return `CV_${sanitizedName}_${randomHex}_${timeSignature}`;
     }
 
     getCardsOfDeck(deckId) {
