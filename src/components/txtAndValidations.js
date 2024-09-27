@@ -175,6 +175,25 @@ export const uiText = {
                 reader: 'cerrar esta ventana',
                 text: 'X',
             },
+            upload: {
+                cards: {
+                    label: 'selecciona el archivo con las tarjetas que deseas subir',
+                    parse: 'Evaluar el archivo',
+                    importNew: 'Importar sólo las tarjetas nuevas',
+                    importAll: 'Importar y sobreescribir',
+                    cancel: 'Cancelar',
+                    total: (inFile, type) =>
+                        `${inFile} ${
+                            type === 'CVs'
+                                ? `estructura${inFile > 1 ? 's' : ''} de CVs en el archivo.`
+                                : `tarjeta${inFile > 1 ? 's' : ''} en el archivo.`
+                        }`,
+                    inLS: (inLS) =>
+                        `De las cuales ${inLS} ya se encuentran en el dispositivo.`,
+                    substitutionWarn: (type, inFile) =>
+                        `${type === 'CVs' ? 'CV' : 'Tarjeta'}${inFile > 1 ? 's' : ''} que serían sobreescritas: `,
+                },
+            },
         },
         deck: {
             importData: {

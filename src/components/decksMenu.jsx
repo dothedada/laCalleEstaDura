@@ -26,6 +26,7 @@ const DeckMenu = ({
         if (!activeSet) return;
 
         const currentSet = decks.find((set) => set.id === activeSet);
+        setCurrentDeck(activeSet);
         cardsInPdfCallback(new Set(currentSet.cardsIds));
     };
 
@@ -91,7 +92,6 @@ const DeckMenu = ({
             />,
         );
     };
-
     return (
         <>
             <div className="cv-picker">
@@ -135,7 +135,7 @@ const DeckMenu = ({
             </div>
 
             <div className="cv-actions">
-                {optionSets.current.value !== '' && (
+                {currentDeck !== '' && (
                     <Button
                         type="warn"
                         text={uiText.global.deck.deleteModel.text}

@@ -18,7 +18,8 @@ export const arrangeItemsInFile = (from) => {
     );
 };
 
-export const newItems = (from, comparedTo = [], key) => {
+export const newItems = (from, key) => {
+    const comparedTo = Object.keys(localStorage);
     return [...from[key]].reduce(
         (acum, current) => {
             const isOnLs = comparedTo.includes(current) ? 1 : 0;
@@ -29,28 +30,22 @@ export const newItems = (from, comparedTo = [], key) => {
     );
 };
 
-export const makeInventory = (dataOnFile, lsInventory) => {
+export const makeInventory = (dataOnFile) => {
     const fileInventory = arrangeItemsInFile(dataOnFile.map((card) => card.id));
-    const [newCVs, duplicatedCVs] = newItems(fileInventory, lsInventory, 'CVs');
-    const [newCards, duplicatedCards] = newItems(
-        fileInventory,
-        lsInventory,
-        'cards',
-    );
+    const [newCVs, duplicatedCVs] = newItems(fileInventory, 'CVs');
+    const [newCards, duplicatedCards] = newItems(fileInventory, 'cards');
     return {
         cvsInFile: fileInventory.CVs.size,
         cardsInFile: fileInventory.cards.size,
         newCVs: newCVs.length,
         newCards: newCards.length,
-        duplicatedCVs: duplicatedCVs.map(
-            (duplicatedCV) => localStorage.getItem(duplicatedCV).name,
-        ),
+        duplicatedCVs: duplicatedCVs.map((duplicatedCV) => {
+            const cvsInLs = JSON.parse(localStorage.getItem(duplicatedCV));
+            return cvsInLs.name;
+        }),
         duplicatedCards: duplicatedCards.map((duplicatedCard) => {
             const cardInLs = JSON.parse(localStorage.getItem(duplicatedCard));
-            const cardInFile = dataOnFile.find(
-                (card) => card.id === duplicatedCard,
-            );
-            return [cardInLs.reference, cardInFile.reference];
+            return cardInLs.reference;
         }),
     };
 };

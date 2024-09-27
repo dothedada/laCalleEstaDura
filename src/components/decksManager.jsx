@@ -65,7 +65,7 @@ const DeckManager = ({ deck }) => {
 
     const importHandler = () => {
         dialogComp.current.open();
-        setDialogData(<UploadFileSession text="archivo" />);
+        setDialogData(<UploadFileSession fileType="cards" />);
     };
 
     return (

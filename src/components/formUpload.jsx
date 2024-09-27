@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { parseFile, makeInventory } from './fileMethods';
+import { uiText } from './txtAndValidations';
+import { Button } from './formComponents';
+import PreviewCardsUpload from './previewUpload';
 
-const UploadFileSession = ({ text }) => {
+const UploadFileSession = ({ fileType }) => {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [parsedData, setParsedData] = useState();
     const [loadStats, setLoadStats] = useState(null);
@@ -16,12 +19,12 @@ const UploadFileSession = ({ text }) => {
         try {
             const returnedData = await parseFile(uploadedFile);
             const dataOnFile = JSON.parse(returnedData.result);
-            const lsInventory = Object.keys(localStorage);
 
-            setLoadStats(makeInventory(dataOnFile, lsInventory));
+            setParsedData(dataOnFile);
+            setLoadStats(makeInventory(dataOnFile));
         } catch (err) {
             setLoadStats();
-            console.log('error en la lectura del archivo: ', err);
+            throw Error('error en la lectura del archivo: ', err);
         }
     };
 
@@ -29,34 +32,31 @@ const UploadFileSession = ({ text }) => {
         <div>
             <form action="">
                 <label>
-                    Selecciona {text} que quieres subir
+                    {uiText.global.dialog.upload[fileType].label}
                     <input type="file" onChange={handleChange} />
                 </label>
 
                 {uploadedFile && (
-                    <button type="button" onClick={loadData}>
-                        Cargar
-                    </button>
+                    <Button
+                        type="button"
+                        text={uiText.global.dialog.upload.cards.parse}
+                        callback={loadData}
+                    />
                 )}
 
                 {loadStats && (
-                    <div>
-                        <div>
-                            En el archivo hay {loadStats.cvsInFile} estructura
-                            {loadStats.cvsInFile > 1 ? 's ' : ' '}
-                            de hoja de vida
-                            {loadStats.duplicatedCVs.length
-                                ? `, donde ${loadStats.duplicatedCVs.length} ya se encuentran en el dispositivo`
-                                : ` nueva${loadStats.duplicatedCVs.length > 1 ? 's' : ''}.`}
-                        </div>
-                        <div>
-                            En el archivo hay {loadStats.cardsInFile} tarjeta
-                            {loadStats.cardsInFile > 1 ? 's ' : ' '}
-                            {loadStats.duplicatedCards.length
-                                ? `, donde ${loadStats.duplicatedCards.length} ya se encuentran en el dispositivo`
-                                : ` nueva${loadStats.duplicatedCards.length > 1 ? 's' : ''}.`}
-                        </div>
-                    </div>
+                    <>
+                        <PreviewCardsUpload stats={loadStats} />
+                        <Button
+                            text={uiText.global.dialog.upload.cards.importNew}
+                        />
+                        <Button
+                            text={uiText.global.dialog.upload.cards.importAll}
+                        />
+                        <Button
+                            text={uiText.global.dialog.upload.cards.cancel}
+                        />
+                    </>
                 )}
             </form>
         </div>
