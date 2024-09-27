@@ -8,7 +8,7 @@ export const parseFile = (file) =>
         fileReader.readAsText(file, 'text/plain');
     });
 
-export const makeInventory = (from) => {
+export const arrangeItemsInFile = (from) => {
     return [...from].reduce(
         (arrange, item) => {
             arrange[/^CV|^[a-zA-Z]/.test(item) ? 'CVs' : 'cards'].add(item);
@@ -18,10 +18,10 @@ export const makeInventory = (from) => {
     );
 };
 
-export const newItems = (from, comparedTo, key) => {
+export const newItems = (from, comparedTo = [], key) => {
     return [...from[key]].reduce(
         (acum, current) => {
-            const isOnLs = comparedTo[key].has(current) ? 1 : 0;
+            const isOnLs = comparedTo.includes(current) ? 1 : 0;
             acum[isOnLs].push(current);
             return acum;
         },
@@ -29,15 +29,14 @@ export const newItems = (from, comparedTo, key) => {
     );
 };
 
-export const inventory = (dataOnFile, lsInventory) => {
-    const fileInventory = makeInventory(dataOnFile.map((card) => card.id));
+export const makeInventory = (dataOnFile, lsInventory) => {
+    const fileInventory = arrangeItemsInFile(dataOnFile.map((card) => card.id));
     const [newCVs, duplicatedCVs] = newItems(fileInventory, lsInventory, 'CVs');
     const [newCards, duplicatedCards] = newItems(
         fileInventory,
         lsInventory,
         'cards',
     );
-
     return {
         cvsInFile: fileInventory.CVs.size,
         cardsInFile: fileInventory.cards.size,
