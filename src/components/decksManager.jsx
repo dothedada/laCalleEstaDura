@@ -6,6 +6,7 @@ import { DeckMenu } from './decksMenu';
 import CardsGroup from './decksCardsGroups';
 import { Preview } from './preview';
 import { cardTypesInOrder } from './txtAndValidations';
+import { UploadFileSession } from './formUpload';
 
 const DeckManager = ({ deck }) => {
     const [renderInPdf, setRenderInPdf] = useState(new Set());
@@ -14,8 +15,8 @@ const DeckManager = ({ deck }) => {
     // al agregar o eliminar tarjeta, modificar storecards para forzar rerender
     const [storedCards, setStoredCards] = useState(deck.cardsGroups);
 
-    const formDialog = useRef(null);
-    const [formFields, setFormFields] = useState(null);
+    const dialogComp = useRef(null);
+    const [dialogData, setDialogData] = useState(null);
 
     const changeLang = () => {
         setLang((prvLang) => (prvLang === 'Esp' ? 'Eng' : 'Esp'));
@@ -32,8 +33,8 @@ const DeckManager = ({ deck }) => {
     };
 
     const previewHandler = () => {
-        formDialog.current.open();
-        setFormFields(
+        dialogComp.current.open();
+        setDialogData(
             <Preview
                 deck={deck.cardsGroups}
                 renderInPdf={renderInPdf}
@@ -46,7 +47,11 @@ const DeckManager = ({ deck }) => {
         const filename = `myCVcards_${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.txt`;
 
         // la parte para comprimir
-        const cardsInString = new Blob([JSON.stringify(deck)], {
+        const cardsIdsOnLS = Object.keys(localStorage);
+        const cardsOnLs = cardsIdsOnLS.map((cardId) =>
+            JSON.parse(localStorage.getItem(cardId)),
+        );
+        const cardsInString = new Blob([JSON.stringify(cardsOnLs)], {
             type: 'text/plain',
         });
 
@@ -58,12 +63,18 @@ const DeckManager = ({ deck }) => {
         URL.revokeObjectURL(cardsUrl);
     };
 
+    const importHandler = () => {
+        dialogComp.current.open();
+        setDialogData(<UploadFileSession text="archivo" />);
+    };
+
     return (
         <div className="decks">
             <div className="cv-selector">
                 <Globals
                     viewCallback={renderInPdf.size ? previewHandler : undefined}
                     exportCallback={exportHandler}
+                    importCallback={importHandler}
                 />
 
                 <DeckMenu
@@ -71,8 +82,8 @@ const DeckManager = ({ deck }) => {
                     cardsInPdfCallback={setRenderInPdf}
                     lang={lang}
                     langCallback={changeLang}
-                    dialogRef={formDialog}
-                    dialogHandler={setFormFields}
+                    dialogRef={dialogComp}
+                    dialogHandler={setDialogData}
                 />
             </div>
 
@@ -82,21 +93,21 @@ const DeckManager = ({ deck }) => {
                     cardsManager={{
                         storedCards: storedCards[cardType],
                         setStoredCards,
-                        dialogRef: formDialog,
-                        dialogHandler: setFormFields,
+                        dialogRef: dialogComp,
+                        dialogHandler: setDialogData,
                     }}
                     deckType={cardType}
                     lang={lang}
                     renderInPdf={renderInPdf}
                     inPdfHandler={inPdfHandler}
-                    dialogRef={formDialog}
-                    dialogHandler={setFormFields}
+                    dialogRef={dialogComp}
+                    dialogHandler={setDialogData}
                     key={cardType}
                 />
             ))}
 
-            <Dialog ref={formDialog} dialogSetter={setFormFields}>
-                {formFields}
+            <Dialog ref={dialogComp} dialogSetter={setDialogData}>
+                {dialogData}
             </Dialog>
         </div>
     );

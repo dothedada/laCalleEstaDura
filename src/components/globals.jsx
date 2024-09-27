@@ -15,6 +15,7 @@ const Globals = ({
                 reader={uiText.global.deck.exportData.reader}
                 callback={exportCallback}
             />
+
             <Button
                 type="reset"
                 text={uiText.global.deck.importData.text}
