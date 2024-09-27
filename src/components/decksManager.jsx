@@ -42,11 +42,28 @@ const DeckManager = ({ deck }) => {
         );
     };
 
+    const exportHandler = () => {
+        const filename = `myCVcards_${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}.txt`;
+
+        // la parte para comprimir
+        const cardsInString = new Blob([JSON.stringify(deck)], {
+            type: 'text/plain',
+        });
+
+        const cardsUrl = URL.createObjectURL(cardsInString);
+        const virtualLink = document.createElement('a');
+        virtualLink.href = cardsUrl;
+        virtualLink.download = filename;
+        virtualLink.click();
+        URL.revokeObjectURL(cardsUrl);
+    };
+
     return (
         <div className="decks">
             <div className="cv-selector">
                 <Globals
                     viewCallback={renderInPdf.size ? previewHandler : undefined}
+                    exportCallback={exportHandler}
                 />
 
                 <DeckMenu
