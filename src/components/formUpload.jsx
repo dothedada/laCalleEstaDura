@@ -4,7 +4,7 @@ import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
 import PreviewCardsUpload from './previewUpload';
 
-const UploadFileSession = ({ fileType, deckUpdateCallback }) => {
+const UploadFileSession = ({ fileType }) => {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [parsedData, setParsedData] = useState();
     const [loadStats, setLoadStats] = useState(null);
@@ -38,7 +38,10 @@ const UploadFileSession = ({ fileType, deckUpdateCallback }) => {
     };
 
     const importAll = () => {
-        console.log(parsedData);
+        parsedData.forEach((card) => {
+            localStorage.setItem(card.id, JSON.stringify(card));
+        });
+        location.reload();
     };
 
     return (
