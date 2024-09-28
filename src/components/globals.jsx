@@ -9,7 +9,7 @@ const Globals = ({
 }) => {
     return (
         <div className="cv-globals">
-            {Object.keys(localStorage).length && (
+            {Object.keys(localStorage).length > 0 && (
                 <Button
                     type="reset"
                     text={uiText.global.deck.exportData.text}
