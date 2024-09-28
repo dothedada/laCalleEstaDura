@@ -32,7 +32,11 @@ const Preview = ({ deck, renderInPdf, lang = 'Esp' }) => {
                     {uiText.global.dialog.previewOverflow}
                 </div>
             )}
-            <div className={`preview${overflow ? ' overflow' : ''}`} ref={page}>
+            <div
+                id="toPDF"
+                className={`preview${overflow ? ' overflow' : ''}`}
+                ref={page}
+            >
                 {cardTypesInOrder.map((type) => (
                     <div className={`${type}`} key={type}>
                         {!/^profile|^bio/.test(type) && (

@@ -4,7 +4,7 @@ import { uiText } from './txtAndValidations';
 import { Button } from './formComponents';
 import PreviewCardsUpload from './previewUpload';
 
-const UploadFileSession = ({ fileType }) => {
+const UploadFileSession = ({ fileType, deckUpdateCallback }) => {
     const [uploadedFile, setUploadedFile] = useState(null);
     const [parsedData, setParsedData] = useState();
     const [loadStats, setLoadStats] = useState(null);
@@ -28,6 +28,18 @@ const UploadFileSession = ({ fileType }) => {
         }
     };
 
+    const importNew = () => {
+        parsedData.forEach((card) => {
+            if (!loadStats.duplicatedItems.has(card.id)) {
+                console.log(card);
+            }
+        });
+    };
+
+    const importAll = () => {
+        console.log(parsedData);
+    };
+
     return (
         <div>
             <form action="">
@@ -49,9 +61,13 @@ const UploadFileSession = ({ fileType }) => {
                         <PreviewCardsUpload stats={loadStats} />
                         <Button
                             text={uiText.global.dialog.upload.cards.importNew}
+                            callback={importNew}
+                            type="button"
                         />
                         <Button
                             text={uiText.global.dialog.upload.cards.importAll}
+                            callback={importAll}
+                            type="button"
                         />
                         <Button
                             text={uiText.global.dialog.upload.cards.cancel}

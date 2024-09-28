@@ -34,6 +34,8 @@ export const makeInventory = (dataOnFile) => {
     const fileInventory = arrangeItemsInFile(dataOnFile.map((card) => card.id));
     const [newCVs, duplicatedCVs] = newItems(fileInventory, 'CVs');
     const [newCards, duplicatedCards] = newItems(fileInventory, 'cards');
+    const duplicatedItems = new Set([...duplicatedCards, ...duplicatedCVs]);
+
     return {
         cvsInFile: fileInventory.CVs.size,
         cardsInFile: fileInventory.cards.size,
@@ -47,5 +49,6 @@ export const makeInventory = (dataOnFile) => {
             const cardInLs = JSON.parse(localStorage.getItem(duplicatedCard));
             return cardInLs.reference;
         }),
+        duplicatedItems,
     };
 };

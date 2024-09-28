@@ -9,12 +9,14 @@ const Globals = ({
 }) => {
     return (
         <div className="cv-globals">
-            <Button
-                type="reset"
-                text={uiText.global.deck.exportData.text}
-                reader={uiText.global.deck.exportData.reader}
-                callback={exportCallback}
-            />
+            {Object.keys(localStorage).length && (
+                <Button
+                    type="reset"
+                    text={uiText.global.deck.exportData.text}
+                    reader={uiText.global.deck.exportData.reader}
+                    callback={exportCallback}
+                />
+            )}
 
             <Button
                 type="reset"
@@ -31,12 +33,14 @@ const Globals = ({
                     callback={viewCallback}
                 />
             )}
-            <Button
-                type="button"
-                text={uiText.global.deck.downloadCV.text}
-                reader={uiText.global.deck.downloadCV.reader}
-                callback={downloadCallback}
-            />
+            {downloadCallback && (
+                <Button
+                    type="button"
+                    text={uiText.global.deck.downloadCV.text}
+                    reader={uiText.global.deck.downloadCV.reader}
+                    callback={downloadCallback}
+                />
+            )}
         </div>
     );
 };

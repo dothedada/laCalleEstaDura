@@ -189,7 +189,7 @@ export const uiText = {
                                 : `tarjeta${inFile > 1 ? 's' : ''} en el archivo.`
                         }`,
                     inLS: (inLS) =>
-                        `De las cuales ${inLS} ya se encuentran en el dispositivo.`,
+                        `De estas, ${inLS} ya se encuentran en el dispositivo.`,
                     substitutionWarn: (type, inFile) =>
                         `${type === 'CVs' ? 'CV' : 'Tarjeta'}${inFile > 1 ? 's' : ''} que serían sobreescritas: `,
                 },

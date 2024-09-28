@@ -73,6 +73,9 @@ const DeckManager = ({ deck }) => {
             <div className="cv-selector">
                 <Globals
                     viewCallback={renderInPdf.size ? previewHandler : undefined}
+                    downloadCallback={
+                        renderInPdf.size ? previewHandler : undefined
+                    }
                     exportCallback={exportHandler}
                     importCallback={importHandler}
                 />
