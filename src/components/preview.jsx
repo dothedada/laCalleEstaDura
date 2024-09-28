@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { jsPDF } from 'jspdf';
+
 import { DynamicCard } from './decksGenerator';
 import { cardTypesInOrder, uiText } from './txtAndValidations';
 
@@ -17,6 +19,21 @@ const Preview = ({ deck, renderInPdf, lang = 'Esp' }) => {
                 />
             ) : null,
         );
+    };
+
+    const pdfHandler = () => {
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'in',
+            format: 'letter',
+        });
+
+        pdf.html(document.querySelector('#toPDF'), {
+            width: 8.5,
+            windowWidth: 612,
+        }).then(() => {
+            pdf.save('myCV.pdf');
+        });
     };
 
     useEffect(() => {
@@ -48,6 +65,10 @@ const Preview = ({ deck, renderInPdf, lang = 'Esp' }) => {
                     </div>
                 ))}
             </div>
+
+            <button type="button" onPointerDown={pdfHandler}>
+                guardar pdf
+            </button>
         </>
     );
 };

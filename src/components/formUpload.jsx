@@ -31,9 +31,10 @@ const UploadFileSession = ({ fileType, deckUpdateCallback }) => {
     const importNew = () => {
         parsedData.forEach((card) => {
             if (!loadStats.duplicatedItems.has(card.id)) {
-                console.log(card);
+                localStorage.setItem(card.id, JSON.stringify(card));
             }
         });
+        location.reload();
     };
 
     const importAll = () => {
