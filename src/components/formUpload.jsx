@@ -49,7 +49,7 @@ const UploadFileSession = ({ fileType }) => {
             <form action="">
                 <label>
                     {uiText.global.dialog.upload[fileType].label}
-                    <input type="file" onChange={handleChange} />
+                    <input type="file" accept=".txt" onChange={handleChange} />
                 </label>
 
                 {uploadedFile && (
