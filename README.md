@@ -1,39 +1,54 @@
-# La calle está dura
+# React + TypeScript + Vite
 
-Aunque el proyecto hace parte del programa del Odin Project y tiene por objetivo mejorar el conocimiento sobre React y hacer más familiares los conceptos de algunos de sus hooks y patrones de diseño, quise extenderlo para hacer de este una herramienta útil a la hora de buscar trabajo.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Recomendaciones formales CV
+Currently, two official plugins are available:
 
-Las diferentes recomendaciones para la elaboración de una hoja de vida que he encontrado en mi búsqueda de trabajo, como la extensión, estructura y personalización para el cargo al que se aplica, ayudarán a determinar los aspectos funcionales claves de esta aplicación
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
--   Debe estar en el idioma de la oferta laboral.
--   La hoja de vida exportada no debe superar 1 hoja tamaño carta
--   Debe hablar sobre la persona, su experiencia, sus habilidades y capacidades, su formación y posibilidad de corroborarlo, en secciones fáciles de identificar.
--   Debe mencionar puntualmente las aptitudes mínimas que se piden y en lo posible las ideales.
--   Debe incluir foto y edad únicamente si es solicitado.
+## Expanding the ESLint configuration
 
-## Funciones que debe cumplir la aplicación
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- [] Permite la creación de la hoja de vida en inglés y en español
-- [] Al cambiar de idioma conserva las secciones y los modulos si tienen versión en ambos idiomas, de lo contrario muestra el formulario para crear la versión en el idioma necesitado.
-- [] Permite almacenar la información diligenciada en una sesión dentro del localstorage.
-- [] permite exportar la sesion en un archivo de texto plano e importarla (Sólo almacena en sesión a una persona).
-- [] Permite elaborar la hoja de vida por bloques que componen cada sección.
-- [] Permite la rápida iteración de cada bloque.
-- [] Permite seleccionar qué bloques van y previsualizar el documento.
-- [] Evita la repetición de información y los bloques.
-- [] Permite almacenar nombrar y almacenar las diferentes iteraciones para su rehuso.
-- [] Mantiene control sobre la longitud de cada sección al controlar la extensión de cada bloque y su relación con los otros bloques.
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-## Etapas para desarrollo
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-- [x] Establece plataforma desarrollo y testeo (Vite y Vitest).
-- [x] Crea las clases para almacenamiento de la información.
-- [x] Crear funciones CRUD para el manejo de la información.
-- [x] Diseño funcional de la aplicación.
-- [] Diseño visual de la aplicación.
-- [] Implementa el almacenamiento para la información (Localstorage).
-- [] Crear compornentes para la administración de la información.
-- [] Crear componente de previsualización.
-- [] Integrar con paquete para la exportación de paquete
-- [] Exportación y carga de archivos externos.
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
+```

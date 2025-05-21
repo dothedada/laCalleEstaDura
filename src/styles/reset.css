@@ -10,12 +10,6 @@
     --papper: hsl(0, 100%, 100%);
     --ink: hsl(0, 0%, 0%);
 
-    /* --text: #7ebaa7;
-    --background: #110425;
-    --warn: #db8ea3;
-    --error: #f77e4f;
-    --highlight: #fff; */
-
     --font-parragraph: 'Fira Sans', sans-serif;
     --font-headings: 'JetBrains Mono', sans-serif;
     --line-height: calc(1ex / 0.32);
