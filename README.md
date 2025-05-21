@@ -1,54 +1,24 @@
-# React + TypeScript + Vite
+# La Calle está dura
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para crear y adaptar hojas de vida optimizadas para ATS (Applicant Tracking Systems), permitiendo generar, almacenar y reutilizar secciones de la hoja de vida personalizadas para cada convocatoria.
 
-Currently, two official plugins are available:
+## Características principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Personalización – Adapta tu CV a cada vacante, resaltando las habilidades y experiencia relevantes.
+- Modularización - Aunque las ofertas son diferentes, pueden tener cosas en común, crea módulos y reutilízalos según las convocatorias.
+- Diseño ATS-friendly – Estructura limpia y legible para sistemas de reclutamiento automatizado.
+- Control de formato – Exporta en 1 página (tamaño carta) y ajusta contenido según requisitos.
+- Configuración flexible – Opción para incluir/excluir foto, edad y otros datos según la oferta.
+- Almacenamiento local – Guarda tus plantillas y CVs sin necesidad de base de datos externa.
 
-## Expanding the ESLint configuration
+## Tecnologías
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Frontend: React + TypeScript
+- Persistencia de datos: Almacenamiento local (localStorage)
+- Exportación: PDF generado en cliente (usando librerías como react-pdf o html2pdf)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Mejoras futuras
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- Soporte para múltiples plantillas de diseño.
+- Integración con análisis de ofertas laborales para sugerir keywords.
+- Sincronización opcional con almacenamiento en la nube (Firebase, Supabase).
