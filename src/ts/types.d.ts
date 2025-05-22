@@ -1,12 +1,7 @@
 // CV elements
 export type Lang = 'es' | 'en';
-export type Tags =
-    | `section_${string}`
-    | `card_${string}`
-    | `job_${string}`
-    | `ul_${string}`
-    | `p_${string}`
-    | `li_${string}`;
+type Elements = 'section' | 'card' | 'job' | 'ul' | 'li' | 'p';
+export type Tags = `${Elements}_${string}`;
 
 interface Module<T extends Tags = Tags> {
     lang: Lang;
@@ -14,6 +9,13 @@ interface Module<T extends Tags = Tags> {
     id: T;
     derivated?: T;
 }
+
+export type CV = {
+    lang: Lang;
+    name: string;
+    id: `cv_${string}`;
+    elements: `section_${string}`[];
+};
 
 export interface Section extends Module<`section_${string}`> {
     title: string;
