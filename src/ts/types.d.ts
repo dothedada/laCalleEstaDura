@@ -1,55 +1,83 @@
 // CV elements
-export type Lang = 'es' | 'en';
-type Elements = 'section' | 'card' | 'job' | 'ul' | 'li' | 'p';
-export type Tags = `${Elements}_${string}`;
+type Langs = 'es' | 'en' | string;
+type Sections =
+    | 'profile'
+    | 'contact'
+    | 'skill'
+    | 'languages'
+    | 'courses'
+    | 'achievements'
+    | 'certifications'
+    | 'education'
+    | 'experience-card'
+    | 'experience-tasks'
+    | 'experience-achievements';
 
-interface Module<T extends Tags = Tags> {
-    lang: Lang;
-    inRender: boolean;
-    id: T;
-    derivated?: T;
-}
+type ElementTypes = 'section' | 'fixedcard' | 'opencard' | 'text';
 
-export type CV = {
-    lang: Lang;
-    name: string;
-    id: `cv_${string}`;
-    elements: `section_${string}`[];
+type CommonData = {
+    kind: 'common';
+    title: string;
+    description: string;
+    when: string;
 };
 
-export interface Section extends Module<`section_${string}`> {
+type ExperienceData = {
+    kind: 'experience';
     title: string;
-    position: number;
-    elements: (Card | Job | List | Paragraph)[];
-}
+    location: string;
+    from: string;
+    to?: string;
+};
 
-export interface Card extends Module<`card_${string}`> {
-    title?: string;
-    items: Record<string, string>;
-}
+type EducationData = {
+    kind: 'education';
+    title: string;
+    institution: string;
+    where: string;
+    from: string;
+    to: string;
+    achievement?: string;
+};
 
-export interface Job extends Module<`job_${string}`> {
-    data: {
-        jobTitle: string;
-        company: string;
-        location: string;
-        startDate: string;
-        endDate: string | null;
-        description: string | List;
-        achievements: string | List;
+export type CV<Name extends string, Tag extends string> = {
+    name: Name;
+    tag: Tag;
+    id: `${Name}_${Tag}_${string}`;
+    langs: {
+        [lang in Langs]?: {
+            active: string[];
+            hidden: string[];
+        };
     };
-}
+    lastUpdate: string;
+};
 
-export interface List extends Module<`ul_${string}`> {
+interface Element<SEC extends Sections, ET extends ElementTypes> {
+    lang: Langs;
+    id: `${SEC}_${ET}_${string}`;
+    name: string;
     title?: string;
-    items: ListItem[];
 }
 
-export interface Paragraph extends Module<`p_${string}`> {
-    title?: string;
-    content: string;
+export interface Section<SEC extends Sections, ET extends ElementTypes>
+    extends Element<SEC, ET> {
+    multiple: boolean;
+    active: string[];
+    hidden: string[];
 }
 
-export interface ListItem extends Module<`li_${string}`> {
+export interface FixedCard<SEC extends Sections, ET extends ElementTypes>
+    extends Element<SEC, ET> {
+    items: CommonData | ExperienceData | EducationData;
+}
+
+export interface OpenCard<SEC extends Sections, ET extends ElementTypes>
+    extends Element<SEC, ET> {
+    items: { key: string; value: string }[];
+}
+
+export interface Text<SEC extends Sections, ET extends ElementTypes>
+    extends Element<SEC, ET> {
     content: string;
 }
