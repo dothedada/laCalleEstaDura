@@ -69,7 +69,7 @@ export interface Section<SEC extends Sections, ET extends ElementTypes>
 
 export interface FixedCard<SEC extends Sections, ET extends ElementTypes>
     extends Element<SEC, ET> {
-    items: CommonData | ExperienceData | EducationData;
+    items: (CommonData | ExperienceData | EducationData)[];
 }
 
 export interface OpenCard<SEC extends Sections, ET extends ElementTypes>
