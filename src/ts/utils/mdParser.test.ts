@@ -1,42 +1,100 @@
 import { describe, it, expect } from 'vitest';
-import { charComparison, parseInputMD } from './mdParser';
+import { __parserTests__ } from './mdParser';
+import type { NodeLabels } from './types';
 
-describe('charComparison', () => {
-    it('should return false if any of the params is Undefined', () => {
-        expect(charComparison(undefined, undefined)).toBe(false);
-        expect(charComparison('a', undefined)).toBe(false);
-        expect(charComparison(undefined, 'a')).toBe(false);
+const { patternsFor, makeInputNodes, parseContent, parseInputMD } =
+    __parserTests__;
+if (!makeInputNodes || !parseContent || !parseInputMD)
+    throw new Error('One or more testing functions not available');
+
+const labels = Object.keys(patternsFor) as Exclude<NodeLabels, 'text'>[];
+
+describe('makeInputNodes', () => {
+    it('parses a single emphasis match correctly', () => {
+        const char: { [k in Exclude<NodeLabels, 'text'>]: string } = {
+            em: '_',
+            strong: '**',
+            mark: '==',
+        };
+        const rndLabel: Exclude<NodeLabels, 'text'> =
+            labels[Math.floor(Math.random()) * labels.length]!;
+
+        const input = `This is ${char[rndLabel]}${rndLabel}${char[rndLabel]} text.`;
+        const result = makeInputNodes(rndLabel, input);
+
+        expect(result).toEqual([
+            { label: 'text', content: 'This is ' },
+            { label: rndLabel, content: `${rndLabel}` },
+            { label: 'text', content: ' text.' },
+        ]);
     });
 
-    it('should return true if patternChar is "char" and any char is passed', () => {
-        expect(charComparison('a', 'char'));
+    it('returns only text when there is no match', () => {
+        const input = 'No formatting here.';
+        const result = makeInputNodes('em', input);
+
+        expect(result).toEqual([
+            { label: 'text', content: 'No formatting here.' },
+        ]);
+    });
+
+    it('should detect multiple occurencies', () => {
+        const input = '**one** && **two**';
+        const result = makeInputNodes('strong', input);
+
+        expect(result).toEqual([
+            { label: 'strong', content: 'one' },
+            { label: 'text', content: ' && ' },
+            { label: 'strong', content: 'two' },
+        ]);
+    });
+
+    it('parses multiple matches correctly', () => {
+        const input = 'First _one_, then _two_.';
+        const result = makeInputNodes('em', input);
+
+        expect(result).toEqual([
+            { label: 'text', content: 'First ' },
+            { label: 'em', content: 'one' },
+            { label: 'text', content: ', then ' },
+            { label: 'em', content: 'two' },
+            { label: 'text', content: '.' },
+        ]);
+    });
+
+    it('ignores incomplete match with only opening marker', () => {
+        const input = 'This is _not closed.';
+        const result = makeInputNodes('em', input);
+
+        expect(result).toEqual([
+            { label: 'text', content: 'This is _not closed.' },
+        ]);
+    });
+
+    it('ignores isolated closing marker', () => {
+        const input = 'Unmatched closing_ here.';
+        const result = makeInputNodes('em', input);
+
+        expect(result).toEqual([
+            { label: 'text', content: 'Unmatched closing_ here.' },
+        ]);
+    });
+
+    it('only matches valid delimited region, not partials', () => {
+        const input = '_a _b c_ d';
+        const result = makeInputNodes('em', input);
+
+        expect(result).toEqual([
+            { label: 'text', content: '_a ' },
+            { label: 'em', content: 'b c' },
+            { label: 'text', content: ' d' },
+        ]);
+    });
+
+    it('returns empty array if input is empty', () => {
+        const result = makeInputNodes('em', '');
+        expect(result).toEqual([]);
     });
 });
-
-describe('Markdown parser for user input', () => {
-    it('Should take an string and return a Node', () => {
-        const input = '**hola _holi_ chao**';
-        const parsedMD = parseInputMD(input);
-
-        expect(parsedMD).toEqual(
-            expect.objectContaining({
-                label: expect.anything(),
-                content: expect.anything(),
-            }),
-        );
-    });
-
-    // it('should contain a Node with label "strong" if a strong characters are passed', () => {
-    //     const inputA = '**i am strong** ';
-    //     const inputB = 'This is **strong**';
-    //     const inputC = '__also this__ is strong';
-    //     const inputD = 'and __this__ one';
-    //
-    //     const parseA = parseMD(inputA);
-    //     const parseB = parseMD(inputB);
-    //     // const parseC = parseMD(inputC);
-    //     // const parseD = parseMD(inputD);
-    //
-    //     expect(Array.isArray(parseA.content)).toBe(true);
-    // });
-});
+// const parsedMD = parseInputMD('carajo _esto_ y esto: **no** functiona');
+// console.log(JSON.stringify(parsedMD, null, 2));
