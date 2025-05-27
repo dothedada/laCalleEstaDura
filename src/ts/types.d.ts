@@ -43,7 +43,7 @@ type EducationData = {
 export type CV<Name extends string, Tag extends string> = {
     name: Name;
     tag: Tag;
-    id: `${Name}_${Tag}_${string}`;
+    id: `CV_${Name}_${Tag}_${string}`;
     langs: {
         [lang in Langs]?: {
             active: string[];
@@ -53,9 +53,11 @@ export type CV<Name extends string, Tag extends string> = {
     lastUpdate: string;
 };
 
+export type ElementId<SEC, ET> = `${SEC}_${ET}_${string}-${string}`;
+
 interface Element<SEC extends Sections, ET extends ElementTypes> {
     lang: Langs;
-    id: `${SEC}_${ET}_${string}`;
+    id: ElementId<SEC, ET>;
     name: string;
     title?: string;
 }
