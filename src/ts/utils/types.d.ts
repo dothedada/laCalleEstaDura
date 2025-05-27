@@ -1,9 +1,9 @@
 export type NodeLabels = 'strong' | 'em' | 'mark' | 'text';
 
-export type Node = {
+export type InputNode = {
     label: NodeLabels;
     position?: number;
-    content: Node[] | string;
+    content: InputNode[] | string;
 };
 
 export type Pattern = ('end' | 'char' | 'digit' | string)[];

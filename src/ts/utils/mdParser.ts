@@ -2,7 +2,7 @@ import type {
     NodeLabels,
     InOutPattern,
     Pattern,
-    Node as InputNode,
+    InputNode,
 } from './types.d.ts';
 
 const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.']);
@@ -161,21 +161,23 @@ function makeInputNodes(
     return nodes;
 }
 
-function parseContent(node: InputNode, label: Exclude<NodeLabels, 'text'>) {
+function parseLabel(node: InputNode, label: Exclude<NodeLabels, 'text'>) {
     const nodeContent = node.content;
     if (Array.isArray(nodeContent)) {
-        nodeContent.forEach((node) => parseContent(node, label));
+        nodeContent.forEach((node) => parseLabel(node, label));
         return;
     }
 
-    if (typeof node.content === 'string') {
-        const parsedNodes = makeInputNodes(label, node.content);
-        if (
-            parsedNodes.length > 1 ||
-            (parsedNodes.length === 1 && parsedNodes[0]?.label !== 'text')
-        ) {
-            node.content = parsedNodes;
-        }
+    if (typeof node.content !== 'string') {
+        return;
+    }
+    const parsedNodes = makeInputNodes(label, node.content);
+
+    if (
+        parsedNodes.length > 1 ||
+        (parsedNodes.length === 1 && parsedNodes[0]?.label !== 'text')
+    ) {
+        node.content = parsedNodes;
     }
 }
 
@@ -186,7 +188,7 @@ export function parseInputMD(input: string): InputNode {
     };
 
     for (const label of PARSING_SEQUENCE) {
-        parseContent(mainNode, label as Exclude<NodeLabels, 'text'>);
+        parseLabel(mainNode, label as Exclude<NodeLabels, 'text'>);
     }
 
     return mainNode;
@@ -196,9 +198,8 @@ export const __parserTests__ =
     process.env.NODE_ENV === 'test'
         ? {
               patternsFor,
-              charComparison,
               makeInputNodes,
-              parseContent,
+              parseLabel,
               parseInputMD,
           }
         : {};
