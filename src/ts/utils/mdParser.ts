@@ -1,38 +1,29 @@
-type NodeLabels = 'strong' | 'em' | 'mark' | 'text';
-export type Node = {
-    label: NodeLabels;
-    position?: number;
-    content: Node[] | string;
-};
+import type {
+    NodeLabels,
+    InOutPattern,
+    Pattern,
+    Node as InputNode,
+} from './types.d.ts';
 
-type Pattern = ('end' | 'char' | 'digit' | string)[];
-type InOutPattern = { open: Pattern; close: Pattern };
-export type Segments = {
-    labelled: [number, number][];
-    plain: [number, number][];
-    pad: { start: number; end: number };
-};
-
-const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0']);
+const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.']);
 const PARSING_SEQUENCE = ['strong', 'em', 'mark'];
 
-export const patternsFor: { [k in Exclude<NodeLabels, 'text'>]: InOutPattern } =
-    {
-        strong: {
-            open: ['end', '*', '*', 'char'],
-            close: ['char', '*', '*', 'end'],
-        },
-        em: {
-            open: ['end', '_', 'char'],
-            close: ['char', '_', 'end'],
-        },
-        mark: {
-            open: ['end', '=', '=', 'char'],
-            close: ['char', '=', '=', 'end'],
-        },
-    };
+const patternsFor = {
+    strong: {
+        open: ['end', '*', '*', 'char'],
+        close: ['char', '*', '*', 'end'],
+    },
+    em: {
+        open: ['end', '_', 'char'],
+        close: ['char', '_', 'end'],
+    },
+    mark: {
+        open: ['end', '=', '=', 'char'],
+        close: ['char', '=', '=', 'end'],
+    },
+} satisfies { [k in Exclude<NodeLabels, 'text'>]: InOutPattern };
 
-export function charComparison(
+function charComparison(
     char: string | undefined,
     patternChar: string | undefined,
 ): boolean {
@@ -124,10 +115,23 @@ function makePlainSegments(
     return segments.filter(([start, end]) => start !== end);
 }
 
-export function makeLabelNodes(
+function patternPad(label: Exclude<NodeLabels, 'text'>): {
+    open: number;
+    close: number;
+} {
+    return {
+        open: patternsFor[label].open.length - 2,
+        close: patternsFor[label].open.length - 2,
+    };
+}
+
+function makeInputNodes(
     label: Exclude<NodeLabels, 'text'>,
     input: string,
-): Node[] {
+): InputNode[] {
+    if (input === '') {
+        return [];
+    }
     const labelMatches = findPatternMatches(input, patternsFor[label]);
     const plainSegments = makePlainSegments(labelMatches, input.length);
 
@@ -136,50 +140,65 @@ export function makeLabelNodes(
             label: 'text',
             position: start,
             content: input.slice(start, end),
-        } as Required<Node>;
+        } as Required<InputNode>;
     });
+
     const labelNodes = labelMatches.map(([start, end]) => {
         return {
             label,
             position: start,
-            content: input.slice(start, end),
-        } as Required<Node>;
+            content: input.slice(
+                start + patternPad(label).open,
+                end - patternPad(label).close,
+            ),
+        } as Required<InputNode>;
     });
 
-    const nodes: Node[] = [...plainNodes, ...labelNodes].sort(
-        (a, b) => a.position - b.position,
-    );
+    const nodes = [...plainNodes, ...labelNodes]
+        .sort((a, b) => a.position - b.position)
+        .map(({ label, content }) => ({ label, content }));
 
     return nodes;
 }
 
-export function parseInputMD(input: string): Node {
-    const mainNode: Node = {
-        label: 'text',
-        content: input,
-    };
+function parseContent(node: InputNode, label: Exclude<NodeLabels, 'text'>) {
+    const nodeContent = node.content;
+    if (Array.isArray(nodeContent)) {
+        nodeContent.forEach((node) => parseContent(node, label));
+        return;
+    }
 
-    function parseContent(node: Node, label: Exclude<NodeLabels, 'text'>) {
-        const nodeContent = node.content;
-        if (Array.isArray(nodeContent)) {
-            nodeContent.forEach((node) => parseContent(node, label));
-        }
-
-        if (typeof nodeContent === 'string') {
-            const parsedNodes = makeLabelNodes(
-                label as Exclude<NodeLabels, 'text'>,
-                nodeContent,
-            );
-
+    if (typeof node.content === 'string') {
+        const parsedNodes = makeInputNodes(label, node.content);
+        if (
+            parsedNodes.length > 1 ||
+            (parsedNodes.length === 1 && parsedNodes[0]?.label !== 'text')
+        ) {
             node.content = parsedNodes;
         }
     }
+}
+
+export function parseInputMD(input: string): InputNode {
+    const mainNode: InputNode = {
+        label: 'text',
+        content: input,
+    };
 
     for (const label of PARSING_SEQUENCE) {
         parseContent(mainNode, label as Exclude<NodeLabels, 'text'>);
     }
 
-    console.log(JSON.stringify(mainNode, null, 2));
-
     return mainNode;
 }
+
+export const __parserTests__ =
+    process.env.NODE_ENV === 'test'
+        ? {
+              patternsFor,
+              charComparison,
+              makeInputNodes,
+              parseContent,
+              parseInputMD,
+          }
+        : {};
