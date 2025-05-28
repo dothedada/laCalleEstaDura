@@ -5,18 +5,26 @@ export type InputFieldProps = {
     type: 'text' | 'url' | 'email' | string;
     placeholder?: string;
     name: string;
-    baseValue?: string;
+    visibleLabel: boolean;
+    label?: string;
+    value?: string;
+    charLimit?: number;
+    attributes?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
 export type TextareaProps = Omit<InputFieldProps, 'type'>;
 
 export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
 
-export type ButtonProp = {
+export interface ButtonProp {
     buttonType: SubmitProps;
     attributes: React.ButtonHTMLAttributes<HTMLButtonElement>;
     action: () => void;
-};
+}
+
+export interface ButtonsSetProps extends ButtonProp {
+    label: string;
+}
 
 export type FormProps = {
     children: React.ReactNode;
