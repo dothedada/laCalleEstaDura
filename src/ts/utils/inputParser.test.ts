@@ -439,7 +439,6 @@ describe('parseInputMD', () => {
 
     it('should handle deeply nested patterns', () => {
         const result = parseInputMD('**_==carai==_**');
-        console.log(JSON.stringify(result, null, 2));
         expect(result).toEqual({
             label: 'text',
             content: [
