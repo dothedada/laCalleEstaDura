@@ -1,4 +1,9 @@
-import type { ElementId, CVData, CV, Element, Sections } from '../types';
+import type {
+    ElementId,
+    DataInventory,
+    ElementTypes,
+    Sections,
+} from '../types';
 
 export function createHash(): string {
     return (Math.random() * 10_000 * new Date().getTime())
@@ -8,19 +13,19 @@ export function createHash(): string {
         .padEnd(10, '0');
 }
 
-export function createID<S, E>(
-    section: S,
-    element: E,
+export function createID(
+    section: Sections,
+    element: ElementTypes,
     isCV: boolean,
-): ElementId<S, E> {
+): ElementId {
     const date = new Date().toISOString().replace(/\D/g, '').slice(0, 8);
     const hash = createHash();
     const cv = isCV ? 'CV_' : '';
-    return `${cv}${section}_${element}_${date}-${hash}` as ElementId<S, E>;
+    return `${cv}${section}_${element}_${date}-${hash}` as ElementId;
 }
 
-export function loadFromLocalStorage(): CVData {
-    const cvData: CVData = { cvs: [], elements: [] };
+export function loadFromLocalStorage(): DataInventory {
+    const cvData: DataInventory = { cvs: [], elements: [] };
 
     for (let i = 0; i < localStorage.length; i++) {
         const element = localStorage.key(i);

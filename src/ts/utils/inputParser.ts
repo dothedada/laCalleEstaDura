@@ -5,7 +5,7 @@ import type {
     InputNode,
 } from './types.d.ts';
 
-const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.']);
+const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.', ';', ':']);
 const PARSING_SEQUENCE = ['strong', 'em', 'mark'];
 
 const patternsFor = {

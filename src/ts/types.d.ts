@@ -1,4 +1,3 @@
-// CV elements
 type Langs = 'es' | 'en' | string;
 type Sections =
     | 'profile'
@@ -13,7 +12,40 @@ type Sections =
     | 'experience-tasks'
     | 'experience-achievements';
 
+export type DataInventory = {
+    cvs: CV[];
+    elements: Element[];
+};
+
+export type CV = {
+    name: Name;
+    tag: Tag;
+    id: `CV_${Name}_${Tag}_${string}`;
+    langs: {
+        [lang in Langs]?: {
+            active: ElementId[];
+            hidden: ElementId[];
+        };
+    };
+    lastUpdate: string;
+};
+
+export type ElementId = `${string}_${string}_${string}-${string}`;
+
+interface Element {
+    lang: Langs;
+    id: ElementId;
+    name: string;
+    title?: string;
+}
+
 type ElementTypes = 'section' | 'fixedcard' | 'opencard' | 'text';
+
+export interface Section extends Element {
+    multiple: boolean;
+    active: ElementId[];
+    hidden: ElementId[];
+}
 
 type CommonData = {
     kind: 'common';
@@ -40,46 +72,14 @@ type EducationData = {
     achievement?: string;
 };
 
-export type CV<Name extends string, Tag extends string> = {
-    name: Name;
-    tag: Tag;
-    id: `CV_${Name}_${Tag}_${string}`;
-    langs: {
-        [lang in Langs]?: {
-            active: string[];
-            hidden: string[];
-        };
-    };
-    lastUpdate: string;
-};
-
-export type ElementId<SEC, ET> = `${SEC}_${ET}_${string}-${string}`;
-
-interface Element<SEC extends Sections, ET extends ElementTypes> {
-    lang: Langs;
-    id: ElementId<SEC, ET>;
-    name: string;
-    title?: string;
-}
-
-export interface Section<SEC extends Sections, ET extends ElementTypes>
-    extends Element<SEC, ET> {
-    multiple: boolean;
-    active: string[];
-    hidden: string[];
-}
-
-export interface FixedCard<SEC extends Sections, ET extends ElementTypes>
-    extends Element<SEC, ET> {
+export interface FixedCard extends Element {
     items: (CommonData | ExperienceData | EducationData)[];
 }
 
-export interface OpenCard<SEC extends Sections, ET extends ElementTypes>
-    extends Element<SEC, ET> {
+export interface OpenCard extends Element {
     items: { key: string; value: string }[];
 }
 
-export interface Text<SEC extends Sections, ET extends ElementTypes>
-    extends Element<SEC, ET> {
+export interface Text extends Element {
     content: string;
 }
