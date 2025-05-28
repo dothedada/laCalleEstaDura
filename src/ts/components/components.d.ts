@@ -11,6 +11,13 @@ export type InputFieldProps = {
 export type TextareaProps = Omit<InputFieldProps, 'type'>;
 
 export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
+
+export type ButtonProp = {
+    buttonType: SubmitProps;
+    attributes: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    action: () => void;
+};
+
 export type FormProps = {
     children: React.ReactNode;
     id: Tags;
