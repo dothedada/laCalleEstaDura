@@ -8,11 +8,12 @@ import {
     Input,
     KeyValueInput,
     Select,
+    Form,
 } from './components/formElements';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <Button buttonType="new" action={() => console.log('meneala')}>
+        <Button buttonAction="new" action={() => console.log('meneala')}>
             carajo
         </Button>
         <Input name="carajo" label="pero queeeee" charLimit={15} />
@@ -31,5 +32,15 @@ createRoot(document.getElementById('root')!).render(
                 { name: 'tres', value: '3' },
             ]}
         />
+        <Form id="mini" action={(e) => console.log(e)}>
+            <Input name="carajo" label="pero queeeee" charLimit={15} />
+
+            <Button type="submit" buttonAction="delete">
+                delete
+            </Button>
+            <Button type="submit" buttonAction="new">
+                new
+            </Button>
+        </Form>
     </StrictMode>,
 );

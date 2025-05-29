@@ -2,29 +2,26 @@ import React, { useState } from 'react';
 import type {
     ButtonProp,
     ButtonsSetProps,
+    FormProps,
     InputFieldProps,
     SelectProps,
 } from './components';
 
 export function Button(props: ButtonProp & { children: string }) {
-    const btnClass = props.buttonType;
+    const btnClass = props.buttonAction;
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            props.action();
+    const handleClick = () => {
+        if (!props.action) {
+            return;
         }
-    };
-
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
         props.action();
     };
 
     return (
         <button
+            type={props?.type ? props.type : 'button'}
+            value={props.buttonAction}
             onClick={handleClick}
-            onKeyDown={handleKeyDown}
             {...props.attributes}
             className={btnClass}
         >
@@ -123,6 +120,9 @@ export function Select({
     defaultValue = '',
 }: SelectProps) {
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        if (action === undefined) {
+            return;
+        }
         action(e.target.value);
     };
 
@@ -141,5 +141,29 @@ export function Select({
                 ))}
             </select>
         </label>
+    );
+}
+
+export function Form(props: FormProps) {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const submitAction = (e.nativeEvent as SubmitEvent)
+            .submitter as HTMLButtonElement;
+        if (!submitAction) {
+            return;
+        }
+
+        const formData = new FormData(e.currentTarget);
+        const formObject = Object.fromEntries(formData.entries());
+        formObject['formAction'] = submitAction.value;
+        formObject['id'] = props.id ?? '';
+
+        props.action(formObject as Record<string, string>);
+    };
+
+    return (
+        <form onSubmit={handleSubmit} {...props.attributes}>
+            {props.children}
+        </form>
     );
 }

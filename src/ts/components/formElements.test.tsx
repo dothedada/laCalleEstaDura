@@ -3,7 +3,7 @@ import { screen, act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
-import { Button, Input, Select } from './formElements';
+import { Button, Input, Select, Form } from './formElements';
 import type { ButtonProp, InputFieldProps } from './components';
 
 describe('Button', () => {
@@ -11,7 +11,7 @@ describe('Button', () => {
         const randomText = Math.floor(Math.random() * 1_000_000).toString(16);
         const callback = vi.fn();
         const props: ButtonProp = {
-            buttonType: 'new',
+            buttonAction: 'new',
             action: callback,
         };
 
@@ -25,7 +25,7 @@ describe('Button', () => {
         const btnText = 'click me';
         const callback = vi.fn();
         const props: ButtonProp = {
-            buttonType: 'delete',
+            buttonAction: 'delete',
             action: callback,
         };
 
@@ -40,33 +40,15 @@ describe('Button', () => {
         const btnText = 'click me';
         const callback = vi.fn();
         const props: ButtonProp = {
-            buttonType: 'delete',
+            buttonAction: 'delete',
             action: callback,
         };
 
         render(<Button {...props}>{btnText}</Button>);
-        const button = screen.getByText(btnText);
+        const button = screen.getByRole('button', { name: 'click me' });
         await user.click(button);
 
         expect(callback).toBeCalled();
-    });
-
-    it('should only execute the callback only with Enter and Space key', async () => {
-        const user = userEvent.setup();
-        const btnText = 'click me';
-        const callback = vi.fn();
-        const props: ButtonProp = {
-            buttonType: 'delete',
-            action: callback,
-        };
-
-        render(<Button {...props}>{btnText}</Button>);
-        const button = screen.getByText(btnText);
-        button.focus();
-        await user.keyboard('{Enter}');
-        await user.keyboard(' ');
-        await user.keyboard('a');
-        expect(callback).toBeCalledTimes(2);
     });
 });
 
@@ -257,5 +239,75 @@ describe('Select', () => {
 
         await user.selectOptions(select, 'opt3');
         expect(select).toHaveValue('opt3');
+    });
+});
+
+describe('Form', () => {
+    it('submits form data and formAction when clicking a submit button', async () => {
+        const handleAction = vi.fn();
+        const user = userEvent.setup();
+
+        render(
+            <Form action={handleAction} id="test-id">
+                <input name="username" defaultValue="miguel" />
+                <input name="email" defaultValue="miguel@test.com" />
+                <button type="submit" value="save">
+                    Save
+                </button>
+            </Form>,
+        );
+
+        const button = screen.getByRole('button', { name: /save/i });
+        await user.click(button);
+
+        expect(handleAction).toHaveBeenCalledWith({
+            username: 'miguel',
+            email: 'miguel@test.com',
+            formAction: 'save',
+            id: 'test-id',
+        });
+    });
+
+    it('includes formAction based on the clicked button', async () => {
+        const handleAction = vi.fn();
+        const user = userEvent.setup();
+
+        render(
+            <Form action={handleAction}>
+                <input name="title" defaultValue="Demo" />
+                <button type="submit" value="draft">
+                    Save Draft
+                </button>
+                <button type="submit" value="publish">
+                    Publish
+                </button>
+            </Form>,
+        );
+
+        const publishBtn = screen.getByRole('button', { name: /publish/i });
+        await user.click(publishBtn);
+
+        expect(handleAction).toHaveBeenCalledWith({
+            title: 'Demo',
+            formAction: 'publish',
+            id: '',
+        });
+    });
+
+    it('does not call action if no submit button is used', () => {
+        const handleAction = vi.fn();
+        const user = userEvent.setup();
+
+        render(
+            <Form action={handleAction} id="test" attributes={{ role: 'form' }}>
+                <input name="test" defaultValue="value" />
+            </Form>,
+        );
+
+        const form = screen.getByRole('form');
+        form.focus();
+        user.keyboard('Enter');
+
+        expect(handleAction).not.toHaveBeenCalled();
     });
 });

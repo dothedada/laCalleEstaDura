@@ -1,5 +1,22 @@
 import React from 'react';
-import { Tags } from '../types';
+
+export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
+
+export interface ButtonProp {
+    buttonAction: SubmitProps;
+    type?: 'button' | 'submit' | 'reset';
+    action?: (
+        e?:
+            | string
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLButtonElement>,
+    ) => void;
+    attributes?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+}
+
+export interface ButtonsSetProps extends ButtonProp {
+    label: string;
+}
 
 export type InputFieldProps = {
     name: string;
@@ -15,27 +32,15 @@ export type InputFieldProps = {
 export type SelectProps = {
     name: string;
     selectValues: { name: string; value: string }[];
-    action: (event: string) => void;
+    action?: (event: string | React.ChangeEvent<HTMLSelectElement>) => void;
     hiddenLabel?: boolean;
     label?: string;
     defaultValue?: string;
 };
 
-export type TextareaProps = Omit<InputFieldProps, 'type'>;
-
-export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
-
-export interface ButtonProp {
-    buttonType: SubmitProps;
-    action: () => void;
-    attributes?: React.ButtonHTMLAttributes<HTMLButtonElement>;
-}
-
-export interface ButtonsSetProps extends ButtonProp {
-    label: string;
-}
-
 export type FormProps = {
+    action: (arg: Record<string, string>) => Record<string, string>;
     children: React.ReactNode;
-    id: Tags;
+    id?: string;
+    attributes?: React.FormHTMLAttributes<HTMLFormElement>;
 };
