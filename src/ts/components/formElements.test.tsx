@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { screen, act, render } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
@@ -309,5 +309,74 @@ describe('Form', () => {
         user.keyboard('Enter');
 
         expect(handleAction).not.toHaveBeenCalled();
+    });
+
+    it('should show validation message when validator returns an error', async () => {
+        const user = userEvent.setup();
+        const handleAction = vi.fn();
+        const validator = vi.fn(() => ({
+            email: ['Invalid email'],
+        }));
+
+        render(
+            <Form action={handleAction} validator={validator}>
+                <input name="email" defaultValue="invalid" />
+                <button type="submit" value="submit">
+                    Submit
+                </button>
+            </Form>,
+        );
+
+        await user.click(screen.getByRole('button', { name: /submit/i }));
+
+        expect(validator).toHaveBeenCalled();
+        expect(screen.getByText('Invalid email')).toBeInTheDocument();
+    });
+
+    it('should show multiple error messages for different fields', async () => {
+        const user = userEvent.setup();
+        const handleAction = vi.fn();
+        const validator = vi.fn(() => ({
+            email: ['Invalid format'],
+            username: ['Required'],
+        }));
+
+        render(
+            <Form action={handleAction} validator={validator}>
+                <input name="email" defaultValue="x" />
+                <input name="username" defaultValue="" />
+                <button type="submit" value="send">
+                    Send
+                </button>
+            </Form>,
+        );
+
+        await user.click(screen.getByRole('button', { name: /send/i }));
+
+        expect(screen.getByText('Invalid format')).toBeInTheDocument();
+        expect(screen.getByText('Required')).toBeInTheDocument();
+    });
+
+    it('should not call action if validator returns errors', async () => {
+        const user = userEvent.setup();
+        const handleAction = vi.fn();
+        const validator = vi.fn(() => ({
+            email: ['Invalid email'],
+        }));
+
+        render(
+            <Form action={handleAction} validator={validator}>
+                <input name="email" defaultValue="invalid" />
+                <button type="submit" value="submit">
+                    Submit
+                </button>
+            </Form>,
+        );
+
+        await user.click(screen.getByRole('button', { name: /submit/i }));
+
+        expect(validator).toHaveBeenCalled();
+        expect(handleAction).not.toHaveBeenCalled();
+        expect(screen.getByText('Invalid email')).toBeInTheDocument();
     });
 });

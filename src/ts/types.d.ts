@@ -83,3 +83,12 @@ export interface OpenCard extends Element {
 export interface Text extends Element {
     content: string;
 }
+
+export type Validations = {
+    [field: string]: [
+        rule: RegExp | ((...args: strin[]) => boolean),
+        message: string,
+    ][];
+};
+
+export type ErrorObject = Record<string, string[]>;

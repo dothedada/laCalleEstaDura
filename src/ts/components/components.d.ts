@@ -1,4 +1,5 @@
 import React from 'react';
+import type { ErrorObject } from '../types';
 
 export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
 
@@ -40,6 +41,7 @@ export type SelectProps = {
 
 export type FormProps = {
     action: (arg: Record<string, string>) => Record<string, string>;
+    validator?: (arg: Record<string, string>) => ErrorObject;
     children: React.ReactNode;
     id?: string;
     attributes?: React.FormHTMLAttributes<HTMLFormElement>;
