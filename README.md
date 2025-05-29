@@ -2,6 +2,7 @@
 
 Aplicación web para crear y adaptar hojas de vida optimizadas para ATS (Applicant Tracking Systems), permitiendo generar, almacenar y reutilizar secciones de la hoja de vida personalizadas para cada convocatoria.
 
+
 ## Características principales
 
 - Personalización – Adapta tu CV a cada vacante, resaltando las habilidades y experiencia relevantes.
