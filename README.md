@@ -1,17 +1,25 @@
-# La calle está dura
+# La Calle está dura
 
-## NUEVA VERSIÓN EN CAMINO
+Aplicación web para crear y adaptar hojas de vida optimizadas para ATS (Applicant Tracking Systems), permitiendo generar, almacenar y reutilizar secciones de la hoja de vida personalizadas para cada convocatoria.
 
-Este readme corresponde a la primera version
 
-Aunque el proyecto hace parte del programa del Odin Project y tiene por objetivo mejorar el conocimiento sobre React y hacer más familiares los conceptos de algunos de sus hooks y patrones de diseño, quise extenderlo para hacer de este una herramienta útil a la hora de buscar trabajo.
+## Características principales
 
-## Recomendaciones formales CV
+- Personalización – Adapta tu CV a cada vacante, resaltando las habilidades y experiencia relevantes.
+- Modularización - Aunque las ofertas son diferentes, pueden tener cosas en común, crea módulos y reutilízalos según las convocatorias.
+- Diseño ATS-friendly – Estructura limpia y legible para sistemas de reclutamiento automatizado.
+- Control de formato – Exporta en 1 página (tamaño carta) y ajusta contenido según requisitos.
+- Configuración flexible – Opción para incluir/excluir foto, edad y otros datos según la oferta.
+- Almacenamiento local – Guarda tus plantillas y CVs sin necesidad de base de datos externa.
 
-Las diferentes recomendaciones para la elaboración de una hoja de vida que he encontrado en mi búsqueda de trabajo, como la extensión, estructura y personalización para el cargo al que se aplica, ayudarán a determinar los aspectos funcionales claves de esta aplicación
+## Tecnologías
 
-- Debe estar en el idioma de la oferta laboral.
-- La hoja de vida exportada no debe superar 1 hoja tamaño carta
-- Debe hablar sobre la persona, su experiencia, sus habilidades y capacidades, su formación y posibilidad de corroborarlo, en secciones fáciles de identificar.
-- Debe mencionar puntualmente las aptitudes mínimas que se piden y en lo posible las ideales.
-- Debe incluir foto y edad únicamente si es solicitado.
+- Frontend: React + TypeScript
+- Persistencia de datos: Almacenamiento local (localStorage)
+- Exportación: PDF generado en cliente (usando librerías como react-pdf o html2pdf)
+
+## Mejoras futuras
+
+- Soporte para múltiples plantillas de diseño.
+- Integración con análisis de ofertas laborales para sugerir keywords.
+- Sincronización opcional con almacenamiento en la nube (Firebase, Supabase).
