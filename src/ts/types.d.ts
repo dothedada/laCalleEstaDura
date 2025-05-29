@@ -18,9 +18,9 @@ export type DataInventory = {
 };
 
 export type CV = {
-    name: Name;
-    tag: Tag;
-    id: `CV_${Name}_${Tag}_${string}`;
+    name: string;
+    tag: string;
+    id: `CV_${string}_${string}_${string}`;
     langs: {
         [lang in Langs]?: {
             active: ElementId[];
@@ -39,7 +39,7 @@ interface Element {
     title?: string;
 }
 
-type ElementTypes = 'section' | 'fixedcard' | 'opencard' | 'text';
+export type ElementTypes = 'section' | 'fixedcard' | 'opencard' | 'text';
 
 export interface Section extends Element {
     multiple: boolean;
@@ -83,3 +83,12 @@ export interface OpenCard extends Element {
 export interface Text extends Element {
     content: string;
 }
+
+export type Validations = {
+    [field: string]: [
+        rule: RegExp | ((...args: strin[]) => boolean),
+        message: string,
+    ][];
+};
+
+export type ErrorObject = Record<string, string[]>;
