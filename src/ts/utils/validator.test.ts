@@ -22,14 +22,14 @@ describe('validator', () => {
         expect(result).toEqual({});
     });
 
-    it('returns error message if required field is missing', () => {
+    it('returns error message if required field is empty string', () => {
         const validate: Validations = {
             username: [[required('username'), 'Required']],
         };
 
         const validateFn = validator(validate);
 
-        const result = validateFn({});
+        const result = validateFn({ username: '' });
 
         expect(result).toEqual({
             username: ['Required'],

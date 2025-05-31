@@ -104,10 +104,16 @@ describe('parseLabel', () => {
         expect(node).toEqual({ label: 'text', content: 'plain text' });
     });
 
-    it('converts string content to array when creates nested nodes', () => {
+    it('should only make an array when the parsing returns more than one node', () => {
         const node: InputNode = { label: 'text', content: '**bold**' };
         parseLabel(node, 'strong');
-        expect(Array.isArray(node.content)).toBe(true);
+        expect(Array.isArray(node.content)).toBe(false);
+    });
+
+    it('should update the label of the main node if only one node is returned', () => {
+        const node: InputNode = { label: 'text', content: '==bold==' };
+        parseLabel(node, 'mark');
+        expect(node.label).toBe('mark');
     });
 
     it('should preserve structure when no new patterns match', () => {
@@ -134,13 +140,8 @@ describe('parseLabel', () => {
         parseLabel(node, 'strong');
         expect(node.content).toEqual([
             { label: 'em', content: 'existing' },
-            {
-                label: 'text',
-                content: [
-                    { label: 'text', content: ' ' },
-                    { label: 'strong', content: 'new' },
-                ],
-            },
+            { label: 'text', content: ' ' },
+            { label: 'strong', content: 'new' },
         ]);
     });
 
@@ -149,19 +150,14 @@ describe('parseLabel', () => {
             label: 'text',
             content: [
                 { label: 'text', content: 'outer **bold**' },
-                { label: 'em', content: '_inner_' },
+                { label: 'text', content: '_inner_' },
             ],
         };
         parseLabel(node, 'strong');
         expect(node.content).toEqual([
-            {
-                label: 'text',
-                content: [
-                    { label: 'text', content: 'outer ' },
-                    { label: 'strong', content: 'bold' },
-                ],
-            },
-            { label: 'em', content: '_inner_' },
+            { label: 'text', content: 'outer ' },
+            { label: 'strong', content: 'bold' },
+            { label: 'text', content: '_inner_' },
         ]);
     });
 
@@ -169,20 +165,17 @@ describe('parseLabel', () => {
         const node: InputNode = {
             label: 'text',
             content: [
-                { label: 'em', content: '**not parsed**' },
-                { label: 'text', content: '**parsed**' },
+                { label: 'em', content: '==not parsed==' },
+                { label: 'text', content: '==parsed==' },
             ],
         };
-        parseLabel(node, 'strong');
+        parseLabel(node, 'mark');
         expect(node.content).toEqual([
             {
                 label: 'em',
-                content: [{ label: 'strong', content: 'not parsed' }],
+                content: [{ label: 'mark', content: 'not parsed' }],
             },
-            {
-                label: 'text',
-                content: [{ label: 'strong', content: 'parsed' }],
-            },
+            { label: 'mark', content: 'parsed' },
         ]);
     });
 
@@ -212,23 +205,13 @@ describe('parseLabel', () => {
         };
         parseLabel(node, 'strong');
         expect(node.content).toEqual([
-            {
-                label: 'text',
-                content: [
-                    { label: 'text', content: 'a ' },
-                    { label: 'strong', content: 'b' },
-                    { label: 'text', content: ' c' },
-                ],
-            },
+            { label: 'text', content: 'a ' },
+            { label: 'strong', content: 'b' },
+            { label: 'text', content: ' c' },
             { label: 'em', content: 'd' },
-            {
-                label: 'text',
-                content: [
-                    { label: 'text', content: 'e ' },
-                    { label: 'strong', content: 'f' },
-                    { label: 'text', content: ' g' },
-                ],
-            },
+            { label: 'text', content: 'e ' },
+            { label: 'strong', content: 'f' },
+            { label: 'text', content: ' g' },
         ]);
     });
 
@@ -256,76 +239,43 @@ describe('parseInputMD', () => {
             label: 'text',
             content: [
                 { label: 'strong', content: 'b' },
-                {
-                    label: 'text',
-                    content: [
-                        { label: 'text', content: ' ' },
-                        { label: 'em', content: 'i' },
-                        {
-                            label: 'text',
-                            content: [
-                                { label: 'text', content: ' ' },
-                                { label: 'mark', content: 'm' },
-                            ],
-                        },
-                    ],
-                },
-            ],
-        });
-    });
-
-    it('should handle adjacent patterns without text nodes', () => {
-        const result = parseInputMD('**b** ==m==');
-        expect(result).toEqual({
-            label: 'text',
-            content: [
-                { label: 'strong', content: 'b' },
-                {
-                    label: 'text',
-                    content: [
-                        { label: 'text', content: ' ' },
-                        { label: 'mark', content: 'm' },
-                    ],
-                },
+                { label: 'text', content: ' ' },
+                { label: 'em', content: 'i' },
+                { label: 'text', content: ' ' },
+                { label: 'mark', content: 'm' },
             ],
         });
     });
 
     it('should handle nesting patters using the PARSING_SEQUENCE', () => {
-        const result = parseInputMD('**bold _italic ==mark==**');
+        const result = parseInputMD(
+            '**bold _ita ==Mark inside== lic_ letter**',
+        );
         expect(result).toEqual({
-            label: 'text',
+            label: 'strong',
             content: [
+                { label: 'text', content: 'bold ' },
                 {
-                    label: 'strong',
+                    label: 'em',
                     content: [
-                        { label: 'text', content: 'bold _italic ' },
-                        { label: 'mark', content: 'mark' },
+                        { label: 'text', content: 'ita ' },
+                        { label: 'mark', content: 'Mark inside' },
+                        { label: 'text', content: ' lic' },
                     ],
                 },
+                { label: 'text', content: ' letter' },
             ],
         });
     });
 
     it('should respect parsing sequence priority', () => {
         const result = parseInputMD('**_==bold italic mark==_**');
-        // Verify strong is outer, em is middle, mark is inner
         expect(result).toEqual({
-            label: 'text',
+            label: 'strong',
             content: [
                 {
-                    label: 'strong',
-                    content: [
-                        {
-                            label: 'em',
-                            content: [
-                                {
-                                    label: 'mark',
-                                    content: 'bold italic mark',
-                                },
-                            ],
-                        },
-                    ],
+                    label: 'em',
+                    content: [{ label: 'mark', content: 'bold italic mark' }],
                 },
             ],
         });
@@ -338,14 +288,9 @@ describe('parseInputMD', () => {
             content: [
                 { label: 'text', content: 'Text ' },
                 { label: 'strong', content: 'bold' },
-                {
-                    label: 'text',
-                    content: [
-                        { label: 'text', content: ' more ' },
-                        { label: 'em', content: 'italic' },
-                        { label: 'text', content: ' end' },
-                    ],
-                },
+                { label: 'text', content: ' more ' },
+                { label: 'em', content: 'italic' },
+                { label: 'text', content: ' end' },
             ],
         });
     });
@@ -384,13 +329,8 @@ describe('parseInputMD', () => {
     it('should handle overlapping patterns by sequence priority', () => {
         const result = parseInputMD('**_overlap_**');
         expect(result).toEqual({
-            label: 'text',
-            content: [
-                {
-                    label: 'strong',
-                    content: [{ label: 'em', content: 'overlap' }],
-                },
-            ],
+            label: 'strong',
+            content: [{ label: 'em', content: 'overlap' }],
         });
     });
 
@@ -399,67 +339,18 @@ describe('parseInputMD', () => {
         expect(result).toEqual({
             label: 'text',
             content: [
-                {
-                    label: 'text',
-                    content: [
-                        {
-                            label: 'text',
-                            content: 'Header\n',
-                        },
-                        {
-                            label: 'mark',
-                            content: 'sub',
-                        },
-                        {
-                            label: 'text',
-                            content: '\n',
-                        },
-                    ],
-                },
+                { label: 'text', content: 'Header\n' },
+                { label: 'mark', content: 'sub' },
+                { label: 'text', content: '\n' },
                 {
                     label: 'strong',
                     content: [
-                        {
-                            label: 'text',
-                            content: 'bold ',
-                        },
-                        {
-                            label: 'em',
-                            content: 'italic',
-                        },
+                        { label: 'text', content: 'bold ' },
+                        { label: 'em', content: 'italic' },
                     ],
                 },
-                {
-                    label: 'text',
-                    content: ' text',
-                },
-            ],
-        });
-    });
-
-    it('should handle deeply nested patterns', () => {
-        const result = parseInputMD('**_==carai==_**');
-        expect(result).toEqual({
-            label: 'text',
-            content: [
-                {
-                    label: 'strong',
-                    content: [
-                        {
-                            label: 'em',
-                            content: [
-                                {
-                                    label: 'mark',
-                                    content: 'carai',
-                                },
-                            ],
-                        },
-                    ],
-                },
+                { label: 'text', content: ' text' },
             ],
         });
     });
 });
-
-// const parsedMD = parseInputMD('carajo _esto_ y esto: **no** functiona');
-// console.log(JSON.stringify(parsedMD, null, 2));
