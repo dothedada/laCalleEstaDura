@@ -3,9 +3,10 @@ import type {
     InOutPattern,
     Pattern,
     InputNode,
+    UrlPattern,
 } from './types.d.ts';
 
-const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.', ';', ':']);
+const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.']);
 const PARSING_SEQUENCE = ['strong', 'em', 'mark'];
 
 const patternsFor = {
@@ -21,7 +22,12 @@ const patternsFor = {
         open: ['end', '=', '=', 'char'],
         close: ['char', '=', '=', 'end'],
     },
-} satisfies { [k in Exclude<NodeLabels, 'text'>]: InOutPattern };
+    a: {
+        open: ['end', '(', 'char'],
+        close: ['char', ')', '[', 'char'],
+        end: ['char', ']', 'end'],
+    },
+} satisfies { [k in Exclude<NodeLabels, 'text'>]: InOutPattern | UrlPattern };
 
 function charComparison(
     char: string | undefined,
@@ -161,24 +167,63 @@ function makeInputNodes(
     return nodes;
 }
 
-function parseLabel(node: InputNode, label: Exclude<NodeLabels, 'text'>) {
-    const nodeContent = node.content;
-    if (Array.isArray(nodeContent)) {
-        nodeContent.forEach((node) => parseLabel(node, label));
-        return;
-    }
+function parseContentStr(label: Exclude<NodeLabels, 'text'>, node: InputNode) {
+    const parsedNodes = makeInputNodes(label, node.content as string);
 
-    if (typeof node.content !== 'string') {
-        return;
-    }
-    const parsedNodes = makeInputNodes(label, node.content);
-
-    if (
-        parsedNodes.length > 1 ||
-        (parsedNodes.length === 1 && parsedNodes[0]?.label !== 'text')
-    ) {
+    if (parsedNodes.length > 1) {
         node.content = parsedNodes;
+    } else {
+        const parsedNode = parsedNodes[0];
+
+        if (node.label === 'text' || node.label === parsedNode?.label) {
+            node.label = parsedNode?.label ?? 'text';
+            node.content = parsedNode?.content ?? '';
+        } else if (parsedNode?.label === 'text') {
+            node.content = parsedNode.content;
+        } else {
+            node.content = [parsedNode!];
+        }
     }
+
+    return node;
+}
+
+function parseContentArr(label: Exclude<NodeLabels, 'text'>, node: InputNode) {
+    const processedNodes: InputNode[] = [];
+
+    for (const childNode of node.content as InputNode[]) {
+        const parsedChild = parseLabel(childNode, label);
+
+        if (!parsedChild) {
+            throw new Error('Cannot parse the nodes');
+        }
+
+        // eval if the arr should be flattened
+        if (
+            childNode.label === 'text' &&
+            Array.isArray(parsedChild.content) &&
+            parsedChild.content.length > 1
+        ) {
+            processedNodes.push(...parsedChild.content);
+        } else {
+            processedNodes.push(parsedChild);
+        }
+    }
+    node.content = processedNodes;
+
+    return node;
+}
+
+function parseLabel(node: InputNode, label: Exclude<NodeLabels, 'text'>) {
+    if (typeof node.content === 'string') {
+        return parseContentStr(label, node);
+    }
+
+    if (Array.isArray(node.content)) {
+        return parseContentArr(label, node);
+    }
+
+    return node;
 }
 
 export function parseInputMD(input: string): InputNode {
