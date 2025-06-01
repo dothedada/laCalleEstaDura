@@ -1,5 +1,5 @@
 type Langs = 'es' | 'en' | string;
-type Sections =
+type SectionNames =
     | 'profile'
     | 'contact'
     | 'skill'
@@ -39,7 +39,8 @@ interface Element {
     title?: string;
 }
 
-export type ElementTypes = 'section' | 'fixedcard' | 'opencard' | 'text';
+export type ElementNames = 'section' | 'fixedcard' | 'opencard' | 'text';
+export type ElementTypes = Section | FixedCard | OpenCard | Text;
 
 export interface Section extends Element {
     multiple: boolean;
@@ -72,9 +73,7 @@ type EducationData = {
     achievement?: string;
 };
 
-export interface FixedCard extends Element {
-    items: (CommonData | ExperienceData | EducationData)[];
-}
+export type FixedCard = Element & (CommonData | ExperienceData | EducationData);
 
 export interface OpenCard extends Element {
     items: { key: string; value: string }[];
