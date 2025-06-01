@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ErrorObject } from '../types';
+import type { ElementTypes, ErrorObject } from '../types';
 
 export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
 
@@ -46,3 +46,13 @@ export type FormProps = {
     id?: string;
     attributes?: React.FormHTMLAttributes<HTMLFormElement>;
 };
+
+export interface CardInfoProps {
+    id: string;
+    title: string;
+    text: string;
+
+    status: 'active' | 'hidden';
+    activeActions: ButtonsSetProps[];
+    hiddenActions: ButtonsSetProps[];
+}
