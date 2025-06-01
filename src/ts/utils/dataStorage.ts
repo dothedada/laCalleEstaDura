@@ -1,8 +1,9 @@
 import type {
     ElementId,
     DataInventory,
+    SectionNames,
+    ElementNames,
     ElementTypes,
-    Sections,
 } from '../types';
 
 export function createHash(): string {
@@ -14,8 +15,8 @@ export function createHash(): string {
 }
 
 export function createID(
-    section: Sections,
-    element: ElementTypes,
+    section: SectionNames,
+    element: ElementNames,
     isCV: boolean,
 ): ElementId {
     const date = new Date().toISOString().replace(/\D/g, '').slice(0, 8);
@@ -24,7 +25,17 @@ export function createID(
     return `${cv}${section}_${element}_${date}-${hash}` as ElementId;
 }
 
-export function loadFromLocalStorage(): DataInventory {
+export function getItemFromLS<T extends ElementTypes>(id: string): T {
+    const data = localStorage.getItem(id);
+    if (data === null) {
+        throw new Error(`No element in local storage with id '${id}'`);
+    }
+
+    const dataObj = JSON.parse(data);
+    return dataObj as T;
+}
+
+export function loadIdsFromLocalStorage(): DataInventory {
     const cvData: DataInventory = { cvs: [], elements: [] };
 
     for (let i = 0; i < localStorage.length; i++) {
