@@ -8,7 +8,7 @@ import type {
 import type { ElementId, Section } from '../types';
 import { getItemFromLS } from '../utils/dataStorage.ts';
 import { useEffect, useReducer, useState, type Dispatch } from 'react';
-import { sectionReducer } from '../hooks/cardReducer.ts';
+import { sectionReducer } from '../hooks/sectionReducer.ts';
 import type { CardAction, SetCardActions } from '../hooks/hooksTypes';
 
 export const sectionActiveActions: SetCardActions[] = [

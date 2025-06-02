@@ -267,7 +267,7 @@ describe('Form', () => {
             username: 'miguel',
             email: 'miguel@test.com',
             formAction: 'save',
-            id: 'test-id',
+            id: 'A_B_C-D',
         });
     });
 
