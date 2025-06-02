@@ -4,13 +4,13 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import { Button, Input, Select, Form } from './formElements';
-import type { ButtonProp, InputFieldProps } from './components';
+import type { ButtonBase, InputFieldProps } from './components';
 
 describe('Button', () => {
     it('should render with the given name', () => {
         const randomText = Math.floor(Math.random() * 1_000_000).toString(16);
         const callback = vi.fn();
-        const props: ButtonProp = {
+        const props: ButtonBase = {
             buttonAction: 'new',
             action: callback,
         };
@@ -24,7 +24,7 @@ describe('Button', () => {
     it('should match the class with the given button type', () => {
         const btnText = 'click me';
         const callback = vi.fn();
-        const props: ButtonProp = {
+        const props: ButtonBase = {
             buttonAction: 'delete',
             action: callback,
         };
@@ -39,7 +39,7 @@ describe('Button', () => {
         const user = userEvent.setup();
         const btnText = 'click me';
         const callback = vi.fn();
-        const props: ButtonProp = {
+        const props: ButtonBase = {
             buttonAction: 'delete',
             action: callback,
         };

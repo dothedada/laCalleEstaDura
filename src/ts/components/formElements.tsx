@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import type {
-    ButtonProp,
-    ButtonsSetProps,
+    ButtonType,
     FormProps,
     InputFieldProps,
     SelectProps,
 } from './components';
 import type { ErrorObject } from '../types';
 
-export function Button(props: ButtonProp & { children: string }) {
+export function Button(props: ButtonType) {
     const btnClass = props.buttonAction;
 
     const handleClick = () => {
@@ -26,7 +25,7 @@ export function Button(props: ButtonProp & { children: string }) {
             {...props.attributes}
             className={btnClass}
         >
-            {props.children}
+            {props.text}
         </button>
     );
 }
@@ -35,18 +34,14 @@ export function ButtonsSet({
     buttons,
     containerAttributes,
 }: {
-    buttons: ButtonsSetProps[];
+    buttons: ButtonType[];
     containerAttributes?: React.HTMLAttributes<HTMLDivElement>;
 }) {
     return (
         <div {...containerAttributes}>
             {buttons.map((btn, i) => {
-                const { label, ...attributes } = btn;
-                return (
-                    <Button key={i} {...attributes}>
-                        {label}
-                    </Button>
-                );
+                const { text, ...attributes } = btn;
+                return <Button key={i} {...attributes} text={text} />;
             })}
         </div>
     );
