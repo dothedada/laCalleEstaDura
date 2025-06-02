@@ -15,6 +15,13 @@ export function sectionReducer(section: Section | null, action: CardAction) {
                 section.hidden,
                 section.active,
             );
+            if (section.multiple) {
+                return {
+                    ...section,
+                    active: [active[0]],
+                    hidden: [...active.slice(1), hidden],
+                };
+            }
             return { ...section, active, hidden };
         }
 

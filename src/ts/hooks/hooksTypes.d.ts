@@ -1,3 +1,4 @@
+import type { ActionType } from '../components/components';
 import { ElementId } from '../types';
 
 export type CardAction =
@@ -8,3 +9,11 @@ export type CardAction =
     | { type: 'card_movedDown'; cardId: ElementId }
     | { type: 'card_deleted'; cardId: ElementId }
     | { type: 'card_added'; cardId: ElementId };
+
+type ActionsWithId = Extrtact<CardAction, { cardId: ElementId }>;
+
+export type SetCardActions = {
+    text: string;
+    buttonAction: ActionType;
+    type: ActionsWithId['type'];
+};

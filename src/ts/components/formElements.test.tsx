@@ -4,18 +4,19 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 import { Button, Input, Select, Form } from './formElements';
-import type { ButtonBase, InputFieldProps } from './components';
+import type { ButtonType, InputFieldProps } from './components';
 
 describe('Button', () => {
     it('should render with the given name', () => {
         const randomText = Math.floor(Math.random() * 1_000_000).toString(16);
         const callback = vi.fn();
-        const props: ButtonBase = {
+        const props: ButtonType = {
             buttonAction: 'new',
             action: callback,
+            text: randomText,
         };
 
-        render(<Button {...props}>{randomText}</Button>);
+        render(<Button {...props} />);
 
         const button = screen.getByText(randomText);
         expect(button).toBeInTheDocument();
@@ -24,12 +25,13 @@ describe('Button', () => {
     it('should match the class with the given button type', () => {
         const btnText = 'click me';
         const callback = vi.fn();
-        const props: ButtonBase = {
+        const props: ButtonType = {
             buttonAction: 'delete',
             action: callback,
+            text: btnText,
         };
 
-        render(<Button {...props}>{btnText}</Button>);
+        render(<Button {...props} />);
 
         const button = screen.getByText(btnText);
         expect(button).toHaveClass('delete');
@@ -39,12 +41,13 @@ describe('Button', () => {
         const user = userEvent.setup();
         const btnText = 'click me';
         const callback = vi.fn();
-        const props: ButtonBase = {
+        const props: ButtonType = {
             buttonAction: 'delete',
             action: callback,
+            text: btnText,
         };
 
-        render(<Button {...props}>{btnText}</Button>);
+        render(<Button {...props} />);
         const button = screen.getByRole('button', { name: 'click me' });
         await user.click(button);
 
@@ -248,7 +251,7 @@ describe('Form', () => {
         const user = userEvent.setup();
 
         render(
-            <Form action={handleAction} id="test-id">
+            <Form action={handleAction} id="A_B_C-D">
                 <input name="username" defaultValue="miguel" />
                 <input name="email" defaultValue="miguel@test.com" />
                 <button type="submit" value="save">
@@ -299,7 +302,11 @@ describe('Form', () => {
         const user = userEvent.setup();
 
         render(
-            <Form action={handleAction} id="test" attributes={{ role: 'form' }}>
+            <Form
+                action={handleAction}
+                id="A_B_C-D"
+                attributes={{ role: 'form' }}
+            >
                 <input name="test" defaultValue="value" />
             </Form>,
         );
