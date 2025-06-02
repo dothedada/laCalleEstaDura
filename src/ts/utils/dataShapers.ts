@@ -1,4 +1,3 @@
-import type { CardInfoProps } from '../components/components';
 import type {
     Element,
     FixedCard,
@@ -46,9 +45,10 @@ function isSection(rawData: unknown): rawData is Section {
     );
 }
 
-export function makeCardDataFromElement(
-    rawData: unknown,
-): Omit<CardInfoProps, 'status' | 'activeActions' | 'hiddenActions'> {
+export function makeCardDataFromElement(rawData: unknown): {
+    title: string;
+    text: string;
+} {
     if (!isElement(rawData)) {
         throw new Error('rawData is not a valid element');
     }
@@ -86,5 +86,5 @@ export function makeCardDataFromElement(
     }
 
     const title = rawData.title ?? rawData.name;
-    return { id: rawData.id, title, text };
+    return { title, text };
 }

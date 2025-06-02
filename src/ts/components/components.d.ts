@@ -1,13 +1,14 @@
 import React from 'react';
-import type { ElementTypes, ErrorObject } from '../types';
+import type { ErrorObject } from '../types';
 
 export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
 
-export interface ButtonProp {
+export interface ButtonBase {
     buttonAction: SubmitProps;
     type?: 'button' | 'submit' | 'reset';
     action?: (
         e?:
+            | undefined
             | string
             | React.MouseEvent<HTMLButtonElement>
             | React.KeyboardEvent<HTMLButtonElement>,
@@ -15,8 +16,12 @@ export interface ButtonProp {
     attributes?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
-export interface ButtonsSetProps extends ButtonProp {
-    label: string;
+export interface ButtonType extends ButtonBase {
+    text: string;
+}
+
+export interface ButtonsSetProps extends ButtonBase {
+    buttons: ButtonType[];
 }
 
 export type InputFieldProps = {
@@ -47,12 +52,11 @@ export type FormProps = {
     attributes?: React.FormHTMLAttributes<HTMLFormElement>;
 };
 
-export interface CardInfoProps {
-    id: string;
-    title: string;
-    text: string;
+export type CardStatus = 'active' | 'hidden';
 
-    status: 'active' | 'hidden';
-    activeActions: ButtonsSetProps[];
-    hiddenActions: ButtonsSetProps[];
-}
+export type CardInfoProps = {
+    id: string;
+    status: CardStatus;
+    activeActions: ButtonType[];
+    hiddenActions: ButtonType[];
+};
