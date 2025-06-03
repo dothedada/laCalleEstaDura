@@ -24,8 +24,8 @@ function isOpenCard(rawData: unknown): rawData is OpenCard {
         Array.isArray(rawData.items)
     ) {
         return (
-            rawData.items[0].key !== undefined &&
-            rawData.items[0].items !== undefined
+            rawData.items[0]?.key !== undefined &&
+            rawData.items[0]?.value !== undefined
         );
     } else {
         return false;
@@ -60,7 +60,7 @@ export function makeCardDataFromElement(rawData: unknown): {
     }
 
     if (isOpenCard(rawData)) {
-        for (const [key, value] of Object.entries(rawData.items)) {
+        for (const { key, value } of rawData.items) {
             text += `${key}: ${value}; `;
         }
     }
@@ -82,7 +82,7 @@ export function makeCardDataFromElement(rawData: unknown): {
     }
 
     if (isSection(rawData)) {
-        text = 'no hay un resumen disponible';
+        text = '';
     }
 
     const title = rawData.title ?? rawData.name;

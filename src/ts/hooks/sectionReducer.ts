@@ -1,7 +1,10 @@
 import type { ElementId, Section } from '../types';
 import type { CardAction } from './hooksTypes';
 
-export function sectionReducer(section: Section | null, action: CardAction) {
+export function sectionReducer(
+    section: Section | null,
+    action: CardAction,
+): Section | null {
     switch (action.type) {
         case 'data_setted':
             return action.sectionData;
@@ -15,6 +18,13 @@ export function sectionReducer(section: Section | null, action: CardAction) {
                 section.hidden,
                 section.active,
             );
+            if (section.multiple) {
+                return {
+                    ...section,
+                    active: [active[0]!],
+                    hidden: [...active.slice(1), ...hidden],
+                };
+            }
             return { ...section, active, hidden };
         }
 
@@ -55,7 +65,7 @@ export function sectionReducer(section: Section | null, action: CardAction) {
         }
 
         case 'card_added': {
-            if (section === null) {
+            if (section === null || section.active.includes(action.cardId)) {
                 return section;
             }
             const active = [action.cardId, ...section.active];
@@ -74,6 +84,9 @@ function moveCardFromDeck(
     to: ElementId[],
 ): [from: ElementId[], to: ElementId[]] {
     const newFrom = from.filter((cardId) => cardId !== id);
+    if (newFrom.length === from.length) {
+        return [from, to];
+    }
     const newTo = [id, ...to];
     return [newFrom, newTo];
 }

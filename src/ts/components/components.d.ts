@@ -1,10 +1,10 @@
 import React from 'react';
-import type { ErrorObject } from '../types';
+import type { ElementId, ErrorObject } from '../types';
 
-export type SubmitProps = 'new' | 'update' | 'derivate' | 'delete';
+export type ActionType = 'new' | 'update' | 'derivate' | 'delete';
 
 export interface ButtonBase {
-    buttonAction: SubmitProps;
+    buttonAction: ActionType;
     type?: 'button' | 'submit' | 'reset';
     action?: (
         e?:
@@ -47,8 +47,8 @@ export type SelectProps = {
 export type FormProps = {
     action: (arg: Record<string, string>) => Record<string, string>;
     validator?: (arg: Record<string, string>) => ErrorObject;
+    id?: ElementId;
     children: React.ReactNode;
-    id?: string;
     attributes?: React.FormHTMLAttributes<HTMLFormElement>;
 };
 
@@ -57,6 +57,5 @@ export type CardStatus = 'active' | 'hidden';
 export type CardInfoProps = {
     id: string;
     status: CardStatus;
-    activeActions: ButtonType[];
-    hiddenActions: ButtonType[];
+    actions: ButtonType[];
 };

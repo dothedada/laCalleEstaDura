@@ -12,10 +12,7 @@ type SectionNames =
     | 'experience-tasks'
     | 'experience-achievements';
 
-export type DataInventory = {
-    cvs: CV[];
-    elements: Element[];
-};
+export type CVInventory = CV[];
 
 export type CV = {
     name: string;
