@@ -1,6 +1,6 @@
 import type {
     ElementId,
-    DataInventory,
+    CVInventory,
     SectionNames,
     ElementNames,
     ElementTypes,
@@ -35,8 +35,8 @@ export function getItemFromLS<T extends ElementTypes>(id: string): T {
     return dataObj as T;
 }
 
-export function loadIdsFromLocalStorage(): DataInventory {
-    const cvData: DataInventory = { cvs: [], elements: [] };
+export function loadCVsFromLS(): CVInventory {
+    const cvData: CVInventory = [];
 
     for (let i = 0; i < localStorage.length; i++) {
         const element = localStorage.key(i);
@@ -45,15 +45,13 @@ export function loadIdsFromLocalStorage(): DataInventory {
             break;
         }
 
-        cvData[element.startsWith('CV_') ? 'cvs' : 'elements'].push(
-            JSON.parse(element),
-        );
+        cvData.push(JSON.parse(element));
     }
 
     return cvData;
 }
 
-export function saveToLocalStorage(element: {
+export function saveItemToLS(element: {
     id: string;
     lastUpdate?: string;
 }): void {

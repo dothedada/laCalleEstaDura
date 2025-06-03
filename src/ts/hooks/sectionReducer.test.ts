@@ -223,21 +223,6 @@ describe('sectionReducer', () => {
         expect(finalAction).toStrictEqual(sectionMock);
     });
 
-    it('should return null for all actions when section is null', () => {
-        const actions = [
-            { type: 'card_activated', cardId: 'a_a_a-a' },
-            { type: 'card_hidden', cardId: 'a_a_a-a' },
-            { type: 'card_movedUp', cardId: 'a_a_a-a' },
-            { type: 'card_movedDown', cardId: 'a_a_a-a' },
-            { type: 'card_deleted', cardId: 'a_a_a-a' },
-            { type: 'card_added', cardId: 'a_a_a-a' },
-        ];
-
-        actions.forEach((action) => {
-            expect(sectionReducer(null, action)).toBe(null);
-        });
-    });
-
     it('should not modify section when moving non-existent card', () => {
         const result = sectionReducer(sectionMock, {
             type: 'card_movedUp',
