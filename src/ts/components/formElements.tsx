@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type {
     ButtonType,
     FormProps,
@@ -75,8 +75,12 @@ export function Input({
     charLimit,
     attributes,
 }: InputFieldProps) {
-    const [inputValue, setInputValue] = useState(value ?? '');
+    const [inputValue, setInputValue] = useState('');
     const remainingChars = charLimit ? charLimit - inputValue.length : null;
+
+    useEffect(() => {
+        setInputValue(value ?? '');
+    }, [value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = e.target.value;
@@ -117,6 +121,9 @@ export function KeyValueInput({
     vProps: InputFieldProps;
     attributes?: React.HTMLAttributes<HTMLDivElement>;
 }) {
+    // TODO: Asegurar la carga correcta de la data en los dos campos
+    // y en relacion con el resto del formulario donde este contenido
+    // ¿¿¿separar key y value desde el prop???
     return (
         <div className="keyValueInput" {...attributes}>
             <Input {...kProps} />

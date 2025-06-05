@@ -45,7 +45,7 @@ export type SelectProps = {
 };
 
 export type FormProps = {
-    action: (arg: Record<string, string>) => Record<string, string>;
+    action: (arg: Record<string, string>) => void;
     validator?: (arg: Record<string, string>) => ErrorObject;
     id?: ElementId;
     children: React.ReactNode;
