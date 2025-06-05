@@ -31,16 +31,24 @@ export function TextForm(props: TextFormProps) {
     };
 
     const textValidator =
-        validations !== undefined ? validator(validations) : undefined;
+        validations !== undefined && Object.keys(validations).length > 0
+            ? validator(validations)
+            : undefined;
+
+    const translate = data?.lang !== undefined && data.lang !== contextLang;
 
     return (
-        <Form action={onSuccesSubmit} validator={textValidator}>
-            <div>
-                sec lang: {data?.lang}, ctx: {contextLang}
-            </div>
-            {data?.lang !== undefined && data.lang !== contextLang
-                ? 'Saving would create a copy of the card with the updated lang'
-                : ''}
+        <Form
+            action={onSuccesSubmit}
+            validator={textValidator}
+            attributes={{ className: translate ? 'warn' : '' }}
+        >
+            {translate && (
+                <div className="warn">
+                    Saving would create a copy of the card with the updated lang
+                </div>
+            )}
+
             <Input {...inputAttributes} value={data?.name ?? ''} />
             <Button text="guardar" type="submit" style="new" />
         </Form>
