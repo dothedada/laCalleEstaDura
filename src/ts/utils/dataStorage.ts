@@ -55,6 +55,8 @@ export function saveItemToLS<T extends { id: string }>(element: T): void {
     let data = element;
     if (element.id.startsWith('CV_')) {
         data = { ...data, lastUpdate: new Date().toISOString().slice(0, 10) };
+        console.log(new Date().toISOString().slice(0, 10));
+        console.log('dentro', data);
     }
     localStorage.setItem(element.id, JSON.stringify(data));
 }

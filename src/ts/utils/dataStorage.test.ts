@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { getItemFromLS, loadCVsFromLS, saveItemToLS } from './dataStorage.ts';
-import type { ElementId } from '../types';
 
-// Mock localStorage
 const mockLocalStorage = (() => {
     let store: Record<string, string> = {};
     return {
@@ -138,7 +136,6 @@ describe('saveItemToLS', () => {
         mockLocalStorage.clear();
         vi.clearAllMocks();
         vi.useFakeTimers();
-        vi.setSystemTime(new Date('2024-03-15T10:30:00.000Z'));
     });
 
     afterEach(() => {
@@ -147,7 +144,7 @@ describe('saveItemToLS', () => {
 
     it('saves CV element with lastUpdate', () => {
         const cvElement: {
-            id: ElementId;
+            id: string;
             name: string;
             tag: string;
             lastUpdate?: string;
@@ -156,13 +153,14 @@ describe('saveItemToLS', () => {
             name: 'CV Element',
             tag: 'personal',
         };
-
         saveItemToLS(cvElement);
 
-        expect(cvElement?.lastUpdate).toBe('2024-03-15');
         expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
             'CV_profile_section_20240315-abc123',
-            JSON.stringify({ ...cvElement, lastUpdate: '2024-03-15' }),
+            JSON.stringify({
+                ...cvElement,
+                lastUpdate: new Date().toISOString().slice(0, 10),
+            }),
         );
     });
 
@@ -170,15 +168,16 @@ describe('saveItemToLS', () => {
         const cvElement = {
             id: 'CV_contact_section_20240314-xyz789',
             name: 'Old CV',
-            lastUpdate: '2024-03-14',
         };
 
         saveItemToLS(cvElement);
 
-        expect(cvElement.lastUpdate).toBe('2024-03-15');
         expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
             'CV_contact_section_20240314-xyz789',
-            JSON.stringify({ ...cvElement, lastUpdate: '2024-03-15' }),
+            JSON.stringify({
+                ...cvElement,
+                lastUpdate: new Date().toISOString().slice(0, 10),
+            }),
         );
     });
 

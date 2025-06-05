@@ -15,11 +15,12 @@ export type ElementNames = 'section' | 'fixedcard' | 'opencard' | 'text';
 export type ElementTypes = Section | FixedCard | OpenCard | Text;
 
 export type CVInventory = CV[];
+export type CVid<T extends string, E extends string> = CV<T, E>['id'];
 
-export type CV = {
-    name: string;
-    tag: string;
-    id: `CV_${string}_${string}_${string}`;
+export type CV<T extends string, E extends string> = {
+    name: T;
+    tag: E;
+    id: `CV_${T}_${E}_${string}`;
     langs: {
         [lang in Langs]?: {
             active: ElementId[];
@@ -29,7 +30,7 @@ export type CV = {
     lastUpdate: string;
 };
 
-export type ElementId = `${SectionNames}_${string}_${string}-${string}`;
+export type ElementId = `${SectionNames}_${ElementNames}_${string}-${string}`;
 
 interface Element {
     lang: Langs;
