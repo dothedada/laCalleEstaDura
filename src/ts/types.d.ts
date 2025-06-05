@@ -11,6 +11,8 @@ type SectionNames =
     | 'experience-card'
     | 'experience-tasks'
     | 'experience-achievements';
+export type ElementNames = 'section' | 'fixedcard' | 'opencard' | 'text';
+export type ElementTypes = Section | FixedCard | OpenCard | Text;
 
 export type CVInventory = CV[];
 
@@ -27,7 +29,7 @@ export type CV = {
     lastUpdate: string;
 };
 
-export type ElementId = `${string}_${string}_${string}-${string}`;
+export type ElementId = `${SectionNames}_${string}_${string}-${string}`;
 
 interface Element {
     lang: Langs;
@@ -35,9 +37,6 @@ interface Element {
     name: string;
     title?: string;
 }
-
-export type ElementNames = 'section' | 'fixedcard' | 'opencard' | 'text';
-export type ElementTypes = Section | FixedCard | OpenCard | Text;
 
 export interface Section extends Element {
     multiple: boolean;
