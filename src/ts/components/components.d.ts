@@ -1,26 +1,25 @@
 import React from 'react';
-import type { ElementId, ErrorObject } from '../types';
+import type {
+    SectionNames,
+    Validations,
+    ElementId,
+    ErrorObject,
+} from '../types';
 
-export type ActionType = 'new' | 'update' | 'derivate' | 'delete';
+export type buttonStyle = 'new' | 'update' | 'derivate' | 'delete';
 
-export interface ButtonBase {
-    buttonAction: ActionType;
+export interface ButtonType extends ButtonBase {
+    text: string | React.ReactSVGElement;
+    alt?: string;
+    style?: buttonStyle;
+    action?: (e?: string | React.MouseEvent<HTMLButtonElement>) => void;
+    data?: Record<string, string>;
+    value?: string;
     type?: 'button' | 'submit' | 'reset';
-    action?: (
-        e?:
-            | undefined
-            | string
-            | React.MouseEvent<HTMLButtonElement>
-            | React.KeyboardEvent<HTMLButtonElement>,
-    ) => void;
     attributes?: React.ButtonHTMLAttributes<HTMLButtonElement>;
 }
 
-export interface ButtonType extends ButtonBase {
-    text: string;
-}
-
-export interface ButtonsSetProps extends ButtonBase {
+export interface ButtonsSetProps {
     buttons: ButtonType[];
 }
 
@@ -59,3 +58,9 @@ export type CardInfoProps = {
     status: CardStatus;
     actions: ButtonType[];
 };
+
+export interface TextFormProps extends InputFieldProps {
+    id?: ElementId;
+    section: SectionNames;
+    validations?: Validations;
+}

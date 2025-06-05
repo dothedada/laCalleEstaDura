@@ -1,29 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage.ts';
-import type { ElementId, SectionNames, Text, Validations } from '../types.d.ts';
 import { Input, Button, Form } from './formElements.tsx';
-import type { InputFieldProps } from './components';
 import { validator } from '../utils/validator.ts';
-
-export interface TextFormProps extends InputFieldProps {
-    id?: ElementId;
-    section: SectionNames;
-    validations?: Validations;
-}
+import type { Text } from '../types.d.ts';
+import type { TextFormProps } from './components';
+import { LangContext } from '../hooks/context.ts';
 
 export function TextForm(props: TextFormProps) {
-    // TODO: tarjeta de form cuando el id no existe
+    const contextLang = useContext(LangContext);
     const [data, setData] = useState<Text | null>(null);
     const { id, section, validations, ...inputAttributes } = props;
-
-    const contextLang = 'es';
 
     useEffect(() => {
         if (id !== undefined) {
             const loadedData = getItemFromLS<Text>(id);
             if (loadedData === null || loadedData === undefined) {
-                throw new Error('No data from the LS loaded');
+                throw new Error('Unable to get the data from LocalStorage');
             }
+
             setData(loadedData);
         }
     }, [id]);
@@ -42,12 +36,14 @@ export function TextForm(props: TextFormProps) {
 
     return (
         <Form action={onSuccesSubmit} validator={textValidator}>
-            <div>CV lang: {data?.lang || contextLang}</div>
+            <div>
+                sec lang: {data?.lang}, ctx: {contextLang}
+            </div>
             {data?.lang !== undefined && data.lang !== contextLang
                 ? 'Saving would create a copy of the card with the updated lang'
                 : ''}
             <Input {...inputAttributes} value={data?.name ?? ''} />
-            <Button text="guardar" type="submit" buttonAction="new" />
+            <Button text="guardar" type="submit" style="new" />
         </Form>
     );
 }
