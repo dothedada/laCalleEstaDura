@@ -15,9 +15,8 @@ export function TextForm(props: TextFormProps) {
         if (id !== undefined) {
             const loadedData = getItemFromLS<Text>(id);
             if (loadedData === null || loadedData === undefined) {
-                throw new Error('Unable to get the data from LocalStorage');
+                throw new Error('No data from the LS loaded');
             }
-
             setData(loadedData);
         }
     }, [id]);
