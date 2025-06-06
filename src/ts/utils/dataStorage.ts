@@ -1,10 +1,4 @@
-import type {
-    ElementId,
-    CVInventory,
-    SectionNames,
-    ElementNames,
-    ElementTypes,
-} from '../types';
+import type { ElementId, ElementTypes, CV } from '../types';
 
 export function createHash(): string {
     return (Math.random() * 10_000 * new Date().getTime())
@@ -15,17 +9,19 @@ export function createHash(): string {
 }
 
 export function createID(
-    section: SectionNames,
-    element: ElementNames,
+    firstBlock: string,
+    secondBlock: string,
     isCV: boolean,
-): ElementId {
+) {
     const date = new Date().toISOString().replace(/\D/g, '').slice(0, 8);
     const hash = createHash();
-    const cv = isCV ? 'CV_' : '';
-    return `${cv}${section}_${element}_${date}-${hash}` as ElementId;
+    if (isCV) {
+        return `CV_${firstBlock}_${secondBlock}_${date}-${hash}` as CV['id'];
+    }
+    return `${firstBlock}_${secondBlock}_${date}-${hash}` as ElementId;
 }
 
-export function getItemFromLS<T extends ElementTypes>(id: string): T {
+export function getItemFromLS<T extends ElementTypes | CV>(id: string): T {
     const data = localStorage.getItem(id);
     if (data === null) {
         throw new Error(`No element in local storage with id '${id}'`);
@@ -35,8 +31,8 @@ export function getItemFromLS<T extends ElementTypes>(id: string): T {
     return dataObj as T;
 }
 
-export function loadCVsFromLS(): CVInventory {
-    const cvData: CVInventory = [];
+export function loadCVsFromLS(): CV[] {
+    const cvData: CV[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {
         const element = localStorage.key(i);
@@ -45,8 +41,16 @@ export function loadCVsFromLS(): CVInventory {
             break;
         }
 
-        cvData.push(JSON.parse(element));
+        if (element.startsWith('CV_')) {
+            cvData.push(JSON.parse(element));
+        }
     }
+
+    cvData.sort(
+        (a, b) =>
+            +b.lastUpdate.split('-').join('') -
+            +a.lastUpdate.split('-').join(''),
+    );
 
     return cvData;
 }
@@ -54,9 +58,7 @@ export function loadCVsFromLS(): CVInventory {
 export function saveItemToLS<T extends { id: string }>(element: T): void {
     let data = element;
     if (element.id.startsWith('CV_')) {
-        data = { ...data, lastUpdate: new Date().toISOString().slice(0, 10) };
-        console.log(new Date().toISOString().slice(0, 10));
-        console.log('dentro', data);
+        data = { ...data, lastUpdate: new Date().toISOString() };
     }
     localStorage.setItem(element.id, JSON.stringify(data));
 }

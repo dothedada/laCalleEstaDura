@@ -14,12 +14,9 @@ type SectionNames =
 export type ElementNames = 'section' | 'fixedcard' | 'opencard' | 'text';
 export type ElementTypes = Section | FixedCard | OpenCard | Text;
 
-export type CVInventory = CV[];
-export type CVid<T extends string, E extends string> = CV<T, E>['id'];
-
-export type CV<T extends string, E extends string> = {
-    name: T;
-    tag: E;
+export type CV = {
+    name: string;
+    tag: string;
     id: `CV_${T}_${E}_${string}`;
     langs: {
         [lang in Langs]?: {

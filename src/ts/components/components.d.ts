@@ -6,7 +6,7 @@ import type {
     ErrorObject,
 } from '../types';
 
-export type buttonStyle = 'new' | 'update' | 'derivate' | 'delete';
+export type buttonStyle = 'new' | 'update' | 'duplicate' | 'delete';
 
 export interface ButtonType extends ButtonBase {
     text: string | React.ReactSVGElement;
