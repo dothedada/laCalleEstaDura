@@ -68,7 +68,7 @@ export function makeSectionWith(
                     {currentCard === null ? (
                         <FormComponent />
                     ) : (
-                        <Button buttonAction="new" text="new card" />
+                        <Button style="new" text="new card" />
                     )}
                     <h2>Active</h2>
                     {section.active.map((id) => {
@@ -77,7 +77,7 @@ export function makeSectionWith(
                             status: 'active' as CardStatus,
                             actions: [
                                 {
-                                    buttonAction: 'update',
+                                    style: 'update',
                                     action: () => setCurrentCard(id),
                                     text: 'edit',
                                 } satisfies ButtonType,

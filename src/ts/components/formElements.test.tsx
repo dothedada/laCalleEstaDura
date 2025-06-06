@@ -11,7 +11,7 @@ describe('Button', () => {
         const randomText = Math.floor(Math.random() * 1_000_000).toString(16);
         const callback = vi.fn();
         const props: ButtonType = {
-            buttonAction: 'new',
+            style: 'new',
             action: callback,
             text: randomText,
         };
@@ -26,7 +26,7 @@ describe('Button', () => {
         const btnText = 'click me';
         const callback = vi.fn();
         const props: ButtonType = {
-            buttonAction: 'delete',
+            style: 'delete',
             action: callback,
             text: btnText,
         };
@@ -42,7 +42,7 @@ describe('Button', () => {
         const btnText = 'click me';
         const callback = vi.fn();
         const props: ButtonType = {
-            buttonAction: 'delete',
+            style: 'delete',
             action: callback,
             text: btnText,
         };

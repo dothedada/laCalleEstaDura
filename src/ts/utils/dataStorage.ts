@@ -51,12 +51,12 @@ export function loadCVsFromLS(): CVInventory {
     return cvData;
 }
 
-export function saveItemToLS(element: {
-    id: string;
-    lastUpdate?: string;
-}): void {
+export function saveItemToLS<T extends { id: string }>(element: T): void {
+    let data = element;
     if (element.id.startsWith('CV_')) {
-        element.lastUpdate = new Date().toISOString().slice(0, 10);
+        data = { ...data, lastUpdate: new Date().toISOString().slice(0, 10) };
+        console.log(new Date().toISOString().slice(0, 10));
+        console.log('dentro', data);
     }
-    localStorage.setItem(element.id, JSON.stringify(element));
+    localStorage.setItem(element.id, JSON.stringify(data));
 }
