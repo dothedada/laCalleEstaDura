@@ -44,7 +44,7 @@ export function LangForm({
 
     const validate = validator({
         lang: [
-            [/^..$/, 'el codigo del lenguaje debe ser de dos caracteres'],
+            [/^..$/, 'el codigo iso del lenguaje debe ser de dos caracteres'],
             [
                 (input) => !Object.keys(currentCV.langs).includes(input.lang),
                 'ya existe una versión de este cv en el idioma seteado',
