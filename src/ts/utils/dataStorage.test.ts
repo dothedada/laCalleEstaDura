@@ -82,27 +82,24 @@ describe('loadCVsFromLS', () => {
             name: 'My CV',
             tag: 'personal',
             langs: { en: { active: [], hidden: [] } },
-            lastUpdate: '2024-03-15',
+            lastUpdate: new Date().toISOString(),
         };
 
         mockLocalStorage.setItem('cv1', JSON.stringify(cv));
-        mockLocalStorage.key.mockImplementation((index) => {
-            if (index === 0) return JSON.stringify(cv);
-            return null;
-        });
-
         const result = loadCVsFromLS();
+        expect(mockLocalStorage.getItem).toHaveBeenCalled();
         expect(result).toEqual([cv]);
     });
 
-    it('loads multiple CVs from localStorage', () => {
+    it('loads multiple CVs from localStorage, and returns from newest to oldest', () => {
         const cv1 = {
-            id: 'CV_profile_section_20240315-abc123',
+            id: 'CV_profile_section_20240312-abc123',
             name: 'Personal CV',
             tag: 'personal',
             langs: { en: { active: [], hidden: [] } },
-            lastUpdate: '2024-03-15',
+            lastUpdate: '2024-03-12',
         };
+
         const cv2 = {
             id: 'CV_contact_section_20240316-def456',
             name: 'Work CV',
@@ -111,16 +108,21 @@ describe('loadCVsFromLS', () => {
             lastUpdate: '2024-03-16',
         };
 
+        const cv3 = {
+            id: 'CV_contact_section_20240310-def456',
+            name: 'Work CV',
+            tag: 'professional',
+            langs: { es: { active: [], hidden: [] } },
+            lastUpdate: '2024-03-10',
+        };
+
         mockLocalStorage.setItem('cv1', JSON.stringify(cv1));
         mockLocalStorage.setItem('cv2', JSON.stringify(cv2));
-        mockLocalStorage.key.mockImplementation((index) => {
-            if (index === 0) return JSON.stringify(cv1);
-            if (index === 1) return JSON.stringify(cv2);
-            return null;
-        });
+        mockLocalStorage.setItem('cv3', JSON.stringify(cv3));
 
         const result = loadCVsFromLS();
-        expect(result).toEqual([cv1, cv2]);
+        expect(mockLocalStorage.getItem).toHaveBeenCalled();
+        expect(result).toEqual([cv2, cv1, cv3]);
     });
 
     it('handles null keys gracefully', () => {
@@ -159,7 +161,7 @@ describe('saveItemToLS', () => {
             'CV_profile_section_20240315-abc123',
             JSON.stringify({
                 ...cvElement,
-                lastUpdate: new Date().toISOString().slice(0, 10),
+                lastUpdate: new Date().toISOString(),
             }),
         );
     });
@@ -176,7 +178,7 @@ describe('saveItemToLS', () => {
             'CV_contact_section_20240314-xyz789',
             JSON.stringify({
                 ...cvElement,
-                lastUpdate: new Date().toISOString().slice(0, 10),
+                lastUpdate: new Date().toISOString(),
             }),
         );
     });

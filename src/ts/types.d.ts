@@ -17,7 +17,7 @@ export type ElementTypes = Section | FixedCard | OpenCard | Text;
 export type CV = {
     name: string;
     tag: string;
-    id: `CV_${T}_${E}_${string}`;
+    id: string;
     langs: {
         [lang in Langs]?: {
             active: ElementId[];
