@@ -3,13 +3,12 @@ import { LangContext } from '../hooks/context';
 import type { CV, Langs } from '../types';
 import { Button, Select } from './formElements';
 import { loadCVsFromLS } from '../utils/dataStorage';
+import { CVform } from './formCV';
 
-// NOTE: mover el current CV a header
-// cargar solo los id de los CV
-// currentCV que sea el objeto completo
 export function CVmanager(props: { setCV: (cv: CV) => void }) {
     const [cvs, setCVs] = useState<CV[] | null>(null);
-    // const [formActive, setFormActive] = useState<boolean>(false);
+    const [currentCV, setCurrentCV] = useState<CV | null>(null);
+    const [formActive, setFormActive] = useState<boolean>(false);
 
     useEffect(() => {
         const cvsInLS: CV[] = loadCVsFromLS();
@@ -18,6 +17,7 @@ export function CVmanager(props: { setCV: (cv: CV) => void }) {
         }
         setCVs(cvsInLS);
         props.setCV(cvsInLS[0]!);
+        setCurrentCV(cvsInLS[0]!);
     }, [props]);
 
     const cvsAvailable = cvs
@@ -28,7 +28,7 @@ export function CVmanager(props: { setCV: (cv: CV) => void }) {
     const editCV = () => {};
     const deleteCV = () => {};
 
-    return (
+    return formActive ? (
         <div>
             <Select
                 name="CVs"
@@ -41,6 +41,8 @@ export function CVmanager(props: { setCV: (cv: CV) => void }) {
             <hr />
             <Button text="Nuevo" style="new" action={addCV} />
         </div>
+    ) : (
+        <CVform currentCV={currentCV ?? undefined} />
     );
 }
 

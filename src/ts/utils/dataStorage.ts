@@ -35,15 +35,17 @@ export function loadCVsFromLS(): CV[] {
     const cvData: CV[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {
-        const element = localStorage.key(i);
+        const key = localStorage.key(i);
+        if (!key) {
+            break;
+        }
 
+        const element = localStorage.getItem(key);
         if (!element) {
             break;
         }
 
-        if (element.startsWith('CV_')) {
-            cvData.push(JSON.parse(element));
-        }
+        cvData.push(JSON.parse(element));
     }
 
     cvData.sort(
