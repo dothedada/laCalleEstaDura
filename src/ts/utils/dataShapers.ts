@@ -1,10 +1,10 @@
 import type {
     Element,
-    FixedCard,
+    FixedCards,
     OpenCard,
     Section,
     Text,
-} from '../types.d.ts';
+} from '../types_app';
 
 function isElement(rawData: unknown): rawData is Element {
     if (typeof rawData !== 'object' || rawData === null) {
@@ -32,8 +32,14 @@ function isOpenCard(rawData: unknown): rawData is OpenCard {
     }
 }
 
-function isFixedCard(rawData: unknown): rawData is FixedCard {
-    return isElement(rawData) && 'kind' in rawData;
+function isFixedCard(rawData: unknown): rawData is FixedCards {
+    return (
+        isElement(rawData) &&
+        'kind' in rawData &&
+        (rawData.kind === 'commonCard' ||
+            rawData.kind === 'educationCard' ||
+            rawData.kind === 'experienceCard')
+    );
 }
 
 function isSection(rawData: unknown): rawData is Section {
@@ -68,13 +74,13 @@ export function makeCardDataFromElement(rawData: unknown): {
     if (isFixedCard(rawData)) {
         let when = '';
         switch (rawData.kind) {
-            case 'common':
+            case 'commonCard':
                 when = rawData.when;
                 break;
-            case 'education':
+            case 'educationCard':
                 when = `${rawData.from}-${rawData.to}`;
                 break;
-            case 'experience':
+            case 'experienceCard':
                 when = `${rawData.from}-${rawData.to ?? 'actualidad'}`;
                 break;
         }

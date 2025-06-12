@@ -1,4 +1,4 @@
-import type { ElementId, ElementTypes, CV } from '../types';
+import type { ElementId, ElementTypes, CV } from '../types_app';
 
 export function createHash(): string {
     return (Math.random() * 10_000 * new Date().getTime())

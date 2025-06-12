@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { __parserTests__ } from './inputParser.ts';
-import type { NodeLabels, InputNode } from './types';
+import type { NodeLabels, InputNode } from './types_utils';
 
 const { patternsFor, makeInputNodes, parseLabel, parseInputMD } =
     __parserTests__;

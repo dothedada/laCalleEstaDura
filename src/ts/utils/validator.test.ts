@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Validations } from '../types';
+import type { Validations } from '../types_app';
 import { validator } from './validator';
 
 const required = (key: string) => (input: Record<string, string>) =>
