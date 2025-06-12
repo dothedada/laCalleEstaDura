@@ -208,7 +208,6 @@ export function Form(props: FormProps) {
         formObject['formAction'] = submitAction.value;
         formObject['id'] = props.id ?? '';
 
-        console.log(formObject);
         props.action(formObject as Record<string, string>);
     };
 
