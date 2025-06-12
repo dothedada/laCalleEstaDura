@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
-import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage.ts';
-import { Input, Button, Form } from './formElements.tsx';
-import { validator } from '../utils/validator.ts';
-import type { Text } from '../types.d.ts';
-import type { TextFormProps } from './components';
-import { LangContext } from '../hooks/context.ts';
+import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage';
+import { Input, Button, Form } from './form_components';
+import { validator } from '../utils/validator';
+import type { Text } from '../types';
+import type { TextFormProps } from './types';
+import { LangContext } from '../hooks/context';
 
 export function TextForm(props: TextFormProps) {
     const contextLang = useContext(LangContext);

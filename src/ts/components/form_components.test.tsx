@@ -3,8 +3,8 @@ import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
-import { Button, Input, Select, Form } from './formElements';
-import type { ButtonType, InputFieldProps } from './components';
+import { Button, Input, Select, Form } from './form_components';
+import type { ButtonType, InputFieldProps } from './types';
 
 describe('Button', () => {
     it('should render with the given name', () => {

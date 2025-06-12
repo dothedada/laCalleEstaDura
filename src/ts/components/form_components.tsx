@@ -4,7 +4,7 @@ import type {
     FormProps,
     InputFieldProps,
     SelectProps,
-} from './components';
+} from './types';
 import type { ErrorObject } from '../types';
 
 export function Button(props: ButtonType) {

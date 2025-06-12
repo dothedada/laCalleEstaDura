@@ -1,9 +1,10 @@
 import { useState, type ReactNode } from 'react';
 import type { CV, Langs } from '../types';
 import { LangContext } from '../hooks/context';
-import { CVmanager, LangManager } from './settingsManager';
+import { CVmanager } from './header_CVmanager.tsx';
+import { LangManager } from './header_langManager.tsx';
 
-export function Header(props: { children: ReactNode }) {
+export function Body(props: { children: ReactNode }) {
     const [cv, setCV] = useState<CV | null>(null);
     const [lang, setLang] = useState<Langs>('es');
 

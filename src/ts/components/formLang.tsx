@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import type { CV, ElementId, Langs } from '../types';
 import { validator } from '../utils/validator';
-import { Form, Input, Button } from './formElements';
+import { Form, Input, Button } from './form_components';
 import { LangContext } from '../hooks/context';
 import { saveItemToLS } from '../utils/dataStorage';
 

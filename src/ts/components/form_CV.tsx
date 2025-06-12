@@ -1,4 +1,4 @@
-import { Button, Form, Input } from './formElements';
+import { Button, Form, Input } from './form_components';
 import type { CV } from '../types';
 import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage';
 import { validator } from '../utils/validator';
