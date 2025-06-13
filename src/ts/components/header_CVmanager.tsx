@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { CV } from '../types';
+import type { CV } from '../types_app';
 import { Button, Select } from './form_components';
 import { loadCVsFromLS } from '../utils/dataStorage';
-import { CVform } from './form_CV';
+import { FormCV } from './form_CV';
 
 export function CVmanager(props: { setCV: (cv: CV) => void }) {
     const [cvs, setCVs] = useState<CV[] | null>(null);
@@ -46,6 +46,6 @@ export function CVmanager(props: { setCV: (cv: CV) => void }) {
             <Button text="Nuevo" style="new" action={addCV} />
         </div>
     ) : (
-        <CVform currentCV={currentCV ?? undefined} />
+        <FormCV currentCV={currentCV} />
     );
 }

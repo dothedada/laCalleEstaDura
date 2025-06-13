@@ -1,4 +1,4 @@
-import type { ElementId, Section } from '../types';
+import type { ElementId, Section } from '../types_app';
 import type { CardAction } from './hooksTypes';
 
 export function sectionReducer(

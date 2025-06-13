@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { LangContext } from '../hooks/context';
-import type { CV, Langs } from '../types';
+import type { CV, Langs } from '../types_app';
 
 export function LangManager(props: {
     cvData: CV | null;

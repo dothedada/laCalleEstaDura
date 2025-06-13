@@ -1,6 +1,11 @@
 import { Button } from './form_components';
-import type { ButtonType, CardInfoProps, CardStatus, FormProps } from './types';
-import type { ElementId, Section } from '../types';
+import type {
+    ButtonType,
+    CardInfoProps,
+    CardStatus,
+    FormProps,
+} from './types_components';
+import type { ElementId, Section } from '../types_app';
 import { getItemFromLS } from '../utils/dataStorage';
 import { useEffect, useReducer, useState, type Dispatch } from 'react';
 import { sectionReducer } from '../hooks/sectionReducer';

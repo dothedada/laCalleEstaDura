@@ -1,5 +1,5 @@
 import { ButtonsSet } from './form_components';
-import type { CardInfoProps } from './types';
+import type { CardInfoProps } from './types_components';
 import { getItemFromLS } from '../utils/dataStorage';
 import { useMemo } from 'react';
 import { makeCardDataFromElement } from '../utils/dataShapers';

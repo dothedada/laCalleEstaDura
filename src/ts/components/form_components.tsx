@@ -4,8 +4,8 @@ import type {
     FormProps,
     InputFieldProps,
     SelectProps,
-} from './types';
-import type { ErrorObject } from '../types';
+} from './types_components';
+import type { ErrorObject } from '../utils/types_utils';
 
 export function Button(props: ButtonType) {
     const btnClass = props.style;
