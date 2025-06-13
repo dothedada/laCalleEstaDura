@@ -3,12 +3,14 @@ import { createRoot } from 'react-dom/client';
 
 import '../styles/reset.css';
 import '../styles/styles.css';
-import { TextForm } from './components/forms';
-import { AppBody, Header } from './components/body';
-import { LangForm } from './components/formLang';
+import { FormSectionSettings } from './components/section_header.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <Header> </Header>
+        <FormSectionSettings
+            name="uno"
+            title="dos"
+            action={(e) => console.log(e)}
+        />
     </StrictMode>,
 );

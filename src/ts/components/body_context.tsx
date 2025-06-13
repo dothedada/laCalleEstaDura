@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import type { CV, Langs } from '../types';
+import type { CV, Langs } from '../types_app';
 import { LangContext } from '../hooks/context';
 import { CVmanager } from './header_CVmanager.tsx';
 import { LangManager } from './header_langManager.tsx';

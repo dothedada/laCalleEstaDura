@@ -4,7 +4,7 @@ import { getItemFromLS } from '../utils/dataStorage';
 import { useMemo } from 'react';
 import { makeCardDataFromElement } from '../utils/dataShapers';
 
-export function CardInfo(props: CardInfoProps) {
+export function InfoCard(props: CardInfoProps) {
     const { status, actions } = props;
     const isActive = status === 'active';
     const style = isActive ? 'card_active' : 'card_hidden';

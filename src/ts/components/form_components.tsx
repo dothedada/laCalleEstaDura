@@ -47,23 +47,6 @@ export function Button(props: ButtonType) {
     );
 }
 
-export function ButtonsSet({
-    buttons,
-    containerAttributes,
-}: {
-    buttons: ButtonType[];
-    containerAttributes?: React.HTMLAttributes<HTMLDivElement>;
-}) {
-    return (
-        <div {...containerAttributes}>
-            {buttons.map((btn, i) => {
-                const { text, ...attributes } = btn;
-                return <Button key={i} {...attributes} text={text} />;
-            })}
-        </div>
-    );
-}
-
 export function Errors({ errors }: { errors: Record<string, string[]> }) {
     const errorList = Object.keys(errors);
     return (
