@@ -1,23 +1,27 @@
-import { useContext, useEffect, useState } from 'react';
-import { LangContext } from '../hooks/context';
-import type { CV, Langs } from '../types';
-import { Button, Select } from './formElements';
+import { useEffect, useState } from 'react';
+import type { CV } from '../types_app';
+import { Button, Select } from './form_components';
 import { loadCVsFromLS } from '../utils/dataStorage';
-import { CVform } from './formCV';
+import { FormCV } from './form_CV';
 
 export function CVmanager(props: { setCV: (cv: CV) => void }) {
     const [cvs, setCVs] = useState<CV[] | null>(null);
-    const [currentCV, setCurrentCV] = useState<CV | null>(null);
+    const [currentCV, setCurrentCV] = useState<string | null>(null);
     const [formActive, setFormActive] = useState<boolean>(false);
 
     useEffect(() => {
         const cvsInLS: CV[] = loadCVsFromLS();
-        if (cvsInLS.length === 0) {
+        if (cvsInLS.length <= 0) {
             return;
         }
+
         setCVs(cvsInLS);
-        props.setCV(cvsInLS[0]!);
-        setCurrentCV(cvsInLS[0]!);
+
+        if (cvsInLS[0] === undefined) {
+            return;
+        }
+        props.setCV(cvsInLS[0]);
+        setCurrentCV(cvsInLS[0].id);
     }, [props]);
 
     const cvsAvailable = cvs
@@ -42,28 +46,6 @@ export function CVmanager(props: { setCV: (cv: CV) => void }) {
             <Button text="Nuevo" style="new" action={addCV} />
         </div>
     ) : (
-        <CVform currentCV={currentCV ?? undefined} />
-    );
-}
-
-export function LangManager(props: {
-    cvData: CV;
-    setLang: (lang: Langs) => void;
-}) {
-    const [formActive, setFormActive] = useState<boolean>(false);
-    const langsAvailable = Object.keys(props.cvData.langs);
-    const lang = useContext(LangContext);
-
-    const openForm = () => setFormActive(!formActive);
-
-    return (
-        <div>
-            {langsAvailable.map((lang) => (
-                <Button text={lang} action={() => props.setLang(lang)} />
-            ))}
-            <br />
-            <Button text="traducir" action={openForm} />
-            <Button text={`borrar version en ${lang}`} />
-        </div>
+        <FormCV currentCV={currentCV} />
     );
 }

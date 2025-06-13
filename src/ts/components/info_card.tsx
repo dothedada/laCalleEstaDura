@@ -1,10 +1,10 @@
-import { ButtonsSet } from './formElements.tsx';
-import type { CardInfoProps } from './components';
-import { getItemFromLS } from '../utils/dataStorage.ts';
+import { ButtonsSet } from './form_components';
+import type { CardInfoProps } from './types_components';
+import { getItemFromLS } from '../utils/dataStorage';
 import { useMemo } from 'react';
-import { makeCardDataFromElement } from '../utils/dataShapers.ts';
+import { makeCardDataFromElement } from '../utils/dataShapers';
 
-export function CardInfo(props: CardInfoProps) {
+export function InfoCard(props: CardInfoProps) {
     const { status, actions } = props;
     const isActive = status === 'active';
     const style = isActive ? 'card_active' : 'card_hidden';
@@ -23,4 +23,4 @@ export function CardInfo(props: CardInfoProps) {
     );
 }
 
-export function ElementInfo(props: CardInfoProps) {}
+export function ExperienceInfo() {}

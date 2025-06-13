@@ -1,5 +1,5 @@
-import type { ElementId, Section } from '../types';
-import type { CardAction } from './hooksTypes';
+import type { ElementId, Section } from '../types_app';
+import type { CardAction } from './types_hooks';
 
 export function sectionReducer(
     section: Section | null,
@@ -8,6 +8,9 @@ export function sectionReducer(
     switch (action.type) {
         case 'data_setted':
             return action.sectionData;
+
+        case 'data_updated':
+            return { ...section, ...action.data };
 
         case 'card_activated': {
             if (section === null) {

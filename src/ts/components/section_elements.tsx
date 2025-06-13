@@ -1,14 +1,14 @@
-import { Button } from './formElements.tsx';
+import { Button } from './form_components';
 import type {
     ButtonType,
     CardInfoProps,
     CardStatus,
     FormProps,
-} from './components';
-import type { ElementId, Section } from '../types';
-import { getItemFromLS } from '../utils/dataStorage.ts';
+} from './types_components';
+import type { ElementId, Section } from '../types_app';
+import { getItemFromLS } from '../utils/dataStorage';
 import { useEffect, useReducer, useState, type Dispatch } from 'react';
-import { sectionReducer } from '../hooks/sectionReducer.ts';
+import { sectionReducer } from '../hooks/sectionReducer';
 import type { CardAction, SetCardActions } from '../hooks/hooksTypes';
 
 export const sectionActiveActions: SetCardActions[] = [

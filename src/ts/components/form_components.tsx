@@ -4,8 +4,8 @@ import type {
     FormProps,
     InputFieldProps,
     SelectProps,
-} from './components';
-import type { ErrorObject } from '../types';
+} from './types_components';
+import type { ErrorObject } from '../utils/types_utils';
 
 export function Button(props: ButtonType) {
     const btnClass = props.style;
@@ -44,23 +44,6 @@ export function Button(props: ButtonType) {
             {props.alt && <span className="sr-only">{props.alt}</span>}
             {text}
         </button>
-    );
-}
-
-export function ButtonsSet({
-    buttons,
-    containerAttributes,
-}: {
-    buttons: ButtonType[];
-    containerAttributes?: React.HTMLAttributes<HTMLDivElement>;
-}) {
-    return (
-        <div {...containerAttributes}>
-            {buttons.map((btn, i) => {
-                const { text, ...attributes } = btn;
-                return <Button key={i} {...attributes} text={text} />;
-            })}
-        </div>
     );
 }
 
@@ -208,7 +191,6 @@ export function Form(props: FormProps) {
         formObject['formAction'] = submitAction.value;
         formObject['id'] = props.id ?? '';
 
-        console.log(formObject);
         props.action(formObject as Record<string, string>);
     };
 

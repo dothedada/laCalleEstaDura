@@ -3,8 +3,7 @@ import type {
     InOutPattern,
     Pattern,
     InputNode,
-    UrlPattern,
-} from './types.d.ts';
+} from './types_utils';
 
 const BOUNDARY_CHARS = new Set([' ', '\t', '\n', '\0', ',', '.']);
 const PARSING_SEQUENCE = ['strong', 'em', 'mark'];
@@ -22,12 +21,7 @@ const patternsFor = {
         open: ['end', '=', '=', 'char'],
         close: ['char', '=', '=', 'end'],
     },
-    a: {
-        open: ['end', '(', 'char'],
-        close: ['char', ')', '[', 'char'],
-        end: ['char', ']', 'end'],
-    },
-} satisfies { [k in Exclude<NodeLabels, 'text'>]: InOutPattern | UrlPattern };
+} satisfies { [k in Exclude<NodeLabels, 'text'>]: InOutPattern };
 
 function charComparison(
     char: string | undefined,

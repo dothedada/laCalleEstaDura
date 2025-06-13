@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
-import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage.ts';
-import { Input, Button, Form } from './formElements.tsx';
-import { validator } from '../utils/validator.ts';
-import type { Text } from '../types.d.ts';
-import type { TextFormProps } from './components';
-import { LangContext } from '../hooks/context.ts';
+import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage';
+import { Input, Button, Form } from './form_components';
+import { validator } from '../utils/validator';
+import type { Text } from '../types_app';
+import type { TextFormProps } from './types_components';
+import { LangContext } from '../hooks/context';
 
-export function TextForm(props: TextFormProps) {
+export function FormText(props: TextFormProps) {
     const contextLang = useContext(LangContext);
     const [data, setData] = useState<Text | null>(null);
     const { id, section, validations, ...inputAttributes } = props;
@@ -21,7 +21,7 @@ export function TextForm(props: TextFormProps) {
         }
     }, [id]);
 
-    const onSuccesSubmit = (newData: Record<string, string>) => {
+    const onSubmitSuccess = (newData: Record<string, string>) => {
         const setId =
             id === undefined || (data && data.lang !== contextLang)
                 ? createID(section, 'text', false)
@@ -39,7 +39,7 @@ export function TextForm(props: TextFormProps) {
 
     return (
         <Form
-            action={onSuccesSubmit}
+            action={onSubmitSuccess}
             validator={textValidator}
             attributes={{ className: translate ? 'warn' : '' }}
         >

@@ -1,4 +1,4 @@
-import type { ErrorObject, Validations } from '../types';
+import type { ErrorObject, Validations } from '../types_app';
 
 export function validator(
     validate: Validations,

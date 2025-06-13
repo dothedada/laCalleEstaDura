@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import type { Section } from '../types';
-import { sectionReducer } from './sectionReducer.ts';
+import type { Section } from '../types_app';
+import { sectionReducer } from './sectionReducer';
 
 let sectionMock: Section;
 

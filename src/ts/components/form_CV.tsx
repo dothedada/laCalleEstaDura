@@ -1,9 +1,9 @@
-import { Button, Form, Input } from './formElements';
-import type { CV } from '../types';
+import { Button, Form, Input } from './form_components';
+import type { CV } from '../types_app';
 import { createID, getItemFromLS, saveItemToLS } from '../utils/dataStorage';
 import { validator } from '../utils/validator';
 
-export function CVform({
+export function FormCV({
     action,
     currentCV,
     callbackOnSuccess,

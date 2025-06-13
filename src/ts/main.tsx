@@ -3,12 +3,14 @@ import { createRoot } from 'react-dom/client';
 
 import '../styles/reset.css';
 import '../styles/styles.css';
-import { TextForm } from './components/forms';
-import { AppBody } from './components/body';
-import { LangForm } from './components/formLang';
+import { FormSectionSettings } from './components/section_header.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-		<LangForm currentCV={{id: "CV_a_b_c-d", langs}}
+        <FormSectionSettings
+            name="uno"
+            title="dos"
+            action={(e) => console.log(e)}
+        />
     </StrictMode>,
 );
