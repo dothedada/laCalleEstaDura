@@ -1,17 +1,16 @@
-import { useReducer, useState, type ReactNode } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import { Button, Form, Input } from './form_components';
-import { sectionReducer } from '../hooks/sectionReducer';
 import type { Section } from '../types_app';
+import type { CardAction } from '../hooks/types_hooks';
 
 export function FormSectionSettings(props: {
-    data: Section;
+    data: { state: Section; reducer: React.Dispatch<CardAction> };
     children?: ReactNode;
 }) {
-    const [data, dispatch] = useReducer(sectionReducer, props.data);
     const [reset, setReset] = useState(0);
 
     const onSubmitSuccess = (newData: Record<string, string>) => {
-        dispatch({ type: 'data_updated', data: newData });
+        props.data.reducer({ type: 'data_updated', data: newData });
     };
 
     const onClickReset = () => {
@@ -23,13 +22,13 @@ export function FormSectionSettings(props: {
             <Input
                 name="name"
                 label="reference *"
-                value={data ? data.name : ''}
+                value={props.data.state ? props.data.state.name : ''}
                 charLimit={20}
             />
             <Input
                 name="title"
                 label="Printing title"
-                value={data ? data.title : ''}
+                value={props.data.state ? props.data.state.title : ''}
                 charLimit={20}
             />
             <Button text="guardar" type="submit" />

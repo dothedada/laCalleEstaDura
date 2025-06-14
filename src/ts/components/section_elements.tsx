@@ -9,7 +9,7 @@ import type { ElementId, Section } from '../types_app';
 import { getItemFromLS } from '../utils/dataStorage';
 import { useEffect, useReducer, useState, type Dispatch } from 'react';
 import { sectionReducer } from '../hooks/sectionReducer';
-import type { CardAction, SetCardActions } from '../hooks/hooksTypes';
+import type { CardAction, SetCardActions } from '../hooks/types_hooks';
 
 export const sectionActiveActions: SetCardActions[] = [
     { text: 'move up', buttonAction: 'update', type: 'card_movedUp' },
