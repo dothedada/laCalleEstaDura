@@ -64,3 +64,9 @@ export interface TextFormProps extends InputFieldProps {
     section: SectionNames;
     validations?: Validations;
 }
+
+export type SectionProps = {
+    sectionId: ElementId;
+    active: SetCardActions[];
+    hidden: SetCardActions[];
+};
