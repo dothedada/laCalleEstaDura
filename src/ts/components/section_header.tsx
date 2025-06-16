@@ -4,13 +4,13 @@ import type { Section } from '../types_app';
 import type { CardAction } from '../hooks/types_hooks';
 
 export function FormSectionSettings(props: {
-    data: { state: Section; reducer: React.Dispatch<CardAction> };
+    data: { section: Section; dispatch: React.Dispatch<CardAction> };
     children?: ReactNode;
 }) {
     const [reset, setReset] = useState(0);
 
     const onSubmitSuccess = (newData: Record<string, string>) => {
-        props.data.reducer({ type: 'data_updated', data: newData });
+        props.data.dispatch({ type: 'data_updated', data: newData });
     };
 
     const onClickReset = () => {
@@ -22,13 +22,13 @@ export function FormSectionSettings(props: {
             <Input
                 name="name"
                 label="reference *"
-                value={props.data.state ? props.data.state.name : ''}
+                value={props.data.section ? props.data.section.name : ''}
                 charLimit={20}
             />
             <Input
                 name="title"
                 label="Printing title"
-                value={props.data.state ? props.data.state.title : ''}
+                value={props.data.section ? props.data.section.title : ''}
                 charLimit={20}
             />
             <Button text="guardar" type="submit" />

@@ -4,49 +4,24 @@ import type {
     CardInfoProps,
     CardStatus,
     FormProps,
+    SectionProps,
 } from './types_components';
 import type { ElementId, Section } from '../types_app';
 import { getItemFromLS } from '../utils/dataStorage';
-import { useEffect, useReducer, useState, type Dispatch } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { sectionReducer } from '../hooks/sectionReducer';
-import type { CardAction, SetCardActions } from '../hooks/types_hooks';
+import { FormSectionSettings } from './section_header';
+import { sectionBtnActions } from './section_actionsSetter';
 
-export const sectionActiveActions: SetCardActions[] = [
-    { text: 'move up', buttonAction: 'update', type: 'card_movedUp' },
-    { text: 'move down', buttonAction: 'update', type: 'card_movedDown' },
-    { text: 'hide', buttonAction: 'update', type: 'card_hidden' },
-];
-
-export const sectionHiddenActions: SetCardActions[] = [
-    { text: 'activate', buttonAction: 'update', type: 'card_activated' },
-    { text: 'remove', buttonAction: 'update', type: 'card_deleted' },
-];
-
-function sectionBtnActions(
-    cardId: ElementId,
-    actions: SetCardActions[],
-    callback: Dispatch<CardAction>,
-): ButtonType[] {
-    return actions.map(({ text, buttonAction, type }) => ({
-        buttonAction,
-        action: () => callback({ type, cardId }),
-        text,
-    }));
+function setCardData(id: ElementId, status: CardStatus, actions: ButtonType[]) {
+    return { id, status, actions };
 }
 
 export function makeSectionWith(
     CardComponent: React.ComponentType<CardInfoProps>,
     FormComponent: React.ComponentType<Pick<FormProps, 'id'>>,
 ) {
-    return function Section({
-        sectionId,
-        active,
-        hidden,
-    }: {
-        sectionId: ElementId;
-        active: SetCardActions[];
-        hidden: SetCardActions[];
-    }) {
+    return function Section({ sectionId, active, hidden }: SectionProps) {
         const [section, dispatch] = useReducer(sectionReducer, null);
         const [currentCard, setCurrentCard] = useState<ElementId | null>(null);
 
@@ -59,48 +34,51 @@ export function makeSectionWith(
         }, [sectionId]);
 
         if (section === null) {
-            return <div>Rendering</div>;
+            return <div>Rendering...</div>;
         }
 
         return (
             <div id={sectionId}>
                 <section>
+                    <FormSectionSettings data={{ section, dispatch }} />
+
                     {currentCard === null ? (
                         <FormComponent />
                     ) : (
                         <Button style="new" text="new card" />
                     )}
-                    <h2>Active</h2>
-                    {section.active.map((id) => {
-                        const cardData = {
-                            id,
-                            status: 'active' as CardStatus,
-                            actions: [
-                                {
-                                    style: 'update',
-                                    action: () => setCurrentCard(id),
-                                    text: 'edit',
-                                } satisfies ButtonType,
-                                ...sectionBtnActions(id, active, dispatch),
-                            ],
-                        };
 
-                        return id === currentCard ? (
+                    <h2>Active</h2>
+                    {section.active.map((id) =>
+                        id === currentCard ? (
                             <FormComponent key={id} id={id} />
                         ) : (
-                            <CardComponent key={id} {...cardData} />
-                        );
-                    })}
+                            <CardComponent
+                                key={id}
+                                {...setCardData(id, 'active', [
+                                    {
+                                        style: 'update',
+                                        action: () => setCurrentCard(id),
+                                        text: 'edit',
+                                    },
+                                    ...sectionBtnActions(id, active, dispatch),
+                                ])}
+                            />
+                        ),
+                    )}
                     <hr />
+
                     <h2>hidden</h2>
-                    {section.active.map((id) => {
-                        const cardData = {
-                            id: id,
-                            status: 'hidden' as CardStatus,
-                            actions: sectionBtnActions(id, hidden, dispatch),
-                        };
-                        return <CardComponent key={id} {...cardData} />;
-                    })}
+                    {section.active.map((id) => (
+                        <CardComponent
+                            key={id}
+                            {...setCardData(
+                                id,
+                                'hidden',
+                                sectionBtnActions(id, hidden, dispatch),
+                            )}
+                        />
+                    ))}
                 </section>
             </div>
         );
